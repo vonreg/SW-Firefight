@@ -456,7 +456,7 @@ class Model:
         base_cost = self.calculate_base_model_cost()
 
         if self.weapons == []:
-            weapon_cost = 0
+            total_weapon_cost = 0
         else:
             weapon_cost = []
             for weapon in self.weapons:
@@ -482,50 +482,213 @@ class Model:
         elif len(self.weapons) == 1:
             weapons = self.weapons[0].write_weapon()
         elif len(self.weapons) > 1:
-            # comma separate entries:
-            # requires checking for last equipped weapon to not add comma after it
-            raise Exception("Not yet implemented")
+            weapons = ""
+            comma = ""
+            for weapon in self.weapons:
+                weapons = weapons + comma + weapon.write_weapon()
+                comma = ", "
         else:
             raise Exception("Unexpected equipped weapons value")
 
-        # quality,
-        # defense,
-        # toughness,
-        # cover=None,
-        # courage=False,
-        # command=False,
-        # deflect=False,
-        # droid=False,
-        # emplacement=False,
-        # expendable=0,
-        # fast=False,
-        # fear=False,
-        # fly=False,
-        # heal=0,
-        # hero=False,
-        # villain=False,
-        # hunter=None,
-        # immobile=False,
-        # jedi=False,
-        # sith=False,
-        # jump=0,
-        # impact=0,
-        # impervious=False,
-        # protector=None,
-        # protector_key=None,
-        # relay=False,
-        # relentless=False,
-        # repair=0,
-        # scout=False,
-        # shield=0,
-        # slow=False,
-        # spotter=0,
-        # take_cover=0,
-        # unique=False,
-        # vehicle=False,
-        # free_special_rule=None,
+        # special rules
+        comma = ""
+        if self.cover:
+            cover = "%sCover[%s]" % (comma, str(self.cover))
+            comma = ", "
+        else:
+            cover = ""
+        if self.courage:
+            courage = "%sCourage" % comma
+            comma = ", "
+        else:
+            courage = ""
+        if self.command:
+            command = "%sCommand" % comma
+            comma = ", "
+        else:
+            command = ""
+        if self.deflect:
+            deflect = "%sDeflect" % comma
+            comma = ", "
+        else:
+            deflect = ""
+        if self.droid:
+            droid = "%sDroid" % comma
+            comma = ", "
+        else:
+            droid = ""
+        if self.emplacement:
+            emplacement = "%sEmplacement" % comma
+            comma = ", "
+        else:
+            emplacement = ""
+        if self.expendable:
+            expendable = "%sExpendable[%s]" % (comma, str(self.expendable))
+            comma = ", "
+        else:
+            expendable = ""
+        if self.fast:
+            fast = "%sFast" % comma
+            comma = ", "
+        else:
+            fast = ""
+        if self.fear:
+            fear = "%sFear" % comma
+            comma = ", "
+        else:
+            fear = ""
+        if self.fly:
+            fly = "%sFly" % comma
+            comma = ", "
+        else:
+            fly = ""
+        if self.heal:
+            heal = "%sHeal[%s]" % (comma, str(self.heal))
+            comma = ", "
+        else:
+            heal = ""
+        if self.hero:
+            hero = "%sHero" % comma
+            comma = ", "
+        else:
+            hero = ""
+        if self.villain:
+            villain = "%sVillain" % comma
+            comma = ", "
+        else:
+            villain = ""
+        if self.hunter:
+            hunter = "%sHunter" % comma
+            comma = ", "
+        else:
+            hunter = ""
+        if self.immobile:
+            immobile = "%sImmobile" % comma
+            comma = ", "
+        else:
+            immobile = ""
+        if self.jedi:
+            jedi = "%sJedi" % comma
+            comma = ", "
+        else:
+            jedi = ""
+        if self.sith:
+            sith = "%sSith" % comma
+            comma = ", "
+        else:
+            sith = ""
+        if self.jump:
+            jump = '%sJump[%s"]' % (comma, str(self.jump))
+            comma = ", "
+        else:
+            jump = ""
+        if self.impact:
+            impact = "%sImpact[%s]" % (comma, str(self.impact))
+            comma = ", "
+        else:
+            impact = ""
+        if self.impervious:
+            impervious = "%sImpervious" % comma
+            comma = ", "
+        else:
+            impervious = ""
+        if self.protector == "Any":
+            protector = "%sProtector" % comma
+            comma = ", "
+        elif self.protector == "Unit":
+            protector = "%sProtector[%s]" % (comma, self.protector_key)
+        else:
+            protector = ""
+        if self.relay:
+            relay = "%sRelay" % comma
+            comma = ", "
+        else:
+            relay = ""
+        if self.relentless:
+            relentless = "%sRelentless" % comma
+            comma = ", "
+        else:
+            relentless = ""
+        if self.repair:
+            repair = "%sRepair[%s]" % (comma, str(self.repair))
+            comma = ", "
+        else:
+            repair = ""
+        if self.scout:
+            scout = "%sScout" % comma
+            comma = ", "
+        else:
+            scout = ""
+        if self.shield:
+            shield = "%sShield[%s]" % (comma, str(self.shield))
+            comma = ", "
+        else:
+            shield = ""
+        if self.slow:
+            slow = "%sSlow" % comma
+            comma = ", "
+        else:
+            slow = ""
+        if self.spotter:
+            spotter = "%sSpotter[%s]" % (comma, str(self.spotter))
+            comma = ", "
+        else:
+            spotter = ""
+        if self.take_cover:
+            take_cover = "%sTake Cover[%s]" % (comma, str(self.take_cover))
+            comma = ", "
+        else:
+            take_cover = ""
+        if self.unique:
+            unique = "%sUnique[%s]" % (comma, str(self.unique))
+            comma = ", "
+        else:
+            unique = ""
+        if self.vehicle:
+            vehicle = "%sVehicle" % comma
+            comma = ", "
+        else:
+            vehicle = ""
+        if self.free_special_rule:
+            free_special_rule = "%s%s" % (comma, self.free_special_rule)
+        else:
+            free_special_rule = ""
 
-        special_rules = ""  # still need to do this!
+        special_rules = (
+            cover
+            + courage
+            + command
+            + deflect
+            + droid
+            + emplacement
+            + expendable
+            + fast
+            + fear
+            + fly
+            + heal
+            + hero
+            + villain
+            + hunter
+            + immobile
+            + jedi
+            + sith
+            + jump
+            + impact
+            + impervious
+            + protector
+            + relay
+            + relentless
+            + repair
+            + scout
+            + shield
+            + slow
+            + spotter
+            + take_cover
+            + unique
+            + vehicle
+            + free_special_rule
+        )
+
         options = ""  # blank for now... need to figure out options implementation first
         cost = str(self.calculate_total_cost())
 

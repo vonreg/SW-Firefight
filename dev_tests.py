@@ -162,7 +162,7 @@ clone_trooper = Model("Clone Trooper", 4, 4, 1)
 zap_stick = Weapon("ZZZAP!", "Melee", 3)
 
 # clone_trooper.equip_weapon(blaster_rifle)
-# clone_trooper.equip_weapon(zap_stick)
+clone_trooper.equip_weapon(zap_stick)
 clone_trooper.equip_weapon(heavy_repeating_blaster)
 print(clone_trooper.weapons)
 
@@ -173,4 +173,43 @@ print(clone_trooper.write_statline())
 with open("testfile.tsv", "w", encoding="utf-8") as file:
     file.write(clone_trooper.write_statline())
 
-string_test = Model("String Test", 3, 4, 3)
+string_test = Model(
+    "String Test",
+    3,
+    4,
+    1,
+    cover="Front",
+    courage=True,
+    command=True,
+    deflect=True,
+    droid=True,
+    emplacement=True,
+    expendable=2,
+    fast=True,
+    fear=True,
+    fly=True,
+    heal=1,
+    hero=True,
+    villain=False,
+    hunter="Jedi",
+    immobile=True,
+    jedi=False,
+    sith=True,
+    jump=6,
+    impact=2,
+    impervious=True,
+    protector="Unit",
+    protector_key="Darth Vader",
+    relay=True,
+    relentless=True,
+    repair=2,
+    scout=True,
+    shield=2,
+    slow=True,
+    spotter=1,
+    take_cover=2,
+    unique="Test",
+    vehicle=True,
+    free_special_rule="TestingFreeRuels, aakjsa",
+)
+print(string_test.write_statline())
