@@ -40,7 +40,7 @@ class Weapon:
         self.ion = ion
         self.disorient = disorient
 
-        if self.range == "torrent":
+        if self.range == "Torrent":
             self.torrent = True
         else:
             self.torrent = False
@@ -48,8 +48,8 @@ class Weapon:
         self.quality_cost_dict = {6: 2, 5: 4, 4: 6, 3: 8, 2: 12}
         self.defense_cost_dict = {6: 2, 5: 4, 4: 6, 3: 8, 2: 12}
         self.range_multiplier_dict = {
-            "melee": 0.3,
-            "torrent": 0.4,
+            "Melee": 0.3,
+            "Torrent": 0.4,
             6: 0.4,
             12: 0.5,
             18: 0.6,
@@ -155,6 +155,96 @@ class Weapon:
         )
         return weapon_cost
 
+    def write_weapon(self):
+
+        name = self.name
+        if self.range == "inf":
+            weapon_range = "\u221e, "
+        elif self.range == "Melee":
+            weapon_range = ""
+        elif self.range == "Torrent":
+            weapon_range = "Torrent, "
+        elif type(self.range) is int:
+            weapon_range = '%i", ' % self.range
+
+        attacks = str(self.attacks)
+        ap = ", AP[%s]" % str(self.ap)
+        if self.ammo:
+            ammo = ", Ammo[%s]" % str(self.ammo)
+        else:
+            ammo = ""
+        if self.sniper:
+            sniper = ", Sniper"
+        else:
+            sniper = ""
+        if self.blast:
+            blast = ', Blast[%s"]' % str(self.blast)
+        else:
+            blast = ""
+        if self.deadly:
+            deadly = ", Deadly[%s]" % str(self.deadly)
+        else:
+            deadly = ""
+        if self.indirect:
+            indirect = ", Indirect"
+        else:
+            indirect = ""
+        if self.nonlethal:
+            nonlethal = ", Nonlethal"
+        else:
+            nonlethal = ""
+        if self.throw:
+            throw = ", Throw"
+        else:
+            throw = ""
+        if self.rending:
+            rending = ", Rending"
+        else:
+            rending = ""
+        if self.seek:
+            seek = ", Seek"
+        else:
+            seek = ""
+        if self.fixed:
+            fixed = ", Fixed[%s]" % str(self.fixed)
+        else:
+            fixed = ""
+        if self.suppressive:
+            suppressive = ", Suppressive[%s]" % str(self.suppressive)
+        else:
+            suppressive = ""
+        if self.ion:
+            ion = ", Ion"
+        else:
+            ion = ""
+        if self.disorient:
+            disorient = ", Disorient"
+        else:
+            disorient = ""
+
+        weapon_string = (
+            name
+            + " ("
+            + weapon_range
+            + attacks
+            + ap
+            + ammo
+            + sniper
+            + blast
+            + deadly
+            + indirect
+            + nonlethal
+            + throw
+            + rending
+            + seek
+            + fixed
+            + suppressive
+            + ion
+            + disorient
+            + ")"
+        )
+        return weapon_string
+
 
 class Model:
     def __init__(
@@ -183,7 +273,8 @@ class Model:
         jump=0,
         impact=0,
         impervious=False,
-        protector=False,
+        protector=None,
+        protector_key=None,
         relay=False,
         relentless=False,
         repair=0,
@@ -194,6 +285,7 @@ class Model:
         take_cover=0,
         unique=False,
         vehicle=False,
+        free_special_rule=None,
     ) -> None:
         self.name = name
         self.quality = quality
@@ -221,6 +313,7 @@ class Model:
         self.impact = impact
         self.impervious = impervious
         self.protector = protector
+        self.protector_key = protector_key
         self.relay = relay
         self.relentless = relentless
         self.repair = repair
@@ -231,6 +324,7 @@ class Model:
         self.take_cover = take_cover
         self.unique = unique
         self.vehicle = vehicle
+        self.free_special_rule = free_special_rule
 
         self.quality_cost_dict = {6: 2, 5: 4, 4: 6, 3: 8, 2: 12}
         self.defense_cost_dict = {6: 2, 5: 4, 4: 6, 3: 8, 2: 12}
@@ -260,12 +354,16 @@ class Model:
         self.jedi_sith_cost_dict = {False: 0, True: 0}
         self.jump_cost_dict = {0: 0, 3: 0.5, 6: 1}
         self.impervious_cost_dict = {False: 0, True: 6}
-        self.protector_cost_dict = {False: 0, True: 1}
+        self.protector_cost_dict = {None: 0, "Unit": 1, "Any": 1}
+        if self.protector == "Unit" and self.protector_key is None:
+            raise Exception(
+                'Must specify protector_key=<unit name> if protector="Unit"'
+            )
         self.relay_cost_dict = {False: 0, True: 5}
         self.relentless_cost_dict = {False: 0, True: 1}
         self.scout_cost_dict = {False: 0, True: 1}
         self.slow_cost_dict = {False: 0, True: -1}
-        self.vehicle_cost_dict = {False: 0, True: 0}
+        self.vehicle_cost_dict = {False: 0, True: 0, "Droid": 0}
 
         if hero & villain:
             raise Exception("Cannot select both Hero and Villain")
@@ -400,7 +498,7 @@ id_seeker_droid = Model(
     1,
     droid=True,
     shield=1,
-    protector=True,
+    protector="Any",
     scout=True,
     fly=True,
 )
@@ -442,4 +540,55 @@ print("%s: %.2f pts" % (medical_droid.name, medical_droid.calculate_cost()))
 astromech_droid = Model("Astromech Droid", 5, 5, 1, droid=True, repair=1, slow=True)
 print("%s: %.2f pts" % (astromech_droid.name, astromech_droid.calculate_cost()))
 
-# continue checking costs; go through CIS units
+droideka = Model(
+    "Droideka", 4, 4, 3, vehicle="Droid", shield=2, free_special_rule="Roll"
+)
+print("%s: %.2f pts" % (droideka.name, droideka.calculate_cost()))
+
+cad_bane = Model(
+    "Cad Bane",
+    3,
+    4,
+    5,
+    villain=True,
+    scout=True,
+    courage=True,
+    jump=6,
+    unique="Cad Bane",
+)
+print("%s: %.2f pts" % (cad_bane.name, cad_bane.calculate_cost()))
+
+oom_security_droid = Model(
+    "OOM Security Droid",
+    5,
+    6,
+    1,
+    droid=True,
+    expendable=2,
+    protector="Unit",
+    protector_key="OOM Command Droid",
+)
+print("%s: %.2f pts" % (oom_security_droid.name, oom_security_droid.calculate_cost()))
+
+#%% test weapon strings
+
+string_test = Weapon(
+    "String Test",
+    12,
+    3,
+    ap=1,
+    ammo="Single Use",
+    sniper=True,
+    blast=3,
+    deadly=2,
+    indirect=True,
+    nonlethal=True,
+    throw=True,
+    rending=True,
+    seek=True,
+    fixed="Front",
+    suppressive=True,
+    ion=True,
+    disorient=True,
+)
+print(string_test.write_weapon())
