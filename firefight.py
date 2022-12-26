@@ -164,8 +164,11 @@ class Weapon:
         elif type(self.range) is int:
             weapon_range = '%i", ' % self.range
 
-        attacks = str(self.attacks)
-        ap = ", AP[%s]" % str(self.ap)
+        attacks = "A%s" % str(self.attacks)
+        if self.ap > 0:
+            ap = ", AP[%s]" % str(self.ap)
+        else:
+            ap = ""
         if self.ammo:
             ammo = ", Ammo[%s]" % str(self.ammo)
         else:
@@ -178,7 +181,7 @@ class Weapon:
             blast = ', Blast[%s"]' % str(self.blast)
         else:
             blast = ""
-        if self.deadly:
+        if self.deadly > 1:
             deadly = ", Deadly[%s]" % str(self.deadly)
         else:
             deadly = ""
@@ -207,7 +210,7 @@ class Weapon:
         else:
             fixed = ""
         if self.suppressive:
-            suppressive = ", Suppressive[%s]" % str(self.suppressive)
+            suppressive = ", Suppressive"
         else:
             suppressive = ""
         if self.ion:
@@ -367,7 +370,9 @@ class Model:
         if jedi & sith:
             raise Exception("Cannot select both Jedi and Sith")
 
-    def calculate_cost(self):
+        self.weapons = []
+
+    def calculate_base_model_cost(self):
 
         quality_cost = self.quality_cost_dict[self.quality]
         defense_cost = self.defense_cost_dict[self.defense]
@@ -399,15 +404,15 @@ class Model:
         relentless_cost = self.relentless_cost_dict[self.relentless] * quality_cost
         repair_cost = 10 * self.repair
         scout_cost = self.scout_cost_dict[self.scout] * quality_cost
-        shield_cost = self.shield * (
-            10 + quality_cost
-        )  # don't understand the logic here? Should it be defense?
+        shield_cost = self.shield * (10 + quality_cost)
+        # logic here: essentially +1 Toughness w/ 3+ save (would cost 8 + Quality cost)
+        # then adding +2 pts for recovery chance
         slow_cost = self.slow_cost_dict[self.slow] * quality_cost
         spotter_cost = self.spotter * 5
         take_cover_cost = self.take_cover * 5
         vehicle_cost = self.vehicle_cost_dict[self.vehicle]
 
-        model_cost = (
+        base_model_cost = (
             base_cost
             + cover_cost
             + courage_cost
@@ -441,7 +446,105 @@ class Model:
             + vehicle_cost
         )
 
-        return model_cost
+        return base_model_cost
 
     def equip_weapon(self, weapon) -> None:
-        pass
+        self.weapons.append(weapon)
+
+    def calculate_total_cost(self) -> None:
+
+        base_cost = self.calculate_base_model_cost()
+
+        if self.weapons == []:
+            weapon_cost = 0
+        else:
+            weapon_cost = []
+            for weapon in self.weapons:
+                weapon_cost.append(weapon.calculate_cost(self.quality))
+
+            # this could be changed to e.g. make additional weapons cost less
+            # so far also haven't accounted for weapons w/ 2 profiles
+            total_weapon_cost = sum(weapon_cost)
+
+        total_cost = base_cost + total_weapon_cost
+
+        return total_cost
+
+    def write_statline(self):
+
+        name = self.name
+        quality = "%s+" % str(self.quality)
+        defense = "%s+" % str(self.defense)
+        toughness = "%s" % str(self.toughness)
+
+        if not self.weapons:
+            weapons = ""
+        elif len(self.weapons) == 1:
+            weapons = self.weapons[0].write_weapon()
+        elif len(self.weapons) > 1:
+            # comma separate entries:
+            # requires checking for last equipped weapon to not add comma after it
+            raise Exception("Not yet implemented")
+        else:
+            raise Exception("Unexpected equipped weapons value")
+
+        # quality,
+        # defense,
+        # toughness,
+        # cover=None,
+        # courage=False,
+        # command=False,
+        # deflect=False,
+        # droid=False,
+        # emplacement=False,
+        # expendable=0,
+        # fast=False,
+        # fear=False,
+        # fly=False,
+        # heal=0,
+        # hero=False,
+        # villain=False,
+        # hunter=None,
+        # immobile=False,
+        # jedi=False,
+        # sith=False,
+        # jump=0,
+        # impact=0,
+        # impervious=False,
+        # protector=None,
+        # protector_key=None,
+        # relay=False,
+        # relentless=False,
+        # repair=0,
+        # scout=False,
+        # shield=0,
+        # slow=False,
+        # spotter=0,
+        # take_cover=0,
+        # unique=False,
+        # vehicle=False,
+        # free_special_rule=None,
+
+        special_rules = ""  # still need to do this!
+        options = ""  # blank for now... need to figure out options implementation first
+        cost = str(self.calculate_total_cost())
+
+        statline = (
+            name
+            + "\t"
+            + quality
+            + "\t"
+            + defense
+            + "\t"
+            + toughness
+            + "\t"
+            + weapons
+            + "\t"
+            + special_rules
+            + "\t"
+            + options
+            + "\t"
+            + cost
+        )
+
+        return statline
