@@ -519,7 +519,7 @@ class Model:
                 weapon_costs_reduced.append(weapon_cost_reduced)
 
             sorted_weapon_costs, sorted_weapon_costs_reduced = zip(
-                *sorted(zip(weapon_costs, weapon_costs_reduced))
+                *sorted(zip(weapon_costs, weapon_costs_reduced), reverse=True)
             )
 
             for i in range(len(sorted_weapon_costs)):
