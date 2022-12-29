@@ -178,6 +178,7 @@ string_test = Model(
     3,
     4,
     1,
+    arsenal=2,
     cover="Front",
     courage=True,
     command=True,
@@ -210,6 +211,6 @@ string_test = Model(
     take_cover=2,
     unique="Test",
     vehicle=True,
-    free_special_rule="TestingFreeRuels, aakjsa",
+    free_special_rule="TestingFreeRules, TestingTesting",
 )
 print(string_test.write_statline())

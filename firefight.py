@@ -253,6 +253,7 @@ class Model:
         quality,
         defense,
         toughness,
+        arsenal=1,
         cover=None,
         courage=False,
         command=False,
@@ -291,7 +292,7 @@ class Model:
         self.quality = quality
         self.defense = defense
         self.toughness = toughness
-        # ignoring arsenal for now; may not need it to exist in the rules?
+        self.arsenal = arsenal
         self.cover = cover
         self.courage = courage
         self.command = command
@@ -371,6 +372,8 @@ class Model:
             raise Exception("Cannot select both Jedi and Sith")
 
         self.weapons = []
+        self.single_use_weapons = []
+        self.upgrade_lists = []
 
     def calculate_base_model_cost(self):
 
@@ -448,23 +451,84 @@ class Model:
 
         return base_model_cost
 
-    def equip_weapon(self, weapon) -> None:
-        self.weapons.append(weapon)
+    def equip_weapon(self, weapon: Weapon) -> None:
+
+        if weapon.ammo == "Single Use":
+            self.single_use_weapons.append(weapon)
+        else:
+            self.weapons.append(weapon)
+
+    # not yet tested!
+    def unequip_weapon(self, weapon: Weapon) -> None:
+        unequipped = 0
+        for equipped_weapon in self.weapons:
+            if weapon.name == equipped_weapon.name:
+                self.weapons.remove(equipped_weapon)
+                unequipped += 1
+        for equipped_weapon in self.single_use_weapons:
+            if weapon.name == equipped_weapon.name:
+                self.single_use_weapons.remove(equipped_weapon)
+                unequipped += 1
+        if unequipped == 0:
+            raise Exception("Matching weapon not found - could not unequipped")
+        elif unequipped > 1:
+            raise Exception("Multiple matching weapons found - unequipped all")
+
+    def add_upgrade_list(self, upgrade_list: UpgradeList) -> None:
+
+        self.upgrade_lists.append(upgrade_list.label)
+
+    def remove_upgrade_list(self, upgrade_list: UpgradeList) -> None:
+
+        removed = 0
+        for upgrade_list in self.upgrade_lists:
+            if upgrade_list.label == upgrade_list:
+                self.upgrade_lists.remove(upgrade_list)
+                removed += 1
+
+        if removed == 0:
+            raise Exception("Matching upgrade list not found - could not remove")
+        elif removed > 1:
+            raise Exception("Multiple matching upgrade lists found - removed all")
 
     def calculate_total_cost(self) -> None:
 
         base_cost = self.calculate_base_model_cost()
 
-        if self.weapons == []:
-            total_weapon_cost = 0
-        else:
-            weapon_cost = []
-            for weapon in self.weapons:
-                weapon_cost.append(weapon.calculate_cost(self.quality))
+        total_weapon_cost = 0
 
-            # this could be changed to e.g. make additional weapons cost less
-            # so far also haven't accounted for weapons w/ 2 profiles
-            total_weapon_cost = sum(weapon_cost)
+        # 2 lists: weapons, and single_use_weapons
+        single_use_weapon_costs = []
+        weapon_costs = []
+        weapon_costs_reduced = []
+
+        # pay full for all single use weapons
+        if len(self.single_use_weapons) > 0:
+            for weapon in self.single_use_weapons:
+                single_use_weapon_costs.append(weapon.calculate_cost(self.quality))
+
+        if len(self.weapons) > 0:
+            for weapon in self.weapons:
+                weapon_cost = weapon.calculate_cost(self.quality)
+                weapon_cost_reduced = (
+                    weapon_cost
+                    * weapon.ammo_multiplier_dict["Single Use"]
+                    / weapon.ammo_multiplier_dict[weapon.ammo]
+                )
+                weapon_costs.append(weapon_cost)
+                weapon_costs_reduced.append(weapon_cost_reduced)
+
+            sorted_weapon_costs, sorted_weapon_costs_reduced = zip(
+                *sorted(zip(weapon_costs, weapon_costs_reduced))
+            )
+
+            for i in range(len(sorted_weapon_costs)):
+                # pay full for first arsenal(X) weapons
+                if i < self.arsenal:
+                    total_weapon_cost += sorted_weapon_costs[i]
+                # then pay weapon_cost * (ammo(Single Use)/ammo(<weapon's ammo value>))
+                else:
+                    total_weapon_cost += sorted_weapon_costs_reduced[i]
 
         total_cost = base_cost + total_weapon_cost
 
@@ -492,6 +556,11 @@ class Model:
 
         # special rules
         comma = ""
+        if self.arsenal != 1:
+            arsenal = "%sArsenal[%s]" % (comma, str(self.arsenal))
+            comma = ", "
+        else:
+            arsenal = ""
         if self.cover:
             cover = "%sCover[%s]" % (comma, str(self.cover))
             comma = ", "
@@ -655,7 +724,8 @@ class Model:
             free_special_rule = ""
 
         special_rules = (
-            cover
+            arsenal
+            + cover
             + courage
             + command
             + deflect
@@ -711,3 +781,44 @@ class Model:
         )
 
         return statline
+
+
+class UpgradeList:
+    def __init__(self, label: str, base_model=None) -> None:
+        self.label = label
+        self.base_model = base_model
+        # if base_model is left blank, need lots of checks to
+        # verify it's possible for it to be a generic upgrade
+        # all "weapon" upgrades should raise exceptions if base_model=None
+        # certain special rule upgrades should raise exceptions if base_model=None (i.e. if they include qu, df, tough etc...)
+
+    def upgrade_with_weapon(self, weapon: Weapon, lose_expendable=False):
+        if type(weapon) is not Weapon:
+            raise TypeError("weapon type must be Weapon")
+        if not self.base_model:
+            raise Exception("Weapon upgrades require a base model")
+
+        # make a temporary copy of the model
+        # equip that copy with the weapon
+        # calculate the cost of the original
+        # calculate the cost of the copy
+        # take the cost difference; that's the upgrade cost
+
+    def upgrade_with_one_weapon(self, weapon: Weapon, lose_expendable=False):
+        if type(weapon) is not Weapon:
+            raise TypeError("weapon type must be Weapon")
+        if not self.base_model:
+            raise Exception("Weapon upgrades require a base model")
+
+    def replace_weapon(
+        self, old_weapon: Weapon, new_weapon: Weapon, lose_expendable=False
+    ):
+        if type(old_weapon) is not Weapon:
+            raise TypeError("old_weapon type must be Weapon")
+        if type(new_weapon) is not Weapon:
+            raise TypeError("new_weapon type must be Weapon")
+        if not self.base_model:
+            raise Exception("Weapon upgrades require a base model")
+
+        # needs an "unequip" method in model
+        # have put one in, but not tested it
