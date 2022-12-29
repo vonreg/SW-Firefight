@@ -264,6 +264,7 @@ class Model:
         fast=False,
         fear=False,
         fly=False,
+        gunslinger=False,
         heal=0,
         hero=False,
         villain=False,
@@ -305,6 +306,7 @@ class Model:
         self.fly = fly
         self.heal = heal
         self.hero = hero
+        self.gunslinger = gunslinger
         self.villain = villain
         self.hunter = hunter
         self.immobile = immobile
@@ -371,8 +373,10 @@ class Model:
         if jedi & sith:
             raise Exception("Cannot select both Jedi and Sith")
 
-        self.weapons = []
-        self.single_use_weapons = []
+        self.ranged_weapons = []
+        self.single_use_ranged_weapons = []
+        self.melee_weapons = []
+        self.single_use_melee_weapons = []
         self.upgrade_lists = []
 
     def calculate_base_model_cost(self):
@@ -453,21 +457,38 @@ class Model:
 
     def equip_weapon(self, weapon: Weapon) -> None:
 
-        if weapon.ammo == "Single Use":
-            self.single_use_weapons.append(weapon)
+        if weapon.range == "Melee" and weapon.ammo == "Single Use":
+            self.single_use_melee_weapons.append(weapon)
+        elif weapon.range == "Melee":
+            self.melee_weapons.append(weapon)
+        elif weapon.ammo == "Single Use":
+            self.single_use_ranged_weapons.append(weapon)
         else:
-            self.weapons.append(weapon)
+            self.ranged_weapons.append(weapon)
+
+        # if weapon.ammo == "Single Use":
+        #     self.single_use_weapons.append(weapon)
+        # else:
+        #     self.weapons.append(weapon)
 
     # not yet tested!
     def unequip_weapon(self, weapon: Weapon) -> None:
         unequipped = 0
-        for equipped_weapon in self.weapons:
+        for equipped_weapon in self.ranged_weapons:
             if weapon.name == equipped_weapon.name:
-                self.weapons.remove(equipped_weapon)
+                self.ranged_weapons.remove(equipped_weapon)
                 unequipped += 1
-        for equipped_weapon in self.single_use_weapons:
+        for equipped_weapon in self.single_use_ranged_weapons:
             if weapon.name == equipped_weapon.name:
-                self.single_use_weapons.remove(equipped_weapon)
+                self.single_use_ranged_weapons.remove(equipped_weapon)
+                unequipped += 1
+        for equipped_weapon in self.melee_weapons:
+            if weapon.name == equipped_weapon.name:
+                self.melee_weapons.remove(equipped_weapon)
+                unequipped += 1
+        for equipped_weapon in self.single_use_melee_weapons:
+            if weapon.name == equipped_weapon.name:
+                self.single_use_melee_weapons.remove(equipped_weapon)
                 unequipped += 1
         if unequipped == 0:
             raise Exception("Matching weapon not found - could not unequipped")
@@ -498,17 +519,21 @@ class Model:
         total_weapon_cost = 0
 
         # 2 lists: weapons, and single_use_weapons
+        single_use_weapons = (
+            self.single_use_melee_weapons + self.single_use_ranged_weapons
+        )
+        weapons = self.melee_weapons + self.ranged_weapons
         single_use_weapon_costs = []
         weapon_costs = []
         weapon_costs_reduced = []
 
         # pay full for all single use weapons
-        if len(self.single_use_weapons) > 0:
-            for weapon in self.single_use_weapons:
+        if len(single_use_weapons) > 0:
+            for weapon in single_use_weapons:
                 single_use_weapon_costs.append(weapon.calculate_cost(self.quality))
 
-        if len(self.weapons) > 0:
-            for weapon in self.weapons:
+        if len(weapons) > 0:
+            for weapon in weapons:
                 weapon_cost = weapon.calculate_cost(self.quality)
                 weapon_cost_reduced = (
                     weapon_cost
@@ -521,6 +546,7 @@ class Model:
             sorted_weapon_costs, sorted_weapon_costs_reduced = zip(
                 *sorted(zip(weapon_costs, weapon_costs_reduced), reverse=True)
             )
+            sorted_ranged_weapon_costs = sorted(self.ranged_weapons, reverse=True)
 
             for i in range(len(sorted_weapon_costs)):
                 # pay full for first arsenal(X) weapons
@@ -529,6 +555,11 @@ class Model:
                 # then pay weapon_cost * (ammo(Single Use)/ammo(<weapon's ammo value>))
                 else:
                     total_weapon_cost += sorted_weapon_costs_reduced[i]
+
+            if self.gunslinger:
+                # add cost of most expensive weapon a second time
+                # not yet right - needs to be melee weapons only
+                total_weapon_cost += sorted_ranged_weapon_costs[0]
 
         total_cost = base_cost + total_weapon_cost
 
@@ -611,6 +642,11 @@ class Model:
             comma = ", "
         else:
             fly = ""
+        if self.gunslinger:
+            gunslinger = "%sGunslinger" % comma
+            comma = ", "
+        else:
+            gunslinger = ""
         if self.heal:
             heal = "%sHeal[%s]" % (comma, str(self.heal))
             comma = ", "
@@ -735,6 +771,7 @@ class Model:
             + fast
             + fear
             + fly
+            + gunslinger
             + heal
             + hero
             + villain
