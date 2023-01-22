@@ -1,3 +1,6 @@
+from operator import attrgetter
+
+
 class Weapon:
     def __init__(
         self,
@@ -9,15 +12,20 @@ class Weapon:
         sniper=False,
         blast=None,
         deadly=1,
+        inaccurate=False,
         indirect=False,
         nonlethal=False,
         throw=False,
+        quickdraw=False,
+        reciprocating=False,
         rending=False,
         seek=False,
         fixed=None,
         suppressive=0,
         ion=False,
         disorient=False,
+        primary_fire_mode_name=None,
+        secondary_fire_modes=None,
     ) -> None:
         self.name = name
         self.range = weapon_range
@@ -27,15 +35,20 @@ class Weapon:
         self.sniper = sniper
         self.blast = blast
         self.deadly = deadly
+        self.inaccurate = inaccurate
         self.indirect = indirect
         self.nonlethal = nonlethal
         self.throw = throw
+        self.quickdraw = quickdraw
+        self.reciprocating = reciprocating
         self.rending = rending
         self.seek = seek
         self.fixed = fixed
         self.suppressive = suppressive
         self.ion = ion
         self.disorient = disorient
+        self.primary_fire_mode_name = primary_fire_mode_name
+        self.secondary_fire_modes = secondary_fire_modes
 
         if self.range == "Torrent":
             self.torrent = True
@@ -67,6 +80,7 @@ class Weapon:
         self.indirect_multiplier_dict = {False: 1, True: 1.1}
         self.nonlethal_multiplier_dict = {False: 1, True: 0.5}
         self.throw_multiplier_dict = {False: 1, True: 1.25}
+        self.quickdraw_multiplier_dict = {False: 1, True: 1.3}
         self.rending_multiplier_dict = {False: 1, True: 1.5}
         self.seek_multiplier_dict = {False: 1, True: 1.25}
 
@@ -85,7 +99,7 @@ class Weapon:
 
     def calculate_cost(self, quality):
 
-        effective_quality = max(quality - self.sniper, 2)
+        effective_quality = min(max(quality - self.sniper + self.inaccurate, 2), 6)
         effective_quality_cost = self.quality_cost_dict[effective_quality]
         range_multiplier = self.range_multiplier_dict[self.range]
         attacks_multiplier = self.attacks
@@ -96,6 +110,16 @@ class Weapon:
         indirect_multiplier = self.indirect_multiplier_dict[self.indirect]
         nonlethal_multiplier = self.nonlethal_multiplier_dict[self.nonlethal]
         throw_multiplier = self.throw_multiplier_dict[self.throw]
+        quickdraw_multiplier = self.quickdraw_multiplier_dict[self.quickdraw]
+
+        if self.reciprocating:
+            reciprocating_multiplier = 1 + (
+                min(self.quality_cost_dict[self.reciprocating], effective_quality_cost)
+                / effective_quality_cost
+            )
+        else:
+            reciprocating_multiplier = 1
+
         rending_multiplier = self.rending_multiplier_dict[self.rending]
         seek_multiplier = self.seek_multiplier_dict[self.seek]
 
@@ -131,7 +155,7 @@ class Weapon:
         else:
             melee_cost_reduction = 0
 
-        weapon_cost = (
+        primary_cost = (
             effective_quality_cost
             * range_multiplier
             * attacks_multiplier
@@ -142,6 +166,8 @@ class Weapon:
             * indirect_multiplier
             * nonlethal_multiplier
             * throw_multiplier
+            * quickdraw_multiplier
+            * reciprocating_multiplier
             * rending_multiplier
             * seek_multiplier
             + fixed_cost_reduction
@@ -150,6 +176,54 @@ class Weapon:
             + disorient_cost_increase
             + melee_cost_reduction
         )
+
+        if self.secondary_fire_modes:
+
+            weapon_cost = 0
+            full_costs = []
+            reduced_costs = []
+
+            if self.ammo == "Single Use":
+                weapon_cost += primary_cost
+            else:
+                reduced_cost = (
+                    primary_cost
+                    * self.ammo_multiplier_dict["Single Use"]
+                    / self.ammo_multiplier_dict[self.ammo]
+                )
+                full_costs.append(primary_cost)
+                reduced_costs.append(reduced_cost)
+
+            for fire_mode in self.secondary_fire_modes:
+
+                fire_mode_cost = fire_mode.calculate_cost(quality)
+
+                if self.ammo == "Single Use":
+                    weapon_cost += fire_mode_cost
+
+                else:
+                    fire_mode_cost_reduced = (
+                        fire_mode_cost
+                        * fire_mode.ammo_multiplier_dict["Single Use"]
+                        / fire_mode.ammo_multiplier_dict[fire_mode.ammo]
+                    )
+                    full_costs.append(fire_mode_cost)
+                    reduced_costs.append(fire_mode_cost_reduced)
+
+            sorted_full_costs, sorted_reduced_costs = zip(
+                *sorted(zip(full_costs, reduced_costs), reverse=True)
+            )
+
+            for i in range(len(sorted_full_costs)):
+                num_pay_full = 1
+                if i < num_pay_full:
+                    weapon_cost += sorted_full_costs[i]
+                else:
+                    weapon_cost += sorted_reduced_costs[i]
+
+        else:
+            weapon_cost = primary_cost
+
         return weapon_cost
 
     def write_weapon(self):
@@ -185,6 +259,10 @@ class Weapon:
             deadly = ", Deadly[%s]" % str(self.deadly)
         else:
             deadly = ""
+        if self.inaccurate:
+            inaccurate = ", Inaccurate"
+        else:
+            inaccurate = ""
         if self.indirect:
             indirect = ", Indirect"
         else:
@@ -197,6 +275,14 @@ class Weapon:
             throw = ", Throw"
         else:
             throw = ""
+        if self.quickdraw:
+            quickdraw = ", Quickdraw"
+        else:
+            quickdraw = ""
+        if self.reciprocating:
+            reciprocating = ", Reciprocating[%s+]" % str(self.reciprocating)
+        else:
+            reciprocating = ""
         if self.rending:
             rending = ", Rending"
         else:
@@ -222,8 +308,24 @@ class Weapon:
         else:
             disorient = ""
 
+        if self.primary_fire_mode_name:
+            primary_fire_mode_name = (
+                " - pick one to attack: %s" % self.primary_fire_mode_name
+            )
+        else:
+            primary_fire_mode_name = ""
+
+        secondary_fire_mode_string = ""
+        if self.secondary_fire_modes:
+            for secondary_fire_mode in self.secondary_fire_modes:
+
+                secondary_fire_mode_string += (
+                    "; %s" % secondary_fire_mode.write_weapon()
+                )
+
         weapon_string = (
             name
+            + primary_fire_mode_name
             + " ("
             + weapon_range
             + attacks
@@ -232,9 +334,12 @@ class Weapon:
             + sniper
             + blast
             + deadly
+            + inaccurate
             + indirect
             + nonlethal
             + throw
+            + quickdraw
+            + reciprocating
             + rending
             + seek
             + fixed
@@ -242,6 +347,7 @@ class Weapon:
             + ion
             + disorient
             + ")"
+            + secondary_fire_mode_string
         )
         return weapon_string
 
@@ -373,10 +479,13 @@ class Model:
         if jedi & sith:
             raise Exception("Cannot select both Jedi and Sith")
 
-        self.ranged_weapons = []
-        self.single_use_ranged_weapons = []
-        self.melee_weapons = []
-        self.single_use_melee_weapons = []
+        # self.ranged_weapons = []
+        # self.single_use_ranged_weapons = []
+        # self.melee_weapons = []
+        # self.single_use_melee_weapons = []
+
+        self.weapons = []  # weapons list; all weapons
+
         self.upgrade_lists = []
 
     def calculate_base_model_cost(self):
@@ -457,49 +566,27 @@ class Model:
 
     def equip_weapon(self, weapon: Weapon) -> None:
 
-        if weapon.range == "Melee" and weapon.ammo == "Single Use":
-            self.single_use_melee_weapons.append(weapon)
-        elif weapon.range == "Melee":
-            self.melee_weapons.append(weapon)
-        elif weapon.ammo == "Single Use":
-            self.single_use_ranged_weapons.append(weapon)
-        else:
-            self.ranged_weapons.append(weapon)
+        self.weapons.append(weapon)
 
-        # if weapon.ammo == "Single Use":
-        #     self.single_use_weapons.append(weapon)
-        # else:
-        #     self.weapons.append(weapon)
-
-    # not yet tested!
     def unequip_weapon(self, weapon: Weapon) -> None:
+
         unequipped = 0
-        for equipped_weapon in self.ranged_weapons:
+        for equipped_weapon in self.weapons:
             if weapon.name == equipped_weapon.name:
-                self.ranged_weapons.remove(equipped_weapon)
-                unequipped += 1
-        for equipped_weapon in self.single_use_ranged_weapons:
-            if weapon.name == equipped_weapon.name:
-                self.single_use_ranged_weapons.remove(equipped_weapon)
-                unequipped += 1
-        for equipped_weapon in self.melee_weapons:
-            if weapon.name == equipped_weapon.name:
-                self.melee_weapons.remove(equipped_weapon)
-                unequipped += 1
-        for equipped_weapon in self.single_use_melee_weapons:
-            if weapon.name == equipped_weapon.name:
-                self.single_use_melee_weapons.remove(equipped_weapon)
+                self.weapons.remove(equipped_weapon)
                 unequipped += 1
         if unequipped == 0:
             raise Exception("Matching weapon not found - could not unequipped")
         elif unequipped > 1:
             raise Exception("Multiple matching weapons found - unequipped all")
 
-    def add_upgrade_list(self, upgrade_list: UpgradeList) -> None:
+    # def add_upgrade_list(self, upgrade_list: UpgradeList) -> None:
+    def add_upgrade_list(self, upgrade_list) -> None:
 
         self.upgrade_lists.append(upgrade_list.label)
 
-    def remove_upgrade_list(self, upgrade_list: UpgradeList) -> None:
+    # def remove_upgrade_list(self, upgrade_list: UpgradeList) -> None:
+    def remove_upgrade_list(self, upgrade_list) -> None:
 
         removed = 0
         for upgrade_list in self.upgrade_lists:
@@ -518,48 +605,96 @@ class Model:
 
         total_weapon_cost = 0
 
-        # 2 lists: weapons, and single_use_weapons
-        single_use_weapons = (
-            self.single_use_melee_weapons + self.single_use_ranged_weapons
-        )
-        weapons = self.melee_weapons + self.ranged_weapons
-        single_use_weapon_costs = []
-        weapon_costs = []
-        weapon_costs_reduced = []
+        weapons_ammo_getter = attrgetter("ammo")
+        weapons_range_getter = attrgetter("range")
+
+        single_use_weapons = [
+            weapon
+            for weapon in self.weapons
+            if weapons_ammo_getter(weapon) == "Single Use"
+        ]
+        # these are "except single use weapons" lists
+        melee_weapons = [
+            weapon
+            for weapon in self.weapons
+            if weapons_range_getter(weapon) == "Melee"
+            and weapons_ammo_getter != "Single Use"
+        ]
+        ranged_weapons = [
+            weapon
+            for weapon in self.weapons
+            if weapons_range_getter(weapon) != "Melee"
+            and weapons_ammo_getter != "Single Use"
+        ]
 
         # pay full for all single use weapons
         if len(single_use_weapons) > 0:
             for weapon in single_use_weapons:
-                single_use_weapon_costs.append(weapon.calculate_cost(self.quality))
+                total_weapon_cost += weapon.calculate_cost(self.quality)
 
-        if len(weapons) > 0:
-            for weapon in weapons:
-                weapon_cost = weapon.calculate_cost(self.quality)
-                weapon_cost_reduced = (
-                    weapon_cost
-                    * weapon.ammo_multiplier_dict["Single Use"]
-                    / weapon.ammo_multiplier_dict[weapon.ammo]
+        # pay for ranged weapons
+        ranged_weapon_costs = []
+        ranged_weapon_costs_reduced = []
+        if len(ranged_weapons) > 0:
+            for ranged_weapon in ranged_weapons:
+                ranged_weapon_cost = ranged_weapon.calculate_cost(self.quality)
+                ranged_weapon_cost_reduced = (
+                    ranged_weapon_cost
+                    * ranged_weapon.ammo_multiplier_dict["Single Use"]
+                    / ranged_weapon.ammo_multiplier_dict[ranged_weapon.ammo]
                 )
-                weapon_costs.append(weapon_cost)
-                weapon_costs_reduced.append(weapon_cost_reduced)
+                ranged_weapon_costs.append(ranged_weapon_cost)
+                ranged_weapon_costs_reduced.append(ranged_weapon_cost_reduced)
 
-            sorted_weapon_costs, sorted_weapon_costs_reduced = zip(
-                *sorted(zip(weapon_costs, weapon_costs_reduced), reverse=True)
+            sorted_ranged_weapon_costs, sorted_ranged_weapon_costs_reduced = zip(
+                *sorted(
+                    zip(ranged_weapon_costs, ranged_weapon_costs_reduced), reverse=True
+                )
             )
-            sorted_ranged_weapon_costs = sorted(self.ranged_weapons, reverse=True)
 
-            for i in range(len(sorted_weapon_costs)):
+            for i in range(len(sorted_ranged_weapon_costs)):
                 # pay full for first arsenal(X) weapons
                 if i < self.arsenal:
-                    total_weapon_cost += sorted_weapon_costs[i]
-                # then pay weapon_cost * (ammo(Single Use)/ammo(<weapon's ammo value>))
+                    total_weapon_cost += sorted_ranged_weapon_costs[i]
                 else:
-                    total_weapon_cost += sorted_weapon_costs_reduced[i]
+                    total_weapon_cost += sorted_ranged_weapon_costs_reduced[i]
 
             if self.gunslinger:
                 # add cost of most expensive weapon a second time
-                # not yet right - needs to be melee weapons only
                 total_weapon_cost += sorted_ranged_weapon_costs[0]
+
+        # pay for melee weapons
+        melee_weapon_costs = []
+        melee_weapon_costs_reduced = []
+        if len(melee_weapons) > 0:
+            for melee_weapon in melee_weapons:
+                melee_weapon_cost = melee_weapon.calculate_cost(self.quality)
+                melee_weapon_cost_reduced = (
+                    melee_weapon_cost
+                    * melee_weapon.ammo_multiplier_dict["Single Use"]
+                    / melee_weapon.ammo_multiplier_dict[melee_weapon.ammo]
+                )
+                melee_weapon_costs.append(melee_weapon_cost)
+                melee_weapon_costs_reduced.append(melee_weapon_cost_reduced)
+
+            sorted_melee_weapon_costs, sorted_melee_weapon_costs_reduced = zip(
+                *sorted(
+                    zip(melee_weapon_costs, melee_weapon_costs_reduced), reverse=True
+                )
+            )
+
+            for i in range(len(sorted_melee_weapon_costs)):
+                # pay full for first num_pay_full weapons
+                # can replace with self."melee arsenal" if I ever feel the need to add it
+                num_pay_full = 1
+                if i < num_pay_full:
+                    total_weapon_cost += sorted_melee_weapon_costs[i]
+                else:
+                    total_weapon_cost += sorted_melee_weapon_costs_reduced[i]
+
+            # maybe should use a gunslinger equivalent to pay for relentless instead of current method?
+            # if self.relentless:
+            #     total_weapon_cost += sorted_melee_weapon_costs[0]
 
         total_cost = base_cost + total_weapon_cost
 

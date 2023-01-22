@@ -159,7 +159,7 @@ print(string_test.write_weapon())
 
 clone_trooper = Model("Clone Trooper", 4, 4, 1)
 
-zap_stick = Weapon("ZZZAP!", "Melee", 3)
+zap_stick = Weapon("ZZZAP!", "Melee", 3, ammo="Single Use")
 
 # clone_trooper.equip_weapon(blaster_rifle)
 clone_trooper.equip_weapon(zap_stick)
@@ -214,3 +214,42 @@ string_test = Model(
     free_special_rule="TestingFreeRules, TestingTesting",
 )
 print(string_test.write_statline())
+
+#%%
+
+rebel_trooper = Model("Rebel Trooper", 4, 5, 1)
+
+rebel_trooper.equip_weapon(core.blaster_pistol)
+print(rebel_trooper.write_statline())
+rebel_trooper.unequip_weapon(core.blaster_pistol)
+
+rebel_trooper.equip_weapon(core.burst_pistol)
+print(rebel_trooper.write_statline())
+rebel_trooper.unequip_weapon(core.burst_pistol)
+
+rebel_trooper.equip_weapon(core.blaster_rifle)
+print(rebel_trooper.write_statline())
+rebel_trooper.unequip_weapon(core.blaster_rifle)
+
+rebel_trooper.equip_weapon(core.heavy_blaster_rifle)
+print(rebel_trooper.write_statline())
+rebel_trooper.unequip_weapon(core.heavy_blaster_rifle)
+
+rebel_trooper.equip_weapon(core.light_repeating_blaster)
+print(rebel_trooper.write_statline())
+rebel_trooper.unequip_weapon(core.light_repeating_blaster)
+
+rebel_trooper.equip_weapon(core.reciprocating_blaster)
+print(rebel_trooper.write_statline())
+rebel_trooper.unequip_weapon(core.reciprocating_blaster)
+
+rebel_trooper.equip_weapon(core.rotary_blaster)
+print(rebel_trooper.write_statline())
+rebel_trooper.unequip_weapon(core.rotary_blaster)
+
+rebel_trooper.equip_weapon(core.heavy_repeater)
+print(rebel_trooper.write_statline())
+rebel_trooper.unequip_weapon(core.heavy_repeater)
+
+
+# %%

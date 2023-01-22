@@ -2,14 +2,15 @@ from firefight import Weapon, Model
 
 # blaster pistols
 
-blaster_pistol = Weapon("Blaster Pistol", 12, 2)
-heavy_blaster_pistol = Weapon("Heavy Blaster Pistol", 18, 2, ap=1)
-burst_pistol = Weapon("Burst Pistol", 6, 4)
+blaster_pistol = Weapon("Blaster Pistol", 12, 2, quickdraw=True)
+heavy_blaster_pistol = Weapon("Heavy Blaster Pistol", 18, 2, ap=1, quickdraw=True)
+burst_pistol = Weapon("Burst Pistol", 6, 3, quickdraw=True, reciprocating=5)
 
 # blaster rifles
 
 blaster_carbine = Weapon("Blaster Carbine", 18, 3)
 blaster_rifle = Weapon("Blaster Rifle", 30, 3)
+reciprocating_blaster = Weapon("Reciprocating Blaster", 30, 3, reciprocating=5)
 heavy_blaster_rifle = Weapon("Heavy Blaster Rifle", 30, 3, ap=1)
 
 # targeting rifles
@@ -23,9 +24,15 @@ heavy_sniper_rifle = Weapon("Heavy Sniper Rifle", "inf", 1, ap=3, sniper=True, d
 
 # personal repeating blasters
 
-light_repeating_blaster = Weapon("Light Repeating Blaster", "inf", 4)
-# heavy_repeater = Weapon("Heavy Repeater", secondary_mode=Weapon(.....))
-# rotary_blaster = Weapon("Rotary Blaster", 24, 6, inaccurate=True)
+light_repeating_blaster = Weapon("Light Repeating Blaster", 30, 4)
+heavy_repeater = Weapon(
+    "Heavy Repeater",
+    18,
+    4,
+    primary_fire_mode_name="Main Barrels",
+    secondary_fire_modes=[Weapon("Concussion Blast", 12, 2, ap=1, ammo=1, blast=3)],
+)
+rotary_blaster = Weapon("Rotary Blaster", 24, 6, inaccurate=True)
 
 # emplacement weapons
 
