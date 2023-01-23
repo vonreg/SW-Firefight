@@ -198,7 +198,7 @@ class Weapon:
 
                 fire_mode_cost = fire_mode.calculate_cost(quality)
 
-                if self.ammo == "Single Use":
+                if fire_mode.ammo == "Single Use":
                     weapon_cost += fire_mode_cost
 
                 else:
@@ -210,16 +210,17 @@ class Weapon:
                     full_costs.append(fire_mode_cost)
                     reduced_costs.append(fire_mode_cost_reduced)
 
-            sorted_full_costs, sorted_reduced_costs = zip(
-                *sorted(zip(full_costs, reduced_costs), reverse=True)
-            )
+            if len(full_costs) > 0:
+                sorted_full_costs, sorted_reduced_costs = zip(
+                    *sorted(zip(full_costs, reduced_costs), reverse=True)
+                )
 
-            for i in range(len(sorted_full_costs)):
-                num_pay_full = 1
-                if i < num_pay_full:
-                    weapon_cost += sorted_full_costs[i]
-                else:
-                    weapon_cost += sorted_reduced_costs[i]
+                for i in range(len(sorted_full_costs)):
+                    num_pay_full = 1
+                    if i < num_pay_full:
+                        weapon_cost += sorted_full_costs[i]
+                    else:
+                        weapon_cost += sorted_reduced_costs[i]
 
         else:
             weapon_cost = primary_cost
@@ -618,13 +619,13 @@ class Model:
             weapon
             for weapon in self.weapons
             if weapons_range_getter(weapon) == "Melee"
-            and weapons_ammo_getter != "Single Use"
+            and weapons_ammo_getter(weapon) != "Single Use"
         ]
         ranged_weapons = [
             weapon
             for weapon in self.weapons
             if weapons_range_getter(weapon) != "Melee"
-            and weapons_ammo_getter != "Single Use"
+            and weapons_ammo_getter(weapon) != "Single Use"
         ]
 
         # pay full for all single use weapons

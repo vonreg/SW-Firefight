@@ -250,6 +250,3 @@ rebel_trooper.unequip_weapon(core.rotary_blaster)
 rebel_trooper.equip_weapon(core.heavy_repeater)
 print(rebel_trooper.write_statline())
 rebel_trooper.unequip_weapon(core.heavy_repeater)
-
-
-# %%

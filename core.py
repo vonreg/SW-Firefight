@@ -10,7 +10,7 @@ burst_pistol = Weapon("Burst Pistol", 6, 3, quickdraw=True, reciprocating=5)
 
 blaster_carbine = Weapon("Blaster Carbine", 18, 3)
 blaster_rifle = Weapon("Blaster Rifle", 30, 3)
-reciprocating_blaster = Weapon("Reciprocating Blaster", 30, 3, reciprocating=5)
+reciprocating_blaster = Weapon("Reciprocating Blaster", 30, 3, reciprocating=6)
 heavy_blaster_rifle = Weapon("Heavy Blaster Rifle", 30, 3, ap=1)
 
 # targeting rifles
