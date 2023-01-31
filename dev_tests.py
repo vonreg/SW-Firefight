@@ -219,34 +219,48 @@ print(string_test.write_statline())
 
 rebel_trooper = Model("Rebel Trooper", 4, 5, 1)
 
-rebel_trooper.equip_weapon(core.blaster_pistol)
-print(rebel_trooper.write_statline())
-rebel_trooper.unequip_weapon(core.blaster_pistol)
+# rebel_trooper.equip_weapon(core.blaster_pistol)
+# print(rebel_trooper.write_statline())
+# rebel_trooper.unequip_weapon(core.blaster_pistol)
 
-rebel_trooper.equip_weapon(core.burst_pistol)
-print(rebel_trooper.write_statline())
-rebel_trooper.unequip_weapon(core.burst_pistol)
+# rebel_trooper.equip_weapon(core.burst_pistol)
+# print(rebel_trooper.write_statline())
+# rebel_trooper.unequip_weapon(core.burst_pistol)
 
-rebel_trooper.equip_weapon(core.blaster_rifle)
+# rebel_trooper.equip_weapon(core.blaster_rifle)
+# print(rebel_trooper.write_statline())
+# rebel_trooper.unequip_weapon(core.blaster_rifle)
+
+# rebel_trooper.equip_weapon(core.heavy_blaster_rifle)
+# print(rebel_trooper.write_statline())
+# rebel_trooper.unequip_weapon(core.heavy_blaster_rifle)
+
+# rebel_trooper.equip_weapon(core.light_repeating_blaster)
+# print(rebel_trooper.write_statline())
+# rebel_trooper.unequip_weapon(core.light_repeating_blaster)
+
+# rebel_trooper.equip_weapon(core.reciprocating_blaster)
+# print(rebel_trooper.write_statline())
+# rebel_trooper.unequip_weapon(core.reciprocating_blaster)
+
+# rebel_trooper.equip_weapon(core.rotary_blaster)
+# print(rebel_trooper.write_statline())
+# rebel_trooper.unequip_weapon(core.rotary_blaster)
+
+rebel_trooper.equip_weapon(core.heavy_repeater)
 print(rebel_trooper.write_statline())
-rebel_trooper.unequip_weapon(core.blaster_rifle)
+rebel_trooper.unequip_weapon(core.heavy_repeater)
+
+print(rebel_trooper.write_statline())
+
+# %%
 
 rebel_trooper.equip_weapon(core.heavy_blaster_rifle)
 print(rebel_trooper.write_statline())
 rebel_trooper.unequip_weapon(core.heavy_blaster_rifle)
 
-rebel_trooper.equip_weapon(core.light_repeating_blaster)
+rebel_trooper.equip_weapon(core.heavy_blaster_rifle)
+rebel_trooper.equip_weapon(core.thermal_detonator)
 print(rebel_trooper.write_statline())
-rebel_trooper.unequip_weapon(core.light_repeating_blaster)
-
-rebel_trooper.equip_weapon(core.reciprocating_blaster)
-print(rebel_trooper.write_statline())
-rebel_trooper.unequip_weapon(core.reciprocating_blaster)
-
-rebel_trooper.equip_weapon(core.rotary_blaster)
-print(rebel_trooper.write_statline())
-rebel_trooper.unequip_weapon(core.rotary_blaster)
-
-rebel_trooper.equip_weapon(core.heavy_repeater)
-print(rebel_trooper.write_statline())
-rebel_trooper.unequip_weapon(core.heavy_repeater)
+rebel_trooper.unequip_weapon(core.heavy_blaster_rifle)
+rebel_trooper.unequip_weapon(core.thermal_detonator)

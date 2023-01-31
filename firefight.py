@@ -1,4 +1,42 @@
 from operator import attrgetter
+from itertools import combinations
+
+
+def model_weapon_cost(weapons, quality, arsenal, gunslinger=False):
+
+    weapon_indices = range(len(weapons))
+
+    weapon_combinations = list(combinations(weapon_indices, arsenal))
+
+    all_cost_options = []
+    for weapon_combination in weapon_combinations:
+        highest_non_ammo_cost = 0
+        combination_costs = []
+        for i in weapon_indices:
+            weapon = weapons[i]
+            full_cost = weapon.calculate_cost(quality)
+
+            if i in weapon_combination:
+                combination_costs.append(full_cost)
+            else:
+                reduced_cost = (
+                    full_cost
+                    * weapon.reduced_multiplier_dict[weapon.ammo]
+                    / weapon.ammo_multiplier_dict[weapon.ammo]
+                )
+                combination_costs.append(reduced_cost)
+
+            if combination_costs[i] > highest_non_ammo_cost and weapon.ammo is None:
+                highest_non_ammo_cost = combination_costs[i]
+
+        combination_cost = sum(combination_costs)
+        if gunslinger:
+            combination_cost += highest_non_ammo_cost
+        all_cost_options.append(combination_cost)
+
+    weapon_cost = max(all_cost_options)
+
+    return weapon_cost
 
 
 class Weapon:
@@ -75,6 +113,14 @@ class Weapon:
             3: 0.95,
             4: 1,
             None: 1,
+        }
+        self.reduced_multiplier_dict = {
+            "Single Use": 0.5,
+            1: 0.55,
+            2: 0.6,
+            3: 0.63,
+            4: 0.65,
+            None: 0.65,
         }
         self.blast_multiplier_dict = {None: 1, 3: 2, 5: 5}
         self.indirect_multiplier_dict = {False: 1, True: 1.1}
@@ -178,49 +224,39 @@ class Weapon:
         )
 
         if self.secondary_fire_modes:
+            weapons = self.secondary_fire_modes.copy()
+            weapons.insert(0, self)
 
-            weapon_cost = 0
-            full_costs = []
-            reduced_costs = []
+            weapon_indices = range(len(weapons))
 
-            if self.ammo == "Single Use":
-                weapon_cost += primary_cost
-            else:
-                reduced_cost = (
-                    primary_cost
-                    * self.ammo_multiplier_dict["Single Use"]
-                    / self.ammo_multiplier_dict[self.ammo]
-                )
-                full_costs.append(primary_cost)
-                reduced_costs.append(reduced_cost)
+            # this would use arsenal instead of 1 for models
+            weapon_combinations = list(combinations(weapon_indices, 1))
 
-            for fire_mode in self.secondary_fire_modes:
-
-                fire_mode_cost = fire_mode.calculate_cost(quality)
-
-                if fire_mode.ammo == "Single Use":
-                    weapon_cost += fire_mode_cost
-
-                else:
-                    fire_mode_cost_reduced = (
-                        fire_mode_cost
-                        * fire_mode.ammo_multiplier_dict["Single Use"]
-                        / fire_mode.ammo_multiplier_dict[fire_mode.ammo]
-                    )
-                    full_costs.append(fire_mode_cost)
-                    reduced_costs.append(fire_mode_cost_reduced)
-
-            if len(full_costs) > 0:
-                sorted_full_costs, sorted_reduced_costs = zip(
-                    *sorted(zip(full_costs, reduced_costs), reverse=True)
-                )
-
-                for i in range(len(sorted_full_costs)):
-                    num_pay_full = 1
-                    if i < num_pay_full:
-                        weapon_cost += sorted_full_costs[i]
+            all_cost_options = []
+            for weapon_combination in weapon_combinations:
+                combination_costs = []
+                for i in weapon_indices:
+                    if i == 0:
+                        weapon = self
+                        full_cost = primary_cost
                     else:
-                        weapon_cost += sorted_reduced_costs[i]
+                        weapon = weapons[i]
+                        full_cost = weapon.calculate_cost(quality)
+
+                    if i in weapon_combination:
+                        combination_costs.append(full_cost)
+                    else:
+                        reduced_cost = (
+                            full_cost
+                            * weapon.reduced_multiplier_dict[weapon.ammo]
+                            / weapon.ammo_multiplier_dict[weapon.ammo]
+                        )
+                        combination_costs.append(reduced_cost)
+
+                combination_cost = sum(combination_costs)
+                all_cost_options.append(combination_cost)
+
+            weapon_cost = max(all_cost_options)
 
         else:
             weapon_cost = primary_cost
@@ -606,100 +642,66 @@ class Model:
 
         total_weapon_cost = 0
 
-        weapons_ammo_getter = attrgetter("ammo")
         weapons_range_getter = attrgetter("range")
 
-        single_use_weapons = [
-            weapon
-            for weapon in self.weapons
-            if weapons_ammo_getter(weapon) == "Single Use"
-        ]
-        # these are "except single use weapons" lists
         melee_weapons = [
-            weapon
-            for weapon in self.weapons
-            if weapons_range_getter(weapon) == "Melee"
-            and weapons_ammo_getter(weapon) != "Single Use"
+            weapon for weapon in self.weapons if weapons_range_getter(weapon) == "Melee"
         ]
         ranged_weapons = [
-            weapon
-            for weapon in self.weapons
-            if weapons_range_getter(weapon) != "Melee"
-            and weapons_ammo_getter(weapon) != "Single Use"
+            weapon for weapon in self.weapons if weapons_range_getter(weapon) != "Melee"
         ]
 
-        # pay full for all single use weapons
-        if len(single_use_weapons) > 0:
-            for weapon in single_use_weapons:
-                total_weapon_cost += weapon.calculate_cost(self.quality)
-
-        # pay for ranged weapons
-        ranged_weapon_costs = []
-        ranged_weapon_costs_reduced = []
-        if len(ranged_weapons) > 0:
-            for ranged_weapon in ranged_weapons:
-                ranged_weapon_cost = ranged_weapon.calculate_cost(self.quality)
-                ranged_weapon_cost_reduced = (
-                    ranged_weapon_cost
-                    * ranged_weapon.ammo_multiplier_dict["Single Use"]
-                    / ranged_weapon.ammo_multiplier_dict[ranged_weapon.ammo]
-                )
-                ranged_weapon_costs.append(ranged_weapon_cost)
-                ranged_weapon_costs_reduced.append(ranged_weapon_cost_reduced)
-
-            sorted_ranged_weapon_costs, sorted_ranged_weapon_costs_reduced = zip(
-                *sorted(
-                    zip(ranged_weapon_costs, ranged_weapon_costs_reduced), reverse=True
-                )
-            )
-
-            for i in range(len(sorted_ranged_weapon_costs)):
-                # pay full for first arsenal(X) weapons
-                if i < self.arsenal:
-                    total_weapon_cost += sorted_ranged_weapon_costs[i]
-                else:
-                    total_weapon_cost += sorted_ranged_weapon_costs_reduced[i]
-
-            if self.gunslinger:
-                # add cost of most expensive weapon a second time
-                total_weapon_cost += sorted_ranged_weapon_costs[0]
-
-        # pay for melee weapons
-        melee_weapon_costs = []
-        melee_weapon_costs_reduced = []
         if len(melee_weapons) > 0:
-            for melee_weapon in melee_weapons:
-                melee_weapon_cost = melee_weapon.calculate_cost(self.quality)
-                melee_weapon_cost_reduced = (
-                    melee_weapon_cost
-                    * melee_weapon.ammo_multiplier_dict["Single Use"]
-                    / melee_weapon.ammo_multiplier_dict[melee_weapon.ammo]
-                )
-                melee_weapon_costs.append(melee_weapon_cost)
-                melee_weapon_costs_reduced.append(melee_weapon_cost_reduced)
+            melee_weapons_cost = self.model_weapon_cost(melee_weapons, 1)
+        else:
+            melee_weapons_cost = 0
 
-            sorted_melee_weapon_costs, sorted_melee_weapon_costs_reduced = zip(
-                *sorted(
-                    zip(melee_weapon_costs, melee_weapon_costs_reduced), reverse=True
-                )
+        if len(ranged_weapons) > 0:
+            ranged_weapons_cost = self.model_weapon_cost(
+                ranged_weapons, self.arsenal, gunslinger=self.gunslinger
             )
+        else:
+            ranged_weapons_cost = 0
 
-            for i in range(len(sorted_melee_weapon_costs)):
-                # pay full for first num_pay_full weapons
-                # can replace with self."melee arsenal" if I ever feel the need to add it
-                num_pay_full = 1
-                if i < num_pay_full:
-                    total_weapon_cost += sorted_melee_weapon_costs[i]
-                else:
-                    total_weapon_cost += sorted_melee_weapon_costs_reduced[i]
-
-            # maybe should use a gunslinger equivalent to pay for relentless instead of current method?
-            # if self.relentless:
-            #     total_weapon_cost += sorted_melee_weapon_costs[0]
-
-        total_cost = base_cost + total_weapon_cost
+        total_cost = base_cost + melee_weapons_cost + ranged_weapons_cost
 
         return total_cost
+
+    def model_weapon_cost(self, weapons, arsenal, gunslinger=False):
+
+        weapon_indices = range(len(weapons))
+
+        weapon_combinations = list(combinations(weapon_indices, arsenal))
+
+        all_cost_options = []
+        for weapon_combination in weapon_combinations:
+            highest_non_ammo_cost = 0
+            combination_costs = []
+            for i in weapon_indices:
+                weapon = weapons[i]
+                full_cost = weapon.calculate_cost(self.quality)
+
+                if i in weapon_combination:
+                    combination_costs.append(full_cost)
+                else:
+                    reduced_cost = (
+                        full_cost
+                        * weapon.reduced_multiplier_dict[weapon.ammo]
+                        / weapon.ammo_multiplier_dict[weapon.ammo]
+                    )
+                    combination_costs.append(reduced_cost)
+
+                if combination_costs[i] > highest_non_ammo_cost and weapon.ammo is None:
+                    highest_non_ammo_cost = combination_costs[i]
+
+            combination_cost = sum(combination_costs)
+            if gunslinger:
+                combination_cost += highest_non_ammo_cost
+            all_cost_options.append(combination_cost)
+
+        weapon_cost = round(max(all_cost_options))
+
+        return weapon_cost
 
     def write_statline(self):
 

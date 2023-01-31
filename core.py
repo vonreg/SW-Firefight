@@ -71,3 +71,28 @@ mortar = Weapon(
 )  # should perhaps have a "cumbersome" rule?
 rocket_launcher = Weapon("Rocket Launcher", "inf", 2, ap=1, ammo=1, blast=3)
 homing_shot = Weapon("Homing Shot", 18, 2, ap=2, ammo=1, seek=True)
+
+# grenades
+
+thermal_detonator = Weapon("Thermal Detonator", 12, 2, ap=1, blast=3, indirect=True)
+concussion_grenade = Weapon(
+    "Concussion Grenade",
+    12,
+    1,
+    ammo="Single Use",
+    blast=3,
+    indirect=True,
+    suppressive=1,
+)
+ion_grenade = Weapon(
+    "Ion Grenade", 12, 1, ammo="Single Use", blast=3, indirect=True, ion=True
+)
+dioxis_grenade = Weapon(
+    "Dioxis Grenade", 12, 1, ammo="Single Use", blast=5, indirect=True, disorient=True
+)
+sonic_imploder = Weapon(
+    "Sonic Imploder", 6, 1, ammo="Single Use", blast=5, indirect=True, suppressive=2
+)
+thermal_imploder = Weapon(
+    "Thermal Imploder", 6, 1, ap=2, ammo="Single Use", blast=5, indirect=True, deadly=3
+)
