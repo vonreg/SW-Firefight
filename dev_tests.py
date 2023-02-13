@@ -1,4 +1,4 @@
-from firefight import Weapon, Model
+from firefight import Weapon, Model, UpgradeList
 import core
 
 print(
@@ -264,3 +264,23 @@ rebel_trooper.equip_weapon(core.thermal_detonator)
 print(rebel_trooper.write_statline())
 rebel_trooper.unequip_weapon(core.heavy_blaster_rifle)
 rebel_trooper.unequip_weapon(core.thermal_detonator)
+
+# %% Testing upgrade lists
+
+stormtrooper.equip_weapon(core.blaster_rifle)
+upgrade_list_A = UpgradeList("A", base_model=stormtrooper)
+stormtrooper.add_upgrade_list(upgrade_list_A)
+upgrade_list_B = UpgradeList("B", base_model=stormtrooper)
+upgrade_list_C = UpgradeList("C", base_model=stormtrooper)
+stormtrooper.add_upgrade_list([upgrade_list_B, upgrade_list_C])
+upgrade_list_D = UpgradeList("D", base_model=stormtrooper)
+upgrade_list_E = UpgradeList("E", base_model=stormtrooper)
+stormtrooper.add_upgrade_list([upgrade_list_D, upgrade_list_E])
+print(stormtrooper.write_statline())
+
+upgrade_list_A.select_upgrade_with_weapon_type()
+upgrade_list_A.upgrade_with_weapon_entry(core.thermal_detonator)
+upgrade_list_A.upgrade_with_weapon_entry(core.concussion_grenade)
+upgrade_list_A.upgrade_with_weapon_entry(core.thermal_imploder)
+upgrade_list_A.upgrade_with_weapon_entry(core.dioxis_grenade)
+upgrade_list_A.print_upgrade_list()

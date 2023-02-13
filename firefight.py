@@ -1,5 +1,6 @@
 from operator import attrgetter
 from itertools import combinations
+import copy
 
 
 def model_weapon_cost(weapons, quality, arsenal, gunslinger=False):
@@ -229,7 +230,6 @@ class Weapon:
 
             weapon_indices = range(len(weapons))
 
-            # this would use arsenal instead of 1 for models
             weapon_combinations = list(combinations(weapon_indices, 1))
 
             all_cost_options = []
@@ -516,12 +516,7 @@ class Model:
         if jedi & sith:
             raise Exception("Cannot select both Jedi and Sith")
 
-        # self.ranged_weapons = []
-        # self.single_use_ranged_weapons = []
-        # self.melee_weapons = []
-        # self.single_use_melee_weapons = []
-
-        self.weapons = []  # weapons list; all weapons
+        self.weapons = []
 
         self.upgrade_lists = []
 
@@ -617,12 +612,22 @@ class Model:
         elif unequipped > 1:
             raise Exception("Multiple matching weapons found - unequipped all")
 
-    # def add_upgrade_list(self, upgrade_list: UpgradeList) -> None:
     def add_upgrade_list(self, upgrade_list) -> None:
+        if type(upgrade_list) is not list:
+            upgrade_list = [upgrade_list]
+        upgrade_list_string = ""
+        for i in range(len(upgrade_list)):
+            upgrade_list_single = upgrade_list[i]
+            if i == 0:
+                delim = ""
+            else:
+                delim = "/"
+            upgrade_list_string = (
+                upgrade_list_string + delim + upgrade_list_single.label
+            )
+            print(upgrade_list_string)
+        self.upgrade_lists.append(upgrade_list_string)
 
-        self.upgrade_lists.append(upgrade_list.label)
-
-    # def remove_upgrade_list(self, upgrade_list: UpgradeList) -> None:
     def remove_upgrade_list(self, upgrade_list) -> None:
 
         removed = 0
@@ -639,8 +644,6 @@ class Model:
     def calculate_total_cost(self) -> None:
 
         base_cost = self.calculate_base_model_cost()
-
-        total_weapon_cost = 0
 
         weapons_range_getter = attrgetter("range")
 
@@ -935,6 +938,15 @@ class Model:
         )
 
         options = ""  # blank for now... need to figure out options implementation first
+        if len(self.upgrade_lists) > 0:
+            for i in range(len(self.upgrade_lists)):
+                upgrade_list = self.upgrade_lists[i]
+                if i == 0:
+                    delim = ""
+                else:
+                    delim = ", "
+                options += delim + upgrade_list
+
         cost = str(self.calculate_total_cost())
 
         statline = (
@@ -959,33 +971,76 @@ class Model:
 
 
 class UpgradeList:
+    # need 2 main types:
+    # - weapon upgrades (includes upgrade with, upgrade with one etc, upgrade with (lose Expendable), replace (with all the options))
+    # - special rule upgrades (somehow need to figure out which can be model-independent, and how to cost those)
     def __init__(self, label: str, base_model=None) -> None:
         self.label = label
         self.base_model = base_model
+        self.upgrades = []
+        self.upgrade_type = None
         # if base_model is left blank, need lots of checks to
         # verify it's possible for it to be a generic upgrade
         # all "weapon" upgrades should raise exceptions if base_model=None
         # certain special rule upgrades should raise exceptions if base_model=None (i.e. if they include qu, df, tough etc...)
+        # But, will probably just do this later
 
-    def upgrade_with_weapon(self, weapon: Weapon, lose_expendable=False):
+    # "upgrade with weapon"
+
+    def select_upgrade_with_weapon_type(self, limit=None, lose_expendable=False):
+        if not self.base_model:
+            raise Exception("Weapon upgrades require a base model")
+        if lose_expendable:
+            lose_expendable_string = " (lose Expendable)"
+        else:
+            lose_expendable_string = ""
+        if limit == None:
+            limit_string = ""
+        elif limit == 1:
+            limit_string = " one"
+        elif limit == 2:
+            limit_string = " two"
+        else:
+            raise Exception("limit must be None, 1 or 2")
+
+        self.upgrade_list_header = (
+            self.label
+            + " | Upgrade with"
+            + limit_string
+            + lose_expendable_string
+            + ":\tCost"
+        )
+        self.upgrade_list_type = "Upgrade with"
+
+    def upgrade_with_weapon_entry(self, weapon: Weapon, lose_expendable=False):
+        if type(weapon) is not Weapon:
+            raise TypeError("weapon type must be Weapon")
+        # should also have a case for multiple weapons in 1 entry; can just be an option in this function
+        # this would also work for "replace" upgrade types, just with an extra conditional
+        if not self.upgrade_list_type == "Upgrade with":
+            raise Exception(
+                'This entry is valid only for "Upgrade with" type upgrade lists'
+            )
+
+        model_copy = copy.deepcopy(self.base_model)
+
+        model_copy.equip_weapon(weapon)
+
+        original_cost = self.base_model.calculate_total_cost()
+        new_cost = model_copy.calculate_total_cost()
+
+        upgrade_cost = new_cost - original_cost
+        upgrade_string = weapon.write_weapon() + "\t%s" % upgrade_cost
+
+        self.upgrades.append(upgrade_string)
+
+    def upgrade_with_one_weapon_entry(self, weapon: Weapon, lose_expendable=False):
         if type(weapon) is not Weapon:
             raise TypeError("weapon type must be Weapon")
         if not self.base_model:
             raise Exception("Weapon upgrades require a base model")
 
-        # make a temporary copy of the model
-        # equip that copy with the weapon
-        # calculate the cost of the original
-        # calculate the cost of the copy
-        # take the cost difference; that's the upgrade cost
-
-    def upgrade_with_one_weapon(self, weapon: Weapon, lose_expendable=False):
-        if type(weapon) is not Weapon:
-            raise TypeError("weapon type must be Weapon")
-        if not self.base_model:
-            raise Exception("Weapon upgrades require a base model")
-
-    def replace_weapon(
+    def replace_weapon_entry(
         self, old_weapon: Weapon, new_weapon: Weapon, lose_expendable=False
     ):
         if type(old_weapon) is not Weapon:
@@ -997,3 +1052,8 @@ class UpgradeList:
 
         # needs an "unequip" method in model
         # have put one in, but not tested it
+
+    def print_upgrade_list(self):
+        print(self.upgrade_list_header)
+        for upgrade_string in self.upgrades:
+            print(upgrade_string)
