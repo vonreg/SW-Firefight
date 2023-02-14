@@ -613,6 +613,7 @@ class Model:
             raise Exception("Multiple matching weapons found - unequipped all")
 
     def add_upgrade_list(self, upgrade_list) -> None:
+        # should add a check in case the upgrade list has a base model - if it does, it MUST be this model
         if type(upgrade_list) is not list:
             upgrade_list = [upgrade_list]
         upgrade_list_string = ""
@@ -625,7 +626,6 @@ class Model:
             upgrade_list_string = (
                 upgrade_list_string + delim + upgrade_list_single.label
             )
-            print(upgrade_list_string)
         self.upgrade_lists.append(upgrade_list_string)
 
     def remove_upgrade_list(self, upgrade_list) -> None:
@@ -987,7 +987,9 @@ class UpgradeList:
 
     # "upgrade with weapon"
 
-    def select_upgrade_with_weapon_type(self, limit=None, lose_expendable=False):
+    def select_upgrade_with_weapon_type(
+        self, replace_weapon=None, limit=None, lose_expendable=False
+    ):
         if not self.base_model:
             raise Exception("Weapon upgrades require a base model")
         if lose_expendable:
@@ -1003,55 +1005,47 @@ class UpgradeList:
         else:
             raise Exception("limit must be None, 1 or 2")
 
+        self.upgrade_list_type = "Weapon"
+
+        if replace_weapon is None:
+            type_string = "Upgrade with"
+            self.model_copy = copy.deepcopy(self.base_model)
+        else:
+            if type(replace_weapon) is not Weapon:
+                raise TypeError("replaced weapon type must be Weapon")
+            type_string = "Replace " + replace_weapon.name + " with"
+            self.model_copy = copy.deepcopy(self.base_model)
+            self.model_copy.unequip_weapon(replace_weapon)
+
         self.upgrade_list_header = (
             self.label
-            + " | Upgrade with"
+            + " | "
+            + type_string
             + limit_string
             + lose_expendable_string
             + ":\tCost"
         )
-        self.upgrade_list_type = "Upgrade with"
 
-    def upgrade_with_weapon_entry(self, weapon: Weapon, lose_expendable=False):
+    def upgrade_with_weapon_entry(self, weapon: Weapon):
         if type(weapon) is not Weapon:
             raise TypeError("weapon type must be Weapon")
         # should also have a case for multiple weapons in 1 entry; can just be an option in this function
         # this would also work for "replace" upgrade types, just with an extra conditional
-        if not self.upgrade_list_type == "Upgrade with":
-            raise Exception(
-                'This entry is valid only for "Upgrade with" type upgrade lists'
-            )
+        if not self.upgrade_list_type == "Weapon":
+            raise Exception('This entry is valid only for "Weapon" type upgrade lists')
 
-        model_copy = copy.deepcopy(self.base_model)
-
-        model_copy.equip_weapon(weapon)
+        entry_model_copy = copy.deepcopy(self.model_copy)
+        entry_model_copy.equip_weapon(weapon)
 
         original_cost = self.base_model.calculate_total_cost()
-        new_cost = model_copy.calculate_total_cost()
+        new_cost = entry_model_copy.calculate_total_cost()
 
         upgrade_cost = new_cost - original_cost
+
+        # will need to modify this if enabling equipping multiple weapons in 1 upgrade
         upgrade_string = weapon.write_weapon() + "\t%s" % upgrade_cost
 
         self.upgrades.append(upgrade_string)
-
-    def upgrade_with_one_weapon_entry(self, weapon: Weapon, lose_expendable=False):
-        if type(weapon) is not Weapon:
-            raise TypeError("weapon type must be Weapon")
-        if not self.base_model:
-            raise Exception("Weapon upgrades require a base model")
-
-    def replace_weapon_entry(
-        self, old_weapon: Weapon, new_weapon: Weapon, lose_expendable=False
-    ):
-        if type(old_weapon) is not Weapon:
-            raise TypeError("old_weapon type must be Weapon")
-        if type(new_weapon) is not Weapon:
-            raise TypeError("new_weapon type must be Weapon")
-        if not self.base_model:
-            raise Exception("Weapon upgrades require a base model")
-
-        # needs an "unequip" method in model
-        # have put one in, but not tested it
 
     def print_upgrade_list(self):
         print(self.upgrade_list_header)
