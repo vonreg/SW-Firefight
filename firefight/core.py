@@ -1,4 +1,4 @@
-from firefight import Weapon, Model
+from firefight.firefight import Weapon, Model
 
 # blaster pistols
 
@@ -42,7 +42,8 @@ medium_repeating_blaster = Weapon(
 heavy_repeating_blaster = Weapon(
     "Heavy Repeating Blaster", "inf", 3, ap=2, deadly=2, fixed="Front"
 )
-blaster_cannon = Weapon("Blaster Cannon", "inf", 2, ap=1, deadly=3, fixed="Front")
+light_blaster_cannon = Weapon("Light Blaster Cannon", "inf", 3, ap=2, fixed="Front")
+blaster_cannon = Weapon("Blaster Cannon", "inf", 2, ap=2, deadly=2, fixed="Front")
 heavy_blaster_cannon = Weapon(
     "Heavy Blaster Cannon", "inf", 2, ap=2, deadly=3, fixed="Front"
 )
@@ -96,3 +97,7 @@ sonic_imploder = Weapon(
 thermal_imploder = Weapon(
     "Thermal Imploder", 6, 1, ap=2, ammo="Single Use", blast=5, indirect=True, deadly=3
 )
+
+# Melee weapons
+
+combat_training = Weapon("Combat Training", "Melee", 3)

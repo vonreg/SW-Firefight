@@ -1,5 +1,5 @@
-from firefight import Weapon, Model, UpgradeList
-import core
+from firefight.firefight import Weapon, Model, UpgradeList
+from firefight import core
 
 print(
     "%s, Qu 5+: %.2f pts"
