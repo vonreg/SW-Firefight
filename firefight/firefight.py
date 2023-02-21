@@ -376,20 +376,20 @@ class Weapon:
             + ap
             + ammo
             + sniper
+            + inaccurate
             + blast
             + deadly
-            + inaccurate
+            + disorient
             + indirect
+            + ion
             + nonlethal
-            + throw
             + quickdraw
             + reciprocating
             + rending
             + seek
-            + fixed
             + suppressive
-            + ion
-            + disorient
+            + throw
+            + fixed
             + ")"
             + secondary_fire_mode_string
         )
@@ -735,6 +735,51 @@ class Model:
 
         # special rules
         comma = ""
+        if self.jedi:
+            jedi = "%sJedi" % comma
+            comma = ", "
+        else:
+            jedi = ""
+        if self.sith:
+            sith = "%sSith" % comma
+            comma = ", "
+        else:
+            sith = ""
+        if self.hero:
+            hero = "%sHero" % comma
+            comma = ", "
+        else:
+            hero = ""
+        if self.villain:
+            villain = "%sVillain" % comma
+            comma = ", "
+        else:
+            villain = ""
+        if self.droid:
+            droid = "%sDroid" % comma
+            comma = ", "
+        else:
+            droid = ""
+        if self.vehicle:
+            vehicle = "%sVehicle" % comma
+            comma = ", "
+        else:
+            vehicle = ""
+        if self.emplacement:
+            emplacement = "%sEmplacement" % comma
+            comma = ", "
+        else:
+            emplacement = ""
+        if self.command:
+            command = "%sCommand" % comma
+            comma = ", "
+        else:
+            command = ""
+        if self.relay:
+            relay = "%sRelay" % comma
+            comma = ", "
+        else:
+            relay = ""
         if self.arsenal != 1:
             arsenal = "%sArsenal[%s]" % (comma, str(self.arsenal))
             comma = ", "
@@ -750,26 +795,11 @@ class Model:
             comma = ", "
         else:
             courage = ""
-        if self.command:
-            command = "%sCommand" % comma
-            comma = ", "
-        else:
-            command = ""
         if self.deflect:
             deflect = "%sDeflect" % comma
             comma = ", "
         else:
             deflect = ""
-        if self.droid:
-            droid = "%sDroid" % comma
-            comma = ", "
-        else:
-            droid = ""
-        if self.emplacement:
-            emplacement = "%sEmplacement" % comma
-            comma = ", "
-        else:
-            emplacement = ""
         if self.expendable:
             expendable = "%sExpendable[%s]" % (comma, str(self.expendable))
             comma = ", "
@@ -800,16 +830,6 @@ class Model:
             comma = ", "
         else:
             heal = ""
-        if self.hero:
-            hero = "%sHero" % comma
-            comma = ", "
-        else:
-            hero = ""
-        if self.villain:
-            villain = "%sVillain" % comma
-            comma = ", "
-        else:
-            villain = ""
         if self.hunter:
             hunter = "%sHunter" % comma
             comma = ", "
@@ -820,16 +840,6 @@ class Model:
             comma = ", "
         else:
             immobile = ""
-        if self.jedi:
-            jedi = "%sJedi" % comma
-            comma = ", "
-        else:
-            jedi = ""
-        if self.sith:
-            sith = "%sSith" % comma
-            comma = ", "
-        else:
-            sith = ""
         if self.jump:
             jump = '%sJump[%s"]' % (comma, str(self.jump))
             comma = ", "
@@ -852,11 +862,6 @@ class Model:
             protector = "%sProtector[%s]" % (comma, self.protector_key)
         else:
             protector = ""
-        if self.relay:
-            relay = "%sRelay" % comma
-            comma = ", "
-        else:
-            relay = ""
         if self.relentless:
             relentless = "%sRelentless" % comma
             comma = ", "
@@ -897,41 +902,37 @@ class Model:
             comma = ", "
         else:
             unique = ""
-        if self.vehicle:
-            vehicle = "%sVehicle" % comma
-            comma = ", "
-        else:
-            vehicle = ""
         if self.free_special_rule:
             free_special_rule = "%s%s" % (comma, self.free_special_rule)
         else:
             free_special_rule = ""
 
         special_rules = (
-            arsenal
+            jedi
+            + sith
+            + hero
+            + villain
+            + droid
+            + vehicle
+            + emplacement
+            + command
+            + relay
+            + arsenal
             + cover
             + courage
-            + command
             + deflect
-            + droid
-            + emplacement
             + expendable
             + fast
             + fear
             + fly
             + gunslinger
             + heal
-            + hero
-            + villain
             + hunter
             + immobile
-            + jedi
-            + sith
             + jump
             + impact
             + impervious
             + protector
-            + relay
             + relentless
             + repair
             + scout
@@ -940,7 +941,6 @@ class Model:
             + spotter
             + take_cover
             + unique
-            + vehicle
             + free_special_rule
         )
 
