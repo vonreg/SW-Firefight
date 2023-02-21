@@ -65,15 +65,21 @@ stormtrooper_sergeant = Model("Stormtrooper Sergeant", 4, 4, 2, villain=True)
 stormtrooper_sergeant.equip_weapon(core.blaster_rifle)
 print(stormtrooper_sergeant.write_statline())
 
-imperial_officer = Model("Imperial Officer", 5, 6, 1, take_cover=1)
+imperial_officer = Model("Imperial Officer", 5, 6, 2, take_cover=1)
 imperial_officer.equip_weapon(core.blaster_pistol)
 print(imperial_officer.write_statline())
 
-stormtrooper = Model("Stormtrooper", 5, 4, 1, expendable=1)
+stormtrooper = Model("Stormtrooper", 5, 4, 1, expendable=1, disciplined=True)
 stormtrooper.equip_weapon(core.blaster_rifle)
 print(stormtrooper.write_statline())
 
-scout_trooper = Model("Scout Trooper", 5, 5, 1, expendable=1, scout=True)
+imperial_army_trooper = Model("Imperial Army Trooper", 5, 5, 1, expendable=2)
+imperial_army_trooper.equip_weapon(core.blaster_rifle)
+print(imperial_army_trooper.write_statline())
+
+scout_trooper = Model(
+    "Scout Trooper", 5, 5, 1, expendable=1, scout=True, disciplined=True
+)
 scout_trooper.equip_weapon(core.blaster_pistol)
 print(scout_trooper.write_statline())
 

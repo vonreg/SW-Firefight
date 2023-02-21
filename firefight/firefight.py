@@ -408,6 +408,7 @@ class Model:
         courage=False,
         command=False,
         deflect=False,
+        disciplined=False,
         droid=False,
         emplacement=False,
         expendable=0,
@@ -448,6 +449,7 @@ class Model:
         self.courage = courage
         self.command = command
         self.deflect = deflect
+        self.disciplined = disciplined
         self.droid = droid
         self.emplacement = emplacement
         self.expendable = expendable
@@ -538,6 +540,11 @@ class Model:
         courage_cost = self.courage_cost_dict[self.courage]
         command_cost = self.command_cost_dict[self.command]
         deflect_cost = self.deflect_cost_dict[self.deflect] * self.toughness
+        disciplined_cost = (
+            self.disciplined
+            * (self.quality_cost_dict[self.quality - 1] - quality_cost)
+            * self.toughness
+        )
         droid_cost = self.droid_cost_dict[self.droid]
         emplacement_cost = self.emplacement_cost_dict[self.emplacement]
         expendable_cost = self.expendable_cost_dict[self.expendable]
@@ -573,6 +580,7 @@ class Model:
             + courage_cost
             + command_cost
             + deflect_cost
+            + disciplined_cost
             + droid_cost
             + emplacement_cost
             + expendable_cost
@@ -800,6 +808,11 @@ class Model:
             comma = ", "
         else:
             deflect = ""
+        if self.disciplined:
+            disciplined = "%sDisciplined" % comma
+            comma = ", "
+        else:
+            disciplined = ""
         if self.expendable:
             expendable = "%sExpendable[%s]" % (comma, str(self.expendable))
             comma = ", "
@@ -921,6 +934,7 @@ class Model:
             + cover
             + courage
             + deflect
+            + disciplined
             + expendable
             + fast
             + fear
