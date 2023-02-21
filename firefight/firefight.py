@@ -157,6 +157,12 @@ class Weapon:
         indirect_multiplier = self.indirect_multiplier_dict[self.indirect]
         nonlethal_multiplier = self.nonlethal_multiplier_dict[self.nonlethal]
         throw_multiplier = self.throw_multiplier_dict[self.throw]
+
+        if self.torrent:
+            torrent_multiplier = 3 * (10 / effective_quality_cost)
+        else:
+            torrent_multiplier = 1
+
         quickdraw_multiplier = self.quickdraw_multiplier_dict[self.quickdraw]
 
         if self.reciprocating:
@@ -213,6 +219,7 @@ class Weapon:
             * indirect_multiplier
             * nonlethal_multiplier
             * throw_multiplier
+            * torrent_multiplier
             * quickdraw_multiplier
             * reciprocating_multiplier
             * rending_multiplier
@@ -333,7 +340,7 @@ class Weapon:
         else:
             fixed = ""
         if self.suppressive:
-            suppressive = ", Suppressive"
+            suppressive = ", Suppressive[%s]" % str(self.suppressive)
         else:
             suppressive = ""
         if self.ion:
