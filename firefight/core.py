@@ -18,9 +18,16 @@ heavy_blaster_rifle = Weapon("Heavy Blaster Rifle", 30, 3, ap=1)
 targeting_rifle = Weapon("Targeting Rifle", "inf", 2, ap=2, sniper=True)
 sniper_rifle = Weapon("Sniper Rifle", "inf", 1, ap=2, sniper=True, deadly=3)
 heavy_sniper_rifle = Weapon("Heavy Sniper Rifle", "inf", 1, ap=3, sniper=True, deadly=3)
-# heavy_configurable_rifle = Weapon(
-#     "Heavy Configurable Rifle", "inf", 1, ap=2, sniper=True, deadly=3, ammo=2, secondary_mode=...
-# )
+heavy_configurable_rifle = Weapon(
+    "Heavy Configurable Rifle",
+    30,
+    4,
+    ap=1,
+    primary_fire_mode_name="Full Auto",
+    secondary_fire_modes=[
+        Weapon("Sniper Shot", "inf", 1, ap=2, ammo=1, sniper=True, deadly=3)
+    ],
+)
 
 # personal repeating blasters
 
@@ -75,7 +82,9 @@ homing_shot = Weapon("Homing Shot", 18, 2, ap=2, ammo=1, seek=True)
 
 # grenades
 
-thermal_detonator = Weapon("Thermal Detonator", 12, 2, ap=1, blast=3, indirect=True)
+thermal_detonator = Weapon(
+    "Thermal Detonator", 12, 2, ap=1, ammo="Single Use", blast=3, indirect=True
+)
 concussion_grenade = Weapon(
     "Concussion Grenade",
     12,
@@ -97,7 +106,14 @@ sonic_imploder = Weapon(
 thermal_imploder = Weapon(
     "Thermal Imploder", 6, 1, ap=2, ammo="Single Use", blast=5, indirect=True, deadly=3
 )
+frag_grenade = Weapon("Frag Grenade", 12, 2, ammo="Single Use", blast=5, indirect=True)
 
 # Melee weapons
 
 combat_training = Weapon("Combat Training", "Melee", 3)
+electrostaff = Weapon("Electrostaff", "Melee", 4, ap=2)
+
+# Miscellaneous
+
+flamethrower = Weapon("Flamethrower", "Torrent", 2, ap=1)
+ion_disruptor = Weapon("Ion Disruptor", "inf", 2, ammo=1, blast=3, ion=True)

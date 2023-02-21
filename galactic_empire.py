@@ -17,9 +17,6 @@ unlimited_power = Weapon(
     "Unlimited Power", "Torrent", 3, ap=2, throw=True, ion=True, suppressive=2
 )
 emperor_palpatine.equip_weapon(unlimited_power)
-print(
-    emperor_palpatine.write_statline()
-)  # this is too cheap, something weird going on with weapon
 
 darth_vader = Model(
     "Darth Vader",
@@ -39,62 +36,49 @@ vader_lightsaber = Weapon("Lightsaber", "Melee", 4, ap=4, deadly=3)
 vader_force_choke = Weapon("Force Choke", 6, 1, ap=4, seek=True, throw=True)
 darth_vader.equip_weapon(vader_lightsaber)
 darth_vader.equip_weapon(vader_force_choke)
-print(darth_vader.write_statline())
 
 inquisitor = Model("Inquisitor", 4, 3, 4, villain=True, deflect=True, jump=3)
 inquisitor_lightsaber = Weapon("Lightsaber", "Melee", 3, ap=3, deadly=3)
 inquisitor.equip_weapon(inquisitor_lightsaber)
-print(inquisitor.write_statline())
 
 isf_commander = Model("ISF Commander", 3, 4, 3, villain=True, command=True, scout=True)
 isf_commander.equip_weapon(core.blaster_rifle)
 isf_commander.equip_weapon(core.combat_training)
-print(isf_commander.write_statline())
 
 stormtrooper_commander = Model(
     "Stormtrooper Commander", 3, 4, 3, villain=True, command=True
 )
 stormtrooper_commander.equip_weapon(core.blaster_rifle)
-print(stormtrooper_commander.write_statline())
 
 stormtrooper_captain = Model("Stormtrooper Captain", 4, 4, 3, villain=True, relay=True)
 stormtrooper_captain.equip_weapon(core.blaster_rifle)
-print(stormtrooper_captain.write_statline())
 
 stormtrooper_sergeant = Model("Stormtrooper Sergeant", 4, 4, 2, villain=True)
 stormtrooper_sergeant.equip_weapon(core.blaster_rifle)
-print(stormtrooper_sergeant.write_statline())
 
 imperial_officer = Model("Imperial Officer", 5, 6, 2, take_cover=1)
 imperial_officer.equip_weapon(core.blaster_pistol)
-print(imperial_officer.write_statline())
 
 stormtrooper = Model("Stormtrooper", 5, 4, 1, expendable=1, disciplined=True)
 stormtrooper.equip_weapon(core.blaster_rifle)
-print(stormtrooper.write_statline())
 
 imperial_army_trooper = Model("Imperial Army Trooper", 5, 5, 1, expendable=2)
 imperial_army_trooper.equip_weapon(core.blaster_rifle)
-print(imperial_army_trooper.write_statline())
 
 scout_trooper = Model(
     "Scout Trooper", 5, 5, 1, expendable=1, scout=True, disciplined=True
 )
 scout_trooper.equip_weapon(core.blaster_pistol)
-print(scout_trooper.write_statline())
 
 isf_trooper = Model("ISF Trooper", 4, 4, 1, scout=True)
 isf_trooper.equip_weapon(core.blaster_rifle)
-print(isf_trooper.write_statline())
 
 purge_trooper = Model("Purge Trooper", 3, 4, 1, hunter="Jedi", impervious=True)
 purge_trooper.equip_weapon(core.blaster_rifle)
-print(purge_trooper.write_statline())
 
 death_trooper = Model("Death Trooper", 3, 3, 2, fear=True)
 death_trooper.equip_weapon(core.blaster_rifle)
 death_trooper.equip_weapon(core.burst_pistol)
-print(death_trooper.write_statline())
 
 imperial_royal_guard = Model(
     "Imperial Royal Guard", 3, 4, 3, protector="Unit", protector_key="Emperor Palpatine"
@@ -102,21 +86,18 @@ imperial_royal_guard = Model(
 force_pike = Weapon("Force Pike", "Melee", 3, ap=1)
 imperial_royal_guard.equip_weapon(force_pike)
 imperial_royal_guard.equip_weapon(core.heavy_blaster_pistol)
-print(imperial_royal_guard.write_statline())
 
 imp_speeder_bike = Model(
     "74-Z Speeder Bike", 5, 5, 3, vehicle=True, impact=2, fast=True, fly=True
 )
 imp_speeder_bike.equip_weapon(core.light_blaster_cannon)
 imp_speeder_bike.equip_weapon(core.blaster_pistol)
-print(imp_speeder_bike.write_statline())
 
 e_web_team = Model("E-Web Team", 4, 4, 3, emplacement=True, cover="Front", slow=True)
 e_web = Weapon("E-Web", "inf", 3, ap=2, deadly=2, fixed="Front")
 e_web_team.equip_weapon(e_web)
 blaster_rifles = Weapon("Blaster Rifles", 30, 6)
 e_web_team.equip_weapon(blaster_rifles)
-print(e_web_team.write_statline())
 
 id_seeker_droid = Model(
     "ID Seeker Droid",
@@ -131,13 +112,148 @@ id_seeker_droid = Model(
 )
 shock_pulse = Weapon("Shock Pulse", "Melee", 2, suppressive=1)
 id_seeker_droid.equip_weapon(shock_pulse)
-print(id_seeker_droid.write_statline())
 
 medical_droid = Model("Medical Droid", 6, 5, 1, droid=True, heal=1, slow=True)
 lethal_injection = Weapon("Lethal Injection", "Melee", 1, deadly=3)
 medical_droid.equip_weapon(lethal_injection)
-print(medical_droid.write_statline())
 
 astromech_droid = Model("Astromech Droid", 5, 5, 1, droid=True, repair=1, slow=True)
 astromech_droid.equip_weapon(shock_pulse)
+
+### Upgrade lists ###
+
+# A
+
+upgrade_list_A = UpgradeList("A", base_model=isf_commander)
+upgrade_list_A.select_upgrade_with_weapon_type(replace_weapon=core.blaster_rifle)
+upgrade_list_A.upgrade_with_weapon_entry(core.heavy_sniper_rifle)
+upgrade_list_A.upgrade_with_weapon_entry(core.heavy_repeater)
+upgrade_list_A.upgrade_with_weapon_entry(core.heavy_configurable_rifle)
+
+# B
+
+upgrade_list_B = UpgradeList("B", base_model=isf_commander)
+upgrade_list_B.select_upgrade_with_weapon_type(replace_weapon=core.combat_training)
+vibroblades = Weapon("Vibroblades", "Melee", 4, rending=True)
+upgrade_list_B.upgrade_with_weapon_entry(vibroblades)
+
+# C
+# D
+
+# E
+
+upgrade_list_E = UpgradeList("E", base_model=stormtrooper)
+upgrade_list_E.select_upgrade_with_weapon_type(
+    replace_weapon=core.blaster_rifle, lose_expendable=True
+)
+upgrade_list_E.upgrade_with_weapon_entry(core.heavy_blaster_rifle)
+upgrade_list_E.upgrade_with_weapon_entry(core.light_repeating_blaster)
+upgrade_list_E.upgrade_with_weapon_entry(core.sniper_rifle)
+upgrade_list_E.upgrade_with_weapon_entry(core.flamethrower)
+
+# F
+
+upgrade_list_F = UpgradeList("F", base_model=stormtrooper)
+upgrade_list_F.select_upgrade_with_weapon_type(limit=1, lose_expendable=True)
+upgrade_list_F.upgrade_with_weapon_entry(core.rocket_launcher)
+upgrade_list_F.upgrade_with_weapon_entry(core.mortar)
+upgrade_list_F.upgrade_with_weapon_entry(core.ion_disruptor)
+upgrade_list_F.upgrade_with_weapon_entry(core.thermal_detonator)
+upgrade_list_F.upgrade_with_weapon_entry(core.concussion_grenade)
+upgrade_list_F.upgrade_with_weapon_entry(core.ion_grenade)
+upgrade_list_F.upgrade_with_weapon_entry(core.sonic_imploder)
+upgrade_list_F.upgrade_with_weapon_entry(core.thermal_imploder)
+
+# G
+
+upgrade_list_G = UpgradeList("G", base_model=isf_trooper)
+upgrade_list_G.select_upgrade_with_weapon_type(replace_weapon=core.blaster_rifle)
+upgrade_list_G.upgrade_with_weapon_entry(core.heavy_blaster_rifle)
+upgrade_list_G.upgrade_with_weapon_entry(core.sniper_rifle)
+upgrade_list_G.upgrade_with_weapon_entry(core.heavy_repeater)
+
+# H
+
+upgrade_list_H = UpgradeList("H", base_model=isf_trooper)
+upgrade_list_H.select_upgrade_with_weapon_type(limit=1)
+upgrade_list_H.upgrade_with_weapon_entry(core.thermal_detonator)
+upgrade_list_H.upgrade_with_weapon_entry(core.concussion_grenade)
+upgrade_list_H.upgrade_with_weapon_entry(core.ion_grenade)
+upgrade_list_H.upgrade_with_weapon_entry(
+    core.dioxis_grenade
+)  # cheap compared to old calculator?
+upgrade_list_H.upgrade_with_weapon_entry(core.sonic_imploder)
+upgrade_list_H.upgrade_with_weapon_entry(core.thermal_imploder)
+
+# I
+
+# J
+
+upgrade_list_J = UpgradeList("J", base_model=purge_trooper)
+upgrade_list_J.select_upgrade_with_weapon_type(replace_weapon=core.blaster_rifle)
+upgrade_list_J.upgrade_with_weapon_entry(core.electrostaff)
+upgrade_list_J.upgrade_with_weapon_entry(core.heavy_blaster_rifle)
+upgrade_list_J.upgrade_with_weapon_entry(
+    core.heavy_configurable_rifle
+)  # this is far too expensive??
+
+# K
+
+upgrade_list_K = UpgradeList("K", base_model=death_trooper)
+upgrade_list_K.select_upgrade_with_weapon_type(replace_weapon=core.blaster_rifle)
+upgrade_list_K.upgrade_with_weapon_entry(
+    core.heavy_configurable_rifle
+)  # this is far too expensive??
+
+# L
+
+upgrade_list_L = UpgradeList("L", base_model=death_trooper)
+upgrade_list_L.select_upgrade_with_weapon_type(limit=1)
+upgrade_list_L.upgrade_with_weapon_entry(core.sonic_imploder)
+upgrade_list_L.upgrade_with_weapon_entry(core.frag_grenade)
+
+# M
+
+# assign upgrade lists
+
+isf_commander.add_upgrade_list(upgrade_list_A)
+isf_commander.add_upgrade_list(upgrade_list_B)
+stormtrooper.add_upgrade_list([upgrade_list_E, upgrade_list_F])
+isf_trooper.add_upgrade_list([upgrade_list_G, upgrade_list_H])
+purge_trooper.add_upgrade_list(upgrade_list_J)
+death_trooper.add_upgrade_list(upgrade_list_K)
+death_trooper.add_upgrade_list(upgrade_list_L)
+
+
+# print all
+
+print(emperor_palpatine.write_statline())
+print(darth_vader.write_statline())
+print(inquisitor.write_statline())
+print(isf_commander.write_statline())
+print(stormtrooper_commander.write_statline())
+print(stormtrooper_captain.write_statline())
+print(stormtrooper_sergeant.write_statline())
+print(imperial_officer.write_statline())
+print(stormtrooper.write_statline())
+print(imperial_army_trooper.write_statline())
+print(scout_trooper.write_statline())
+print(isf_trooper.write_statline())
+print(purge_trooper.write_statline())
+print(death_trooper.write_statline())
+print(imperial_royal_guard.write_statline())
+print(imp_speeder_bike.write_statline())
+print(e_web_team.write_statline())
+print(id_seeker_droid.write_statline())
+print(medical_droid.write_statline())
 print(astromech_droid.write_statline())
+
+upgrade_list_A.print_upgrade_list()
+upgrade_list_B.print_upgrade_list()
+upgrade_list_E.print_upgrade_list()
+upgrade_list_F.print_upgrade_list()
+upgrade_list_G.print_upgrade_list()
+upgrade_list_H.print_upgrade_list()
+upgrade_list_J.print_upgrade_list()
+upgrade_list_K.print_upgrade_list()
+upgrade_list_L.print_upgrade_list()

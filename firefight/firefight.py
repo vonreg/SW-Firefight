@@ -623,7 +623,7 @@ class Model:
                 self.weapons.remove(equipped_weapon)
                 unequipped += 1
         if unequipped == 0:
-            raise Exception("Matching weapon not found - could not unequipped")
+            raise Exception("Matching weapon not found - could not be unequipped")
         elif unequipped > 1:
             raise Exception("Multiple matching weapons found - unequipped all")
 
