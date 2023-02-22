@@ -10,7 +10,8 @@ burst_pistol = Weapon("Burst Pistol", 6, 3, quickdraw=True, reciprocating=5)
 
 # blaster rifles
 
-blaster_carbine = Weapon("Blaster Carbine", 18, 3)
+blaster_carbine = Weapon("Blaster Carbine", 18, 3, quickdraw=True)
+light_blaster_rifle = Weapon("Light Blaster Rifle", 18, 3)
 blaster_rifle = Weapon("Blaster Rifle", 30, 3)
 reciprocating_blaster = Weapon("Reciprocating Blaster", 30, 3, reciprocating=6)
 heavy_blaster_rifle = Weapon("Heavy Blaster Rifle", 30, 3, ap=1)
@@ -44,6 +45,10 @@ heavy_repeater = Weapon(
     secondary_fire_modes=[Weapon("Concussion Blast", 12, 2, ap=1, ammo=1, blast=3)],
 )
 rotary_blaster = Weapon("Rotary Blaster", 24, 6, inaccurate=True)
+
+# personal laser cannons
+
+light_laser_cannon = Weapon("Light Laser Cannon", 30, 2, ap=2)
 
 # emplacement weapons
 
@@ -115,6 +120,7 @@ frag_grenade = Weapon("Frag Grenade", 12, 2, ammo="Single Use", blast=5, indirec
 # Melee weapons
 
 combat_training = Weapon("Combat Training", "Melee", 3)
+vibroblade = Weapon("Vibroblade", "Melee", 3, rending=1)
 truncheon = Weapon("Truncheon", "Melee", 2, suppressive=1)
 electrostaff = Weapon("Electrostaff", "Melee", 4, ap=2)
 
@@ -122,3 +128,7 @@ electrostaff = Weapon("Electrostaff", "Melee", 4, ap=2)
 
 flamethrower = Weapon("Flamethrower", "Torrent", 2, ap=1)
 ion_disruptor = Weapon("Ion Disruptor", "inf", 2, ammo=1, blast=3, ion=True)
+whipcord_launcher = Weapon(
+    "Whipcord Launcher", 6, 1, ammo="Single Use", immobilise=True, nonlethal=True
+)
+radiation_cannon = Weapon("Radiation Cannon", 24, 3, disorient=True)
