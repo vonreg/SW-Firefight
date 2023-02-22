@@ -62,6 +62,8 @@ class Weapon:
         fixed=None,
         suppressive=0,
         ion=False,
+        immobilise=False,
+        immobilise_roll=None,
         disorient=False,
         primary_fire_mode_name=None,
         secondary_fire_modes=None,
@@ -85,6 +87,8 @@ class Weapon:
         self.fixed = fixed
         self.suppressive = suppressive
         self.ion = ion
+        self.immobilise = immobilise
+        self.immobilise_roll = immobilise_roll
         self.disorient = disorient
         self.primary_fire_mode_name = primary_fire_mode_name
         self.secondary_fire_modes = secondary_fire_modes
@@ -142,6 +146,7 @@ class Weapon:
             "Rear, Sides": 0.25,
         }
         self.ion_increase_multiplier_dict = {False: 0, True: 30}
+        self.immobilise_increase_multiplier_dict = {False: 0, True: 15}
         self.disorient_increase_multiplier_dict = {False: 0, True: 30}
 
     def calculate_cost(self, quality):
@@ -194,6 +199,22 @@ class Weapon:
             * range_multiplier
             / self.range_multiplier_dict["inf"]
         )
+        if self.immobilise_roll:
+            immobilise_multiplier = 1 + (
+                min(
+                    self.quality_cost_dict[self.immobilise_roll], effective_quality_cost
+                )
+                / effective_quality_cost
+            )
+        else:
+            immobilise_multiplier = 1
+        immobilise_cost_increase = (
+            self.immobilise_increase_multiplier_dict[self.immobilise]
+            * ammo_multiplier
+            * immobilise_multiplier
+            * range_multiplier
+            / self.range_multiplier_dict["inf"]
+        )
         disorient_cost_increase = (
             self.disorient_increase_multiplier_dict[self.disorient]
             * ammo_multiplier
@@ -227,6 +248,7 @@ class Weapon:
             + fixed_cost_reduction
             + suppressive_cost_increase
             + ion_cost_increase
+            + immobilise_cost_increase
             + disorient_cost_increase
             + melee_cost_reduction
         )
@@ -347,6 +369,13 @@ class Weapon:
             ion = ", Ion"
         else:
             ion = ""
+        if self.immobilise:
+            if self.immobilise_roll:
+                immobilise = ", Immobilise[%s]" % str(self.immobilise_roll)
+            else:
+                immobilise = ", Immobilise"
+        else:
+            immobilise = ""
         if self.disorient:
             disorient = ", Disorient"
         else:
@@ -382,6 +411,7 @@ class Weapon:
             + disorient
             + indirect
             + ion
+            + immobilise
             + nonlethal
             + quickdraw
             + reciprocating
@@ -551,7 +581,7 @@ class Model:
         fast_cost = self.fast_cost_dict[self.fast] * quality_cost
         fear_cost = self.fear_cost_dict[self.fear]
         fly_cost = self.fly_cost_dict[self.fly] * quality_cost
-        heal_cost = self.heal * 10
+        heal_cost = quality_cost * self.heal
         hero_cost = self.hero_villain_cost_dict[self.hero]
         villain_cost = self.hero_villain_cost_dict[self.villain]
         hunter_cost = self.hunter_cost_dict[self.hunter] * quality_cost
@@ -564,7 +594,7 @@ class Model:
         protector_cost = self.protector_cost_dict[self.protector] * defense_cost
         relay_cost = self.relay_cost_dict[self.relay]
         relentless_cost = self.relentless_cost_dict[self.relentless] * quality_cost
-        repair_cost = 10 * self.repair
+        repair_cost = quality_cost * self.repair
         scout_cost = self.scout_cost_dict[self.scout] * quality_cost
         shield_cost = self.shield * (10 + quality_cost)
         # logic here: essentially +1 Toughness w/ 3+ save (would cost 8 + Quality cost)
