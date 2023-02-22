@@ -986,6 +986,7 @@ class Model:
             + options
             + "\t"
             + cost
+            + "\n"
         )
 
         return statline
@@ -1068,7 +1069,9 @@ class UpgradeList:
 
         self.upgrades.append(upgrade_string)
 
-    def print_upgrade_list(self):
-        print(self.upgrade_list_header)
+    def write_upgrade_list(self):
+        upgrade_list_string = ""
+        upgrade_list_string += self.upgrade_list_header + "\n"
         for upgrade_string in self.upgrades:
-            print(upgrade_string)
+            upgrade_list_string += upgrade_string + "\n"
+        return upgrade_list_string

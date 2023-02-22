@@ -16,16 +16,18 @@ heavy_blaster_rifle = Weapon("Heavy Blaster Rifle", 30, 3, ap=1)
 # targeting rifles
 
 targeting_rifle = Weapon("Targeting Rifle", "inf", 2, ap=2, sniper=True)
-sniper_rifle = Weapon("Sniper Rifle", "inf", 1, ap=2, sniper=True, deadly=3)
-heavy_sniper_rifle = Weapon("Heavy Sniper Rifle", "inf", 1, ap=3, sniper=True, deadly=3)
+sniper_rifle = Weapon("Sniper Rifle", "inf", 1, ap=2, sniper=True, deadly=2)
+heavy_sniper_rifle = Weapon(
+    "Heavy Sniper Rifle", "inf", 1, ap=2, ammo=2, sniper=True, deadly=3
+)
 heavy_configurable_rifle = Weapon(
     "Heavy Configurable Rifle",
     30,
-    4,
+    3,
     ap=1,
     primary_fire_mode_name="Full Auto",
     secondary_fire_modes=[
-        Weapon("Sniper Shot", "inf", 1, ap=2, ammo=1, sniper=True, deadly=3)
+        Weapon("Sniper Shot", "inf", 1, ap=2, ammo=1, sniper=True, deadly=2)
     ],
 )
 
@@ -111,6 +113,7 @@ frag_grenade = Weapon("Frag Grenade", 12, 2, ammo="Single Use", blast=5, indirec
 # Melee weapons
 
 combat_training = Weapon("Combat Training", "Melee", 3)
+truncheon = Weapon("Truncheon", "Melee", 2, suppressive=1)
 electrostaff = Weapon("Electrostaff", "Melee", 4, ap=2)
 
 # Miscellaneous
