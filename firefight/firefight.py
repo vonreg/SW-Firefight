@@ -844,7 +844,7 @@ class Model:
         else:
             heal = ""
         if self.hunter:
-            hunter = "%sHunter" % comma
+            hunter = "%sHunter[%s]" % (comma, self.hunter)
             comma = ", "
         else:
             hunter = ""
