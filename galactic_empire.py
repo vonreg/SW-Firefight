@@ -62,7 +62,7 @@ with open("galactic_empire.tsv", "w", encoding="utf-8") as file:
     stormtrooper_sergeant = Model("Stormtrooper Sergeant", 4, 4, 2, villain=True)
     stormtrooper_sergeant.equip_weapon(core.blaster_rifle)
 
-    imperial_officer = Model("Imperial Officer", 5, 6, 2, take_cover=1)
+    imperial_officer = Model("Imperial Officer", 5, 6, 2, villain=True, take_cover=1)
     imperial_officer.equip_weapon(core.blaster_pistol)
 
     stormtrooper = Model("Stormtrooper", 5, 4, 1, expendable=1, disciplined=True)
@@ -256,6 +256,7 @@ with open("galactic_empire.tsv", "w", encoding="utf-8") as file:
 
     # print all
 
+    file.write(core.header)
     file.write(emperor_palpatine.write_statline())
     file.write(darth_vader.write_statline())
     file.write(inquisitor.write_statline())
@@ -278,6 +279,7 @@ with open("galactic_empire.tsv", "w", encoding="utf-8") as file:
     file.write(medical_droid.write_statline())
     file.write(astromech_droid.write_statline())
 
+    file.write("\n")
     file.write(upgrade_list_A.write_upgrade_list())
     file.write("\n")
     file.write(upgrade_list_B.write_upgrade_list())

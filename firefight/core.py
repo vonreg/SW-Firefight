@@ -1,5 +1,7 @@
 from firefight.firefight import Weapon, Model
 
+header = "Name\tQu\tDf\tT\tWeapons\tSpecial Rules\tOptions\tCost\n"
+
 # blaster pistols
 
 blaster_pistol = Weapon("Blaster Pistol", 12, 2, quickdraw=True)
