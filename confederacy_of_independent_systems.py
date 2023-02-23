@@ -14,6 +14,7 @@ with open("confederacy_of_independent_systems.tsv", "w", encoding="utf-8") as fi
         relentless=True,
         jump=3,
         unique="Dooku",
+        impervious=True,
     )
     dooku_lightsaber = Weapon("Lightsaber", "Melee", 4, ap=3, deadly=3)
     dooku_lightning = Weapon("Force Lightning", 12, 3, ap=1, ion=True, suppressive=1)
@@ -55,6 +56,22 @@ with open("confederacy_of_independent_systems.tsv", "w", encoding="utf-8") as fi
     maul_saber_throw = Weapon("Saber Throw", 12, 2, ap=2, deadly=3, quickdraw=True)
     darth_maul.equip_weapon(maul_double_lightsaber)
     darth_maul.equip_weapon(maul_saber_throw)
+
+    asajj_ventress = Model(
+        "Asajj Ventress",
+        4,
+        4,
+        5,
+        sith=True,
+        fear=True,
+        relentless=True,
+        hunter="Jedi",
+        scout=True,
+        fast=True,
+        jump=6,
+    )
+    ventress_sabers = Weapon("Dual Lightsabers", "Melee", 6, ap=2, deadly=2)
+    ventress_force_choke = Weapon("Force Choke", "Torrent", 1, ap=4)
 
     cad_bane = Model(
         "Cad Bane",
@@ -126,6 +143,12 @@ with open("confederacy_of_independent_systems.tsv", "w", encoding="utf-8") as fi
     )
     b1_rocket_droid.equip_weapon(core.light_blaster_rifle)
 
+    d1_aerial_battle_droid = Model(
+        "D1 Aerial Battle Droid", 6, 6, 1, droid=True, expendable=2, fly=True, fast=True
+    )
+    wing_blasters = Weapon("Wing Blasters", 12, 4)
+    d1_aerial_battle_droid.equip_weapon(wing_blasters)
+
     b2_super_battle_droid = Model(
         "B2 Super Battle Droid", 5, 5, 2, droid=True, slow=True
     )
@@ -169,9 +192,14 @@ with open("confederacy_of_independent_systems.tsv", "w", encoding="utf-8") as fi
     droideka.equip_weapon(blaster_cannons)
 
     dwarf_spider_droid = Model(
-        "DSD1 Dwarf Spider Droid", 3, 3, 4, vehicle="Droid", slow=True
+        "DSD1 Dwarf Spider Droid", 4, 3, 4, vehicle="Droid", slow=True
     )
     dwarf_spider_droid.equip_weapon(core.laser_cannon_mounted)
+
+    b1_emplacement_team = Model(
+        "B1 Emplacement Team", 6, 6, 3, cover="Front", droid=True, emplacement=True
+    )
+    b1_emplacement_team.equip_weapon(core.light_blaster_cannon)
 
     # Sniper Droideka
     # STAPs
@@ -192,12 +220,12 @@ with open("confederacy_of_independent_systems.tsv", "w", encoding="utf-8") as fi
     # B
 
     upgrade_list_B = UpgradeList("B", base_model=cad_bane)
-    upgrade_list_B.select_upgrade_with_weapon_type()
+    upgrade_list_B.select_upgrade_with_weapon_type(limit=1)
     wrist_flamer = Weapon(
         "Wrist-mounted Flamethrower", "Torrent", 2, ap=2, ammo="Single Use"
     )
-    upgrade_list_B.upgrade_with_weapon_entry(wrist_flamer)
     upgrade_list_B.upgrade_with_weapon_entry(core.whipcord_launcher)
+    upgrade_list_B.upgrade_with_weapon_entry(wrist_flamer)
 
     # C
 
@@ -256,8 +284,8 @@ with open("confederacy_of_independent_systems.tsv", "w", encoding="utf-8") as fi
     upgrade_list_K = UpgradeList("K", base_model=bx_commando_droid)
     upgrade_list_K.select_upgrade_with_weapon_type(limit=1)
     upgrade_list_K.upgrade_with_weapon_entry(core.vibroblade)
-    upgrade_list_K.upgrade_with_weapon_entry(core.thermal_detonator)
     upgrade_list_K.upgrade_with_weapon_entry(core.concussion_grenade)
+    upgrade_list_K.upgrade_with_weapon_entry(core.thermal_detonator)
     upgrade_list_K.upgrade_with_weapon_entry(core.dioxis_grenade)
 
     # L
@@ -271,8 +299,8 @@ with open("confederacy_of_independent_systems.tsv", "w", encoding="utf-8") as fi
 
     upgrade_list_M = UpgradeList("M", base_model=magnaguard)
     upgrade_list_M.select_upgrade_with_weapon_type(limit=1)
-    upgrade_list_M.upgrade_with_weapon_entry(core.thermal_detonator)
     upgrade_list_M.upgrade_with_weapon_entry(core.concussion_grenade)
+    upgrade_list_M.upgrade_with_weapon_entry(core.thermal_detonator)
     upgrade_list_M.upgrade_with_weapon_entry(core.dioxis_grenade)
 
     # N
@@ -281,8 +309,19 @@ with open("confederacy_of_independent_systems.tsv", "w", encoding="utf-8") as fi
     upgrade_list_N.select_upgrade_with_weapon_type(
         replace_weapon=core.laser_cannon_mounted
     )
-    upgrade_list_N.upgrade_with_weapon_entry(core.heavy_flamethrower_mounted)
     upgrade_list_N.upgrade_with_weapon_entry(core.ion_blaster_mounted)
+    upgrade_list_N.upgrade_with_weapon_entry(core.heavy_flamethrower_mounted)
+
+    # O
+
+    upgrade_list_O = UpgradeList("O", base_model=b1_emplacement_team)
+    upgrade_list_O.select_upgrade_with_weapon_type(
+        replace_weapon=core.light_blaster_cannon
+    )
+    upgrade_list_O.upgrade_with_weapon_entry(core.blaster_cannon)
+    upgrade_list_O.upgrade_with_weapon_entry(core.heavy_blaster_cannon)
+    upgrade_list_O.upgrade_with_weapon_entry(core.medium_repeating_blaster)
+    upgrade_list_O.upgrade_with_weapon_entry(core.heavy_repeating_blaster)
 
     general_grievous.add_upgrade_list(upgrade_list_A)
     cad_bane.add_upgrade_list(upgrade_list_B)
@@ -292,12 +331,12 @@ with open("confederacy_of_independent_systems.tsv", "w", encoding="utf-8") as fi
     bx_commando_droid.add_upgrade_list([upgrade_list_J, upgrade_list_K])
     magnaguard.add_upgrade_list([upgrade_list_L, upgrade_list_M])
     dwarf_spider_droid.add_upgrade_list(upgrade_list_N)
+    b1_emplacement_team.add_upgrade_list(upgrade_list_O)
 
     # print all
 
     file.write(core.header)
     file.write(dooku.write_statline())
-    file.write(general_grievous.write_statline())
     file.write(general_grievous.write_statline())
     file.write(darth_maul.write_statline())
     file.write(cad_bane.write_statline())
@@ -307,6 +346,7 @@ with open("confederacy_of_independent_systems.tsv", "w", encoding="utf-8") as fi
     file.write(oom_security_droid.write_statline())
     file.write(b1_battle_droid.write_statline())
     file.write(b1_rocket_droid.write_statline())
+    file.write(d1_aerial_battle_droid.write_statline())
     file.write(b2_super_battle_droid.write_statline())
     file.write(b2_rp_super_battle_droid.write_statline())
     file.write(b2_super_rocket_trooper.write_statline())
@@ -315,6 +355,7 @@ with open("confederacy_of_independent_systems.tsv", "w", encoding="utf-8") as fi
     file.write(magnaguard.write_statline())
     file.write(droideka.write_statline())
     file.write(dwarf_spider_droid.write_statline())
+    file.write(b1_emplacement_team.write_statline())
 
     file.write("\n")
     file.write(upgrade_list_A.write_upgrade_list())
@@ -342,3 +383,5 @@ with open("confederacy_of_independent_systems.tsv", "w", encoding="utf-8") as fi
     file.write(upgrade_list_M.write_upgrade_list())
     file.write("\n")
     file.write(upgrade_list_N.write_upgrade_list())
+    file.write("\n")
+    file.write(upgrade_list_O.write_upgrade_list())

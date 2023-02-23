@@ -14,6 +14,7 @@ with open("galactic_empire.tsv", "w", encoding="utf-8") as file:
         slow=True,
         jump=6,
         unique="Palpatine",
+        impervious=True,
     )
     unlimited_power = Weapon(
         "Unlimited Power", "Torrent", 3, ap=2, throw=True, ion=True, suppressive=2
@@ -78,6 +79,7 @@ with open("galactic_empire.tsv", "w", encoding="utf-8") as file:
         slow=True,
     )
     stormtrooper_heavy_mortar.equip_weapon(core.heavy_mortar)
+    stormtrooper_heavy_mortar.equip_weapon(core.blaster_rifle)
 
     imperial_army_trooper = Model("Imperial Army Trooper", 5, 5, 1, expendable=2)
     imperial_army_trooper.equip_weapon(core.blaster_rifle)
@@ -134,7 +136,14 @@ with open("galactic_empire.tsv", "w", encoding="utf-8") as file:
     imp_speeder_bike.equip_weapon(core.blaster_pistol)
 
     e_web_team = Model(
-        "E-Web Team", 4, 4, 3, emplacement=True, cover="Front", slow=True
+        "E-Web Team",
+        4,
+        4,
+        3,
+        emplacement=True,
+        cover="Front",
+        slow=True,
+        disciplined=True,
     )
     e_web = Weapon("E-Web", "inf", 3, ap=2, deadly=2, fixed="Front")
     e_web_team.equip_weapon(e_web)
@@ -168,8 +177,8 @@ with open("galactic_empire.tsv", "w", encoding="utf-8") as file:
 
     upgrade_list_A = UpgradeList("A", base_model=isf_commander)
     upgrade_list_A.select_upgrade_with_weapon_type(replace_weapon=core.blaster_rifle)
-    upgrade_list_A.upgrade_with_weapon_entry(core.heavy_sniper_rifle)
     upgrade_list_A.upgrade_with_weapon_entry(core.heavy_repeater)
+    upgrade_list_A.upgrade_with_weapon_entry(core.heavy_sniper_rifle)
     upgrade_list_A.upgrade_with_weapon_entry(core.heavy_configurable_rifle)
 
     # B
@@ -192,9 +201,9 @@ with open("galactic_empire.tsv", "w", encoding="utf-8") as file:
     upgrade_list_E.upgrade_with_weapon_entry(core.heavy_blaster_rifle)
     upgrade_list_E.upgrade_with_weapon_entry(core.light_repeating_blaster)
     upgrade_list_E.upgrade_with_weapon_entry(core.reciprocating_blaster)
+    upgrade_list_E.upgrade_with_weapon_entry(core.rotary_blaster)
     upgrade_list_E.upgrade_with_weapon_entry(core.sniper_rifle)
     upgrade_list_E.upgrade_with_weapon_entry(core.flamethrower)
-    upgrade_list_E.upgrade_with_weapon_entry(core.rotary_blaster)
 
     # F
 
@@ -203,10 +212,10 @@ with open("galactic_empire.tsv", "w", encoding="utf-8") as file:
     upgrade_list_F.upgrade_with_weapon_entry(core.rocket_launcher)
     upgrade_list_F.upgrade_with_weapon_entry(core.mortar)
     upgrade_list_F.upgrade_with_weapon_entry(core.ion_disruptor)
-    upgrade_list_F.upgrade_with_weapon_entry(core.thermal_detonator)
     upgrade_list_F.upgrade_with_weapon_entry(core.concussion_grenade)
-    upgrade_list_F.upgrade_with_weapon_entry(core.ion_grenade)
+    upgrade_list_F.upgrade_with_weapon_entry(core.thermal_detonator)
     upgrade_list_F.upgrade_with_weapon_entry(core.sonic_imploder)
+    upgrade_list_F.upgrade_with_weapon_entry(core.ion_grenade)
     upgrade_list_F.upgrade_with_weapon_entry(core.thermal_imploder)
 
     # G
@@ -215,12 +224,11 @@ with open("galactic_empire.tsv", "w", encoding="utf-8") as file:
     upgrade_list_G.select_upgrade_with_weapon_type(
         replace_weapon=core.blaster_rifle, lose_expendable=True
     )
-    upgrade_list_G.upgrade_with_weapon_entry(core.reciprocating_blaster)
-    upgrade_list_G.upgrade_with_weapon_entry(core.heavy_blaster_rifle)
     upgrade_list_G.upgrade_with_weapon_entry(core.rotary_blaster)
+    upgrade_list_G.upgrade_with_weapon_entry(core.heavy_blaster_rifle)
     upgrade_list_G.upgrade_with_weapon_entry(core.reciprocating_blaster)
-    upgrade_list_G.upgrade_with_weapon_entry(core.sniper_rifle)
     upgrade_list_G.upgrade_with_weapon_entry(core.mortar)
+    upgrade_list_G.upgrade_with_weapon_entry(core.sniper_rifle)
     upgrade_list_G.upgrade_with_weapon_entry(core.flamethrower)
 
     # H
@@ -242,13 +250,13 @@ with open("galactic_empire.tsv", "w", encoding="utf-8") as file:
 
     upgrade_list_J = UpgradeList("J", base_model=isf_trooper)
     upgrade_list_J.select_upgrade_with_weapon_type(limit=1)
-    upgrade_list_J.upgrade_with_weapon_entry(core.thermal_detonator)
     upgrade_list_J.upgrade_with_weapon_entry(core.concussion_grenade)
+    upgrade_list_J.upgrade_with_weapon_entry(core.thermal_detonator)
+    upgrade_list_J.upgrade_with_weapon_entry(core.sonic_imploder)
     upgrade_list_J.upgrade_with_weapon_entry(core.ion_grenade)
     upgrade_list_J.upgrade_with_weapon_entry(
         core.dioxis_grenade
     )  # cheap compared to old calculator?
-    upgrade_list_J.upgrade_with_weapon_entry(core.sonic_imploder)
     upgrade_list_J.upgrade_with_weapon_entry(core.thermal_imploder)
 
     # K
@@ -278,8 +286,8 @@ with open("galactic_empire.tsv", "w", encoding="utf-8") as file:
 
     upgrade_list_O = UpgradeList("O", base_model=imperial_royal_guard)
     upgrade_list_O.select_upgrade_with_weapon_type(replace_weapon=force_pike)
-    upgrade_list_O.upgrade_with_weapon_entry(enhanced_force_pike)
     upgrade_list_O.upgrade_with_weapon_entry(core.electrostaff)
+    upgrade_list_O.upgrade_with_weapon_entry(enhanced_force_pike)
 
     # assign upgrade lists
 
