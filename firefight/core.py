@@ -46,9 +46,10 @@ heavy_repeater = Weapon(
 )
 rotary_blaster = Weapon("Rotary Blaster", 24, 6, inaccurate=True)
 
-# personal laser cannons
+# laser cannons
 
 light_laser_cannon = Weapon("Light Laser Cannon", 30, 2, ap=2)
+laser_cannon_mounted = Weapon("Laser Cannon", "inf", 2, ap=2, deadly=3, fixed="Front")
 
 # emplacement weapons
 
@@ -123,11 +124,20 @@ combat_training = Weapon("Combat Training", "Melee", 3)
 vibroblade = Weapon("Vibroblade", "Melee", 3, rending=1)
 truncheon = Weapon("Truncheon", "Melee", 2, suppressive=1)
 electrostaff = Weapon("Electrostaff", "Melee", 4, ap=2)
+electrowhip = Weapon(
+    "Electrowhip", "Melee", 3, ap=2, immobilise=True, immobilise_roll=5
+)
 
 # Miscellaneous
 
 flamethrower = Weapon("Flamethrower", "Torrent", 2, ap=1)
+heavy_flamethrower_mounted = Weapon(
+    "Heavy Flamethrower", "Torrent", 3, ap=1, fixed="Front"
+)
 ion_disruptor = Weapon("Ion Disruptor", "inf", 2, ammo=1, blast=3, ion=True)
+ion_blaster_mounted = Weapon(
+    "Ion Blaster", "inf", 1, ammo=2, blast=3, ion=True, deadly=3, fixed="Front"
+)
 whipcord_launcher = Weapon(
     "Whipcord Launcher", 6, 1, ammo="Single Use", immobilise=True, nonlethal=True
 )

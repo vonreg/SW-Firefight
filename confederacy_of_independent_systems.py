@@ -160,12 +160,24 @@ with open("confederacy_of_independent_systems.tsv", "w", encoding="utf-8") as fi
     magnaguard.equip_weapon(core.electrostaff)
     magnaguard.equip_weapon(laser_dart)
 
-    # Droideka
-    # Dwarf Spider Droid
+    droideka = Model(
+        "Droideka", 4, 4, 3, vehicle="Droid", shield=2, free_special_rule="Roll"
+    )
+    blaster_cannons = Weapon(
+        "Blaster Cannons", 24, 3, ap=2, fixed="Front", suppressive=1
+    )
+    droideka.equip_weapon(blaster_cannons)
+
+    dwarf_spider_droid = Model(
+        "DSD1 Dwarf Spider Droid", 3, 3, 4, vehicle="Droid", slow=True
+    )
+    dwarf_spider_droid.equip_weapon(core.laser_cannon_mounted)
+
+    # Sniper Droideka
     # STAPs
     # Crab Droid(s)
     # Octuptarra
-    # More?
+    # Droid Emplacement (various options)
     # Asajj Ventress
     # Savage Opress
 
@@ -220,14 +232,14 @@ with open("confederacy_of_independent_systems.tsv", "w", encoding="utf-8") as fi
 
     # H
 
-    upgrade_list_H = UpgradeList("H", base_model=b1_battle_droid)
+    upgrade_list_H = UpgradeList("H", base_model=b2_super_battle_droid)
     upgrade_list_H.select_upgrade_with_weapon_type(replace_weapon=wrist_blaster)
     wrist_repeater = Weapon("Wrist Repeater", 18, 4, ap=1)
     upgrade_list_H.upgrade_with_weapon_entry(wrist_repeater)
 
     # I
 
-    upgrade_list_I = UpgradeList("G", base_model=b1_battle_droid)
+    upgrade_list_I = UpgradeList("I", base_model=b2_super_battle_droid)
     upgrade_list_I.select_upgrade_with_weapon_type()
     wrist_rocket = Weapon("Wrist Rocket", 30, 2, ap=1, ammo=1, blast=3)
     upgrade_list_I.upgrade_with_weapon_entry(wrist_rocket)
@@ -248,23 +260,38 @@ with open("confederacy_of_independent_systems.tsv", "w", encoding="utf-8") as fi
     upgrade_list_K.upgrade_with_weapon_entry(core.concussion_grenade)
     upgrade_list_K.upgrade_with_weapon_entry(core.dioxis_grenade)
 
-    # magnaguard!!! x2
-    # dwarf spider droid
+    # L
+
+    upgrade_list_L = UpgradeList("L", base_model=magnaguard)
+    upgrade_list_L.select_upgrade_with_weapon_type(replace_weapon=core.electrostaff)
+    upgrade_list_L.upgrade_with_weapon_entry(core.electrowhip)
+    upgrade_list_L.upgrade_with_weapon_entry(core.rocket_launcher)
+
+    # M
+
+    upgrade_list_M = UpgradeList("M", base_model=magnaguard)
+    upgrade_list_M.select_upgrade_with_weapon_type(limit=1)
+    upgrade_list_M.upgrade_with_weapon_entry(core.thermal_detonator)
+    upgrade_list_M.upgrade_with_weapon_entry(core.concussion_grenade)
+    upgrade_list_M.upgrade_with_weapon_entry(core.dioxis_grenade)
+
+    # N
+
+    upgrade_list_N = UpgradeList("N", base_model=dwarf_spider_droid)
+    upgrade_list_N.select_upgrade_with_weapon_type(
+        replace_weapon=core.laser_cannon_mounted
+    )
+    upgrade_list_N.upgrade_with_weapon_entry(core.heavy_flamethrower_mounted)
+    upgrade_list_N.upgrade_with_weapon_entry(core.ion_blaster_mounted)
 
     general_grievous.add_upgrade_list(upgrade_list_A)
     cad_bane.add_upgrade_list(upgrade_list_B)
     super_tactical_droid.add_upgrade_list(upgrade_list_C)
     b1_battle_droid.add_upgrade_list([upgrade_list_E, upgrade_list_F])
     b2_super_battle_droid.add_upgrade_list([upgrade_list_H, upgrade_list_I])
-    bx_commando_droid.add_upgrade_list([upgrade_list_K, upgrade_list_K])
-
-    # stormtrooper.add_upgrade_list([upgrade_list_E, upgrade_list_F])
-    # imperial_army_trooper.add_upgrade_list(upgrade_list_G)
-    # imperial_riot_trooper.add_upgrade_list(upgrade_list_H)
-    # isf_trooper.add_upgrade_list([upgrade_list_I, upgrade_list_J])
-    # purge_trooper.add_upgrade_list(upgrade_list_L)
-    # death_trooper.add_upgrade_list(upgrade_list_M)
-    # death_trooper.add_upgrade_list(upgrade_list_N)
+    bx_commando_droid.add_upgrade_list([upgrade_list_J, upgrade_list_K])
+    magnaguard.add_upgrade_list([upgrade_list_L, upgrade_list_M])
+    dwarf_spider_droid.add_upgrade_list(upgrade_list_N)
 
     # print all
 
@@ -286,6 +313,8 @@ with open("confederacy_of_independent_systems.tsv", "w", encoding="utf-8") as fi
     file.write(aqua_droid.write_statline())
     file.write(bx_commando_droid.write_statline())
     file.write(magnaguard.write_statline())
+    file.write(droideka.write_statline())
+    file.write(dwarf_spider_droid.write_statline())
 
     file.write("\n")
     file.write(upgrade_list_A.write_upgrade_list())
@@ -300,14 +329,16 @@ with open("confederacy_of_independent_systems.tsv", "w", encoding="utf-8") as fi
     file.write("\n")
     # file.write(upgrade_list_G.write_upgrade_list())
     # file.write("\n")
-    # file.write(upgrade_list_H.write_upgrade_list())
-    # file.write("\n")
-    # file.write(upgrade_list_I.write_upgrade_list())
-    # file.write("\n")
-    # file.write(upgrade_list_J.write_upgrade_list())
-    # file.write("\n")
-    # file.write(upgrade_list_L.write_upgrade_list())
-    # file.write("\n")
-    # file.write(upgrade_list_M.write_upgrade_list())
-    # file.write("\n")
-    # file.write(upgrade_list_N.write_upgrade_list())
+    file.write(upgrade_list_H.write_upgrade_list())
+    file.write("\n")
+    file.write(upgrade_list_I.write_upgrade_list())
+    file.write("\n")
+    file.write(upgrade_list_J.write_upgrade_list())
+    file.write("\n")
+    file.write(upgrade_list_K.write_upgrade_list())
+    file.write("\n")
+    file.write(upgrade_list_L.write_upgrade_list())
+    file.write("\n")
+    file.write(upgrade_list_M.write_upgrade_list())
+    file.write("\n")
+    file.write(upgrade_list_N.write_upgrade_list())

@@ -68,6 +68,17 @@ with open("galactic_empire.tsv", "w", encoding="utf-8") as file:
     stormtrooper = Model("Stormtrooper", 5, 4, 1, expendable=1, disciplined=True)
     stormtrooper.equip_weapon(core.blaster_rifle)
 
+    stormtrooper_heavy_mortar = Model(
+        "Stormtrooper Heavy Mortar",
+        5,
+        4,
+        1,
+        disciplined=True,
+        emplacement=True,
+        slow=True,
+    )
+    stormtrooper_heavy_mortar.equip_weapon(core.heavy_mortar)
+
     imperial_army_trooper = Model("Imperial Army Trooper", 5, 5, 1, expendable=2)
     imperial_army_trooper.equip_weapon(core.blaster_rifle)
 
@@ -97,7 +108,22 @@ with open("galactic_empire.tsv", "w", encoding="utf-8") as file:
         protector="Unit",
         protector_key="Emperor Palpatine",
     )
-    force_pike = Weapon("Force Pike", "Melee", 3, ap=1)
+    force_pike = Weapon(
+        "Force Pike",
+        "Melee",
+        3,
+        ap=1,
+    )
+    enhanced_force_pike = Weapon(
+        "Enhanced Force Pike",
+        "Melee",
+        3,
+        ap=1,
+        primary_fire_mode_name="Force Pike",
+        secondary_fire_modes=[
+            Weapon("Magnetic Clamp", 12, 1, nonlethal=True, immobilise=True)
+        ],
+    )
     imperial_royal_guard.equip_weapon(force_pike)
     imperial_royal_guard.equip_weapon(core.heavy_blaster_pistol)
 
@@ -162,10 +188,13 @@ with open("galactic_empire.tsv", "w", encoding="utf-8") as file:
     upgrade_list_E.select_upgrade_with_weapon_type(
         replace_weapon=core.blaster_rifle, lose_expendable=True
     )
+    upgrade_list_E.upgrade_with_weapon_entry(core.burst_pistol)
     upgrade_list_E.upgrade_with_weapon_entry(core.heavy_blaster_rifle)
     upgrade_list_E.upgrade_with_weapon_entry(core.light_repeating_blaster)
+    upgrade_list_E.upgrade_with_weapon_entry(core.reciprocating_blaster)
     upgrade_list_E.upgrade_with_weapon_entry(core.sniper_rifle)
     upgrade_list_E.upgrade_with_weapon_entry(core.flamethrower)
+    upgrade_list_E.upgrade_with_weapon_entry(core.rotary_blaster)
 
     # F
 
@@ -186,8 +215,13 @@ with open("galactic_empire.tsv", "w", encoding="utf-8") as file:
     upgrade_list_G.select_upgrade_with_weapon_type(
         replace_weapon=core.blaster_rifle, lose_expendable=True
     )
-    upgrade_list_G.upgrade_with_weapon_entry(core.mortar)
+    upgrade_list_G.upgrade_with_weapon_entry(core.reciprocating_blaster)
+    upgrade_list_G.upgrade_with_weapon_entry(core.heavy_blaster_rifle)
+    upgrade_list_G.upgrade_with_weapon_entry(core.rotary_blaster)
+    upgrade_list_G.upgrade_with_weapon_entry(core.reciprocating_blaster)
     upgrade_list_G.upgrade_with_weapon_entry(core.sniper_rifle)
+    upgrade_list_G.upgrade_with_weapon_entry(core.mortar)
+    upgrade_list_G.upgrade_with_weapon_entry(core.flamethrower)
 
     # H
 
@@ -242,6 +276,11 @@ with open("galactic_empire.tsv", "w", encoding="utf-8") as file:
 
     # O
 
+    upgrade_list_O = UpgradeList("O", base_model=imperial_royal_guard)
+    upgrade_list_O.select_upgrade_with_weapon_type(replace_weapon=force_pike)
+    upgrade_list_O.upgrade_with_weapon_entry(enhanced_force_pike)
+    upgrade_list_O.upgrade_with_weapon_entry(core.electrostaff)
+
     # assign upgrade lists
 
     isf_commander.add_upgrade_list(upgrade_list_A)
@@ -253,6 +292,7 @@ with open("galactic_empire.tsv", "w", encoding="utf-8") as file:
     purge_trooper.add_upgrade_list(upgrade_list_L)
     death_trooper.add_upgrade_list(upgrade_list_M)
     death_trooper.add_upgrade_list(upgrade_list_N)
+    imperial_royal_guard.add_upgrade_list(upgrade_list_O)
 
     # print all
 
@@ -266,6 +306,7 @@ with open("galactic_empire.tsv", "w", encoding="utf-8") as file:
     file.write(stormtrooper_sergeant.write_statline())
     file.write(imperial_officer.write_statline())
     file.write(stormtrooper.write_statline())
+    file.write(stormtrooper_heavy_mortar.write_statline())
     file.write(imperial_army_trooper.write_statline())
     file.write(imperial_riot_trooper.write_statline())
     file.write(scout_trooper.write_statline())
@@ -301,3 +342,5 @@ with open("galactic_empire.tsv", "w", encoding="utf-8") as file:
     file.write(upgrade_list_M.write_upgrade_list())
     file.write("\n")
     file.write(upgrade_list_N.write_upgrade_list())
+    file.write("\n")
+    file.write(upgrade_list_O.write_upgrade_list())
