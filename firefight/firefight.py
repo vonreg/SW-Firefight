@@ -66,6 +66,7 @@ class Weapon:
         immobilise=False,
         immobilise_roll=None,
         disorient=False,
+        unique=False,
         primary_fire_mode_name=None,
         secondary_fire_modes=None,
     ) -> None:
@@ -92,6 +93,7 @@ class Weapon:
         self.immobilise = immobilise
         self.immobilise_roll = immobilise_roll
         self.disorient = disorient
+        self.unique = unique
         self.primary_fire_mode_name = primary_fire_mode_name
         self.secondary_fire_modes = secondary_fire_modes
 
@@ -391,6 +393,10 @@ class Weapon:
             disorient = ", Disorient"
         else:
             disorient = ""
+        if self.unique:
+            unique = ", Unique[%s]" % self.unique
+        else:
+            unique = ""
 
         if self.primary_fire_mode_name:
             primary_fire_mode_name = (

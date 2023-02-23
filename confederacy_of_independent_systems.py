@@ -221,11 +221,8 @@ with open("confederacy_of_independent_systems.tsv", "w", encoding="utf-8") as fi
 
     upgrade_list_B = UpgradeList("B", base_model=cad_bane)
     upgrade_list_B.select_upgrade_with_weapon_type(limit=1)
-    wrist_flamer = Weapon(
-        "Wrist-mounted Flamethrower", "Torrent", 2, ap=2, ammo="Single Use"
-    )
     upgrade_list_B.upgrade_with_weapon_entry(core.whipcord_launcher)
-    upgrade_list_B.upgrade_with_weapon_entry(wrist_flamer)
+    upgrade_list_B.upgrade_with_weapon_entry(core.wrist_flamer)
 
     # C
 

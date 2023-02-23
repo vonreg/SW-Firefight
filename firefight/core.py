@@ -5,6 +5,7 @@ header = "Name\tQu\tDf\tT\tWeapons\tSpecial Rules\tOptions\tCost\n"
 # blaster pistols
 
 blaster_pistol = Weapon("Blaster Pistol", 12, 2, quickdraw=True)
+dual_blaster_pistols = Weapon("Dual Blaster Pistol", 12, 4, quickdraw=True)
 heavy_blaster_pistol = Weapon("Heavy Blaster Pistol", 18, 2, ap=1, quickdraw=True)
 burst_pistol = Weapon("Burst Pistol", 6, 3, quickdraw=True, reciprocating=5)
 
@@ -145,6 +146,9 @@ electrowhip = Weapon(
 # Miscellaneous
 
 flamethrower = Weapon("Flamethrower", "Torrent", 2, ap=1)
+wrist_flamer = Weapon(
+    "Wrist-mounted Flamethrower", "Torrent", 2, ap=2, ammo="Single Use"
+)
 heavy_flamethrower_mounted = Weapon(
     "Heavy Flamethrower", "Torrent", 3, ap=1, fixed="Front"
 )
