@@ -371,7 +371,7 @@ class Weapon:
             ion = ""
         if self.immobilise:
             if self.immobilise_roll:
-                immobilise = ", Immobilise[%s]" % str(self.immobilise_roll)
+                immobilise = ", Immobilise[%s+]" % str(self.immobilise_roll)
             else:
                 immobilise = ", Immobilise"
         else:
