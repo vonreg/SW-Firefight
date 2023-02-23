@@ -336,6 +336,7 @@ with open("confederacy_of_independent_systems.tsv", "w", encoding="utf-8") as fi
     file.write(dooku.write_statline())
     file.write(general_grievous.write_statline())
     file.write(darth_maul.write_statline())
+    file.write(asajj_ventress.write_statline())
     file.write(cad_bane.write_statline())
     file.write(super_tactical_droid.write_statline())
     file.write(tactical_droid.write_statline())
