@@ -59,6 +59,7 @@ class Weapon:
         reciprocating=False,
         rending=False,
         seek=False,
+        slugthrower=False,
         fixed=None,
         suppressive=0,
         ion=False,
@@ -84,6 +85,7 @@ class Weapon:
         self.reciprocating = reciprocating
         self.rending = rending
         self.seek = seek
+        self.slugthrower = slugthrower
         self.fixed = fixed
         self.suppressive = suppressive
         self.ion = ion
@@ -134,6 +136,7 @@ class Weapon:
         self.quickdraw_multiplier_dict = {False: 1, True: 1.3}
         self.rending_multiplier_dict = {False: 1, True: 1.5}
         self.seek_multiplier_dict = {False: 1, True: 1.25}
+        self.slugthrower_multiplier_dict = {False: 1, True: 1.25}
 
         self.fixed_reduction_multiplier_dict = {
             None: 0,
@@ -180,6 +183,7 @@ class Weapon:
 
         rending_multiplier = self.rending_multiplier_dict[self.rending]
         seek_multiplier = self.seek_multiplier_dict[self.seek]
+        slugthrower_multiplier = self.slugthrower_multiplier_dict[self.slugthrower]
 
         fixed_cost_reduction = (
             -1
@@ -221,6 +225,8 @@ class Weapon:
             * range_multiplier
             / self.range_multiplier_dict["inf"]
         )
+        if self.torrent == True and self.blast == None:
+            disorient_cost_increase *= effective_quality_cost / 8
 
         if self.range == "melee":
             melee_cost_reduction = (
@@ -245,6 +251,7 @@ class Weapon:
             * reciprocating_multiplier
             * rending_multiplier
             * seek_multiplier
+            * slugthrower_multiplier
             + fixed_cost_reduction
             + suppressive_cost_increase
             + ion_cost_increase
@@ -357,6 +364,10 @@ class Weapon:
             seek = ", Seek"
         else:
             seek = ""
+        if self.slugthrower:
+            slugthrower = ", Slugthrower"
+        else:
+            slugthrower = ""
         if self.fixed:
             fixed = ", Fixed[%s]" % str(self.fixed)
         else:
@@ -417,6 +428,7 @@ class Weapon:
             + reciprocating
             + rending
             + seek
+            + slugthrower
             + suppressive
             + throw
             + fixed
@@ -998,7 +1010,7 @@ class Model:
                     delim = ", "
                 options += delim + upgrade_list
 
-        cost = str(self.calculate_total_cost())
+        cost = "%i" % self.calculate_total_cost()
 
         statline = (
             name
@@ -1095,7 +1107,7 @@ class UpgradeList:
         upgrade_cost = new_cost - original_cost
 
         # will need to modify this if enabling equipping multiple weapons in 1 upgrade
-        upgrade_string = weapon.write_weapon() + "\t%s" % upgrade_cost
+        upgrade_string = weapon.write_weapon() + "\t%i" % round(upgrade_cost)
 
         self.upgrades.append(upgrade_string)
 

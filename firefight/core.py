@@ -1,4 +1,4 @@
-from firefight.firefight import Weapon, Model
+from firefight.firefight import Weapon
 
 header = "Name\tQu\tDf\tT\tWeapons\tSpecial Rules\tOptions\tCost\n"
 
@@ -15,6 +15,7 @@ light_blaster_rifle = Weapon("Light Blaster Rifle", 18, 3)
 blaster_rifle = Weapon("Blaster Rifle", 30, 3)
 reciprocating_blaster = Weapon("Reciprocating Blaster", 30, 3, reciprocating=6)
 heavy_blaster_rifle = Weapon("Heavy Blaster Rifle", 30, 3, ap=1)
+scatterblaster = Weapon("Scatterblaster", 12, 2, ap=2, deadly=2)
 
 # targeting rifles
 
@@ -50,6 +51,9 @@ rotary_blaster = Weapon("Rotary Blaster", 24, 6, inaccurate=True)
 
 light_laser_cannon = Weapon("Light Laser Cannon", 30, 2, ap=2)
 laser_cannon_mounted = Weapon("Laser Cannon", "inf", 2, ap=2, deadly=3, fixed="Front")
+heavy_rotary_cannon_mounted = Weapon(
+    "Heavy Rotary Cannon", 24, 5, ap=2, deadly=2, fixed="Front", inaccurate=True
+)
 
 # emplacement weapons
 
@@ -79,16 +83,26 @@ heavy_mortar = Weapon(
     fixed="Front",
 )
 
+# slugthrowers
+
+scattergun = Weapon(
+    "Scatter Gun", 6, 2, ap=2, reciprocating=5, slugthrower=True, quickdraw=True
+)
+cycler_rifle = Weapon(
+    "Cycler Rifle", "inf", 1, ap=3, deadly=3, ammo=1, slugthrower=True
+)
+
 # missile weapons
 
 grenade_launcher = Weapon(
     "Grenade Launcher", 18, 2, ap=1, ammo=1, blast=3, indirect=True
 )
+homing_launcher = Weapon("Homing Launcher", 24, 2, ap=2, ammo=1, seek=True)
+ion_torpedo = Weapon("Ion Torpedo", 24, 1, ammo=1, ion=True, seek=True)
 mortar = Weapon(
     "Mortar", 30, 2, ap=1, ammo=1, blast=3, indirect=True
 )  # should perhaps have a "cumbersome" rule?
 rocket_launcher = Weapon("Rocket Launcher", "inf", 2, ap=1, ammo=1, blast=3)
-homing_shot = Weapon("Homing Shot", 18, 2, ap=2, ammo=1, seek=True)
 
 # grenades
 
