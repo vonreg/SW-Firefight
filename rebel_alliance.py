@@ -3,6 +3,23 @@ from firefight import core
 
 with open("rebel_alliance.tsv", "w", encoding="utf-8") as file:
 
+    ben_kenobi = Model(
+        "Old Ben Kenobi",
+        3,
+        3,
+        6,
+        jedi=True,
+        courage=True,
+        deflect=True,
+        unique="Obi-Wan Kenobi",
+        protector="Any",
+        impervious=True,
+    )
+    kenobi_lightsaber = Weapon("Lightsaber", "Melee", 4, pierce=3, deadly=3)
+    jedi_mind_trick = Weapon("Jedi Mind Trick", 12, 3, nonlethal=True, disorient=True)
+    ben_kenobi.equip_weapon(kenobi_lightsaber)
+    ben_kenobi.equip_weapon(jedi_mind_trick)
+
     rebel_captain = Model(
         "Rebel Captain (with Electrobinoculars)",
         3,
@@ -68,6 +85,7 @@ with open("rebel_alliance.tsv", "w", encoding="utf-8") as file:
     # print all
 
     file.write(core.header)
+    file.write(ben_kenobi.write_statline())
     file.write(rebel_captain.write_statline())
     file.write(rebel_trooper.write_statline())
     file.write(at_rt.write_statline())

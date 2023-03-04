@@ -11,17 +11,35 @@ with open("galactic_republic.tsv", "w", encoding="utf-8") as file:
         jedi=True,
         courage=True,
         deflect=True,
-        jump=6,
+        jump=3,
+        command=True,
         unique="Obi-Wan Kenobi",
         protector="Any",
         impervious=True,
     )
     kenobi_lightsaber = Weapon("Lightsaber", "Melee", 4, pierce=3, deadly=3)
-    jedi_mind_trick = Weapon("Jedi Mind Trick", 12, 3, nonlethal=True, disorient=True)
     force_push = Weapon("Force Push", 12, 3, throw=True, seek=True, quickdraw=True)
     obi_wan_kenobi.equip_weapon(kenobi_lightsaber)
-    obi_wan_kenobi.equip_weapon(jedi_mind_trick)
     obi_wan_kenobi.equip_weapon(force_push)
+
+    anakin_skywalker = Model(
+        "Anakin Skywalker",
+        3,
+        3,
+        6,
+        jedi=True,
+        courage=True,
+        fear=True,
+        deflect=True,
+        jump=3,
+        command=True,
+        unique="Anakin Skywalker",
+        relentless=True,
+        impervious=True,
+    )
+    anakin_lightsaber = Weapon("Lightsaber", "Melee", 4, pierce=3, deadly=3)
+    anakin_skywalker.equip_weapon(anakin_lightsaber)
+    anakin_skywalker.equip_weapon(force_push)
 
     clone_sergeant = Model(
         "Clone Sergeant (with Electrobinoculars)",
@@ -80,6 +98,7 @@ with open("galactic_republic.tsv", "w", encoding="utf-8") as file:
 
     file.write(core.header)
     file.write(obi_wan_kenobi.write_statline())
+    file.write(anakin_skywalker.write_statline())
     file.write(clone_sergeant.write_statline())
     file.write(clone_trooper.write_statline())
     file.write(at_rt.write_statline())

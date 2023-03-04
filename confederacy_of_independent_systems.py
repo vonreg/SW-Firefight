@@ -74,6 +74,8 @@ with open("confederacy_of_independent_systems.tsv", "w", encoding="utf-8") as fi
     )
     ventress_sabers = Weapon("Dual Lightsabers", "Melee", 6, pierce=2, deadly=2)
     ventress_force_choke = Weapon("Force Choke", "Torrent", 1, pierce=4)
+    asajj_ventress.equip_weapon(ventress_sabers)
+    asajj_ventress.equip_weapon(ventress_force_choke)
 
     cad_bane = Model(
         "Cad Bane",
