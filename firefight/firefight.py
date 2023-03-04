@@ -46,7 +46,7 @@ class Weapon:
         name,
         weapon_range,
         attacks,
-        ap=0,
+        pierce=0,
         ammo=None,
         sniper=False,
         blast=None,
@@ -73,7 +73,7 @@ class Weapon:
         self.name = name
         self.range = weapon_range
         self.attacks = attacks
-        self.ap = ap
+        self.pierce = pierce
         self.ammo = ammo
         self.sniper = sniper
         self.blast = blast
@@ -114,7 +114,7 @@ class Weapon:
             30: 0.7,
             "inf": 0.7,
         }
-        self.ap_multiplier_dict = {0: 1, 1: 1.5, 2: 2, 3: 2.5, 4: 3}
+        self.pierce_multiplier_dict = {0: 1, 1: 1.5, 2: 2, 3: 2.5, 4: 3}
         self.ammo_multiplier_dict = {
             "Single Use": 0.5,
             1: 0.8,
@@ -160,7 +160,7 @@ class Weapon:
         effective_quality_cost = self.quality_cost_dict[effective_quality]
         range_multiplier = self.range_multiplier_dict[self.range]
         attacks_multiplier = self.attacks
-        ap_multiplier = self.ap_multiplier_dict[self.ap]
+        pierce_multiplier = self.pierce_multiplier_dict[self.pierce]
         ammo_multiplier = self.ammo_multiplier_dict[self.ammo]
         blast_multiplier = self.blast_multiplier_dict[self.blast]
         deadly_multiplier = self.deadly
@@ -241,7 +241,7 @@ class Weapon:
             effective_quality_cost
             * range_multiplier
             * attacks_multiplier
-            * ap_multiplier
+            * pierce_multiplier
             * ammo_multiplier
             * blast_multiplier
             * deadly_multiplier
@@ -314,10 +314,10 @@ class Weapon:
             weapon_range = '%i", ' % self.range
 
         attacks = "A%s" % str(self.attacks)
-        if self.ap > 0:
-            ap = ", AP[%s]" % str(self.ap)
+        if self.pierce > 0:
+            pierce = ", Pierce[%s]" % str(self.pierce)
         else:
-            ap = ""
+            pierce = ""
         if self.ammo:
             ammo = ", Ammo[%s]" % str(self.ammo)
         else:
@@ -419,7 +419,7 @@ class Weapon:
             + " ("
             + weapon_range
             + attacks
-            + ap
+            + pierce
             + ammo
             + sniper
             + inaccurate

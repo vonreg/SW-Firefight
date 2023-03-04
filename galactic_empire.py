@@ -17,7 +17,7 @@ with open("galactic_empire.tsv", "w", encoding="utf-8") as file:
         impervious=True,
     )
     unlimited_power = Weapon(
-        "Unlimited Power", "Torrent", 3, ap=2, throw=True, ion=True, suppressive=2
+        "Unlimited Power", "Torrent", 3, pierce=2, throw=True, ion=True, suppressive=2
     )
     emperor_palpatine.equip_weapon(unlimited_power)
 
@@ -35,13 +35,13 @@ with open("galactic_empire.tsv", "w", encoding="utf-8") as file:
         jump=3,
         unique="Anakin Skywalker",
     )
-    vader_lightsaber = Weapon("Lightsaber", "Melee", 4, ap=4, deadly=3)
-    vader_force_choke = Weapon("Force Choke", 6, 1, ap=4, seek=True, throw=True)
+    vader_lightsaber = Weapon("Lightsaber", "Melee", 4, pierce=4, deadly=3)
+    vader_force_choke = Weapon("Force Choke", 6, 1, pierce=4, seek=True, throw=True)
     darth_vader.equip_weapon(vader_lightsaber)
     darth_vader.equip_weapon(vader_force_choke)
 
     inquisitor = Model("Inquisitor", 4, 3, 4, villain=True, deflect=True, jump=3)
-    inquisitor_lightsaber = Weapon("Lightsaber", "Melee", 3, ap=3, deadly=3)
+    inquisitor_lightsaber = Weapon("Lightsaber", "Melee", 3, pierce=3, deadly=3)
     inquisitor.equip_weapon(inquisitor_lightsaber)
 
     isf_commander = Model(
@@ -114,13 +114,13 @@ with open("galactic_empire.tsv", "w", encoding="utf-8") as file:
         "Force Pike",
         "Melee",
         3,
-        ap=1,
+        pierce=1,
     )
     enhanced_force_pike = Weapon(
         "Enhanced Force Pike",
         "Melee",
         3,
-        ap=1,
+        pierce=1,
         primary_fire_mode_name="Force Pike",
         secondary_fire_modes=[
             Weapon("Magnetic Clamp", 12, 1, nonlethal=True, immobilise=True)
@@ -145,7 +145,7 @@ with open("galactic_empire.tsv", "w", encoding="utf-8") as file:
         slow=True,
         disciplined=True,
     )
-    e_web = Weapon("E-Web", "inf", 3, ap=2, deadly=2, fixed="Front")
+    e_web = Weapon("E-Web", "inf", 3, pierce=2, deadly=2, fixed="Front")
     e_web_team.equip_weapon(e_web)
     blaster_rifles = Weapon("Blaster Rifles", 30, 6)
     e_web_team.equip_weapon(blaster_rifles)

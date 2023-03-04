@@ -16,8 +16,10 @@ with open("confederacy_of_independent_systems.tsv", "w", encoding="utf-8") as fi
         unique="Dooku",
         impervious=True,
     )
-    dooku_lightsaber = Weapon("Lightsaber", "Melee", 4, ap=3, deadly=3)
-    dooku_lightning = Weapon("Force Lightning", 12, 3, ap=1, ion=True, suppressive=1)
+    dooku_lightsaber = Weapon("Lightsaber", "Melee", 4, pierce=3, deadly=3)
+    dooku_lightning = Weapon(
+        "Force Lightning", 12, 3, pierce=1, ion=True, suppressive=1
+    )
     dooku.equip_weapon(dooku_lightsaber)
     dooku.equip_weapon(dooku_lightning)
 
@@ -51,9 +53,9 @@ with open("confederacy_of_independent_systems.tsv", "w", encoding="utf-8") as fi
         unique="Maul",
     )
     maul_double_lightsaber = Weapon(
-        "Double-bladed Lightsaber", "Melee", 4, ap=2, deadly=3
+        "Double-bladed Lightsaber", "Melee", 4, pierce=2, deadly=3
     )
-    maul_saber_throw = Weapon("Saber Throw", 12, 2, ap=2, deadly=3, quickdraw=True)
+    maul_saber_throw = Weapon("Saber Throw", 12, 2, pierce=2, deadly=3, quickdraw=True)
     darth_maul.equip_weapon(maul_double_lightsaber)
     darth_maul.equip_weapon(maul_saber_throw)
 
@@ -70,8 +72,8 @@ with open("confederacy_of_independent_systems.tsv", "w", encoding="utf-8") as fi
         fast=True,
         jump=6,
     )
-    ventress_sabers = Weapon("Dual Lightsabers", "Melee", 6, ap=2, deadly=2)
-    ventress_force_choke = Weapon("Force Choke", "Torrent", 1, ap=4)
+    ventress_sabers = Weapon("Dual Lightsabers", "Melee", 6, pierce=2, deadly=2)
+    ventress_force_choke = Weapon("Force Choke", "Torrent", 1, pierce=4)
 
     cad_bane = Model(
         "Cad Bane",
@@ -84,7 +86,7 @@ with open("confederacy_of_independent_systems.tsv", "w", encoding="utf-8") as fi
         jump=6,
         unique="Cad Bane",
     )
-    bane_dual_pistols = Weapon("Dual Pistols", 18, 4, ap=1, sniper=True)
+    bane_dual_pistols = Weapon("Dual Pistols", 18, 4, pierce=1, sniper=True)
     bane_electro_gauntlets = Weapon("Electro Gauntlets", "Melee", 4, suppressive=1)
     cad_bane.equip_weapon(bane_dual_pistols)
     cad_bane.equip_weapon(bane_electro_gauntlets)
@@ -152,7 +154,7 @@ with open("confederacy_of_independent_systems.tsv", "w", encoding="utf-8") as fi
     b2_super_battle_droid = Model(
         "B2 Super Battle Droid", 5, 5, 2, droid=True, slow=True
     )
-    wrist_blaster = Weapon("Wrist Blaster", 18, 3, ap=1)
+    wrist_blaster = Weapon("Wrist Blaster", 18, 3, pierce=1)
     b2_super_battle_droid.equip_weapon(wrist_blaster)
 
     b2_rp_super_battle_droid = Model(
@@ -164,7 +166,7 @@ with open("confederacy_of_independent_systems.tsv", "w", encoding="utf-8") as fi
         "B2 Super Rocket Trooper", 5, 5, 2, droid=True, fly=True, fast=True
     )
     dual_heavy_wrist_blasters = Weapon(
-        "Dual Heavy Wrist Blasters", 12, 4, ap=1, reciprocating=6
+        "Dual Heavy Wrist Blasters", 12, 4, pierce=1, reciprocating=6
     )
     b2_super_rocket_trooper.equip_weapon(dual_heavy_wrist_blasters)
 
@@ -187,7 +189,7 @@ with open("confederacy_of_independent_systems.tsv", "w", encoding="utf-8") as fi
         "Droideka", 4, 4, 3, vehicle="Droid", shield=2, free_special_rule="Roll"
     )
     blaster_cannons = Weapon(
-        "Blaster Cannons", 24, 3, ap=2, fixed="Front", suppressive=1
+        "Blaster Cannons", 24, 3, pierce=2, fixed="Front", suppressive=1
     )
     droideka.equip_weapon(blaster_cannons)
 
@@ -259,14 +261,14 @@ with open("confederacy_of_independent_systems.tsv", "w", encoding="utf-8") as fi
 
     upgrade_list_H = UpgradeList("H", base_model=b2_super_battle_droid)
     upgrade_list_H.select_upgrade_with_weapon_type(replace_weapon=wrist_blaster)
-    wrist_repeater = Weapon("Wrist Repeater", 18, 4, ap=1)
+    wrist_repeater = Weapon("Wrist Repeater", 18, 4, pierce=1)
     upgrade_list_H.upgrade_with_weapon_entry(wrist_repeater)
 
     # I
 
     upgrade_list_I = UpgradeList("I", base_model=b2_super_battle_droid)
     upgrade_list_I.select_upgrade_with_weapon_type()
-    wrist_rocket = Weapon("Wrist Rocket", 30, 2, ap=1, ammo=1, blast=3)
+    wrist_rocket = Weapon("Wrist Rocket", 30, 2, pierce=1, ammo=1, blast=3)
     upgrade_list_I.upgrade_with_weapon_entry(wrist_rocket)
 
     # J

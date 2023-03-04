@@ -5,10 +5,10 @@ with open("mandalore.tsv", "w", encoding="utf-8") as file:
 
     # Common Mandalorian Weapons
     jetpack_rocket = Weapon(
-        "Jetpack Rocket", "inf", 2, ap=1, ammo="Single Use", blast=3
+        "Jetpack Rocket", "inf", 2, pierce=1, ammo="Single Use", blast=3
     )
     dart_launcher = Weapon(
-        "Dart Launcher", 18, 1, ap=2, ammo="Single Use", disorient=True
+        "Dart Launcher", 18, 1, pierce=2, ammo="Single Use", disorient=True
     )
     gauntlet_blades = Weapon("Gauntlet Blades", "Melee", 4, rending=True)
     # core: whipcord launcher
@@ -29,7 +29,7 @@ with open("mandalore.tsv", "w", encoding="utf-8") as file:
         shield=1,
     )
     darksaber_bo_katan = Weapon(
-        "The Darksaber", "Melee", 3, ap=3, deadly=3, unique="The Darksaber"
+        "The Darksaber", "Melee", 3, pierce=3, deadly=3, unique="The Darksaber"
     )
     bo_katan.equip_weapon(gauntlet_blades)
     bo_katan.equip_weapon(core.dual_blaster_pistols)

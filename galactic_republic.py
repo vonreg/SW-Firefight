@@ -16,7 +16,7 @@ with open("galactic_republic.tsv", "w", encoding="utf-8") as file:
         protector="Any",
         impervious=True,
     )
-    kenobi_lightsaber = Weapon("Lightsaber", "Melee", 4, ap=3, deadly=3)
+    kenobi_lightsaber = Weapon("Lightsaber", "Melee", 4, pierce=3, deadly=3)
     jedi_mind_trick = Weapon("Jedi Mind Trick", 12, 3, nonlethal=True, disorient=True)
     force_push = Weapon("Force Push", 12, 3, throw=True, seek=True, quickdraw=True)
     obi_wan_kenobi.equip_weapon(kenobi_lightsaber)
