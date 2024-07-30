@@ -1,4 +1,4 @@
-from firefight.firefight import Weapon
+from sw_firefight_engine.firefight import Weapon
 
 header = "Name\tQu\tDf\tT\tWeapons\tSpecial Rules\tOptions\tCost\n"
 

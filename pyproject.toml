@@ -1,0 +1,12 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "sw-firefight-armies"
+version = "0.1"
+authors = [
+    {name = "Rupert Eardley-Brunt"}
+]
+description = "SW Firefight points calculation and army list writing engine."
+readme = "README.md"

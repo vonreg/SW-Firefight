@@ -1,72 +1,84 @@
-from firefight.firefight import Weapon, Model, UpgradeList
-from firefight import core
+from sw_firefight_engine.firefight import Weapon, Model, UpgradeList
+from sw_firefight_engine import core
 
-with open("rebel_alliance.tsv", "w", encoding="utf-8") as file:
+with open("galactic_republic.tsv", "w", encoding="utf-8") as file:
 
-    ben_kenobi = Model(
-        "Old Ben Kenobi",
+    obi_wan_kenobi = Model(
+        "Obi-Wan Kenobi",
         3,
         3,
         6,
         jedi=True,
         courage=True,
         deflect=True,
+        jump=3,
+        command=True,
         unique="Obi-Wan Kenobi",
         protector="Any",
         impervious=True,
     )
     kenobi_lightsaber = Weapon("Lightsaber", "Melee", 4, pierce=3, deadly=3)
-    jedi_mind_trick = Weapon("Jedi Mind Trick", 12, 3, nonlethal=True, disorient=True)
-    ben_kenobi.equip_weapon(kenobi_lightsaber)
-    ben_kenobi.equip_weapon(jedi_mind_trick)
+    force_push = Weapon("Force Push", 12, 3, throw=True, seek=True, quickdraw=True)
+    obi_wan_kenobi.equip_weapon(kenobi_lightsaber)
+    obi_wan_kenobi.equip_weapon(force_push)
 
-    rebel_captain = Model(
-        "Rebel Captain (with Electrobinoculars)",
+    anakin_skywalker = Model(
+        "Anakin Skywalker",
         3,
-        5,
         3,
-        hero=True,
-        take_cover=2,
+        6,
+        jedi=True,
+        courage=True,
+        fear=True,
+        deflect=True,
+        jump=3,
+        command=True,
+        unique="Anakin Skywalker",
+        relentless=True,
+        impervious=True,
     )
-    rebel_captain.equip_weapon(core.heavy_blaster_pistol)
+    anakin_lightsaber = Weapon("Lightsaber", "Melee", 4, pierce=3, deadly=3)
+    anakin_skywalker.equip_weapon(anakin_lightsaber)
+    anakin_skywalker.equip_weapon(force_push)
 
-    rebel_trooper = Model("Rebel Trooper", 4, 5, 1)
-    rebel_trooper.equip_weapon(core.blaster_rifle)
+    clone_sergeant = Model(
+        "Clone Sergeant (with Electrobinoculars)",
+        3,
+        4,
+        2,
+        hero=True,
+        spotter=1,
+    )
+    clone_sergeant.equip_weapon(core.blaster_rifle)
+
+    clone_trooper = Model("Clone Trooper", 4, 4, 1)
+    clone_trooper.equip_weapon(core.blaster_rifle)
 
     at_rt = Model(
         "AT-RT", 4, 3, 4, vehicle=True, fast=True, cover="Front", jump=3, impact=3
     )
     at_rt.equip_weapon(core.laser_cannon_mounted)
-    at_rt.equip_weapon(core.blaster_rifle)
+    at_rt.equip_weapon(core.grenade_launcher)
 
     ### Upgrade lists ###
 
     # A
 
-    upgrade_list_A = UpgradeList("A", base_model=rebel_trooper)
+    upgrade_list_A = UpgradeList("A", base_model=clone_trooper)
     upgrade_list_A.select_upgrade_with_weapon_type(replace_weapon=core.blaster_rifle)
     upgrade_list_A.upgrade_with_weapon_entry(core.rotary_blaster)
     upgrade_list_A.upgrade_with_weapon_entry(core.heavy_blaster_rifle)
-    upgrade_list_A.upgrade_with_weapon_entry(core.sniper_rifle)
     upgrade_list_A.upgrade_with_weapon_entry(core.scatterblaster)
-    upgrade_list_A.upgrade_with_weapon_entry(core.scattergun)
-    upgrade_list_A.upgrade_with_weapon_entry(core.heavy_sniper_rifle)
-    upgrade_list_A.upgrade_with_weapon_entry(core.cycler_rifle)
 
     # B
 
-    upgrade_list_B = UpgradeList("B", base_model=rebel_trooper)
+    upgrade_list_B = UpgradeList("B", base_model=clone_trooper)
     upgrade_list_B.select_upgrade_with_weapon_type(limit=1)
-    upgrade_list_B.upgrade_with_weapon_entry(core.homing_launcher)
-    upgrade_list_B.upgrade_with_weapon_entry(core.grenade_launcher)
-    upgrade_list_B.upgrade_with_weapon_entry(core.ion_torpedo)
     upgrade_list_B.upgrade_with_weapon_entry(core.rocket_launcher)
-    upgrade_list_B.upgrade_with_weapon_entry(core.ion_disruptor)
-    upgrade_list_B.upgrade_with_weapon_entry(core.concussion_grenade)
+    upgrade_list_B.upgrade_with_weapon_entry(core.mortar)
     upgrade_list_B.upgrade_with_weapon_entry(core.thermal_detonator)
     upgrade_list_B.upgrade_with_weapon_entry(core.ion_grenade)
     upgrade_list_B.upgrade_with_weapon_entry(core.frag_grenade)
-    upgrade_list_B.upgrade_with_weapon_entry(core.thermal_imploder)
 
     # C
 
@@ -79,15 +91,16 @@ with open("rebel_alliance.tsv", "w", encoding="utf-8") as file:
 
     # assign upgrade lists
 
-    rebel_trooper.add_upgrade_list([upgrade_list_A, upgrade_list_B])
+    clone_trooper.add_upgrade_list([upgrade_list_A, upgrade_list_B])
     at_rt.add_upgrade_list(upgrade_list_C)
 
     # print all
 
     file.write(core.header)
-    file.write(ben_kenobi.write_statline())
-    file.write(rebel_captain.write_statline())
-    file.write(rebel_trooper.write_statline())
+    file.write(obi_wan_kenobi.write_statline())
+    file.write(anakin_skywalker.write_statline())
+    file.write(clone_sergeant.write_statline())
+    file.write(clone_trooper.write_statline())
     file.write(at_rt.write_statline())
 
     file.write("\n")

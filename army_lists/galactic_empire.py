@@ -1,5 +1,5 @@
-from firefight.firefight import Weapon, Model, UpgradeList
-from firefight import core
+from sw_firefight_engine.firefight import Weapon, Model, UpgradeList
+from sw_firefight_engine import core
 
 with open("galactic_empire.tsv", "w", encoding="utf-8") as file:
 
