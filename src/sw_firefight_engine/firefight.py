@@ -401,6 +401,7 @@ class Weapon:
             + suppressive
             + throw
             + fixed
+            + unique
             + ")"
             + secondary_fire_mode_string
         )
@@ -639,7 +640,8 @@ class Model:
             raise Exception("Multiple matching weapons found - unequipped all")
 
     def add_upgrade_list(self, upgrade_list) -> None:
-        # should add a check in case the upgrade list has a base model - if it does, it MUST be this model
+        # should add a check in case the upgrade list has a base model
+        # if it does, it MUST be this model
         if type(upgrade_list) is not list:
             upgrade_list = [upgrade_list]
         upgrade_list_string = ""
@@ -1003,6 +1005,22 @@ class Model:
         return statline
 
 
+class ModelList:
+    def __init__(self) -> None:
+        self.models = []
+        self.header = "Name\tQu\tDf\tT\tWeapons\tSpecial Rules\tOptions\tCost\n"
+
+    def add_model_entry(self, model: Model):
+        self.models.append(model)
+
+    def file_write_tsv(self, filename):
+        # works in write mode; assumes this will be done first to create file
+        with open(filename, "w", encoding="utf-8") as file:
+            file.write(self.header)
+            for model in self.models:
+                file.write(model.write_statline())
+
+
 class UpgradeList:
     # need 2 main types:
     # - weapon upgrades (includes upgrade with, upgrade with one etc, upgrade with (lose Expendable), replace (with all the options))
@@ -1086,3 +1104,9 @@ class UpgradeList:
         for upgrade_string in self.upgrades:
             upgrade_list_string += upgrade_string + "\n"
         return upgrade_list_string
+
+    def file_write_tsv(self, filename):
+        # works in append mode; assumes this will be done after writing model list
+        with open(filename, "a", encoding="utf-8") as file:
+            file.write("\n")
+            file.write(self.write_upgrade_list())

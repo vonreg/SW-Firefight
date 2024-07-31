@@ -1,7 +1,5 @@
 from sw_firefight_engine.firefight import Weapon
 
-header = "Name\tQu\tDf\tT\tWeapons\tSpecial Rules\tOptions\tCost\n"
-
 # blaster pistols
 
 blaster_pistol = Weapon("Blaster Pistol", 12, 2, quickdraw=True)
