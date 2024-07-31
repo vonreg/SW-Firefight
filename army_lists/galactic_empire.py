@@ -171,7 +171,7 @@ with open("galactic_empire.tsv", "w", encoding="utf-8") as file:
     astromech_droid = Model("Astromech Droid", 5, 5, 1, droid=True, repair=1, slow=True)
     astromech_droid.equip_weapon(shock_pulse)
 
-    ### Upgrade lists ###
+    # -*- Upgrade lists -*-
 
     # A
 

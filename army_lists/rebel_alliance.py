@@ -39,7 +39,7 @@ with open("rebel_alliance.tsv", "w", encoding="utf-8") as file:
     at_rt.equip_weapon(core.laser_cannon_mounted)
     at_rt.equip_weapon(core.blaster_rifle)
 
-    ### Upgrade lists ###
+    # -*- Upgrade lists -*-
 
     # A
 

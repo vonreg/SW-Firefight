@@ -213,7 +213,7 @@ with open("confederacy_of_independent_systems.tsv", "w", encoding="utf-8") as fi
     # Asajj Ventress
     # Savage Opress
 
-    ### Upgrade lists ###
+    # -*- Upgrade lists -*-
 
     # A
 

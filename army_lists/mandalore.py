@@ -40,7 +40,7 @@ with open("mandalore.tsv", "w", encoding="utf-8") as file:
     mandalorian.equip_weapon(core.dual_blaster_pistols)
     mandalorian.equip_weapon(jetpack_rocket)
 
-    ### Upgrade lists ###
+    # -*- Upgrade lists -*-
 
     # A
 

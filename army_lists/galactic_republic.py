@@ -60,7 +60,7 @@ with open("galactic_republic.tsv", "w", encoding="utf-8") as file:
     at_rt.equip_weapon(core.laser_cannon_mounted)
     at_rt.equip_weapon(core.grenade_launcher)
 
-    ### Upgrade lists ###
+    # -*- Upgrade lists -*-
 
     # A
 
