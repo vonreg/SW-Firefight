@@ -11,8 +11,8 @@ authors = [
 description = "SW Firefight points calculation and army list writing engine."
 readme = "README.md"
 dependencies = [
-    "latextable==1.0.1",
-    "texttable==1.7.0"
+    "pandas",
+    "jinja2"
 ]
 
 [tool.hatch.build.targets.wheel]

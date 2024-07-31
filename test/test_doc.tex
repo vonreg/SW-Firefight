@@ -1,0 +1,26 @@
+\documentclass{article}
+\usepackage{booktabs}
+\usepackage[table]{xcolor}
+\usepackage[raggedrightboxes]{ragged2e}
+\usepackage{array}
+\usepackage[a4paper, left=0.6cm, right=0.6cm, top=2.0cm, bottom=2.0cm]{geometry}
+
+\renewcommand{\familydefault}{\sfdefault}
+
+\begin{document}
+
+{\scriptsize
+
+\setlength\extrarowheight{1.5pt}
+\rowcolors{2}{white}{gray!25}
+\input model_list.tex
+
+\vspace{5cm}
+
+\setlength\extrarowheight{1.5pt}
+\rowcolors{2}{white}{gray!25}
+\input upgrade_A.tex
+
+}
+
+\end{document}

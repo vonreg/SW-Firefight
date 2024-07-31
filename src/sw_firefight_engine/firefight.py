@@ -1,6 +1,7 @@
 from operator import attrgetter
 from itertools import combinations
 import copy
+import pandas as pd
 
 
 class Weapon:
@@ -999,7 +1000,6 @@ class Model:
             + options
             + "\t"
             + cost
-            + "\n"
         )
 
         return statline
@@ -1008,7 +1008,7 @@ class Model:
 class ModelList:
     def __init__(self) -> None:
         self.models = []
-        self.header = "Name\tQu\tDf\tT\tWeapons\tSpecial Rules\tOptions\tCost\n"
+        self.header = "Name\tQu\tDf\tT\tWeapons\tSpecial Rules\tOptions\tCost"
 
     def add_model_entry(self, model: Model):
         self.models.append(model)
@@ -1016,9 +1016,43 @@ class ModelList:
     def file_write_tsv(self, filename: str):
         # works in write mode; assumes this will be done first to create file
         with open(filename, "w", encoding="utf-8") as file:
-            file.write(self.header)
+            file.write(self.header + "\n")
             for model in self.models:
-                file.write(model.write_statline())
+                file.write(model.write_statline() + "\n")
+
+    def file_write_latex(self, filename: str):
+        # create table as a string
+        table_string = self.models[0].write_statline()
+        for i in range(len(self.models) - 1):
+            table_string += "\n" + self.models[i + 1].write_statline()
+
+        # create linebreaks for table
+        table_string = table_string.replace(": ", ":\\newline ")
+        table_string = table_string.replace("; ", "\\newline ")
+        table_string = table_string.replace("), ", ")\\newline ")
+
+        # convert table to pandas dataframe
+        table_df = pd.DataFrame([x.split("\t") for x in table_string.split("\n")])
+        table_df.columns = self.header.split("\t")
+
+        # write dataframe to latex string
+        table_tex = (
+            table_df.style.hide(axis="index")
+            .applymap_index(lambda v: "textbf:--rwrap;", axis="columns")
+            .to_latex(
+                column_format="m{2.6cm} >{\\centering\\arraybackslash}m{0.3cm} "
+                ">{\\centering\\arraybackslash}m{0.3cm} >{\\centering\\arraybackslash}m{0.3cm} "
+                "m{6.5cm} m{4.2cm} >{\\centering\\arraybackslash}m{0.8cm} "
+                ">{\\centering\\arraybackslash}m{0.4cm}",
+            )
+        )
+
+        # fix for pandas bug (last column not bold)
+        table_tex = table_tex.replace("Cost", "\\textbf{Cost}")
+
+        # write latex string to file
+        with open(filename, "w", encoding="utf-8") as file:
+            file.write(table_tex)
 
 
 class UpgradeList:
@@ -1105,3 +1139,34 @@ class UpgradeList:
             for upgrade_string in self.upgrades:
                 file.write("\n" + upgrade_string)
             file.write("\n")
+
+    def file_write_latex(self, filename: str):
+        # create table as a string
+        table_string = self.upgrades[0]
+        for i in range(len(self.upgrades) - 1):
+            table_string += "\n" + self.upgrades[i + 1]
+
+        # create linebreaks for table
+        table_string = table_string.replace(": ", ":\\newline ")
+        table_string = table_string.replace("; ", "\\newline ")
+        table_string = table_string.replace("), ", ")\\newline ")
+
+        # convert table to pandas dataframe
+        table_df = pd.DataFrame([x.split("\t") for x in table_string.split("\n")])
+        table_df.columns = self.upgrade_list_header.split("\t")
+
+        # write dataframe to latex string
+        table_tex = (
+            table_df.style.hide(axis="index")
+            .applymap_index(lambda v: "textbf:--rwrap;", axis="columns")
+            .to_latex(
+                column_format="m{6.4cm} >{\\centering\\arraybackslash}m{0.4cm}",
+            )
+        )
+
+        # fix for pandas bug (last column not bold)
+        table_tex = table_tex.replace("Cost", "\\textbf{Cost}")
+
+        # write latex string to file
+        with open(filename, "w", encoding="utf-8") as file:
+            file.write(table_tex)
