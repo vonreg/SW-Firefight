@@ -3,43 +3,6 @@ from itertools import combinations
 import copy
 
 
-def model_weapon_cost(weapons, quality, arsenal, gunslinger=False):
-
-    weapon_indices = range(len(weapons))
-
-    weapon_combinations = list(combinations(weapon_indices, arsenal))
-
-    all_cost_options = []
-    for weapon_combination in weapon_combinations:
-        highest_non_ammo_cost = 0
-        combination_costs = []
-        for i in weapon_indices:
-            weapon = weapons[i]
-            full_cost = weapon.calculate_cost(quality)
-
-            if i in weapon_combination:
-                combination_costs.append(full_cost)
-            else:
-                reduced_cost = (
-                    full_cost
-                    * weapon.reduced_multiplier_dict[weapon.ammo]
-                    / weapon.ammo_multiplier_dict[weapon.ammo]
-                )
-                combination_costs.append(reduced_cost)
-
-            if combination_costs[i] > highest_non_ammo_cost and weapon.ammo is None:
-                highest_non_ammo_cost = combination_costs[i]
-
-        combination_cost = sum(combination_costs)
-        if gunslinger:
-            combination_cost += highest_non_ammo_cost
-        all_cost_options.append(combination_cost)
-
-    weapon_cost = max(all_cost_options)
-
-    return weapon_cost
-
-
 class Weapon:
     def __init__(
         self,
