@@ -1013,7 +1013,7 @@ class ModelList:
     def add_model_entry(self, model: Model):
         self.models.append(model)
 
-    def file_write_tsv(self, filename):
+    def file_write_tsv(self, filename: str):
         # works in write mode; assumes this will be done first to create file
         with open(filename, "w", encoding="utf-8") as file:
             file.write(self.header)
@@ -1098,15 +1098,10 @@ class UpgradeList:
 
         self.upgrades.append(upgrade_string)
 
-    def write_upgrade_list(self):
-        upgrade_list_string = ""
-        upgrade_list_string += self.upgrade_list_header + "\n"
-        for upgrade_string in self.upgrades:
-            upgrade_list_string += upgrade_string + "\n"
-        return upgrade_list_string
-
-    def file_write_tsv(self, filename):
+    def file_write_tsv(self, filename: str):
         # works in append mode; assumes this will be done after writing model list
         with open(filename, "a", encoding="utf-8") as file:
+            file.write("\n" + self.upgrade_list_header)
+            for upgrade_string in self.upgrades:
+                file.write("\n" + upgrade_string)
             file.write("\n")
-            file.write(self.write_upgrade_list())
