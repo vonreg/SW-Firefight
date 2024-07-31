@@ -1,7 +1,7 @@
 from sw_firefight_engine.firefight import Weapon, Model, ModelList, UpgradeList
 from sw_firefight_engine import core
 
-file = "confederacy_of_independent_systems.tsv"
+file = "seperatist_alliance.tsv"
 
 dooku = Model(
     "Count Dooku",
