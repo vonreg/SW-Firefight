@@ -519,6 +519,7 @@ class Model:
         self.hero_villain_cost_dict = {False: 0, True: 0}
         self.hunter_cost_dict = {None: 0, "Jedi": 0.5, "Sith": 0.5}
         self.immobile_cost_dict = {False: 0, True: -3}
+        self.impact_cost_dict = {0: 0, 1: 3, 2: 6, 3: 9, 4: 12, 5: 15, 6: 18}
         self.jedi_sith_cost_dict = {False: 0, True: 0}
         self.jump_cost_dict = {0: 0, 3: 0.5, 6: 1}
         self.impervious_cost_dict = {False: 0, True: 6}
@@ -531,6 +532,8 @@ class Model:
         self.relentless_cost_dict = {False: 0, True: 1}
         self.scout_cost_dict = {False: 0, True: 1}
         self.slow_cost_dict = {False: 0, True: -1}
+        self.spotter_cost_dict = {0: 0, 1: 5, 2: 10, 3: 15}
+        self.take_cover_cost_dict = {0: 0, 1: 5, 2: 10, 3: 15}
         self.vehicle_cost_dict = {False: 0, True: 0, "Droid": 0}
 
         if hero & villain:
@@ -572,7 +575,7 @@ class Model:
         jedi_cost = self.jedi_sith_cost_dict[self.jedi]
         sith_cost = self.jedi_sith_cost_dict[self.sith]
         jump_cost = self.jump_cost_dict[self.jump] * quality_cost
-        impact_cost = self.impact * 3
+        impact_cost = self.impact_cost_dict[self.impact]
         impervious_cost = self.impervious_cost_dict[self.impervious] * self.toughness
         protector_cost = self.protector_cost_dict[self.protector] * defense_cost
         relay_cost = self.relay_cost_dict[self.relay]
@@ -583,8 +586,8 @@ class Model:
         # logic here: essentially +1 Toughness w/ 3+ save (would cost 8 + Quality cost)
         # then adding +2 pts for recovery chance
         slow_cost = self.slow_cost_dict[self.slow] * quality_cost
-        spotter_cost = self.spotter * 5
-        take_cover_cost = self.take_cover * 5
+        spotter_cost = self.spotter_cost_dict[self.spotter]
+        take_cover_cost = self.take_cover_cost_dict[self.take_cover]
         vehicle_cost = self.vehicle_cost_dict[self.vehicle]
 
         base_model_cost = (
