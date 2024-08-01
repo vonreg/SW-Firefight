@@ -45,16 +45,20 @@ upgrade_list_A.upgrade_with_weapon_entry(core.heavy_blaster_rifle)
 upgrade_list_A.upgrade_with_weapon_entry(core.blaster_carbine)
 upgrade_list_A.upgrade_with_weapon_entry(core.heavy_repeater)
 
-upgrade_list_A.file_write_latex("upgrade_A.tex")
+upgrade_list_B = UpgradeList("B", base_model=d1_aerial_battle_droid)
+upgrade_list_B.select_upgrade_with_weapon_type(replace_weapon=wing_blasters, limit=2)
+upgrade_list_B.upgrade_with_weapon_entry(core.blaster_pistol)
+upgrade_list_B.upgrade_with_weapon_entry(core.heavy_repeater)
+
+upgrade_list_A.file_write_latex("upgrade_A.tabl")
+upgrade_list_B.file_write_latex("upgrade_B.tabl")
 
 general_grievous.add_upgrade_list(upgrade_list_A)
-
-# add disallowed upgrade list to test exception
-b1_silly_droid.add_upgrade_list(upgrade_list_A)
+d1_aerial_battle_droid.add_upgrade_list(upgrade_list_B)
 
 model_list = ModelList()
 model_list.add_model_entry(general_grievous)
 model_list.add_model_entry(d1_aerial_battle_droid)
 model_list.add_model_entry(b2_super_battle_droid)
 model_list.add_model_entry(b1_silly_droid)
-model_list.file_write_latex("model_list.tex")
+model_list.file_write_latex("model_list.tabl")

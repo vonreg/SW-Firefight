@@ -1050,7 +1050,7 @@ class ModelList:
             .to_latex(
                 column_format="m{2.6cm} >{\\centering\\arraybackslash}m{0.3cm} "
                 ">{\\centering\\arraybackslash}m{0.3cm} >{\\centering\\arraybackslash}m{0.3cm} "
-                "m{6.5cm} m{4.2cm} >{\\centering\\arraybackslash}m{0.8cm} "
+                "m{6.8cm} m{4.0cm} >{\\centering\\arraybackslash}m{0.8cm} "
                 ">{\\centering\\arraybackslash}m{0.4cm}",
             )
         )
@@ -1168,7 +1168,7 @@ class UpgradeList:
             table_df.style.hide(axis="index")
             .applymap_index(lambda v: "textbf:--rwrap;", axis="columns")
             .to_latex(
-                column_format="m{6.4cm} >{\\centering\\arraybackslash}m{0.4cm}",
+                column_format="m{7.6cm} >{\\centering\\arraybackslash}m{0.4cm}",
             )
         )
 
