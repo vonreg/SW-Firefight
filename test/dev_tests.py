@@ -27,6 +27,17 @@ b2_super_battle_droid = Model("B2 Super Battle Droid", 5, 5, 2, droid=True, slow
 wrist_blaster = Weapon("Wrist Blaster", 18, 3, pierce=1)
 b2_super_battle_droid.equip_weapon(wrist_blaster)
 
+b1_silly_droid = Model("B1 Silly Droid", 6, 6, 1, droid=True, expendable=2)
+b1_mega_gun = Weapon(
+    "Mega Gun",
+    30,
+    3,
+    secondary_fire_modes=[
+        Weapon("Sniper Shot", "inf", 1, pierce=2, ammo=2, sniper=True, deadly=2)
+    ],
+)
+b1_silly_droid.equip_weapon(b1_mega_gun)
+
 upgrade_list_A = UpgradeList("A", base_model=general_grievous)
 upgrade_list_A.select_upgrade_with_weapon_type()
 upgrade_list_A.upgrade_with_weapon_entry(core.blaster_rifle)
@@ -38,9 +49,12 @@ upgrade_list_A.file_write_latex("upgrade_A.tex")
 
 general_grievous.add_upgrade_list(upgrade_list_A)
 
+# add disallowed upgrade list to test exception
+b1_silly_droid.add_upgrade_list(upgrade_list_A)
+
 model_list = ModelList()
 model_list.add_model_entry(general_grievous)
 model_list.add_model_entry(d1_aerial_battle_droid)
 model_list.add_model_entry(b2_super_battle_droid)
-model_list.add_model_entry(general_grievous)
+model_list.add_model_entry(b1_silly_droid)
 model_list.file_write_latex("model_list.tex")

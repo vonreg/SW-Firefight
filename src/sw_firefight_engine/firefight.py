@@ -641,13 +641,21 @@ class Model:
             raise Exception("Multiple matching weapons found - unequipped all")
 
     def add_upgrade_list(self, upgrade_list) -> None:
-        # should add a check in case the upgrade list has a base model
-        # if it does, it MUST be this model
+        # convert non-list entries to lists
         if type(upgrade_list) is not list:
             upgrade_list = [upgrade_list]
+
         upgrade_list_string = ""
         for i in range(len(upgrade_list)):
             upgrade_list_single = upgrade_list[i]
+            # check upgrade list can be applied to this model
+            if upgrade_list_single.base_model:
+                if upgrade_list_single.base_model.name != self.name:
+                    raise Exception(
+                        "Upgrade list base model does not match "
+                        "the model it is being applied to"
+                    )
+            # create upgrade list string
             if i == 0:
                 delim = ""
             else:
