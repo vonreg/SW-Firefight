@@ -192,7 +192,7 @@ class Weapon:
             * range_multiplier
             / self.range_multiplier_dict["inf"]
         )
-        if self.torrent == True and self.blast == None:
+        if self.torrent is True and self.blast is None:
             disorient_cost_increase *= effective_quality_cost / 8
 
         if self.range == "melee":
@@ -1052,9 +1052,12 @@ class ModelList:
             table_df.style.hide(axis="index")
             .applymap_index(lambda v: "textbf:--rwrap;", axis="columns")
             .to_latex(
-                column_format="m{2.6cm} >{\\centering\\arraybackslash}m{0.3cm} "
-                ">{\\centering\\arraybackslash}m{0.3cm} >{\\centering\\arraybackslash}m{0.3cm} "
-                "m{6.8cm} m{4.0cm} >{\\centering\\arraybackslash}m{0.8cm} "
+                column_format="m{2.6cm} "
+                ">{\\centering\\arraybackslash}m{0.3cm} "
+                ">{\\centering\\arraybackslash}m{0.3cm} "
+                ">{\\centering\\arraybackslash}m{0.3cm} "
+                "m{6.8cm} m{4.0cm} "
+                ">{\\centering\\arraybackslash}m{0.8cm} "
                 ">{\\centering\\arraybackslash}m{0.4cm}",
             )
         )
@@ -1097,7 +1100,7 @@ class UpgradeList:
             lose_expendable_string = " (lose Expendable)"
         else:
             lose_expendable_string = ""
-        if limit == None:
+        if limit is None:
             limit_string = ""
         elif limit == 1:
             limit_string = " one"
@@ -1158,7 +1161,7 @@ class UpgradeList:
             lose_expendable_string = " (lose Expendable)"
         else:
             lose_expendable_string = ""
-        if limit == None:
+        if limit is None:
             limit_string = ""
         elif limit == 1:
             limit_string = " one"
@@ -1345,6 +1348,369 @@ class UpgradeList:
             + free_special_rule_str
         )
         upgrade_text = name + " (" + special_rules + ")"
+        upgrade_string = upgrade_text + "\t%i" % round(upgrade_cost)
+
+        self.upgrades.append(upgrade_string)
+
+    def select_upgrade_with_model_changes_type(self, limit=None, lose_expendable=False):
+        if self.upgrade_list_type is not None:
+            raise Exception("Upgrade list cannot have more than one upgrade list type")
+        else:
+            self.upgrade_list_type = "Model changes"
+        if not self.base_model:
+            raise Exception("Model-changing rule upgrades must have a base model")
+        if lose_expendable:
+            lose_expendable_string = " (lose Expendable)"
+        else:
+            lose_expendable_string = ""
+        if limit is None:
+            limit_string = ""
+        elif limit == 1:
+            limit_string = " one"
+        elif limit == 2:
+            limit_string = " two"
+        else:
+            raise Exception("limit must be None, 1 or 2")
+
+        self.model_copy = copy.deepcopy(self.base_model)
+        type_string = "Upgrade with"
+        self.upgrade_list_header = (
+            self.label
+            + " | "
+            + type_string
+            + limit_string
+            + lose_expendable_string
+            + ":\tCost"
+        )
+
+    def upgrade_with_model_changes_entry(
+        self,
+        name: str,
+        quality=None,
+        defense=None,
+        toughness=None,
+        arsenal=1,
+        cover=None,
+        courage=None,
+        command=None,
+        deflect=None,
+        disciplined=None,
+        droid=None,
+        emplacement=None,
+        expendable=None,
+        fast=None,
+        fear=None,
+        fly=None,
+        gunslinger=None,
+        heal=None,
+        hero=None,
+        villain=None,
+        hunter=None,
+        immobile=None,
+        jedi=None,
+        sith=None,
+        jump=None,
+        impact=None,
+        impervious=None,
+        protector=None,
+        protector_key=None,
+        relay=None,
+        relentless=None,
+        repair=None,
+        scout=None,
+        shield=None,
+        slow=None,
+        spotter=None,
+        take_cover=None,
+        unique=None,
+        vehicle=None,
+        free_special_rule=None,
+    ) -> None:
+
+        entry_model_copy = copy.deepcopy(self.model_copy)
+
+        comma = ""
+        if quality:
+            entry_model_copy.quality = quality
+            quality_str = "%sQu %s+" % (comma, str(quality))
+            comma = ", "
+        else:
+            quality_str = ""
+        if defense:
+            entry_model_copy.defense = defense
+            defense_str = "%sDf %s+" % (comma, str(defense))
+            comma = ", "
+        else:
+            defense_str = ""
+        if toughness:
+            entry_model_copy.toughness = toughness
+            toughness_increase = toughness - self.base_model.toughness
+            toughness_str = "%sT +%s" % (comma, str(toughness_increase))
+            comma = ", "
+        else:
+            toughness_str = ""
+        if jedi:
+            entry_model_copy.jedi = jedi
+            jedi_str = "%sJedi" % comma
+            comma = ", "
+        else:
+            jedi_str = ""
+        if sith:
+            entry_model_copy.sith = sith
+            sith_str = "%sSith" % comma
+            comma = ", "
+        else:
+            sith_str = ""
+        if hero:
+            entry_model_copy.hero = hero
+            hero_str = "%sHero" % comma
+            comma = ", "
+        else:
+            hero_str = ""
+        if villain:
+            entry_model_copy.villain = villain
+            villain_str = "%sVillain" % comma
+            comma = ", "
+        else:
+            villain_str = ""
+        if droid:
+            entry_model_copy.droid = droid
+            droid_str = "%sDroid" % comma
+            comma = ", "
+        else:
+            droid_str = ""
+        if vehicle:
+            entry_model_copy.vehicle = vehicle
+            vehicle_str = "%sVehicle" % comma
+            comma = ", "
+        else:
+            vehicle_str = ""
+        if emplacement:
+            entry_model_copy.emplacement = emplacement
+            emplacement_str = "%sEmplacement" % comma
+            comma = ", "
+        else:
+            emplacement_str = ""
+        if command:
+            entry_model_copy.command = command
+            command_str = "%sCommand" % comma
+            comma = ", "
+        else:
+            command_str = ""
+        if relay:
+            entry_model_copy.relay = relay
+            relay_str = "%sRelay" % comma
+            comma = ", "
+        else:
+            relay_str = ""
+        if arsenal != 1:
+            entry_model_copy.arsenal = arsenal
+            arsenal_str = "%sArsenal[%s]" % (comma, str(arsenal))
+            comma = ", "
+        else:
+            arsenal_str = ""
+        if cover:
+            entry_model_copy.cover = cover
+            cover_str = "%sCover[%s]" % (comma, str(cover))
+            comma = ", "
+        else:
+            cover_str = ""
+        if courage:
+            entry_model_copy.courage = courage
+            courage_str = "%sCourage" % comma
+            comma = ", "
+        else:
+            courage_str = ""
+        if deflect:
+            entry_model_copy.deflect = deflect
+            deflect_str = "%sDeflect" % comma
+            comma = ", "
+        else:
+            deflect_str = ""
+        if disciplined:
+            entry_model_copy.disciplined = disciplined
+            disciplined_str = "%sDisciplined" % comma
+            comma = ", "
+        else:
+            disciplined_str = ""
+        if expendable:
+            entry_model_copy.expendable = expendable
+            expendable_str = "%sExpendable[%s]" % (comma, str(expendable))
+            comma = ", "
+        else:
+            expendable_str = ""
+        if fast:
+            entry_model_copy.fast = fast
+            fast_str = "%sFast" % comma
+            comma = ", "
+        else:
+            fast_str = ""
+        if fear:
+            entry_model_copy.fear = fear
+            fear_str = "%sFear" % comma
+            comma = ", "
+        else:
+            fear_str = ""
+        if fly:
+            entry_model_copy.fly = fly
+            fly_str = "%sFly" % comma
+            comma = ", "
+        else:
+            fly_str = ""
+        if gunslinger:
+            entry_model_copy.gunslinger = gunslinger
+            gunslinger_str = "%sGunslinger" % comma
+            comma = ", "
+        else:
+            gunslinger_str = ""
+        if heal:
+            entry_model_copy.heal = heal
+            heal_str = "%sHeal[%s]" % (comma, str(heal))
+            comma = ", "
+        else:
+            heal_str = ""
+        if hunter:
+            entry_model_copy.hunter = hunter
+            hunter_str = "%sHunter[%s]" % (comma, hunter)
+            comma = ", "
+        else:
+            hunter_str = ""
+        if immobile:
+            entry_model_copy.immobile = immobile
+            immobile_str = "%sImmobile" % comma
+            comma = ", "
+        else:
+            immobile_str = ""
+        if jump:
+            entry_model_copy.jump = jump
+            jump_str = '%sJump[%s"]' % (comma, str(jump))
+            comma = ", "
+        else:
+            jump_str = ""
+        if impact:
+            entry_model_copy.impact = impact
+            impact_str = "%sImpact[%s]" % (comma, str(impact))
+            comma = ", "
+        else:
+            impact_str = ""
+        if impervious:
+            entry_model_copy.impervious = impervious
+            impervious_str = "%sImpervious" % comma
+            comma = ", "
+        else:
+            impervious_str = ""
+        if protector == "Any":
+            entry_model_copy.protector = protector
+            entry_model_copy.protector_key = protector_key
+            protector_str = "%sProtector" % comma
+            comma = ", "
+        elif protector == "Unit":
+            entry_model_copy.protector = protector
+            entry_model_copy.protector_key = protector_key
+            protector_str = "%sProtector[%s]" % (comma, protector_key)
+        else:
+            protector_str = ""
+        if relentless:
+            entry_model_copy.relentless = relentless
+            relentless_str = "%sRelentless" % comma
+            comma = ", "
+        else:
+            relentless_str = ""
+        if repair:
+            entry_model_copy.repair = repair
+            repair_str = "%sRepair[%s]" % (comma, str(repair))
+            comma = ", "
+        else:
+            repair_str = ""
+        if scout:
+            entry_model_copy.scout = scout
+            scout_str = "%sScout" % comma
+            comma = ", "
+        else:
+            scout_str = ""
+        if shield:
+            entry_model_copy.shield = shield
+            shield_str = "%sShield[%s]" % (comma, str(shield))
+            comma = ", "
+        else:
+            shield_str = ""
+        if slow:
+            entry_model_copy.slow = slow
+            slow_str = "%sSlow" % comma
+            comma = ", "
+        else:
+            slow_str = ""
+        if spotter:
+            entry_model_copy.spotter = spotter
+            spotter_str = "%sSpotter[%s]" % (comma, str(spotter))
+            comma = ", "
+        else:
+            spotter_str = ""
+        if take_cover:
+            entry_model_copy.take_cover = take_cover
+            take_cover_str = "%sTake Cover[%s]" % (comma, str(take_cover))
+            comma = ", "
+        else:
+            take_cover_str = ""
+        if unique:
+            entry_model_copy.unique = unique
+            unique_str = "%sUnique[%s]" % (comma, str(unique))
+            comma = ", "
+        else:
+            unique_str = ""
+        if free_special_rule:
+            entry_model_copy.free_special_rule = free_special_rule
+            free_special_rule_str = "%s%s" % (comma, free_special_rule)
+        else:
+            free_special_rule_str = ""
+
+        model_changes_str = (
+            quality_str
+            + defense_str
+            + toughness_str
+            + jedi_str
+            + sith_str
+            + hero_str
+            + villain_str
+            + droid_str
+            + vehicle_str
+            + emplacement_str
+            + command_str
+            + relay_str
+            + arsenal_str
+            + cover_str
+            + courage_str
+            + deflect_str
+            + disciplined_str
+            + expendable_str
+            + fast_str
+            + fear_str
+            + fly_str
+            + gunslinger_str
+            + heal_str
+            + hunter_str
+            + immobile_str
+            + jump_str
+            + impact_str
+            + impervious_str
+            + protector_str
+            + relentless_str
+            + repair_str
+            + scout_str
+            + shield_str
+            + slow_str
+            + spotter_str
+            + take_cover_str
+            + unique_str
+            + free_special_rule_str
+        )
+
+        original_cost = self.base_model.calculate_total_cost()
+        new_cost = entry_model_copy.calculate_total_cost()
+
+        upgrade_cost = new_cost - original_cost
+
+        upgrade_text = name + " (" + model_changes_str + ")"
         upgrade_string = upgrade_text + "\t%i" % round(upgrade_cost)
 
         self.upgrades.append(upgrade_string)

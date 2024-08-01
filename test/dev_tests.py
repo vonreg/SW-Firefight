@@ -94,13 +94,29 @@ upgrade_list_upgrades3.upgrade_with_rule_model_agnostic_entry(
     "Sandbags", emplacement=True
 )
 
+label = letter_increment(label)
+upgrade_list_upgrades4 = UpgradeList(label, base_model=general_grievous)
+upgrade_list_upgrades4.select_upgrade_with_model_changes_type(limit=1)
+upgrade_list_upgrades4.upgrade_with_model_changes_entry("Combat Armour", defense=5)
+upgrade_list_upgrades4.upgrade_with_model_changes_entry("Heavy Armour", defense=3)
+upgrade_list_upgrades4.upgrade_with_model_changes_entry(
+    "Beskar Armour", defense=2, impervious=True
+)
+upgrade_list_upgrades4.upgrade_with_model_changes_entry("Medic", heal=1)
+upgrade_list_upgrades4.upgrade_with_model_changes_entry("Expert Mechanic", repair=2)
+upgrade_list_upgrades4.upgrade_with_model_changes_entry("Expert Medic", heal=2)
+upgrade_list_upgrades4.upgrade_with_model_changes_entry("Pogo Stick", jump=3, fear=True)
+
+
 upgrade_list_grievous.file_write_latex()
 upgrade_list_d1.file_write_latex()
 upgrade_list_upgrades1.file_write_latex()
 upgrade_list_upgrades2.file_write_latex()
 upgrade_list_upgrades3.file_write_latex()
+upgrade_list_upgrades4.file_write_latex()
 
 general_grievous.add_upgrade_list([upgrade_list_grievous, upgrade_list_upgrades1])
+general_grievous.add_upgrade_list(upgrade_list_upgrades4)
 d1_aerial_battle_droid.add_upgrade_list(upgrade_list_d1)
 b2_super_battle_droid.add_upgrade_list(upgrade_list_upgrades1)
 b2_super_battle_droid.add_upgrade_list([upgrade_list_upgrades2, upgrade_list_upgrades3])
