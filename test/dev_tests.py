@@ -1,4 +1,10 @@
-from sw_firefight_engine.firefight import Weapon, Model, ModelList, UpgradeList
+from sw_firefight_engine.firefight import (
+    Weapon,
+    Model,
+    ModelList,
+    UpgradeList,
+    letter_increment,
+)
 from sw_firefight_engine import core
 
 general_grievous = Model(
@@ -38,53 +44,66 @@ b1_mega_gun = Weapon(
 )
 b1_silly_droid.equip_weapon(b1_mega_gun)
 
-upgrade_list_A = UpgradeList("A", base_model=general_grievous)
-upgrade_list_A.select_upgrade_with_weapon_type()
-upgrade_list_A.upgrade_with_weapon_entry(core.blaster_rifle)
-upgrade_list_A.upgrade_with_weapon_entry(core.heavy_blaster_rifle)
-upgrade_list_A.upgrade_with_weapon_entry(core.blaster_carbine)
-upgrade_list_A.upgrade_with_weapon_entry(core.heavy_repeater)
+label = "A"
+upgrade_list_grievous = UpgradeList(label, base_model=general_grievous)
+upgrade_list_grievous.select_upgrade_with_weapon_type()
+upgrade_list_grievous.upgrade_with_weapon_entry(core.blaster_rifle)
+upgrade_list_grievous.upgrade_with_weapon_entry(core.heavy_blaster_rifle)
+upgrade_list_grievous.upgrade_with_weapon_entry(core.blaster_carbine)
+upgrade_list_grievous.upgrade_with_weapon_entry(core.heavy_repeater)
 
-upgrade_list_B = UpgradeList("B", base_model=d1_aerial_battle_droid)
-upgrade_list_B.select_upgrade_with_weapon_type(replace_weapon=wing_blasters, limit=2)
-upgrade_list_B.upgrade_with_weapon_entry(core.blaster_pistol)
-upgrade_list_B.upgrade_with_weapon_entry(core.heavy_repeater)
+label = letter_increment(label)
+upgrade_list_d1 = UpgradeList(label, base_model=d1_aerial_battle_droid)
+upgrade_list_d1.select_upgrade_with_weapon_type(replace_weapon=wing_blasters, limit=2)
+upgrade_list_d1.upgrade_with_weapon_entry(core.blaster_pistol)
+upgrade_list_d1.upgrade_with_weapon_entry(core.heavy_repeater)
 
-upgrade_list_C = UpgradeList("C")
-upgrade_list_C.select_upgrade_with_rule_model_agnostic_type()
-upgrade_list_C.upgrade_with_rule_model_agnostic_entry("Scary Mask", fear=True)
-upgrade_list_C.upgrade_with_rule_model_agnostic_entry("Cyborg", droid=True)
-upgrade_list_C.upgrade_with_rule_model_agnostic_entry("Electrobinoculars", spotter=2)
+label = letter_increment(label)
+upgrade_list_upgrades1 = UpgradeList(label)
+upgrade_list_upgrades1.select_upgrade_with_rule_model_agnostic_type()
+upgrade_list_upgrades1.upgrade_with_rule_model_agnostic_entry("Scary Mask", fear=True)
+upgrade_list_upgrades1.upgrade_with_rule_model_agnostic_entry("Cyborg", droid=True)
+upgrade_list_upgrades1.upgrade_with_rule_model_agnostic_entry(
+    "Electrobinoculars", spotter=2
+)
 
-upgrade_list_D = UpgradeList("D")
-upgrade_list_D.select_upgrade_with_rule_model_agnostic_type(
+label = letter_increment(label)
+upgrade_list_upgrades2 = UpgradeList(label)
+upgrade_list_upgrades2.select_upgrade_with_rule_model_agnostic_type(
     limit=1, lose_expendable=True
 )
-upgrade_list_D.upgrade_with_rule_model_agnostic_entry
-upgrade_list_D.upgrade_with_rule_model_agnostic_entry("Commlink", relay=True)
-upgrade_list_D.upgrade_with_rule_model_agnostic_entry("Electrobinoculars", spotter=2)
-upgrade_list_D.upgrade_with_rule_model_agnostic_entry(
+upgrade_list_upgrades2.upgrade_with_rule_model_agnostic_entry
+upgrade_list_upgrades2.upgrade_with_rule_model_agnostic_entry("Commlink", relay=True)
+upgrade_list_upgrades2.upgrade_with_rule_model_agnostic_entry(
+    "Electrobinoculars", spotter=2
+)
+upgrade_list_upgrades2.upgrade_with_rule_model_agnostic_entry(
     "MegaComputer", spotter=1, take_cover=1, unique="MegaComputer", command=True
 )
 
-upgrade_list_E = UpgradeList("E")
-upgrade_list_E.select_upgrade_with_rule_model_agnostic_type(limit=2)
-upgrade_list_E.upgrade_with_rule_model_agnostic_entry(
+label = letter_increment(label)
+upgrade_list_upgrades3 = UpgradeList(label)
+upgrade_list_upgrades3.select_upgrade_with_rule_model_agnostic_type(limit=2)
+upgrade_list_upgrades3.upgrade_with_rule_model_agnostic_entry(
     "Hamster Ball", vehicle=True, free_special_rule="Roll"
 )
-upgrade_list_E.upgrade_with_rule_model_agnostic_entry("Bicycle", vehicle=True, impact=1)
-upgrade_list_E.upgrade_with_rule_model_agnostic_entry("Sandbags", emplacement=True)
+upgrade_list_upgrades3.upgrade_with_rule_model_agnostic_entry(
+    "Bicycle", vehicle=True, impact=1
+)
+upgrade_list_upgrades3.upgrade_with_rule_model_agnostic_entry(
+    "Sandbags", emplacement=True
+)
 
-upgrade_list_A.file_write_latex("upgrade_A.tabl")
-upgrade_list_B.file_write_latex("upgrade_B.tabl")
-upgrade_list_C.file_write_latex("upgrade_C.tabl")
-upgrade_list_D.file_write_latex("upgrade_D.tabl")
-upgrade_list_E.file_write_latex("upgrade_E.tabl")
+upgrade_list_grievous.file_write_latex()
+upgrade_list_d1.file_write_latex()
+upgrade_list_upgrades1.file_write_latex()
+upgrade_list_upgrades2.file_write_latex()
+upgrade_list_upgrades3.file_write_latex()
 
-general_grievous.add_upgrade_list([upgrade_list_A, upgrade_list_C])
-d1_aerial_battle_droid.add_upgrade_list(upgrade_list_B)
-b2_super_battle_droid.add_upgrade_list(upgrade_list_C)
-b2_super_battle_droid.add_upgrade_list([upgrade_list_D, upgrade_list_E])
+general_grievous.add_upgrade_list([upgrade_list_grievous, upgrade_list_upgrades1])
+d1_aerial_battle_droid.add_upgrade_list(upgrade_list_d1)
+b2_super_battle_droid.add_upgrade_list(upgrade_list_upgrades1)
+b2_super_battle_droid.add_upgrade_list([upgrade_list_upgrades2, upgrade_list_upgrades3])
 
 model_list = ModelList()
 model_list.add_model_entry(general_grievous)

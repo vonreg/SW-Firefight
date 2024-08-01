@@ -2,6 +2,7 @@ from operator import attrgetter
 from itertools import combinations
 import copy
 import pandas as pd
+import string
 
 
 class Weapon:
@@ -1356,7 +1357,11 @@ class UpgradeList:
                 file.write("\n" + upgrade_string)
             file.write("\n")
 
-    def file_write_latex(self, filename: str):
+    def file_write_latex(self, filename=None):
+        if filename is None:
+            filename = "upgrade_" + self.label + ".tabl"
+        elif filename is not str:
+            raise Exception("Filename must be a string or None for default name")
         # create table as a string
         table_string = self.upgrades[0]
         for i in range(len(self.upgrades) - 1):
@@ -1386,3 +1391,13 @@ class UpgradeList:
         # write latex string to file
         with open(filename, "w", encoding="utf-8") as file:
             file.write(table_tex)
+
+
+def letter_increment(label: str):
+    if len(label) != 1:
+        raise Exception("Function only works for single letters")
+    if not label.isupper:
+        raise Exception("Function only works for upper case letters")
+    letters = string.ascii_uppercase
+    index = letters.index(label)
+    return letters[index + 1]
