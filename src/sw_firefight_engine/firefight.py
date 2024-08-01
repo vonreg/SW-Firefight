@@ -7,9 +7,9 @@ import pandas as pd
 class Weapon:
     def __init__(
         self,
-        name,
+        name: str,
         weapon_range,
-        attacks,
+        attacks: int,
         pierce=0,
         ammo=None,
         sniper=False,
@@ -412,7 +412,7 @@ class Weapon:
 class Model:
     def __init__(
         self,
-        name,
+        name: str,
         quality,
         defense,
         toughness,
@@ -1074,7 +1074,7 @@ class UpgradeList:
         self.label = label
         self.base_model = base_model
         self.upgrades = []
-        self.upgrade_type = None
+        self.upgrade_list_type = None
         # if base_model is left blank, need lots of checks to
         # verify it's possible for it to be a generic upgrade
         # all "weapon" upgrades should raise exceptions if base_model=None
@@ -1086,6 +1086,10 @@ class UpgradeList:
     def select_upgrade_with_weapon_type(
         self, replace_weapon=None, limit=None, lose_expendable=False
     ):
+        if self.upgrade_list_type is not None:
+            raise Exception("Upgrade list cannot have more than one upgrade list type")
+        else:
+            self.upgrade_list_type = "Weapon"
         if not self.base_model:
             raise Exception("Weapon upgrades require a base model")
         if lose_expendable:
@@ -1101,16 +1105,13 @@ class UpgradeList:
         else:
             raise Exception("limit must be None, 1 or 2")
 
-        self.upgrade_list_type = "Weapon"
-
+        self.model_copy = copy.deepcopy(self.base_model)
         if replace_weapon is None:
             type_string = "Upgrade with"
-            self.model_copy = copy.deepcopy(self.base_model)
         else:
             if type(replace_weapon) is not Weapon:
                 raise TypeError("replaced weapon type must be Weapon")
             type_string = "Replace " + replace_weapon.name + " with"
-            self.model_copy = copy.deepcopy(self.base_model)
             self.model_copy.unequip_weapon(replace_weapon)
 
         self.upgrade_list_header = (
@@ -1140,6 +1141,210 @@ class UpgradeList:
 
         # will need to modify this if enabling equipping multiple weapons in 1 upgrade
         upgrade_string = weapon.write_weapon() + "\t%i" % round(upgrade_cost)
+
+        self.upgrades.append(upgrade_string)
+
+    def select_upgrade_with_rule_model_agnostic_type(
+        self, limit=None, lose_expendable=False
+    ):
+        if self.upgrade_list_type is not None:
+            raise Exception("Upgrade list cannot have more than one upgrade list type")
+        else:
+            self.upgrade_list_type = "Rule (model-agnostic)"
+        if self.base_model:
+            raise Exception("Model-agnostic rule upgrades should not have a base model")
+        if lose_expendable:
+            lose_expendable_string = " (lose Expendable)"
+        else:
+            lose_expendable_string = ""
+        if limit == None:
+            limit_string = ""
+        elif limit == 1:
+            limit_string = " one"
+        elif limit == 2:
+            limit_string = " two"
+        else:
+            raise Exception("limit must be None, 1 or 2")
+
+        type_string = "Upgrade with"
+        self.upgrade_list_header = (
+            self.label
+            + " | "
+            + type_string
+            + limit_string
+            + lose_expendable_string
+            + ":\tCost"
+        )
+
+    def upgrade_with_rule_model_agnostic_entry(
+        self,
+        name: str,
+        courage=False,
+        command=False,
+        droid=False,
+        emplacement=False,
+        expendable=0,
+        fear=False,
+        hero=False,
+        villain=False,
+        jedi=False,
+        sith=False,
+        impact=0,
+        relay=False,
+        spotter=0,
+        take_cover=0,
+        unique=False,
+        vehicle=False,
+        free_special_rule=None,
+    ):
+        if not self.upgrade_list_type == "Rule (model-agnostic)":
+            raise Exception(
+                'This entry is valid only for "Rule (model-agnostic)" type '
+                "upgrade lists"
+            )
+
+        template_model = Model("template", 1, 1, 1)
+
+        # calculate costs
+        courage_cost = template_model.courage_cost_dict[courage]
+        command_cost = template_model.command_cost_dict[command]
+        droid_cost = template_model.droid_cost_dict[droid]
+        emplacement_cost = template_model.emplacement_cost_dict[emplacement]
+        expendable_cost = template_model.expendable_cost_dict[expendable]
+        fear_cost = template_model.fear_cost_dict[fear]
+        hero_cost = template_model.hero_villain_cost_dict[hero]
+        villain_cost = template_model.hero_villain_cost_dict[villain]
+        jedi_cost = template_model.jedi_sith_cost_dict[jedi]
+        sith_cost = template_model.jedi_sith_cost_dict[sith]
+        impact_cost = template_model.impact_cost_dict[impact]
+        relay_cost = template_model.relay_cost_dict[relay]
+        spotter_cost = template_model.spotter_cost_dict[spotter]
+        take_cover_cost = template_model.take_cover_cost_dict[take_cover]
+        vehicle_cost = template_model.vehicle_cost_dict[vehicle]
+        # sum upgrade cost
+        upgrade_cost = (
+            courage_cost
+            + command_cost
+            + droid_cost
+            + emplacement_cost
+            + expendable_cost
+            + fear_cost
+            + hero_cost
+            + villain_cost
+            + jedi_cost
+            + sith_cost
+            + impact_cost
+            + relay_cost
+            + spotter_cost
+            + take_cover_cost
+            + vehicle_cost
+        )
+        comma = ""
+        if jedi:
+            jedi_str = "%sJedi" % comma
+            comma = ", "
+        else:
+            jedi_str = ""
+        if sith:
+            sith_str = "%sSith" % comma
+            comma = ", "
+        else:
+            sith_str = ""
+        if hero:
+            hero_str = "%sHero" % comma
+            comma = ", "
+        else:
+            hero_str = ""
+        if villain:
+            villain_str = "%sVillain" % comma
+            comma = ", "
+        else:
+            villain_str = ""
+        if droid:
+            droid_str = "%sDroid" % comma
+            comma = ", "
+        else:
+            droid_str = ""
+        if vehicle:
+            vehicle_str = "%sVehicle" % comma
+            comma = ", "
+        else:
+            vehicle_str = ""
+        if emplacement:
+            emplacement_str = "%sEmplacement" % comma
+            comma = ", "
+        else:
+            emplacement_str = ""
+        if command:
+            command_str = "%sCommand" % comma
+            comma = ", "
+        else:
+            command_str = ""
+        if relay:
+            relay_str = "%sRelay" % comma
+            comma = ", "
+        else:
+            relay_str = ""
+        if courage:
+            courage_str = "%sCourage" % comma
+            comma = ", "
+        else:
+            courage_str = ""
+        if expendable:
+            expendable_str = "%sExpendable[%s]" % (comma, str(expendable))
+            comma = ", "
+        else:
+            expendable_str = ""
+        if fear:
+            fear_str = "%sFear" % comma
+            comma = ", "
+        else:
+            fear_str = ""
+        if impact:
+            impact_str = "%sImpact[%s]" % (comma, str(impact))
+            comma = ", "
+        else:
+            impact_str = ""
+        if spotter:
+            spotter_str = "%sSpotter[%s]" % (comma, str(spotter))
+            comma = ", "
+        else:
+            spotter_str = ""
+        if take_cover:
+            take_cover_str = "%sTake Cover[%s]" % (comma, str(take_cover))
+            comma = ", "
+        else:
+            take_cover_str = ""
+        if unique:
+            unique_str = "%sUnique[%s]" % (comma, str(unique))
+            comma = ", "
+        else:
+            unique_str = ""
+        if free_special_rule:
+            free_special_rule_str = "%s%s" % (comma, free_special_rule)
+        else:
+            free_special_rule_str = ""
+        special_rules = (
+            jedi_str
+            + sith_str
+            + hero_str
+            + villain_str
+            + droid_str
+            + vehicle_str
+            + emplacement_str
+            + command_str
+            + relay_str
+            + courage_str
+            + expendable_str
+            + fear_str
+            + impact_str
+            + spotter_str
+            + take_cover_str
+            + unique_str
+            + free_special_rule_str
+        )
+        upgrade_text = name + " (" + special_rules + ")"
+        upgrade_string = upgrade_text + "\t%i" % round(upgrade_cost)
 
         self.upgrades.append(upgrade_string)
 

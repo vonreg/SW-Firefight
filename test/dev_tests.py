@@ -50,11 +50,41 @@ upgrade_list_B.select_upgrade_with_weapon_type(replace_weapon=wing_blasters, lim
 upgrade_list_B.upgrade_with_weapon_entry(core.blaster_pistol)
 upgrade_list_B.upgrade_with_weapon_entry(core.heavy_repeater)
 
+upgrade_list_C = UpgradeList("C")
+upgrade_list_C.select_upgrade_with_rule_model_agnostic_type()
+upgrade_list_C.upgrade_with_rule_model_agnostic_entry("Scary Mask", fear=True)
+upgrade_list_C.upgrade_with_rule_model_agnostic_entry("Cyborg", droid=True)
+upgrade_list_C.upgrade_with_rule_model_agnostic_entry("Electrobinoculars", spotter=2)
+
+upgrade_list_D = UpgradeList("D")
+upgrade_list_D.select_upgrade_with_rule_model_agnostic_type(
+    limit=1, lose_expendable=True
+)
+upgrade_list_D.upgrade_with_rule_model_agnostic_entry
+upgrade_list_D.upgrade_with_rule_model_agnostic_entry("Commlink", relay=True)
+upgrade_list_D.upgrade_with_rule_model_agnostic_entry("Electrobinoculars", spotter=2)
+upgrade_list_D.upgrade_with_rule_model_agnostic_entry(
+    "MegaComputer", spotter=1, take_cover=1, unique="MegaComputer", command=True
+)
+
+upgrade_list_E = UpgradeList("E")
+upgrade_list_E.select_upgrade_with_rule_model_agnostic_type(limit=2)
+upgrade_list_E.upgrade_with_rule_model_agnostic_entry(
+    "Hamster Ball", vehicle=True, free_special_rule="Roll"
+)
+upgrade_list_E.upgrade_with_rule_model_agnostic_entry("Bicycle", vehicle=True, impact=1)
+upgrade_list_E.upgrade_with_rule_model_agnostic_entry("Sandbags", emplacement=True)
+
 upgrade_list_A.file_write_latex("upgrade_A.tabl")
 upgrade_list_B.file_write_latex("upgrade_B.tabl")
+upgrade_list_C.file_write_latex("upgrade_C.tabl")
+upgrade_list_D.file_write_latex("upgrade_D.tabl")
+upgrade_list_E.file_write_latex("upgrade_E.tabl")
 
-general_grievous.add_upgrade_list(upgrade_list_A)
+general_grievous.add_upgrade_list([upgrade_list_A, upgrade_list_C])
 d1_aerial_battle_droid.add_upgrade_list(upgrade_list_B)
+b2_super_battle_droid.add_upgrade_list(upgrade_list_C)
+b2_super_battle_droid.add_upgrade_list([upgrade_list_D, upgrade_list_E])
 
 model_list = ModelList()
 model_list.add_model_entry(general_grievous)
