@@ -1,7 +1,13 @@
-from sw_firefight_engine.firefight import Weapon, Model, ModelList, UpgradeList
+from sw_firefight_engine.firefight import (
+    Weapon,
+    Model,
+    ModelList,
+    UpgradeList,
+    letter_increment,
+)
 from sw_firefight_engine import core
 
-file = "galactic_empire.tsv"
+tsv_file = "galactic_empire.tsv"
 
 emperor_palpatine = Model(
     "Emperor Palpatine",
@@ -169,134 +175,181 @@ astromech_droid.equip_weapon(shock_pulse)
 
 # -*- Upgrade lists -*-
 
-# A
+# ISF Commander Ranged Replace
 
-upgrade_list_A = UpgradeList("A", base_model=isf_commander)
-upgrade_list_A.select_upgrade_with_weapon_type(replace_weapon=core.blaster_rifle)
-upgrade_list_A.upgrade_with_weapon_entry(core.heavy_repeater)
-upgrade_list_A.upgrade_with_weapon_entry(core.heavy_sniper_rifle)
-upgrade_list_A.upgrade_with_weapon_entry(core.heavy_configurable_rifle)
+label = "A"
+upgrade_isf_command_ranged = UpgradeList(label, base_model=isf_commander)
+upgrade_isf_command_ranged.select_upgrade_with_weapon_type(
+    replace_weapon=core.blaster_rifle
+)
+upgrade_isf_command_ranged.upgrade_with_weapon_entry(core.heavy_repeater)
+upgrade_isf_command_ranged.upgrade_with_weapon_entry(core.heavy_sniper_rifle)
+upgrade_isf_command_ranged.upgrade_with_weapon_entry(core.heavy_configurable_rifle)
 
-# B
+# ISF Commander Melee Replace
 
-upgrade_list_B = UpgradeList("B", base_model=isf_commander)
-upgrade_list_B.select_upgrade_with_weapon_type(replace_weapon=core.combat_training)
+label = letter_increment(label)
+upgrade_isf_command_melee = UpgradeList(label, base_model=isf_commander)
+upgrade_isf_command_melee.select_upgrade_with_weapon_type(
+    replace_weapon=core.combat_training
+)
 vibroblades = Weapon("Vibroblades", "Melee", 4, rending=True)
-upgrade_list_B.upgrade_with_weapon_entry(vibroblades)
+upgrade_isf_command_melee.upgrade_with_weapon_entry(vibroblades)
 
-# C
-# D
+# Generic Officer Binoculars (Spotter[1])
 
-# E
+label = letter_increment(label)
+upgrade_electrobinoculars = UpgradeList(label)
+upgrade_electrobinoculars.select_upgrade_with_rule_model_agnostic_type()
+upgrade_electrobinoculars.upgrade_with_rule_model_agnostic_entry(
+    "Electrobinoculars", spotter=1
+)
 
-upgrade_list_E = UpgradeList("E", base_model=stormtrooper)
-upgrade_list_E.select_upgrade_with_weapon_type(
+# Imperial officer armour
+
+label = letter_increment(label)
+upgrade_officer_armour = UpgradeList(label, base_model=imperial_officer)
+upgrade_officer_armour.select_upgrade_with_model_changes_type(limit=1)
+upgrade_officer_armour.upgrade_with_model_changes_entry("Combat Armour", defense=5)
+upgrade_officer_armour.upgrade_with_model_changes_entry(
+    "Heavy Combat Armour", defense=4
+)
+
+# Stormtrooper weapons (replace)
+
+label = letter_increment(label)
+upgrade_storm_weapons = UpgradeList(label, base_model=stormtrooper)
+upgrade_storm_weapons.select_upgrade_with_weapon_type(
     replace_weapon=core.blaster_rifle, lose_expendable=True
 )
-upgrade_list_E.upgrade_with_weapon_entry(core.burst_pistol)
-upgrade_list_E.upgrade_with_weapon_entry(core.heavy_blaster_rifle)
-upgrade_list_E.upgrade_with_weapon_entry(core.light_repeating_blaster)
-upgrade_list_E.upgrade_with_weapon_entry(core.reciprocating_blaster)
-upgrade_list_E.upgrade_with_weapon_entry(core.rotary_blaster)
-upgrade_list_E.upgrade_with_weapon_entry(core.sniper_rifle)
-upgrade_list_E.upgrade_with_weapon_entry(core.flamethrower)
+upgrade_storm_weapons.upgrade_with_weapon_entry(core.burst_pistol)
+upgrade_storm_weapons.upgrade_with_weapon_entry(core.heavy_blaster_rifle)
+upgrade_storm_weapons.upgrade_with_weapon_entry(core.light_repeating_blaster)
+upgrade_storm_weapons.upgrade_with_weapon_entry(core.reciprocating_blaster)
+upgrade_storm_weapons.upgrade_with_weapon_entry(core.rotary_blaster)
+upgrade_storm_weapons.upgrade_with_weapon_entry(core.sniper_rifle)
+upgrade_storm_weapons.upgrade_with_weapon_entry(core.flamethrower)
 
-# F
+# Stormtrooper weapons (additional)
 
-upgrade_list_F = UpgradeList("F", base_model=stormtrooper)
-upgrade_list_F.select_upgrade_with_weapon_type(limit=1, lose_expendable=True)
-upgrade_list_F.upgrade_with_weapon_entry(core.rocket_launcher)
-upgrade_list_F.upgrade_with_weapon_entry(core.mortar)
-upgrade_list_F.upgrade_with_weapon_entry(core.ion_disruptor)
-upgrade_list_F.upgrade_with_weapon_entry(core.concussion_grenade)
-upgrade_list_F.upgrade_with_weapon_entry(core.thermal_detonator)
-upgrade_list_F.upgrade_with_weapon_entry(core.sonic_imploder)
-upgrade_list_F.upgrade_with_weapon_entry(core.ion_grenade)
-upgrade_list_F.upgrade_with_weapon_entry(core.thermal_imploder)
+label = letter_increment(label)
+upgrade_storm_add_weap = UpgradeList(label, base_model=stormtrooper)
+upgrade_storm_add_weap.select_upgrade_with_weapon_type(limit=1, lose_expendable=True)
+upgrade_storm_add_weap.upgrade_with_weapon_entry(core.rocket_launcher)
+upgrade_storm_add_weap.upgrade_with_weapon_entry(core.mortar)
+upgrade_storm_add_weap.upgrade_with_weapon_entry(core.ion_disruptor)
+upgrade_storm_add_weap.upgrade_with_weapon_entry(core.concussion_grenade)
+upgrade_storm_add_weap.upgrade_with_weapon_entry(core.thermal_detonator)
+upgrade_storm_add_weap.upgrade_with_weapon_entry(core.sonic_imploder)
+upgrade_storm_add_weap.upgrade_with_weapon_entry(core.ion_grenade)
+upgrade_storm_add_weap.upgrade_with_weapon_entry(core.thermal_imploder)
 
-# G
+# Imperial army trooper weapon replace
 
-upgrade_list_G = UpgradeList("G", base_model=imperial_army_trooper)
-upgrade_list_G.select_upgrade_with_weapon_type(
+label = letter_increment(label)
+upgrade_army = UpgradeList(label, base_model=imperial_army_trooper)
+upgrade_army.select_upgrade_with_weapon_type(
     replace_weapon=core.blaster_rifle, lose_expendable=True
 )
-upgrade_list_G.upgrade_with_weapon_entry(core.rotary_blaster)
-upgrade_list_G.upgrade_with_weapon_entry(core.heavy_blaster_rifle)
-upgrade_list_G.upgrade_with_weapon_entry(core.reciprocating_blaster)
-upgrade_list_G.upgrade_with_weapon_entry(core.mortar)
-upgrade_list_G.upgrade_with_weapon_entry(core.sniper_rifle)
-upgrade_list_G.upgrade_with_weapon_entry(core.flamethrower)
+upgrade_army.upgrade_with_weapon_entry(core.rotary_blaster)
+upgrade_army.upgrade_with_weapon_entry(core.heavy_blaster_rifle)
+upgrade_army.upgrade_with_weapon_entry(core.reciprocating_blaster)
+upgrade_army.upgrade_with_weapon_entry(core.mortar)
+upgrade_army.upgrade_with_weapon_entry(core.sniper_rifle)
+upgrade_army.upgrade_with_weapon_entry(core.flamethrower)
 
-# H
+# Imperial riot trooper weapon replace
 
-upgrade_list_H = UpgradeList("H", base_model=imperial_riot_trooper)
-upgrade_list_H.select_upgrade_with_weapon_type(limit=1)
-upgrade_list_H.upgrade_with_weapon_entry(core.blaster_pistol)
-upgrade_list_H.upgrade_with_weapon_entry(core.burst_pistol)
+label = letter_increment(label)
+upgrade_army_riot = UpgradeList(label, base_model=imperial_riot_trooper)
+upgrade_army_riot.select_upgrade_with_weapon_type(limit=1)
+upgrade_army_riot.upgrade_with_weapon_entry(core.blaster_pistol)
+upgrade_army_riot.upgrade_with_weapon_entry(core.burst_pistol)
 
-# I
+# ISF weapons (replace)
 
-upgrade_list_I = UpgradeList("I", base_model=isf_trooper)
-upgrade_list_I.select_upgrade_with_weapon_type(replace_weapon=core.blaster_rifle)
-upgrade_list_I.upgrade_with_weapon_entry(core.heavy_blaster_rifle)
-upgrade_list_I.upgrade_with_weapon_entry(core.sniper_rifle)
-upgrade_list_I.upgrade_with_weapon_entry(core.heavy_repeater)
+label = letter_increment(label)
+upgrade_isf_weapons = UpgradeList(label, base_model=isf_trooper)
+upgrade_isf_weapons.select_upgrade_with_weapon_type(replace_weapon=core.blaster_rifle)
+upgrade_isf_weapons.upgrade_with_weapon_entry(core.heavy_blaster_rifle)
+upgrade_isf_weapons.upgrade_with_weapon_entry(core.sniper_rifle)
+upgrade_isf_weapons.upgrade_with_weapon_entry(core.heavy_repeater)
 
-# J
+# ISF weapons (additional)
 
-upgrade_list_J = UpgradeList("J", base_model=isf_trooper)
-upgrade_list_J.select_upgrade_with_weapon_type(limit=1)
-upgrade_list_J.upgrade_with_weapon_entry(core.concussion_grenade)
-upgrade_list_J.upgrade_with_weapon_entry(core.thermal_detonator)
-upgrade_list_J.upgrade_with_weapon_entry(core.sonic_imploder)
-upgrade_list_J.upgrade_with_weapon_entry(core.ion_grenade)
-upgrade_list_J.upgrade_with_weapon_entry(
+label = letter_increment(label)
+upgrade_isf_add_weap = UpgradeList(label, base_model=isf_trooper)
+upgrade_isf_add_weap.select_upgrade_with_weapon_type(limit=1)
+upgrade_isf_add_weap.upgrade_with_weapon_entry(core.concussion_grenade)
+upgrade_isf_add_weap.upgrade_with_weapon_entry(core.thermal_detonator)
+upgrade_isf_add_weap.upgrade_with_weapon_entry(core.sonic_imploder)
+upgrade_isf_add_weap.upgrade_with_weapon_entry(core.ion_grenade)
+upgrade_isf_add_weap.upgrade_with_weapon_entry(
     core.dioxis_grenade
 )  # cheap compared to old calculator?
-upgrade_list_J.upgrade_with_weapon_entry(core.thermal_imploder)
+upgrade_isf_add_weap.upgrade_with_weapon_entry(core.thermal_imploder)
 
-# K
+# ISF specialisms
 
-# L
+label = letter_increment(label)
+upgrade_isf_special = UpgradeList(label, base_model=isf_trooper)
+upgrade_isf_special.select_upgrade_with_model_changes_type(limit=1)
+upgrade_isf_special.upgrade_with_model_changes_entry("Electrobinoculars", spotter=1)
+upgrade_isf_special.upgrade_with_model_changes_entry("Medic", heal=1)
+upgrade_isf_special.upgrade_with_model_changes_entry("Engineer", repair=1)
 
-upgrade_list_L = UpgradeList("L", base_model=purge_trooper)
-upgrade_list_L.select_upgrade_with_weapon_type(replace_weapon=core.blaster_rifle)
-upgrade_list_L.upgrade_with_weapon_entry(core.electrostaff)
-upgrade_list_L.upgrade_with_weapon_entry(core.heavy_blaster_rifle)
-upgrade_list_L.upgrade_with_weapon_entry(core.heavy_configurable_rifle)
+# Purge Trooper weapon
 
-# M
+label = letter_increment(label)
+upgrade_purge = UpgradeList(label, base_model=purge_trooper)
+upgrade_purge.select_upgrade_with_weapon_type(replace_weapon=core.blaster_rifle)
+upgrade_purge.upgrade_with_weapon_entry(core.electrostaff)
+upgrade_purge.upgrade_with_weapon_entry(core.heavy_blaster_rifle)
+upgrade_purge.upgrade_with_weapon_entry(core.heavy_configurable_rifle)
 
-upgrade_list_M = UpgradeList("M", base_model=death_trooper)
-upgrade_list_M.select_upgrade_with_weapon_type(replace_weapon=core.blaster_rifle)
-upgrade_list_M.upgrade_with_weapon_entry(core.heavy_configurable_rifle)
+# Death Trooper weapon (replace)
 
-# N
+label = letter_increment(label)
+upgrade_death_weap = UpgradeList(label, base_model=death_trooper)
+upgrade_death_weap.select_upgrade_with_weapon_type(replace_weapon=core.blaster_rifle)
+upgrade_death_weap.upgrade_with_weapon_entry(core.heavy_configurable_rifle)
 
-upgrade_list_N = UpgradeList("N", base_model=death_trooper)
-upgrade_list_N.select_upgrade_with_weapon_type(limit=1)
-upgrade_list_N.upgrade_with_weapon_entry(core.sonic_imploder)
-upgrade_list_N.upgrade_with_weapon_entry(core.frag_grenade)
+# Death Trooper weapon (additional)
 
-# O
+label = letter_increment(label)
+upgrade_death_add_weap = UpgradeList(label, base_model=death_trooper)
+upgrade_death_add_weap.select_upgrade_with_weapon_type(limit=1)
+upgrade_death_add_weap.upgrade_with_weapon_entry(core.sonic_imploder)
+upgrade_death_add_weap.upgrade_with_weapon_entry(core.frag_grenade)
 
-upgrade_list_O = UpgradeList("O", base_model=imperial_royal_guard)
-upgrade_list_O.select_upgrade_with_weapon_type(replace_weapon=force_pike)
-upgrade_list_O.upgrade_with_weapon_entry(core.electrostaff)
-upgrade_list_O.upgrade_with_weapon_entry(enhanced_force_pike)
+# IRG Weapons
+
+label = letter_increment(label)
+upgrade_irg = UpgradeList(label, base_model=imperial_royal_guard)
+upgrade_irg.select_upgrade_with_weapon_type(replace_weapon=force_pike)
+upgrade_irg.upgrade_with_weapon_entry(core.electrostaff)
+upgrade_irg.upgrade_with_weapon_entry(enhanced_force_pike)
 
 # assign upgrade lists
 
-isf_commander.add_upgrade_list(upgrade_list_A)
-isf_commander.add_upgrade_list(upgrade_list_B)
-stormtrooper.add_upgrade_list([upgrade_list_E, upgrade_list_F])
-imperial_army_trooper.add_upgrade_list(upgrade_list_G)
-imperial_riot_trooper.add_upgrade_list(upgrade_list_H)
-isf_trooper.add_upgrade_list([upgrade_list_I, upgrade_list_J])
-purge_trooper.add_upgrade_list(upgrade_list_L)
-death_trooper.add_upgrade_list(upgrade_list_M)
-death_trooper.add_upgrade_list(upgrade_list_N)
-imperial_royal_guard.add_upgrade_list(upgrade_list_O)
+isf_commander.add_upgrade_list(upgrade_isf_command_ranged)
+isf_commander.add_upgrade_list(upgrade_isf_command_melee)
+isf_commander.add_upgrade_list(upgrade_electrobinoculars)
+stormtrooper_commander.add_upgrade_list(upgrade_electrobinoculars)
+stormtrooper_captain.add_upgrade_list(upgrade_electrobinoculars)
+stormtrooper_sergeant.add_upgrade_list(upgrade_electrobinoculars)
+imperial_officer.add_upgrade_list(upgrade_electrobinoculars)
+imperial_officer.add_upgrade_list(upgrade_officer_armour)
+stormtrooper.add_upgrade_list([upgrade_storm_weapons, upgrade_storm_add_weap])
+scout_trooper.add_upgrade_list(upgrade_electrobinoculars)
+imperial_army_trooper.add_upgrade_list(upgrade_army)
+imperial_riot_trooper.add_upgrade_list(upgrade_army_riot)
+isf_trooper.add_upgrade_list([upgrade_isf_weapons, upgrade_isf_add_weap])
+isf_trooper.add_upgrade_list(upgrade_isf_special)
+purge_trooper.add_upgrade_list(upgrade_purge)
+death_trooper.add_upgrade_list(upgrade_death_weap)
+death_trooper.add_upgrade_list(upgrade_death_add_weap)
+imperial_royal_guard.add_upgrade_list(upgrade_irg)
 
 # collate model list
 
@@ -324,18 +377,42 @@ model_list.add_model_entry(id_seeker_droid)
 model_list.add_model_entry(medical_droid)
 model_list.add_model_entry(astromech_droid)
 
-# write file
+# write latex files
 
-model_list.file_write_tsv(file)
-upgrade_list_A.file_write_tsv(file)
-upgrade_list_B.file_write_tsv(file)
-upgrade_list_E.file_write_tsv(file)
-upgrade_list_F.file_write_tsv(file)
-upgrade_list_G.file_write_tsv(file)
-upgrade_list_H.file_write_tsv(file)
-upgrade_list_I.file_write_tsv(file)
-upgrade_list_J.file_write_tsv(file)
-upgrade_list_L.file_write_tsv(file)
-upgrade_list_M.file_write_tsv(file)
-upgrade_list_N.file_write_tsv(file)
-upgrade_list_O.file_write_tsv(file)
+model_list.file_write_latex("imperial_roster.tabl")
+
+upgrade_isf_command_ranged.file_write_latex()
+upgrade_isf_command_melee.file_write_latex()
+upgrade_electrobinoculars.file_write_latex()
+upgrade_officer_armour.file_write_latex()
+upgrade_storm_weapons.file_write_latex()
+upgrade_storm_add_weap.file_write_latex()
+upgrade_army.file_write_latex()
+upgrade_army_riot.file_write_latex()
+upgrade_isf_weapons.file_write_latex()
+upgrade_isf_add_weap.file_write_latex()
+upgrade_isf_special.file_write_latex()
+upgrade_purge.file_write_latex()
+upgrade_death_weap.file_write_latex()
+upgrade_death_add_weap.file_write_latex()
+upgrade_irg.file_write_latex()
+
+# write tsv files
+
+model_list.file_write_tsv(tsv_file)
+
+upgrade_isf_command_ranged.file_write_tsv(tsv_file)
+upgrade_isf_command_melee.file_write_tsv(tsv_file)
+upgrade_electrobinoculars.file_write_tsv(tsv_file)
+upgrade_officer_armour.file_write_tsv(tsv_file)
+upgrade_storm_weapons.file_write_tsv(tsv_file)
+upgrade_storm_add_weap.file_write_tsv(tsv_file)
+upgrade_army.file_write_tsv(tsv_file)
+upgrade_army_riot.file_write_tsv(tsv_file)
+upgrade_isf_weapons.file_write_tsv(tsv_file)
+upgrade_isf_add_weap.file_write_tsv(tsv_file)
+upgrade_isf_special.file_write_tsv(tsv_file)
+upgrade_purge.file_write_tsv(tsv_file)
+upgrade_death_weap.file_write_tsv(tsv_file)
+upgrade_death_add_weap.file_write_tsv(tsv_file)
+upgrade_irg.file_write_tsv(tsv_file)
