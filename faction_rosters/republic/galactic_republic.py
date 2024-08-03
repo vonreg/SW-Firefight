@@ -1,7 +1,13 @@
-from sw_firefight_engine.firefight import Weapon, Model, ModelList, UpgradeList
+from sw_firefight_engine.firefight import (
+    Weapon,
+    Model,
+    ModelList,
+    UpgradeList,
+    letter_increment,
+)
 from sw_firefight_engine import core
 
-file = "galactic_republic.tsv"
+tsv_file = "galactic_republic.tsv"
 
 obi_wan_kenobi = Model(
     "Obi-Wan Kenobi",
@@ -62,35 +68,38 @@ at_rt.equip_weapon(core.grenade_launcher)
 
 # -*- Upgrade lists -*-
 
-# A
+# Clone weapons (replace)
 
-upgrade_list_A = UpgradeList("A", base_model=clone_trooper)
-upgrade_list_A.select_upgrade_with_weapon_type(replace_weapon=core.blaster_rifle)
-upgrade_list_A.upgrade_with_weapon_entry(core.rotary_blaster)
-upgrade_list_A.upgrade_with_weapon_entry(core.heavy_blaster_rifle)
-upgrade_list_A.upgrade_with_weapon_entry(core.scatterblaster)
+label = "A"
+upgrade_clone_weapons = UpgradeList(label, base_model=clone_trooper)
+upgrade_clone_weapons.select_upgrade_with_weapon_type(replace_weapon=core.blaster_rifle)
+upgrade_clone_weapons.upgrade_with_weapon_entry(core.rotary_blaster)
+upgrade_clone_weapons.upgrade_with_weapon_entry(core.heavy_blaster_rifle)
+upgrade_clone_weapons.upgrade_with_weapon_entry(core.scatterblaster)
 
-# B
+# Clone weapons (additional)
 
-upgrade_list_B = UpgradeList("B", base_model=clone_trooper)
-upgrade_list_B.select_upgrade_with_weapon_type(limit=1)
-upgrade_list_B.upgrade_with_weapon_entry(core.rocket_launcher)
-upgrade_list_B.upgrade_with_weapon_entry(core.mortar)
-upgrade_list_B.upgrade_with_weapon_entry(core.thermal_detonator)
-upgrade_list_B.upgrade_with_weapon_entry(core.ion_grenade)
-upgrade_list_B.upgrade_with_weapon_entry(core.frag_grenade)
+label = letter_increment(label)
+upgrade_clone_weap_add = UpgradeList(label, base_model=clone_trooper)
+upgrade_clone_weap_add.select_upgrade_with_weapon_type(limit=1)
+upgrade_clone_weap_add.upgrade_with_weapon_entry(core.rocket_launcher)
+upgrade_clone_weap_add.upgrade_with_weapon_entry(core.mortar)
+upgrade_clone_weap_add.upgrade_with_weapon_entry(core.thermal_detonator)
+upgrade_clone_weap_add.upgrade_with_weapon_entry(core.ion_grenade)
+upgrade_clone_weap_add.upgrade_with_weapon_entry(core.frag_grenade)
 
-# C
+# AT-RT weapons
 
-upgrade_list_C = UpgradeList("C", base_model=at_rt)
-upgrade_list_C.select_upgrade_with_weapon_type(replace_weapon=core.laser_cannon_mounted)
-upgrade_list_C.upgrade_with_weapon_entry(core.heavy_rotary_cannon_mounted)
-upgrade_list_C.upgrade_with_weapon_entry(core.heavy_flamethrower_mounted)
+label = letter_increment(label)
+upgrade_at_rt = UpgradeList(label, base_model=at_rt)
+upgrade_at_rt.select_upgrade_with_weapon_type(replace_weapon=core.laser_cannon_mounted)
+upgrade_at_rt.upgrade_with_weapon_entry(core.heavy_rotary_cannon_mounted)
+upgrade_at_rt.upgrade_with_weapon_entry(core.heavy_flamethrower_mounted)
 
 # assign upgrade lists
 
-clone_trooper.add_upgrade_list([upgrade_list_A, upgrade_list_B])
-at_rt.add_upgrade_list(upgrade_list_C)
+clone_trooper.add_upgrade_list([upgrade_clone_weapons, upgrade_clone_weap_add])
+at_rt.add_upgrade_list(upgrade_at_rt)
 
 # collate model list
 
@@ -101,9 +110,16 @@ model_list.add_model_entry(clone_sergeant)
 model_list.add_model_entry(clone_trooper)
 model_list.add_model_entry(at_rt)
 
-# write file
+# write latex file
 
-model_list.file_write_tsv(file)
-upgrade_list_A.file_write_tsv(file)
-upgrade_list_B.file_write_tsv(file)
-upgrade_list_C.file_write_tsv(file)
+model_list.file_write_latex("republic_roster.tabl")
+upgrade_clone_weapons.file_write_latex()
+upgrade_clone_weap_add.file_write_latex()
+upgrade_at_rt.file_write_latex()
+
+# write tsv file
+
+model_list.file_write_tsv(tsv_file)
+upgrade_clone_weapons.file_write_tsv(tsv_file)
+upgrade_clone_weap_add.file_write_tsv(tsv_file)
+upgrade_at_rt.file_write_tsv(tsv_file)

@@ -1,7 +1,13 @@
-from sw_firefight_engine.firefight import Weapon, Model, ModelList, UpgradeList
+from sw_firefight_engine.firefight import (
+    Weapon,
+    Model,
+    ModelList,
+    UpgradeList,
+    letter_increment,
+)
 from sw_firefight_engine import core
 
-file = "seperatist_alliance.tsv"
+tsv_file = "seperatist_alliance.tsv"
 
 dooku = Model(
     "Count Dooku",
@@ -205,43 +211,48 @@ b1_emplacement_team.equip_weapon(core.light_blaster_cannon)
 
 # -*- Upgrade lists -*-
 
-# A
+# Grievous
 
-upgrade_list_A = UpgradeList("A", base_model=general_grievous)
-upgrade_list_A.select_upgrade_with_weapon_type()
-upgrade_list_A.upgrade_with_weapon_entry(core.blaster_rifle)
+label = "A"
+upgrade_grievous = UpgradeList(label, base_model=general_grievous)
+upgrade_grievous.select_upgrade_with_weapon_type()
+upgrade_grievous.upgrade_with_weapon_entry(core.blaster_rifle)
 
-# B
+# Cad Bane
 
-upgrade_list_B = UpgradeList("B", base_model=cad_bane)
-upgrade_list_B.select_upgrade_with_weapon_type(limit=1)
-upgrade_list_B.upgrade_with_weapon_entry(core.whipcord_launcher)
-upgrade_list_B.upgrade_with_weapon_entry(core.wrist_flamer)
+label = letter_increment(label)
+upgrade_bane = UpgradeList(label, base_model=cad_bane)
+upgrade_bane.select_upgrade_with_weapon_type(limit=1)
+upgrade_bane.upgrade_with_weapon_entry(core.whipcord_launcher)
+upgrade_bane.upgrade_with_weapon_entry(core.wrist_flamer)
 
-# C
+# super_tac
 
-upgrade_list_C = UpgradeList("C", base_model=super_tactical_droid)
-upgrade_list_C.select_upgrade_with_weapon_type(replace_weapon=calculated_strikes)
+label = letter_increment(label)
+upgrade_super_tac = UpgradeList(label, base_model=super_tactical_droid)
+upgrade_super_tac.select_upgrade_with_weapon_type(replace_weapon=calculated_strikes)
 vibroblade_mastery = Weapon("Vibroblade Mastery", "Melee", 4, rending=True)
-upgrade_list_C.upgrade_with_weapon_entry(vibroblade_mastery)
+upgrade_super_tac.upgrade_with_weapon_entry(vibroblade_mastery)
 
 # D: electrobinoculars
 
-# E
+# B1 weapon (replace)
 
-upgrade_list_E = UpgradeList("E", base_model=b1_battle_droid)
-upgrade_list_E.select_upgrade_with_weapon_type(lose_expendable=True)
-upgrade_list_E.upgrade_with_weapon_entry(core.rocket_launcher)
-
-# F
-
-upgrade_list_F = UpgradeList("F", base_model=b1_battle_droid)
-upgrade_list_F.select_upgrade_with_weapon_type(
+label = letter_increment(label)
+upgrade_b1_weapons = UpgradeList(label, base_model=b1_battle_droid)
+upgrade_b1_weapons.select_upgrade_with_weapon_type(
     replace_weapon=core.light_blaster_rifle, lose_expendable=True
 )
-upgrade_list_F.upgrade_with_weapon_entry(core.heavy_blaster_rifle)
-upgrade_list_F.upgrade_with_weapon_entry(core.radiation_cannon)
-upgrade_list_F.upgrade_with_weapon_entry(core.sniper_rifle)
+upgrade_b1_weapons.upgrade_with_weapon_entry(core.heavy_blaster_rifle)
+upgrade_b1_weapons.upgrade_with_weapon_entry(core.radiation_cannon)
+upgrade_b1_weapons.upgrade_with_weapon_entry(core.sniper_rifle)
+
+# B1 weapon (add)
+
+label = letter_increment(label)
+upgrade_b1_weap_add = UpgradeList(label, base_model=b1_battle_droid)
+upgrade_b1_weap_add.select_upgrade_with_weapon_type(lose_expendable=True)
+upgrade_b1_weap_add.upgrade_with_weapon_entry(core.rocket_launcher)
 
 # G
 
@@ -249,78 +260,90 @@ upgrade_list_F.upgrade_with_weapon_entry(core.sniper_rifle)
 # upgrade_list_G.select_upgrade_with_weapon_type()
 # upgrade_list_G.upgrade_with_weapon_entry(fusion_cutter) # gives repair[1]
 
-# H
+# B2 weapon (replace)
 
-upgrade_list_H = UpgradeList("H", base_model=b2_super_battle_droid)
-upgrade_list_H.select_upgrade_with_weapon_type(replace_weapon=wrist_blaster)
+label = letter_increment(label)
+upgrade_b2_weapons = UpgradeList(label, base_model=b2_super_battle_droid)
+upgrade_b2_weapons.select_upgrade_with_weapon_type(replace_weapon=wrist_blaster)
 wrist_repeater = Weapon("Wrist Repeater", 18, 4, pierce=1)
-upgrade_list_H.upgrade_with_weapon_entry(wrist_repeater)
+upgrade_b2_weapons.upgrade_with_weapon_entry(wrist_repeater)
 
-# I
+# B2 weapon (add)
 
-upgrade_list_I = UpgradeList("I", base_model=b2_super_battle_droid)
-upgrade_list_I.select_upgrade_with_weapon_type()
+label = letter_increment(label)
+upgrade_b2_weap_add = UpgradeList(label, base_model=b2_super_battle_droid)
+upgrade_b2_weap_add.select_upgrade_with_weapon_type()
 wrist_rocket = Weapon("Wrist Rocket", 30, 2, pierce=1, ammo=1, blast=3)
-upgrade_list_I.upgrade_with_weapon_entry(wrist_rocket)
+upgrade_b2_weap_add.upgrade_with_weapon_entry(wrist_rocket)
 
-# J
+# BX weapon (replace)
 
-upgrade_list_J = UpgradeList("J", base_model=bx_commando_droid)
-upgrade_list_J.select_upgrade_with_weapon_type(replace_weapon=core.blaster_carbine)
-upgrade_list_J.upgrade_with_weapon_entry(core.heavy_sniper_rifle)
+label = letter_increment(label)
+upgrade_bx_weapons = UpgradeList(label, base_model=bx_commando_droid)
+upgrade_bx_weapons.select_upgrade_with_weapon_type(replace_weapon=core.blaster_carbine)
+upgrade_bx_weapons.upgrade_with_weapon_entry(core.heavy_sniper_rifle)
 # blaster&shield???
 
-# K
+# BX weapon (add)
 
-upgrade_list_K = UpgradeList("K", base_model=bx_commando_droid)
-upgrade_list_K.select_upgrade_with_weapon_type(limit=1)
-upgrade_list_K.upgrade_with_weapon_entry(core.vibroblade)
-upgrade_list_K.upgrade_with_weapon_entry(core.concussion_grenade)
-upgrade_list_K.upgrade_with_weapon_entry(core.thermal_detonator)
-upgrade_list_K.upgrade_with_weapon_entry(core.dioxis_grenade)
+label = letter_increment(label)
+upgrade_bx_weap_add = UpgradeList(label, base_model=bx_commando_droid)
+upgrade_bx_weap_add.select_upgrade_with_weapon_type(limit=1)
+upgrade_bx_weap_add.upgrade_with_weapon_entry(core.vibroblade)
+upgrade_bx_weap_add.upgrade_with_weapon_entry(core.concussion_grenade)
+upgrade_bx_weap_add.upgrade_with_weapon_entry(core.thermal_detonator)
+upgrade_bx_weap_add.upgrade_with_weapon_entry(core.dioxis_grenade)
 
-# L
+# Magnaguard weapon (replace)
 
-upgrade_list_L = UpgradeList("L", base_model=magnaguard)
-upgrade_list_L.select_upgrade_with_weapon_type(replace_weapon=core.electrostaff)
-upgrade_list_L.upgrade_with_weapon_entry(core.electrowhip)
-upgrade_list_L.upgrade_with_weapon_entry(core.rocket_launcher)
+label = letter_increment(label)
+upgrade_magnaguard_weap = UpgradeList(label, base_model=magnaguard)
+upgrade_magnaguard_weap.select_upgrade_with_weapon_type(
+    replace_weapon=core.electrostaff
+)
+upgrade_magnaguard_weap.upgrade_with_weapon_entry(core.electrowhip)
+upgrade_magnaguard_weap.upgrade_with_weapon_entry(core.rocket_launcher)
 
-# M
+# Magnaguard weapon (add)
 
-upgrade_list_M = UpgradeList("M", base_model=magnaguard)
-upgrade_list_M.select_upgrade_with_weapon_type(limit=1)
-upgrade_list_M.upgrade_with_weapon_entry(core.concussion_grenade)
-upgrade_list_M.upgrade_with_weapon_entry(core.thermal_detonator)
-upgrade_list_M.upgrade_with_weapon_entry(core.dioxis_grenade)
+label = letter_increment(label)
+upgrade_magnaguard_weap_add = UpgradeList(label, base_model=magnaguard)
+upgrade_magnaguard_weap_add.select_upgrade_with_weapon_type(limit=1)
+upgrade_magnaguard_weap_add.upgrade_with_weapon_entry(core.concussion_grenade)
+upgrade_magnaguard_weap_add.upgrade_with_weapon_entry(core.thermal_detonator)
+upgrade_magnaguard_weap_add.upgrade_with_weapon_entry(core.dioxis_grenade)
 
-# N
+# Dwarf spider droid weapon
 
-upgrade_list_N = UpgradeList("N", base_model=dwarf_spider_droid)
-upgrade_list_N.select_upgrade_with_weapon_type(replace_weapon=core.laser_cannon_mounted)
-upgrade_list_N.upgrade_with_weapon_entry(core.ion_blaster_mounted)
-upgrade_list_N.upgrade_with_weapon_entry(core.heavy_flamethrower_mounted)
+label = letter_increment(label)
+upgrade_dsd = UpgradeList(label, base_model=dwarf_spider_droid)
+upgrade_dsd.select_upgrade_with_weapon_type(replace_weapon=core.laser_cannon_mounted)
+upgrade_dsd.upgrade_with_weapon_entry(core.ion_blaster_mounted)
+upgrade_dsd.upgrade_with_weapon_entry(core.heavy_flamethrower_mounted)
 
-# O
+# B1 emplacement team weapon
 
-upgrade_list_O = UpgradeList("O", base_model=b1_emplacement_team)
-upgrade_list_O.select_upgrade_with_weapon_type(replace_weapon=core.light_blaster_cannon)
-upgrade_list_O.upgrade_with_weapon_entry(core.blaster_cannon)
-upgrade_list_O.upgrade_with_weapon_entry(core.heavy_blaster_cannon)
-upgrade_list_O.upgrade_with_weapon_entry(core.medium_repeating_blaster)
-upgrade_list_O.upgrade_with_weapon_entry(core.heavy_repeating_blaster)
+label = letter_increment(label)
+upgrade_b1team_weapon = UpgradeList(label, base_model=b1_emplacement_team)
+upgrade_b1team_weapon.select_upgrade_with_weapon_type(
+    replace_weapon=core.light_blaster_cannon
+)
+upgrade_b1team_weapon.upgrade_with_weapon_entry(core.blaster_cannon)
+upgrade_b1team_weapon.upgrade_with_weapon_entry(core.heavy_blaster_cannon)
+upgrade_b1team_weapon.upgrade_with_weapon_entry(core.medium_repeating_blaster)
+upgrade_b1team_weapon.upgrade_with_weapon_entry(core.heavy_repeating_blaster)
 
 # assign upgrade lists
 
-general_grievous.add_upgrade_list(upgrade_list_A)
-cad_bane.add_upgrade_list(upgrade_list_B)
-super_tactical_droid.add_upgrade_list(upgrade_list_C)
-b1_battle_droid.add_upgrade_list([upgrade_list_E, upgrade_list_F])
-b2_super_battle_droid.add_upgrade_list([upgrade_list_H, upgrade_list_I])
-bx_commando_droid.add_upgrade_list([upgrade_list_J, upgrade_list_K])
-magnaguard.add_upgrade_list([upgrade_list_L, upgrade_list_M])
-dwarf_spider_droid.add_upgrade_list(upgrade_list_N)
-b1_emplacement_team.add_upgrade_list(upgrade_list_O)
+general_grievous.add_upgrade_list(upgrade_grievous)
+cad_bane.add_upgrade_list(upgrade_bane)
+super_tactical_droid.add_upgrade_list(upgrade_super_tac)
+b1_battle_droid.add_upgrade_list([upgrade_b1_weapons, upgrade_b1_weap_add])
+b2_super_battle_droid.add_upgrade_list([upgrade_b2_weapons, upgrade_b2_weap_add])
+bx_commando_droid.add_upgrade_list([upgrade_bx_weapons, upgrade_bx_weap_add])
+magnaguard.add_upgrade_list([upgrade_magnaguard_weap, upgrade_magnaguard_weap_add])
+dwarf_spider_droid.add_upgrade_list(upgrade_dsd)
+b1_emplacement_team.add_upgrade_list(upgrade_b1team_weapon)
 
 # collate model list
 model_list = ModelList()
@@ -346,19 +369,37 @@ model_list.add_model_entry(droideka)
 model_list.add_model_entry(dwarf_spider_droid)
 model_list.add_model_entry(b1_emplacement_team)
 
-# write file
+# write latex file
 
-model_list.file_write_tsv(file)
-upgrade_list_A.file_write_tsv(file)
-upgrade_list_B.file_write_tsv(file)
-upgrade_list_C.file_write_tsv(file)
-upgrade_list_E.file_write_tsv(file)
-upgrade_list_F.file_write_tsv(file)
-upgrade_list_H.file_write_tsv(file)
-upgrade_list_I.file_write_tsv(file)
-upgrade_list_J.file_write_tsv(file)
-upgrade_list_K.file_write_tsv(file)
-upgrade_list_L.file_write_tsv(file)
-upgrade_list_M.file_write_tsv(file)
-upgrade_list_N.file_write_tsv(file)
-upgrade_list_O.file_write_tsv(file)
+model_list.file_write_latex("seperatist_roster.tabl")
+upgrade_grievous.file_write_latex()
+upgrade_bane.file_write_latex()
+upgrade_super_tac.file_write_latex()
+upgrade_b1_weapons.file_write_latex()
+upgrade_b1_weap_add.file_write_latex()
+upgrade_b2_weapons.file_write_latex()
+upgrade_b2_weap_add.file_write_latex()
+upgrade_bx_weapons.file_write_latex()
+upgrade_bx_weap_add.file_write_latex()
+upgrade_magnaguard_weap.file_write_latex()
+upgrade_magnaguard_weap_add.file_write_latex()
+upgrade_dsd.file_write_latex()
+upgrade_b1team_weapon.file_write_latex()
+
+
+# write tsv file
+
+model_list.file_write_tsv(tsv_file)
+upgrade_grievous.file_write_tsv(tsv_file)
+upgrade_bane.file_write_tsv(tsv_file)
+upgrade_super_tac.file_write_tsv(tsv_file)
+upgrade_b1_weapons.file_write_tsv(tsv_file)
+upgrade_b1_weap_add.file_write_tsv(tsv_file)
+upgrade_b2_weapons.file_write_tsv(tsv_file)
+upgrade_b2_weap_add.file_write_tsv(tsv_file)
+upgrade_bx_weapons.file_write_tsv(tsv_file)
+upgrade_bx_weap_add.file_write_tsv(tsv_file)
+upgrade_magnaguard_weap.file_write_tsv(tsv_file)
+upgrade_magnaguard_weap_add.file_write_tsv(tsv_file)
+upgrade_dsd.file_write_tsv(tsv_file)
+upgrade_b1team_weapon.file_write_tsv(tsv_file)

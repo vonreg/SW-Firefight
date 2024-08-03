@@ -379,7 +379,7 @@ model_list.add_model_entry(astromech_droid)
 
 # write latex files
 
-model_list.file_write_latex("imperial_roster.tabl")
+model_list.file_write_latex("empire_roster.tabl")
 
 upgrade_isf_command_ranged.file_write_latex()
 upgrade_isf_command_melee.file_write_latex()

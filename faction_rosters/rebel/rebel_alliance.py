@@ -1,7 +1,13 @@
-from sw_firefight_engine.firefight import Weapon, Model, ModelList, UpgradeList
+from sw_firefight_engine.firefight import (
+    Weapon,
+    Model,
+    ModelList,
+    UpgradeList,
+    letter_increment,
+)
 from sw_firefight_engine import core
 
-file = "rebel_alliance.tsv"
+tsv_file = "rebel_alliance.tsv"
 
 ben_kenobi = Model(
     "Old Ben Kenobi",
@@ -41,44 +47,47 @@ at_rt.equip_weapon(core.blaster_rifle)
 
 # -*- Upgrade lists -*-
 
-# A
+# Rebel weapons (replace)
 
-upgrade_list_A = UpgradeList("A", base_model=rebel_trooper)
-upgrade_list_A.select_upgrade_with_weapon_type(replace_weapon=core.blaster_rifle)
-upgrade_list_A.upgrade_with_weapon_entry(core.rotary_blaster)
-upgrade_list_A.upgrade_with_weapon_entry(core.heavy_blaster_rifle)
-upgrade_list_A.upgrade_with_weapon_entry(core.sniper_rifle)
-upgrade_list_A.upgrade_with_weapon_entry(core.scatterblaster)
-upgrade_list_A.upgrade_with_weapon_entry(core.scattergun)
-upgrade_list_A.upgrade_with_weapon_entry(core.heavy_sniper_rifle)
-upgrade_list_A.upgrade_with_weapon_entry(core.cycler_rifle)
+label = "A"
+upgrade_rebel_weapons = UpgradeList(label, base_model=rebel_trooper)
+upgrade_rebel_weapons.select_upgrade_with_weapon_type(replace_weapon=core.blaster_rifle)
+upgrade_rebel_weapons.upgrade_with_weapon_entry(core.rotary_blaster)
+upgrade_rebel_weapons.upgrade_with_weapon_entry(core.heavy_blaster_rifle)
+upgrade_rebel_weapons.upgrade_with_weapon_entry(core.sniper_rifle)
+upgrade_rebel_weapons.upgrade_with_weapon_entry(core.scatterblaster)
+upgrade_rebel_weapons.upgrade_with_weapon_entry(core.scattergun)
+upgrade_rebel_weapons.upgrade_with_weapon_entry(core.heavy_sniper_rifle)
+upgrade_rebel_weapons.upgrade_with_weapon_entry(core.cycler_rifle)
 
-# B
+# Rebel weapons (additional)
 
-upgrade_list_B = UpgradeList("B", base_model=rebel_trooper)
-upgrade_list_B.select_upgrade_with_weapon_type(limit=1)
-upgrade_list_B.upgrade_with_weapon_entry(core.homing_launcher)
-upgrade_list_B.upgrade_with_weapon_entry(core.grenade_launcher)
-upgrade_list_B.upgrade_with_weapon_entry(core.ion_torpedo)
-upgrade_list_B.upgrade_with_weapon_entry(core.rocket_launcher)
-upgrade_list_B.upgrade_with_weapon_entry(core.ion_disruptor)
-upgrade_list_B.upgrade_with_weapon_entry(core.concussion_grenade)
-upgrade_list_B.upgrade_with_weapon_entry(core.thermal_detonator)
-upgrade_list_B.upgrade_with_weapon_entry(core.ion_grenade)
-upgrade_list_B.upgrade_with_weapon_entry(core.frag_grenade)
-upgrade_list_B.upgrade_with_weapon_entry(core.thermal_imploder)
+label = letter_increment(label)
+upgrade_rebel_weap_add = UpgradeList(label, base_model=rebel_trooper)
+upgrade_rebel_weap_add.select_upgrade_with_weapon_type(limit=1)
+upgrade_rebel_weap_add.upgrade_with_weapon_entry(core.homing_launcher)
+upgrade_rebel_weap_add.upgrade_with_weapon_entry(core.grenade_launcher)
+upgrade_rebel_weap_add.upgrade_with_weapon_entry(core.ion_torpedo)
+upgrade_rebel_weap_add.upgrade_with_weapon_entry(core.rocket_launcher)
+upgrade_rebel_weap_add.upgrade_with_weapon_entry(core.ion_disruptor)
+upgrade_rebel_weap_add.upgrade_with_weapon_entry(core.concussion_grenade)
+upgrade_rebel_weap_add.upgrade_with_weapon_entry(core.thermal_detonator)
+upgrade_rebel_weap_add.upgrade_with_weapon_entry(core.ion_grenade)
+upgrade_rebel_weap_add.upgrade_with_weapon_entry(core.frag_grenade)
+upgrade_rebel_weap_add.upgrade_with_weapon_entry(core.thermal_imploder)
 
-# C
+# AT-RT weapons
 
-upgrade_list_C = UpgradeList("C", base_model=at_rt)
-upgrade_list_C.select_upgrade_with_weapon_type(replace_weapon=core.laser_cannon_mounted)
-upgrade_list_C.upgrade_with_weapon_entry(core.heavy_rotary_cannon_mounted)
-upgrade_list_C.upgrade_with_weapon_entry(core.heavy_flamethrower_mounted)
+label = letter_increment(label)
+upgrade_at_rt = UpgradeList(label, base_model=at_rt)
+upgrade_at_rt.select_upgrade_with_weapon_type(replace_weapon=core.laser_cannon_mounted)
+upgrade_at_rt.upgrade_with_weapon_entry(core.heavy_rotary_cannon_mounted)
+upgrade_at_rt.upgrade_with_weapon_entry(core.heavy_flamethrower_mounted)
 
 # assign upgrade lists
 
-rebel_trooper.add_upgrade_list([upgrade_list_A, upgrade_list_B])
-at_rt.add_upgrade_list(upgrade_list_C)
+rebel_trooper.add_upgrade_list([upgrade_rebel_weapons, upgrade_rebel_weap_add])
+at_rt.add_upgrade_list(upgrade_at_rt)
 
 # collate model list
 
@@ -88,9 +97,16 @@ model_list.add_model_entry(rebel_captain)
 model_list.add_model_entry(rebel_trooper)
 model_list.add_model_entry(at_rt)
 
-# write file
+# write latex files
 
-model_list.file_write_tsv(file)
-upgrade_list_A.file_write_tsv(file)
-upgrade_list_B.file_write_tsv(file)
-upgrade_list_C.file_write_tsv(file)
+model_list.file_write_latex("rebel_roster.tabl")
+upgrade_rebel_weapons.file_write_latex()
+upgrade_rebel_weap_add.file_write_latex()
+upgrade_at_rt.file_write_latex()
+
+# write tsv files
+
+model_list.file_write_tsv(tsv_file)
+upgrade_rebel_weapons.file_write_tsv(tsv_file)
+upgrade_rebel_weap_add.file_write_tsv(tsv_file)
+upgrade_at_rt.file_write_tsv(tsv_file)
