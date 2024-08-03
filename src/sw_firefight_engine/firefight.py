@@ -1726,7 +1726,7 @@ class UpgradeList:
     def file_write_latex(self, filename=None):
         if filename is None:
             filename = "upgrade_" + self.label + ".tabl"
-        elif filename is not str:
+        elif type(filename) is not str:
             raise Exception("Filename must be a string or None for default name")
         # create table as a string
         table_string = self.upgrades[0]
