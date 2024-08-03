@@ -453,6 +453,7 @@ class Model:
         unique=False,
         vehicle=False,
         free_special_rule=None,
+        manual_points_adjustment=0,
     ) -> None:
         self.name = name
         self.quality = quality
@@ -494,6 +495,7 @@ class Model:
         self.unique = unique
         self.vehicle = vehicle
         self.free_special_rule = free_special_rule
+        self.manual_points_adjustment = manual_points_adjustment
 
         self.quality_cost_dict = {6: 2, 5: 4, 4: 6, 3: 8, 2: 12}
         self.defense_cost_dict = {6: 2, 5: 4, 4: 6, 3: 8, 2: 12}
@@ -707,7 +709,12 @@ class Model:
         else:
             ranged_weapons_cost = 0
 
-        total_cost = base_cost + melee_weapons_cost + ranged_weapons_cost
+        total_cost = (
+            base_cost
+            + melee_weapons_cost
+            + ranged_weapons_cost
+            + self.manual_points_adjustment
+        )
 
         return total_cost
 
@@ -1025,9 +1032,17 @@ class ModelList:
     def add_model_entry(self, model: Model):
         self.models.append(model)
 
-    def file_write_tsv(self, filename: str):
-        # works in write mode; assumes this will be done first to create file
-        with open(filename, "w", encoding="utf-8") as file:
+    def file_write_tsv(self, filename: str, list_title=None, append=False):
+        if append:
+            write_append = "a"
+        else:
+            write_append = "w"
+
+        with open(filename, write_append, encoding="utf-8") as file:
+            if list_title:
+                if append:
+                    file.write("\n")
+                file.write("# " + list_title + "\n")
             file.write(self.header + "\n")
             for model in self.models:
                 file.write(model.write_statline() + "\n")
@@ -1127,7 +1142,7 @@ class UpgradeList:
             + ":\tCost"
         )
 
-    def upgrade_with_weapon_entry(self, weapon: Weapon):
+    def upgrade_with_weapon_entry(self, weapon: Weapon, manual_points_adjustment=0):
         if type(weapon) is not Weapon:
             raise TypeError("weapon type must be Weapon")
         # should also have a case for multiple weapons in 1 entry; can just be an option in this function
@@ -1141,7 +1156,7 @@ class UpgradeList:
         original_cost = self.base_model.calculate_total_cost()
         new_cost = entry_model_copy.calculate_total_cost()
 
-        upgrade_cost = new_cost - original_cost
+        upgrade_cost = new_cost - original_cost + manual_points_adjustment
 
         # will need to modify this if enabling equipping multiple weapons in 1 upgrade
         upgrade_string = weapon.write_weapon() + "\t%i" % round(upgrade_cost)
@@ -1200,6 +1215,7 @@ class UpgradeList:
         unique=False,
         vehicle=False,
         free_special_rule=None,
+        manual_points_adjustment=0,
     ):
         if not self.upgrade_list_type == "Rule (model-agnostic)":
             raise Exception(
@@ -1242,6 +1258,7 @@ class UpgradeList:
             + spotter_cost
             + take_cover_cost
             + vehicle_cost
+            + manual_points_adjustment
         )
         comma = ""
         if jedi:
@@ -1425,6 +1442,7 @@ class UpgradeList:
         unique=None,
         vehicle=None,
         free_special_rule=None,
+        manual_points_adjustment=0,
     ) -> None:
 
         entry_model_copy = copy.deepcopy(self.model_copy)
@@ -1708,7 +1726,7 @@ class UpgradeList:
         original_cost = self.base_model.calculate_total_cost()
         new_cost = entry_model_copy.calculate_total_cost()
 
-        upgrade_cost = new_cost - original_cost
+        upgrade_cost = new_cost - original_cost + manual_points_adjustment
 
         upgrade_text = name + " (" + model_changes_str + ")"
         upgrade_string = upgrade_text + "\t%i" % round(upgrade_cost)
