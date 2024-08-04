@@ -26,6 +26,7 @@ class Weapon:
         seek=False,
         slugthrower=False,
         fixed=None,
+        split_fire=False,
         suppressive=0,
         ion=False,
         immobilise=False,
@@ -53,6 +54,7 @@ class Weapon:
         self.seek = seek
         self.slugthrower = slugthrower
         self.fixed = fixed
+        self.split_fire = split_fire
         self.suppressive = suppressive
         self.ion = ion
         self.immobilise = immobilise
@@ -104,6 +106,7 @@ class Weapon:
         self.rending_multiplier_dict = {False: 1, True: 1.5}
         self.seek_multiplier_dict = {False: 1, True: 1.25}
         self.slugthrower_multiplier_dict = {False: 1, True: 1.25}
+        self.split_fire_multiplier_dict = {False: 1, True: 1.1}
 
         self.fixed_reduction_multiplier_dict = {
             None: 0,
@@ -151,6 +154,7 @@ class Weapon:
         rending_multiplier = self.rending_multiplier_dict[self.rending]
         seek_multiplier = self.seek_multiplier_dict[self.seek]
         slugthrower_multiplier = self.slugthrower_multiplier_dict[self.slugthrower]
+        split_fire_multiplier = self.split_fire_multiplier_dict[self.split_fire]
 
         fixed_cost_reduction = (
             -1
@@ -219,6 +223,7 @@ class Weapon:
             * rending_multiplier
             * seek_multiplier
             * slugthrower_multiplier
+            * split_fire_multiplier
             + fixed_cost_reduction
             + suppressive_cost_increase
             + ion_cost_increase
@@ -339,6 +344,10 @@ class Weapon:
             fixed = ", Fixed[%s]" % str(self.fixed)
         else:
             fixed = ""
+        if self.split_fire:
+            split_fire = ", Split Fire"
+        else:
+            split_fire = ""
         if self.suppressive:
             suppressive = ", Suppressive[%s]" % str(self.suppressive)
         else:
@@ -400,6 +409,7 @@ class Weapon:
             + rending
             + seek
             + slugthrower
+            + split_fire
             + suppressive
             + throw
             + fixed
@@ -440,6 +450,7 @@ class Model:
         jump=0,
         impact=0,
         impervious=False,
+        noncombatant=False,
         protector=None,
         protector_key=None,
         relay=False,
@@ -451,6 +462,7 @@ class Model:
         spotter=0,
         take_cover=0,
         unique=False,
+        companion=None,
         vehicle=False,
         free_special_rule=None,
         manual_points_adjustment=0,
@@ -482,6 +494,7 @@ class Model:
         self.jump = jump
         self.impact = impact
         self.impervious = impervious
+        self.noncombatant = noncombatant
         self.protector = protector
         self.protector_key = protector_key
         self.relay = relay
@@ -493,6 +506,7 @@ class Model:
         self.spotter = spotter
         self.take_cover = take_cover
         self.unique = unique
+        self.companion = companion
         self.vehicle = vehicle
         self.free_special_rule = free_special_rule
         self.manual_points_adjustment = manual_points_adjustment
@@ -520,12 +534,13 @@ class Model:
         self.fear_cost_dict = {False: 0, True: 5}
         self.fly_cost_dict = {False: 0, True: 1}
         self.hero_villain_cost_dict = {False: 0, True: 0}
-        self.hunter_cost_dict = {None: 0, "Jedi": 0.5, "Sith": 0.5}
+        self.hunter_cost_dict = {None: 0, "Jedi": 0.5, "Sith": 0.5, "Target": 0.5}
         self.immobile_cost_dict = {False: 0, True: -3}
         self.impact_cost_dict = {0: 0, 1: 3, 2: 6, 3: 9, 4: 12, 5: 15, 6: 18}
         self.jedi_sith_cost_dict = {False: 0, True: 0}
         self.jump_cost_dict = {0: 0, 3: 0.5, 6: 1}
         self.impervious_cost_dict = {False: 0, True: 6}
+        self.noncombatant_cost_dict = {False: 0, True: -1}
         self.protector_cost_dict = {None: 0, "Unit": 1, "Any": 1}
         if self.protector == "Unit" and self.protector_key is None:
             raise Exception(
@@ -580,6 +595,9 @@ class Model:
         jump_cost = self.jump_cost_dict[self.jump] * quality_cost
         impact_cost = self.impact_cost_dict[self.impact]
         impervious_cost = self.impervious_cost_dict[self.impervious] * self.toughness
+        noncombatant_cost = (
+            self.noncombatant_cost_dict[self.noncombatant] * quality_cost
+        )
         protector_cost = self.protector_cost_dict[self.protector] * defense_cost
         relay_cost = self.relay_cost_dict[self.relay]
         relentless_cost = self.relentless_cost_dict[self.relentless] * quality_cost
@@ -616,6 +634,7 @@ class Model:
             + jump_cost
             + impact_cost
             + impervious_cost
+            + noncombatant_cost
             + protector_cost
             + relay_cost
             + relentless_cost
@@ -720,9 +739,13 @@ class Model:
 
     def model_weapon_cost(self, weapons, arsenal, gunslinger=False):
 
-        weapon_indices = range(len(weapons))
+        num_weapons = len(weapons)
+        weapon_indices = range(num_weapons)
 
-        weapon_combinations = list(combinations(weapon_indices, arsenal))
+        if num_weapons < arsenal:
+            weapon_combinations = list(combinations(weapon_indices, num_weapons))
+        else:
+            weapon_combinations = list(combinations(weapon_indices, arsenal))
 
         all_cost_options = []
         for weapon_combination in weapon_combinations:
@@ -901,6 +924,11 @@ class Model:
             comma = ", "
         else:
             impervious = ""
+        if self.noncombatant:
+            noncombatant = "%sNoncombatant" % comma
+            comma = ", "
+        else:
+            noncombatant = ""
         if self.protector == "Any":
             protector = "%sProtector" % comma
             comma = ", "
@@ -948,6 +976,11 @@ class Model:
             comma = ", "
         else:
             unique = ""
+        if self.companion:
+            companion = "%sUnique[%s]" % (comma, str(self.companion))
+            comma = ", "
+        else:
+            companion = ""
         if self.free_special_rule:
             free_special_rule = "%s%s" % (comma, self.free_special_rule)
         else:
@@ -979,6 +1012,7 @@ class Model:
             + jump
             + impact
             + impervious
+            + noncombatant
             + protector
             + relentless
             + repair
@@ -988,6 +1022,7 @@ class Model:
             + spotter
             + take_cover
             + unique
+            + companion
             + free_special_rule
         )
 
@@ -1213,6 +1248,7 @@ class UpgradeList:
         spotter=0,
         take_cover=0,
         unique=False,
+        companion=False,
         vehicle=False,
         free_special_rule=None,
         manual_points_adjustment=0,
@@ -1341,6 +1377,11 @@ class UpgradeList:
             comma = ", "
         else:
             unique_str = ""
+        if companion:
+            companion_str = "%sCompanion[%s]" % (comma, str(companion))
+            comma = ", "
+        else:
+            companion_str = ""
         if free_special_rule:
             free_special_rule_str = "%s%s" % (comma, free_special_rule)
         else:
@@ -1362,6 +1403,7 @@ class UpgradeList:
             + spotter_str
             + take_cover_str
             + unique_str
+            + companion_str
             + free_special_rule_str
         )
         upgrade_text = name + " (" + special_rules + ")"
@@ -1440,6 +1482,7 @@ class UpgradeList:
         spotter=None,
         take_cover=None,
         unique=None,
+        companion=None,
         vehicle=None,
         free_special_rule=None,
         manual_points_adjustment=0,
@@ -1479,15 +1522,21 @@ class UpgradeList:
             comma = ", "
         else:
             sith_str = ""
-        if hero:
+        if hero or hero is False:
             entry_model_copy.hero = hero
-            hero_str = "%sHero" % comma
+            if hero is False:
+                hero_str = "%sLose Hero" % comma
+            else:
+                hero_str = "%sHero" % comma
             comma = ", "
         else:
             hero_str = ""
-        if villain:
+        if villain or villain is False:
             entry_model_copy.villain = villain
-            villain_str = "%sVillain" % comma
+            if villain is False:
+                villain_str = "%sLose Villain" % comma
+            else:
+                villain_str = "%sVillain" % comma
             comma = ", "
         else:
             villain_str = ""
@@ -1557,9 +1606,12 @@ class UpgradeList:
             comma = ", "
         else:
             expendable_str = ""
-        if fast:
+        if fast or fast is False:
             entry_model_copy.fast = fast
-            fast_str = "%sFast" % comma
+            if fast is False:
+                fast_str = "%sLose Fast" % comma
+            else:
+                fast_str = "%sFast" % comma
             comma = ", "
         else:
             fast_str = ""
@@ -1569,9 +1621,12 @@ class UpgradeList:
             comma = ", "
         else:
             fear_str = ""
-        if fly:
+        if fly or fly is False:
             entry_model_copy.fly = fly
-            fly_str = "%sFly" % comma
+            if fly is False:
+                fly_str = "%sLose Fly" % comma
+            else:
+                fly_str = "%sFly" % comma
             comma = ", "
         else:
             fly_str = ""
@@ -1599,9 +1654,12 @@ class UpgradeList:
             comma = ", "
         else:
             immobile_str = ""
-        if jump:
+        if jump or jump is False:
             entry_model_copy.jump = jump
-            jump_str = '%sJump[%s"]' % (comma, str(jump))
+            if jump is False:
+                jump_str = "%sLose Jump" % comma
+            else:
+                jump_str = '%sJump[%s"]' % (comma, str(jump))
             comma = ", "
         else:
             jump_str = ""
@@ -1611,9 +1669,12 @@ class UpgradeList:
             comma = ", "
         else:
             impact_str = ""
-        if impervious:
+        if impervious or impervious is False:
             entry_model_copy.impervious = impervious
-            impervious_str = "%sImpervious" % comma
+            if impervious is False:
+                impervious_str = "%sLose Impervious" % comma
+            else:
+                impervious_str = "%sImpervious" % comma
             comma = ", "
         else:
             impervious_str = ""
@@ -1652,9 +1713,12 @@ class UpgradeList:
             comma = ", "
         else:
             shield_str = ""
-        if slow:
+        if slow or slow is False:
             entry_model_copy.slow = slow
-            slow_str = "%sSlow" % comma
+            if slow is False:
+                slow_str = "%sLose Slow" % comma
+            else:
+                slow_str = "%sSlow" % comma
             comma = ", "
         else:
             slow_str = ""
@@ -1676,6 +1740,12 @@ class UpgradeList:
             comma = ", "
         else:
             unique_str = ""
+        if companion:
+            entry_model_copy.companion = companion
+            companion_str = "%sCompanion[%s]" % (comma, str(companion))
+            comma = ", "
+        else:
+            companion_str = ""
         if free_special_rule:
             entry_model_copy.free_special_rule = free_special_rule
             free_special_rule_str = "%s%s" % (comma, free_special_rule)
@@ -1720,6 +1790,7 @@ class UpgradeList:
             + spotter_str
             + take_cover_str
             + unique_str
+            + companion_str
             + free_special_rule_str
         )
 

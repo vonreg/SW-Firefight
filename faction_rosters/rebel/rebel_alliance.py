@@ -1,3 +1,7 @@
+# to-do:
+# Protocol droid, C3PO upgrade (take_cover!)
+# Astromech, R2D2 (high quality)
+
 from sw_firefight_engine.firefight import (
     Weapon,
     Model,
