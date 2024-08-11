@@ -3,7 +3,9 @@ from sw_firefight_engine.firefight import Weapon
 # blaster pistols
 
 blaster_pistol = Weapon("Blaster Pistol", 12, 2, quickdraw=True)
-dual_blaster_pistols = Weapon("Dual Blaster Pistols", 12, 4, quickdraw=True)
+dual_blaster_pistols = Weapon(
+    "Dual Blaster Pistols", 12, 4, quickdraw=True, split_fire=True, split_fire_range=6
+)
 heavy_blaster_pistol = Weapon("Heavy Blaster Pistol", 18, 2, pierce=1, quickdraw=True)
 burst_pistol = Weapon("Burst Pistol", 6, 3, quickdraw=True, reciprocating=5)
 

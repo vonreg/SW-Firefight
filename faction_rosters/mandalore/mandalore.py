@@ -106,6 +106,7 @@ upgrade_captain_weapons.upgrade_with_weapon_entry(core.ion_grenade)
 label = letter_increment(label)
 upgrade_mando_weapons = UpgradeList(label, base_model=mandalorian)
 upgrade_mando_weapons.select_upgrade_with_weapon_type(limit=2)
+upgrade_mando_weapons.upgrade_with_weapon_entry(beskad, manual_points_adjustment=-6)
 upgrade_mando_weapons.upgrade_with_weapon_entry(
     core.dual_blaster_pistols, manual_points_adjustment=-6
 )

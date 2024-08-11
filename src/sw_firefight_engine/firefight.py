@@ -27,6 +27,7 @@ class Weapon:
         slugthrower=False,
         fixed=None,
         split_fire=False,
+        split_fire_range=None,
         suppressive=0,
         ion=False,
         immobilise=False,
@@ -55,6 +56,7 @@ class Weapon:
         self.slugthrower = slugthrower
         self.fixed = fixed
         self.split_fire = split_fire
+        self.split_fire_range = split_fire_range
         self.suppressive = suppressive
         self.ion = ion
         self.immobilise = immobilise
@@ -154,7 +156,16 @@ class Weapon:
         rending_multiplier = self.rending_multiplier_dict[self.rending]
         seek_multiplier = self.seek_multiplier_dict[self.seek]
         slugthrower_multiplier = self.slugthrower_multiplier_dict[self.slugthrower]
-        split_fire_multiplier = self.split_fire_multiplier_dict[self.split_fire]
+
+        if self.split_fire_range is not None:
+            split_fire_range_fraction = self.split_fire_range / self.range
+        else:
+            split_fire_range_fraction = 1
+        split_fire_multiplier = (
+            split_fire_range_fraction
+            * (self.split_fire_multiplier_dict[self.split_fire] - 1)
+        ) + 1
+        # x -> (x-1)*fraction+1
 
         fixed_cost_reduction = (
             -1
@@ -345,7 +356,10 @@ class Weapon:
         else:
             fixed = ""
         if self.split_fire:
-            split_fire = ", Split Fire"
+            if self.split_fire_range:
+                split_fire = ', Split Fire[%s"]' % str(self.split_fire_range)
+            else:
+                split_fire = ", Split Fire"
         else:
             split_fire = ""
         if self.suppressive:
