@@ -23,7 +23,9 @@ dooku = Model(
     impervious=True,
 )
 dooku_lightsaber = Weapon("Lightsaber", "Melee", 4, pierce=3, deadly=3)
-dooku_lightning = Weapon("Force Lightning", 12, 3, pierce=1, ion=True, suppressive=1)
+dooku_lightning = Weapon(
+    "Force Lightning", 12, 3, pierce=1, ion=True, suppressive=1, throw=True
+)
 dooku.equip_weapon(dooku_lightsaber)
 dooku.equip_weapon(dooku_lightning)
 
@@ -31,7 +33,7 @@ general_grievous = Model(
     "General Grievous",
     3,
     3,
-    7,
+    8,
     villain=True,
     fear=True,
     relentless=True,
@@ -39,7 +41,7 @@ general_grievous = Model(
     impact=2,
     unique="Grievous",
 )
-grievous_trophy_lightsabers = Weapon("Trophy Lightsabers", "Melee", 10, rending=True)
+grievous_trophy_lightsabers = Weapon("Trophy Lightsabers", "Melee", 12, rending=True)
 general_grievous.equip_weapon(grievous_trophy_lightsabers)
 
 darth_maul = Model(
@@ -50,8 +52,8 @@ darth_maul = Model(
     sith=True,
     fear=True,
     deflect=True,
-    relentless=True,
     jump=3,
+    fast=True,
     unique="Maul",
 )
 maul_double_lightsaber = Weapon(
@@ -68,11 +70,10 @@ asajj_ventress = Model(
     5,
     sith=True,
     fear=True,
-    relentless=True,
     hunter="Jedi",
     scout=True,
     fast=True,
-    jump=6,
+    jump=3,
 )
 ventress_sabers = Weapon("Dual Lightsabers", "Melee", 6, pierce=2, deadly=2)
 ventress_force_choke = Weapon("Force Choke", "Torrent", 1, pierce=4)
@@ -179,7 +180,14 @@ bx_commando_droid = Model(
 bx_commando_droid.equip_weapon(core.blaster_carbine)
 
 magnaguard = Model(
-    "IG-100 Magnaguard", 4, 4, 3, droid=True, protector="Any", relentless=True
+    "IG-100 Magnaguard",
+    4,
+    4,
+    3,
+    droid=True,
+    protector="Unit",
+    protector_key="Villain/Sith",
+    relentless=True,
 )
 laser_dart = Weapon("Laser Dart", 12, 2, quickdraw=True)
 magnaguard.equip_weapon(core.electrostaff)
