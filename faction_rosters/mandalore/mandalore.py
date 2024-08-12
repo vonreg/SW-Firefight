@@ -325,6 +325,13 @@ upgrade_sabine_darksaber.select_upgrade_with_weapon_type(
 )
 upgrade_sabine_darksaber.upgrade_with_weapon_entry(darksaber)
 
+# Sabine shield
+
+label = letter_increment(label)
+upgrade_sabine_shield = UpgradeList(label, base_model=sabine_wren)
+upgrade_sabine_shield.select_upgrade_with_model_changes_type()
+upgrade_sabine_shield.upgrade_with_model_changes_entry("Combat Shield", shield=1)
+
 # Sabine weapons
 
 paralysing_dart_launcher = Weapon(
@@ -342,30 +349,23 @@ repulsor = Weapon(
     # nonlethal=True,
     ammo="Single Use",
     suppressive=1,
-    throw=True,
+    free_special_rule='Repulsor[6"]',
 )
 
 label = letter_increment(label)
 upgrade_sabine_weapon = UpgradeList(label, base_model=sabine_wren)
 upgrade_sabine_weapon.select_upgrade_with_weapon_type()
-upgrade_sabine_weapon.upgrade_with_weapon_entry(repulsor)
+upgrade_sabine_weapon.upgrade_with_weapon_entry(repulsor, manual_points_adjustment=1)
 upgrade_sabine_weapon.upgrade_with_weapon_entry(core.whipcord_launcher)
 upgrade_sabine_weapon.upgrade_with_weapon_entry(core.wrist_flamer)
 upgrade_sabine_weapon.upgrade_with_weapon_entry(paralysing_dart_launcher)
 upgrade_sabine_weapon.upgrade_with_weapon_entry(jetpack_rocket)
 
-# Sabine shield
-
-label = letter_increment(label)
-upgrade_sabine_shield = UpgradeList(label, base_model=sabine_wren)
-upgrade_sabine_shield.select_upgrade_with_model_changes_type()
-upgrade_sabine_shield.upgrade_with_model_changes_entry("Combat Shield", shield=1)
-
 # assign upgrade lists
 
 sabine_wren.add_upgrade_list(upgrade_sabine_darksaber)
-sabine_wren.add_upgrade_list(upgrade_sabine_weapon)
 sabine_wren.add_upgrade_list(upgrade_sabine_shield)
+sabine_wren.add_upgrade_list(upgrade_sabine_weapon)
 
 # collate model list
 
@@ -378,15 +378,15 @@ list_clan_wren.add_model_entry(tristan_wren)
 
 list_clan_wren.file_write_latex("mandalore_clan_wren_roster.tabl")
 upgrade_sabine_darksaber.file_write_latex()
-upgrade_sabine_weapon.file_write_latex()
 upgrade_sabine_shield.file_write_latex()
+upgrade_sabine_weapon.file_write_latex()
 
 # write tsv files
 
 list_clan_wren.file_write_tsv(tsv_file, list_title="Clan Wren", append=True)
 upgrade_sabine_darksaber.file_write_tsv(tsv_file)
-upgrade_sabine_weapon.file_write_tsv(tsv_file)
 upgrade_sabine_shield.file_write_tsv(tsv_file)
+upgrade_sabine_weapon.file_write_tsv(tsv_file)
 
 """ Protectors of Concord Dawn """
 # Fenn Rau

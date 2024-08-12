@@ -36,6 +36,7 @@ class Weapon:
         unique=False,
         primary_fire_mode_name=None,
         secondary_fire_modes=None,
+        free_special_rule=None,
     ) -> None:
         self.name = name
         self.range = weapon_range
@@ -65,6 +66,7 @@ class Weapon:
         self.unique = unique
         self.primary_fire_mode_name = primary_fire_mode_name
         self.secondary_fire_modes = secondary_fire_modes
+        self.free_special_rule = free_special_rule
 
         if self.range == "Torrent":
             self.torrent = True
@@ -401,6 +403,11 @@ class Weapon:
                     "; %s" % secondary_fire_mode.write_weapon()
                 )
 
+        if self.free_special_rule:
+            free_special_rule = ", %s" % self.free_special_rule
+        else:
+            free_special_rule = ""
+
         weapon_string = (
             name
             + primary_fire_mode_name
@@ -428,6 +435,7 @@ class Weapon:
             + throw
             + fixed
             + unique
+            + free_special_rule
             + ")"
             + secondary_fire_mode_string
         )
@@ -1040,7 +1048,7 @@ class Model:
             + free_special_rule
         )
 
-        options = ""  # blank for now... need to figure out options implementation first
+        options = ""
         if len(self.upgrade_lists) > 0:
             for i in range(len(self.upgrade_lists)):
                 upgrade_list = self.upgrade_lists[i]
