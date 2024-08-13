@@ -2,6 +2,7 @@ from operator import attrgetter
 from itertools import combinations
 import copy
 import pandas as pd
+import numpy as np
 import string
 
 
@@ -130,8 +131,12 @@ class Weapon:
 
     def calculate_cost(self, quality):
 
-        effective_quality = min(max(quality - self.sniper + self.inaccurate, 2), 6)
-        effective_quality_cost = self.quality_cost_dict[effective_quality]
+        if self.blast:
+            effective_quality_cost = np.sqrt(self.quality_cost_dict[quality]) * 2.2
+        else:
+            effective_quality = min(max(quality - self.sniper + self.inaccurate, 2), 6)
+            effective_quality_cost = self.quality_cost_dict[effective_quality]
+
         range_multiplier = self.range_multiplier_dict[self.range]
         attacks_multiplier = self.attacks
         pierce_multiplier = self.pierce_multiplier_dict[self.pierce]
