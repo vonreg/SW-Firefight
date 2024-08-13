@@ -147,6 +147,7 @@ frag_grenade = Weapon("Frag Grenade", 12, 2, ammo="Single Use", blast=5, indirec
 combat_training = Weapon("Combat Training", "Melee", 3)
 vibroblade = Weapon("Vibroblade", "Melee", 3, rending=1)
 truncheon = Weapon("Truncheon", "Melee", 2, suppressive=1)
+stun_spear = Weapon("Stun Spear", "Melee", 2, suppressive=2, pierce=1)
 electrostaff = Weapon("Electrostaff", "Melee", 4, pierce=2)
 electrowhip = Weapon(
     "Electrowhip", "Melee", 3, pierce=2, immobilise=True, immobilise_roll=5

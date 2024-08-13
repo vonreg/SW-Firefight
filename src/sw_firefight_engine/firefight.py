@@ -79,7 +79,9 @@ class Weapon:
             "Melee": 0.3,
             "Torrent": 0.4,
             6: 0.4,
+            9: 0.45,
             12: 0.5,
+            15: 0.55,
             18: 0.6,
             24: 0.65,
             30: 0.7,
@@ -102,7 +104,7 @@ class Weapon:
             4: 0.65,
             None: 0.65,
         }
-        self.blast_multiplier_dict = {None: 1, 3: 2, 5: 5}
+        self.blast_multiplier_dict = {None: 1, 3: 2.5, 5: 5}
         self.indirect_multiplier_dict = {False: 1, True: 1.1}
         self.nonlethal_multiplier_dict = {False: 1, True: 0.5}
         self.throw_multiplier_dict = {False: 1, True: 1.25}
@@ -123,7 +125,7 @@ class Weapon:
             "Rear, Sides": 0.25,
         }
         self.ion_increase_multiplier_dict = {False: 0, True: 30}
-        self.immobilise_increase_multiplier_dict = {False: 0, True: 15}
+        self.immobilise_increase_multiplier_dict = {False: 0, True: 10}
         self.disorient_increase_multiplier_dict = {False: 0, True: 30}
 
     def calculate_cost(self, quality):
@@ -174,9 +176,14 @@ class Weapon:
             * effective_quality_cost
             * self.fixed_reduction_multiplier_dict[self.fixed]
         )
+        if self.attacks == 1 and self.blast is None:
+            suppressive_attacks_multiplier = 0.7
+        else:
+            suppressive_attacks_multiplier = 1
         suppressive_cost_increase = (
-            10
+            7
             * self.suppressive
+            * suppressive_attacks_multiplier
             * ammo_multiplier
             * range_multiplier
             / self.range_multiplier_dict["inf"]
@@ -196,8 +203,13 @@ class Weapon:
             )
         else:
             immobilise_multiplier = 1
+        if self.attacks == 1 and self.blast is None:
+            immobilise_attacks_multiplier = 0.7
+        else:
+            immobilise_attacks_multiplier = 1
         immobilise_cost_increase = (
             self.immobilise_increase_multiplier_dict[self.immobilise]
+            * immobilise_attacks_multiplier
             * ammo_multiplier
             * immobilise_multiplier
             * range_multiplier
