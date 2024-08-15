@@ -1,0 +1,125 @@
+\documentclass{article}
+\usepackage{booktabs}
+\usepackage[table]{xcolor}
+\usepackage[raggedrightboxes]{ragged2e}
+\usepackage{array}
+\usepackage{multicol}
+\usepackage[none]{hyphenat}
+\usepackage[a4paper, left=0.6cm, right=0.6cm, top=1.2cm, bottom=1.2cm]{geometry}
+
+\DeclareUnicodeCharacter{221E}{\ensuremath{\infty}}
+
+\renewcommand{\familydefault}{\sfdefault}
+
+\begin{document}
+
+{\Huge \textbf{Crime Syndicates}}
+\vspace{0.6cm}
+
+{\Large \textbf{Crimson Dawn}}
+\vspace{0.3cm}
+
+\begin{minipage}{19cm}
+    Placeholder text
+\end{minipage}
+
+\vspace{0.3cm}
+{\scriptsize
+\setlength\extrarowheight{1.5pt}
+\rowcolors{2}{white}{gray!25}
+\input syndicates_crimson_dawn_roster.tabl
+}
+\vspace{0.6cm}
+
+{\Large \textbf{Pyke Syndicate}}
+\vspace{0.3cm}
+
+\begin{minipage}{19cm}
+    Placeholder text
+\end{minipage}
+
+\vspace{0.3cm}
+{\scriptsize
+\setlength\extrarowheight{1.5pt}
+\rowcolors{2}{white}{gray!25}
+\input syndicates_pykes_roster.tabl
+}
+\vspace{0.6cm}
+
+{\large \textbf{Options}}
+\vspace{0.3cm}
+\begin{multicols}{2}
+    {\scriptsize
+
+    \setlength\extrarowheight{1.5pt}
+    \rowcolors{2}{white}{gray!25}
+    \input upgrade_A.tabl
+
+    \vspace{0.6cm}
+
+    \setlength\extrarowheight{1.5pt}
+    \rowcolors{2}{white}{gray!25}
+    \input upgrade_B.tabl
+
+    }
+\end{multicols}
+
+\vspace{0.6cm}
+
+{\Large \textbf{Black Sun}}
+\vspace{0.3cm}
+
+\begin{minipage}{19cm}
+    Placeholder text
+\end{minipage}
+
+\vspace{0.3cm}
+{\scriptsize
+\setlength\extrarowheight{1.5pt}
+\rowcolors{2}{white}{gray!25}
+\input syndicates_black_sun_roster.tabl
+}
+\vspace{0.6cm}
+
+{\large \textbf{Options}}
+\vspace{0.3cm}
+\begin{multicols}{2}
+    {\scriptsize
+
+    \setlength\extrarowheight{1.5pt}
+    \rowcolors{2}{white}{gray!25}
+    \input upgrade_C.tabl
+
+    }
+\end{multicols}
+
+\newpage
+
+{\Large \textbf{Crime Lords}}
+\vspace{0.3cm}
+
+\begin{minipage}{19cm}
+    Placeholder text
+\end{minipage}
+
+\vspace{0.3cm}
+{\scriptsize
+\setlength\extrarowheight{1.5pt}
+\rowcolors{2}{white}{gray!25}
+\input syndicates_crime_lords_roster.tabl
+}
+\vspace{0.6cm}
+
+{\large \textbf{Options}}
+\vspace{0.3cm}
+\begin{multicols}{2}
+    {\scriptsize
+
+    \setlength\extrarowheight{1.5pt}
+    \rowcolors{2}{white}{gray!25}
+    \input upgrade_D.tabl
+
+    }
+\end{multicols}
+
+\end{document}

@@ -75,6 +75,7 @@ upgrade_pyke_add.upgrade_with_weapon_entry(core.thermal_imploder)
 # assign upgrade lists
 
 pyke_soldier.add_upgrade_list(upgrade_pyke_replace)
+pyke_soldier.add_upgrade_list(upgrade_pyke_add)
 
 # collate model list
 
