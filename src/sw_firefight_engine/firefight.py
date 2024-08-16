@@ -864,7 +864,10 @@ class Model:
         else:
             droid = ""
         if self.vehicle:
-            vehicle = "%sVehicle" % comma
+            if self.vehicle == "Droid":
+                vehicle = "%sVehicle[Droid]" % comma
+            else:
+                vehicle = "%sVehicle" % comma
             comma = ", "
         else:
             vehicle = ""

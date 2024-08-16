@@ -201,6 +201,21 @@ blaster_cannons = Weapon(
 )
 droideka.equip_weapon(blaster_cannons)
 
+droideka_sniper = Model(
+    "Droideka Sniper", 4, 4, 3, vehicle="Droid", cover="Front", free_special_rule="Roll"
+)
+sniper_cannon = Weapon(
+    "Sniper Cannon",
+    "inf",
+    2,
+    pierce=2,
+    deadly=2,
+    fixed="Front",
+    suppressive=1,
+    sniper=True,
+)
+droideka_sniper.equip_weapon(sniper_cannon)
+
 dwarf_spider_droid = Model(
     "DSD1 Dwarf Spider Droid", 4, 3, 4, vehicle="Droid", slow=True
 )
@@ -211,11 +226,12 @@ b1_emplacement_team = Model(
 )
 b1_emplacement_team.equip_weapon(core.light_blaster_cannon)
 
-# Sniper Droideka
-# STAPs
+stap = Model("STAP Rider", 5, 5, 3, vehicle="Droid", impact=2, fast=True, fly=True)
+stap.equip_weapon(blaster_cannons)  # from Droideka
+
 # Crab Droid(s)
 # Octuptarra
-# Savage Opress
+# Savage Opress; see Crime Lords
 
 # -*- Upgrade lists -*-
 
@@ -242,7 +258,16 @@ upgrade_super_tac.select_upgrade_with_weapon_type(replace_weapon=calculated_stri
 vibroblade_mastery = Weapon("Vibroblade Mastery", "Melee", 4, rending=True)
 upgrade_super_tac.upgrade_with_weapon_entry(vibroblade_mastery)
 
-# D: electrobinoculars
+# D: electrobinoculars (Spotter[1])
+
+label = letter_increment(label)
+upgrade_electrobinoculars = UpgradeList(label)
+upgrade_electrobinoculars.select_upgrade_with_rule_model_agnostic_type()
+upgrade_electrobinoculars.upgrade_with_rule_model_agnostic_entry(
+    "Electrobinoculars", spotter=1
+)
+
+# Targeting orders: Spotter[2]?
 
 # B1 weapon (replace)
 
@@ -346,9 +371,13 @@ upgrade_b1team_weapon.upgrade_with_weapon_entry(core.heavy_repeating_blaster)
 general_grievous.add_upgrade_list(upgrade_grievous)
 cad_bane.add_upgrade_list(upgrade_bane)
 super_tactical_droid.add_upgrade_list(upgrade_super_tac)
+b1_battle_droid.add_upgrade_list(upgrade_electrobinoculars)
 b1_battle_droid.add_upgrade_list([upgrade_b1_weapons, upgrade_b1_weap_add])
+oom_security_droid.add_upgrade_list(upgrade_electrobinoculars)
 b2_super_battle_droid.add_upgrade_list([upgrade_b2_weapons, upgrade_b2_weap_add])
+bx_commando_droid.add_upgrade_list(upgrade_electrobinoculars)
 bx_commando_droid.add_upgrade_list([upgrade_bx_weapons, upgrade_bx_weap_add])
+magnaguard.add_upgrade_list(upgrade_electrobinoculars)
 magnaguard.add_upgrade_list([upgrade_magnaguard_weap, upgrade_magnaguard_weap_add])
 dwarf_spider_droid.add_upgrade_list(upgrade_dsd)
 b1_emplacement_team.add_upgrade_list(upgrade_b1team_weapon)
@@ -374,7 +403,9 @@ model_list.add_model_entry(aqua_droid)
 model_list.add_model_entry(bx_commando_droid)
 model_list.add_model_entry(magnaguard)
 model_list.add_model_entry(droideka)
+model_list.add_model_entry(droideka_sniper)
 model_list.add_model_entry(dwarf_spider_droid)
+model_list.add_model_entry(stap)
 model_list.add_model_entry(b1_emplacement_team)
 
 # write latex file
@@ -383,6 +414,7 @@ model_list.file_write_latex("seperatist_roster.tabl")
 upgrade_grievous.file_write_latex()
 upgrade_bane.file_write_latex()
 upgrade_super_tac.file_write_latex()
+upgrade_electrobinoculars.file_write_latex()
 upgrade_b1_weapons.file_write_latex()
 upgrade_b1_weap_add.file_write_latex()
 upgrade_b2_weapons.file_write_latex()
@@ -401,6 +433,7 @@ model_list.file_write_tsv(tsv_file)
 upgrade_grievous.file_write_tsv(tsv_file)
 upgrade_bane.file_write_tsv(tsv_file)
 upgrade_super_tac.file_write_tsv(tsv_file)
+upgrade_electrobinoculars.file_write_tsv(tsv_file)
 upgrade_b1_weapons.file_write_tsv(tsv_file)
 upgrade_b1_weap_add.file_write_tsv(tsv_file)
 upgrade_b2_weapons.file_write_tsv(tsv_file)
