@@ -47,18 +47,52 @@ anakin_lightsaber = Weapon("Lightsaber", "Melee", 4, pierce=3, deadly=3)
 anakin_skywalker.equip_weapon(anakin_lightsaber)
 anakin_skywalker.equip_weapon(force_push)
 
-clone_sergeant = Model(
-    "Clone Sergeant (with Electrobinoculars)",
+rex = Model(
+    "Captain Rex",
     3,
     4,
-    2,
+    3,
     hero=True,
+    command=True,
     spotter=1,
+    take_cover=1,
+    gunslinger=True,
+    unique="Rex",
 )
-clone_sergeant.equip_weapon(core.blaster_rifle)
+rex.equip_weapon(core.dual_blaster_pistols)
+
+clone_officer = Model(
+    "Clone Officer",
+    3,
+    4,
+    3,
+    hero=True,
+    take_cover=1,
+)
+clone_officer.equip_weapon(core.blaster_pistol)
 
 clone_trooper = Model("Clone Trooper", 4, 4, 1)
-clone_trooper.equip_weapon(core.blaster_rifle)
+clone_trooper.equip_weapon(core.blaster_carbine)
+
+arc_trooper = Model("ARC Trooper", 3, 4, 1, impervious=True, scout=True)
+arc_trooper.equip_weapon(core.dual_blaster_pistols)
+
+arf_tracker = Model("ARF Tracker", 4, 4, 1, scout=True, spotter=True, disciplined=True)
+arf_tracker.equip_weapon(core.dual_blaster_pistols)
+
+massiff = Model(
+    "Massiff",
+    5,
+    5,
+    1,
+    fast=True,
+    scout=True,
+    hunter="Target",
+    companion="ARF Tracker",
+    beast=True,
+)
+massiff_claws = Weapon("Teeth and Claws", "Melee", 4, pierce=1)
+massiff.equip_weapon(massiff_claws)
 
 at_rt = Model(
     "AT-RT", 4, 3, 4, vehicle=True, fast=True, cover="Front", jump=3, impact=3
@@ -66,13 +100,85 @@ at_rt = Model(
 at_rt.equip_weapon(core.laser_cannon_mounted)
 at_rt.equip_weapon(core.grenade_launcher)
 
+# To-Do
+# BARC Speeder
+# BARC Speeder w/ Sidecar
+# Clone Commandos (2 W, thick armour, shield, impervious)
+# Generic Jedi (with rank, force & lightsaber upgrades)
+
 # -*- Upgrade lists -*-
+
+# Rex Jetpack
+
+label = "A"
+upgrade_rex_equip = UpgradeList(label, base_model=rex)
+upgrade_rex_equip.select_upgrade_with_model_changes_type()
+upgrade_rex_equip.upgrade_with_model_changes_entry("Jetpack", fly=True, fast=True)
+
+# Clone Officer Ranks
+
+label = letter_increment(label)
+upgrade_officer_rank = UpgradeList(label, base_model=clone_officer)
+upgrade_officer_rank.select_upgrade_with_model_changes_type()
+upgrade_officer_rank.upgrade_with_model_changes_entry("Lieutenant", relay=True)
+upgrade_officer_rank.upgrade_with_model_changes_entry("Captain", command=True)
+upgrade_officer_rank.upgrade_with_model_changes_entry(
+    "Commander", command=True, take_cover=2
+)
+upgrade_officer_rank.upgrade_with_model_changes_entry(
+    "ARC Commander", command=True, take_cover=2, impervious=True, scout=True
+)
+upgrade_officer_rank.upgrade_with_model_changes_entry(
+    "Marshal Commander",
+    command=True,
+    spotter=2,
+    take_cover=2,
+)
+
+# Clone Officer Equipment
+
+label = letter_increment(label)
+upgrade_officer_equip = UpgradeList(label, base_model=clone_officer)
+upgrade_officer_equip.select_upgrade_with_model_changes_type()
+upgrade_officer_equip.upgrade_with_model_changes_entry("Naval Uniform", defense=6)
+upgrade_officer_equip.upgrade_with_model_changes_entry("Jetpack", fly=True, fast=True)
+
+# Clone Officer Weapons
+
+label = letter_increment(label)
+upgrade_officer_weapons = UpgradeList(label, base_model=clone_officer)
+upgrade_officer_weapons.select_upgrade_with_weapon_type()
+upgrade_officer_weapons.upgrade_with_weapon_entry(core.blaster_carbine)
+upgrade_officer_weapons.upgrade_with_weapon_entry(core.rotary_blaster)
+upgrade_officer_weapons.upgrade_with_weapon_entry(core.heavy_blaster_rifle)
+upgrade_officer_weapons.upgrade_with_weapon_entry(core.targeting_rifle)
+
+# Clone Officer Dual Pistols
+
+label = letter_increment(label)
+upgrade_officer_sidearm = UpgradeList(label, base_model=clone_officer)
+upgrade_officer_sidearm.select_upgrade_with_weapon_type(
+    replace_weapon=core.blaster_pistol
+)
+upgrade_officer_sidearm.upgrade_with_weapon_entry(core.dual_blaster_pistols)
+
+# Generic Officer Binoculars (Spotter[1])
+
+label = letter_increment(label)
+upgrade_electrobinoculars = UpgradeList(label)
+upgrade_electrobinoculars.select_upgrade_with_rule_model_agnostic_type()
+upgrade_electrobinoculars.upgrade_with_rule_model_agnostic_entry(
+    "Electrobinoculars", spotter=1
+)
 
 # Clone weapons (replace)
 
-label = "A"
+label = letter_increment(label)
 upgrade_clone_weapons = UpgradeList(label, base_model=clone_trooper)
-upgrade_clone_weapons.select_upgrade_with_weapon_type(replace_weapon=core.blaster_rifle)
+upgrade_clone_weapons.select_upgrade_with_weapon_type(
+    replace_weapon=core.blaster_carbine
+)
+upgrade_clone_weapons.upgrade_with_weapon_entry(core.blaster_pistol)
 upgrade_clone_weapons.upgrade_with_weapon_entry(core.rotary_blaster)
 upgrade_clone_weapons.upgrade_with_weapon_entry(core.heavy_blaster_rifle)
 upgrade_clone_weapons.upgrade_with_weapon_entry(core.scatterblaster)
@@ -83,10 +189,67 @@ label = letter_increment(label)
 upgrade_clone_weap_add = UpgradeList(label, base_model=clone_trooper)
 upgrade_clone_weap_add.select_upgrade_with_weapon_type(limit=1)
 upgrade_clone_weap_add.upgrade_with_weapon_entry(core.rocket_launcher)
+upgrade_clone_weap_add.upgrade_with_weapon_entry(core.sniper_rifle)
 upgrade_clone_weap_add.upgrade_with_weapon_entry(core.mortar)
 upgrade_clone_weap_add.upgrade_with_weapon_entry(core.thermal_detonator)
 upgrade_clone_weap_add.upgrade_with_weapon_entry(core.ion_grenade)
 upgrade_clone_weap_add.upgrade_with_weapon_entry(core.frag_grenade)
+
+# Clone Specialists
+
+label = letter_increment(label)
+upgrade_clone_specialists = UpgradeList(label, base_model=clone_trooper)
+upgrade_clone_specialists.select_upgrade_with_model_changes_type()
+upgrade_clone_specialists.upgrade_with_model_changes_entry("Veteran", disciplined=True)
+upgrade_clone_specialists.upgrade_with_model_changes_entry(
+    "ARF Trooper", scout=True, quality=3
+)
+upgrade_clone_specialists.upgrade_with_model_changes_entry("Medic", heal=1)
+upgrade_clone_specialists.upgrade_with_model_changes_entry("Engineer", repair=1)
+upgrade_clone_specialists.upgrade_with_model_changes_entry(
+    "Comms Technician", relay=True
+)
+upgrade_clone_specialists.upgrade_with_model_changes_entry("Medic", heal=1)
+upgrade_clone_specialists.upgrade_with_model_changes_entry(
+    "Jetpack Trooper", fly=True, fast=True
+)
+upgrade_clone_specialists.upgrade_with_model_changes_entry(
+    "Naval Uniform",
+    defense=6,
+)
+upgrade_clone_specialists.upgrade_with_model_changes_entry(
+    "Sergeant",
+    wounds=2,
+    hero=True,
+)
+
+# ARC Trooper Weapons
+
+label = letter_increment(label)
+upgrade_arc_weapons = UpgradeList(label, base_model=arc_trooper)
+upgrade_arc_weapons.select_upgrade_with_weapon_type()
+upgrade_arc_weapons.upgrade_with_weapon_entry(core.blaster_carbine)
+upgrade_arc_weapons.upgrade_with_weapon_entry(core.rotary_blaster)
+upgrade_arc_weapons.upgrade_with_weapon_entry(core.heavy_blaster_rifle)
+upgrade_arc_weapons.upgrade_with_weapon_entry(core.targeting_rifle)
+
+# ARC Trooper Grenades
+
+label = letter_increment(label)
+upgrade_arc_grenades = UpgradeList(label, base_model=arc_trooper)
+upgrade_arc_grenades.select_upgrade_with_weapon_type(limit=1)
+upgrade_arc_grenades.upgrade_with_weapon_entry(core.concussion_grenade)
+upgrade_arc_grenades.upgrade_with_weapon_entry(core.thermal_detonator)
+upgrade_arc_grenades.upgrade_with_weapon_entry(core.ion_grenade)
+upgrade_arc_grenades.upgrade_with_weapon_entry(core.frag_grenade)
+upgrade_arc_grenades.upgrade_with_weapon_entry(core.thermal_imploder)
+
+# ARC Trooper Equipment (Jetpack)
+
+label = letter_increment(label)
+upgrade_arc_equip = UpgradeList(label, base_model=arc_trooper)
+upgrade_arc_equip.select_upgrade_with_model_changes_type()
+upgrade_arc_equip.upgrade_with_model_changes_entry("Jetpack", fly=True, fast=True)
 
 # AT-RT weapons
 
@@ -98,7 +261,18 @@ upgrade_at_rt.upgrade_with_weapon_entry(core.heavy_flamethrower_mounted)
 
 # assign upgrade lists
 
+rex.add_upgrade_list(upgrade_rex_equip)
+clone_officer.add_upgrade_list(upgrade_officer_rank)
+clone_officer.add_upgrade_list(upgrade_officer_equip)
+clone_officer.add_upgrade_list(upgrade_officer_weapons)
+clone_officer.add_upgrade_list(upgrade_officer_sidearm)
+clone_officer.add_upgrade_list(upgrade_electrobinoculars)
 clone_trooper.add_upgrade_list([upgrade_clone_weapons, upgrade_clone_weap_add])
+clone_trooper.add_upgrade_list(upgrade_clone_specialists)
+clone_trooper.add_upgrade_list(upgrade_electrobinoculars)
+arc_trooper.add_upgrade_list(upgrade_arc_weapons)
+arc_trooper.add_upgrade_list(upgrade_arc_grenades)
+arc_trooper.add_upgrade_list(upgrade_arc_equip)
 at_rt.add_upgrade_list(upgrade_at_rt)
 
 # collate model list
@@ -106,20 +280,44 @@ at_rt.add_upgrade_list(upgrade_at_rt)
 model_list = ModelList()
 model_list.add_model_entry(obi_wan_kenobi)
 model_list.add_model_entry(anakin_skywalker)
-model_list.add_model_entry(clone_sergeant)
+model_list.add_model_entry(rex)
+model_list.add_model_entry(clone_officer)
 model_list.add_model_entry(clone_trooper)
+model_list.add_model_entry(arc_trooper)
+model_list.add_model_entry(arf_tracker)
+model_list.add_model_entry(massiff)
 model_list.add_model_entry(at_rt)
 
 # write latex file
 
 model_list.file_write_latex("republic_roster.tabl")
+upgrade_rex_equip.file_write_latex()
+upgrade_officer_rank.file_write_latex()
+upgrade_officer_equip.file_write_latex()
+upgrade_officer_weapons.file_write_latex()
+upgrade_officer_sidearm.file_write_latex()
+upgrade_electrobinoculars.file_write_latex()
 upgrade_clone_weapons.file_write_latex()
 upgrade_clone_weap_add.file_write_latex()
+upgrade_clone_specialists.file_write_latex()
+upgrade_arc_weapons.file_write_latex()
+upgrade_arc_grenades.file_write_latex()
+upgrade_arc_equip.file_write_latex()
 upgrade_at_rt.file_write_latex()
 
 # write tsv file
 
 model_list.file_write_tsv(tsv_file)
+upgrade_rex_equip.file_write_tsv(tsv_file)
+upgrade_officer_rank.file_write_tsv(tsv_file)
+upgrade_officer_equip.file_write_tsv(tsv_file)
+upgrade_officer_weapons.file_write_tsv(tsv_file)
+upgrade_officer_sidearm.file_write_tsv(tsv_file)
+upgrade_electrobinoculars.file_write_tsv(tsv_file)
 upgrade_clone_weapons.file_write_tsv(tsv_file)
 upgrade_clone_weap_add.file_write_tsv(tsv_file)
+upgrade_clone_specialists.file_write_tsv(tsv_file)
+upgrade_arc_weapons.file_write_tsv(tsv_file)
+upgrade_arc_grenades.file_write_tsv(tsv_file)
+upgrade_arc_equip.file_write_tsv(tsv_file)
 upgrade_at_rt.file_write_tsv(tsv_file)
