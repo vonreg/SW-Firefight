@@ -465,13 +465,14 @@ class Model:
         name: str,
         quality,
         defense,
-        toughness,
+        wounds,
         arsenal=1,
         cover=None,
         courage=False,
         command=False,
         deflect=False,
         disciplined=False,
+        beast=False,
         droid=False,
         emplacement=False,
         expendable=0,
@@ -509,13 +510,14 @@ class Model:
         self.name = name
         self.quality = quality
         self.defense = defense
-        self.toughness = toughness
+        self.wounds = wounds
         self.arsenal = arsenal
         self.cover = cover
         self.courage = courage
         self.command = command
         self.deflect = deflect
         self.disciplined = disciplined
+        self.beast = beast
         self.droid = droid
         self.emplacement = emplacement
         self.expendable = expendable
@@ -566,6 +568,7 @@ class Model:
         self.courage_cost_dict = {False: 0, True: 5}
         self.command_cost_dict = {False: 0, True: 10}
         self.deflect_cost_dict = {False: 0, True: 2}
+        self.beast_cost_dict = {False: 0, True: 0}
         self.droid_cost_dict = {False: 0, True: 0}
         self.emplacement_cost_dict = {False: 0, True: 0}
         self.expendable_cost_dict = {0: 0, 1: 0, 2: 0, 3: 0}
@@ -607,17 +610,18 @@ class Model:
         quality_cost = self.quality_cost_dict[self.quality]
         defense_cost = self.defense_cost_dict[self.defense]
 
-        base_cost = (quality_cost + defense_cost) * self.toughness
+        base_cost = (quality_cost + defense_cost) * self.wounds
 
-        cover_cost = self.cover_cost_dict[self.cover] * self.toughness
+        cover_cost = self.cover_cost_dict[self.cover] * self.wounds
         courage_cost = self.courage_cost_dict[self.courage]
         command_cost = self.command_cost_dict[self.command]
-        deflect_cost = self.deflect_cost_dict[self.deflect] * self.toughness
+        deflect_cost = self.deflect_cost_dict[self.deflect] * self.wounds
         disciplined_cost = (
             self.disciplined
             * (self.quality_cost_dict[self.quality - 1] - quality_cost)
-            * self.toughness
+            * self.wounds
         )
+        beast_cost = self.beast_cost_dict[self.beast]
         droid_cost = self.droid_cost_dict[self.droid]
         emplacement_cost = self.emplacement_cost_dict[self.emplacement]
         expendable_cost = self.expendable_cost_dict[self.expendable]
@@ -633,7 +637,7 @@ class Model:
         sith_cost = self.jedi_sith_cost_dict[self.sith]
         jump_cost = self.jump_cost_dict[self.jump] * quality_cost
         impact_cost = self.impact_cost_dict[self.impact]
-        impervious_cost = self.impervious_cost_dict[self.impervious] * self.toughness
+        impervious_cost = self.impervious_cost_dict[self.impervious] * self.wounds
         noncombatant_cost = (
             self.noncombatant_cost_dict[self.noncombatant] * quality_cost
         )
@@ -643,7 +647,7 @@ class Model:
         repair_cost = quality_cost * self.repair
         scout_cost = self.scout_cost_dict[self.scout] * quality_cost
         shield_cost = self.shield * (10 + quality_cost)
-        # logic here: essentially +1 Toughness w/ 3+ save (would cost 8 + Quality cost)
+        # logic here: essentially +1 Wounds Threshold w/ 3+ save (would cost 8 + Quality cost)
         # then adding +2 pts for recovery chance
         slow_cost = self.slow_cost_dict[self.slow] * quality_cost
         spotter_cost = self.spotter_cost_dict[self.spotter]
@@ -657,6 +661,7 @@ class Model:
             + command_cost
             + deflect_cost
             + disciplined_cost
+            + beast_cost
             + droid_cost
             + emplacement_cost
             + expendable_cost
@@ -821,7 +826,7 @@ class Model:
         name = self.name
         quality = "%s+" % str(self.quality)
         defense = "%s+" % str(self.defense)
-        toughness = "%s" % str(self.toughness)
+        wounds = "%s" % str(self.wounds)
 
         if not self.weapons:
             weapons = ""
@@ -858,6 +863,11 @@ class Model:
             comma = ", "
         else:
             villain = ""
+        if self.beast:
+            beast = "%sBeast" % comma
+            comma = ", "
+        else:
+            beast = ""
         if self.droid:
             droid = "%sDroid" % comma
             comma = ", "
@@ -1033,6 +1043,7 @@ class Model:
             + sith
             + hero
             + villain
+            + beast
             + droid
             + vehicle
             + emplacement
@@ -1087,7 +1098,7 @@ class Model:
             + "\t"
             + defense
             + "\t"
-            + toughness
+            + wounds
             + "\t"
             + weapons
             + "\t"
@@ -1104,7 +1115,7 @@ class Model:
 class ModelList:
     def __init__(self) -> None:
         self.models = []
-        self.header = "Name\tQu\tDf\tT\tWeapons\tSpecial Rules\tOptions\tCost"
+        self.header = "Name\tQu\tDf\tW\tWeapons\tSpecial Rules\tOptions\tCost"
 
     def add_model_entry(self, model: Model):
         self.models.append(model)
@@ -1277,6 +1288,7 @@ class UpgradeList:
         name: str,
         courage=False,
         command=False,
+        beast=False,
         droid=False,
         emplacement=False,
         expendable=0,
@@ -1306,6 +1318,7 @@ class UpgradeList:
         # calculate costs
         courage_cost = template_model.courage_cost_dict[courage]
         command_cost = template_model.command_cost_dict[command]
+        beast_cost = template_model.beast_cost_dict[beast]
         droid_cost = template_model.droid_cost_dict[droid]
         emplacement_cost = template_model.emplacement_cost_dict[emplacement]
         expendable_cost = template_model.expendable_cost_dict[expendable]
@@ -1323,6 +1336,7 @@ class UpgradeList:
         upgrade_cost = (
             courage_cost
             + command_cost
+            + beast_cost
             + droid_cost
             + emplacement_cost
             + expendable_cost
@@ -1359,6 +1373,11 @@ class UpgradeList:
             comma = ", "
         else:
             villain_str = ""
+        if beast:
+            beast_str = "%sBeast" % comma
+            comma = ", "
+        else:
+            beast_str = ""
         if droid:
             droid_str = "%sDroid" % comma
             comma = ", "
@@ -1433,6 +1452,7 @@ class UpgradeList:
             + sith_str
             + hero_str
             + villain_str
+            + beast_str
             + droid_str
             + vehicle_str
             + emplacement_str
@@ -1489,13 +1509,14 @@ class UpgradeList:
         name: str,
         quality=None,
         defense=None,
-        toughness=None,
+        wounds=None,
         arsenal=1,
         cover=None,
         courage=None,
         command=None,
         deflect=None,
         disciplined=None,
+        beast=None,
         droid=None,
         emplacement=None,
         expendable=None,
@@ -1545,13 +1566,13 @@ class UpgradeList:
             comma = ", "
         else:
             defense_str = ""
-        if toughness:
-            entry_model_copy.toughness = toughness
-            toughness_increase = toughness - self.base_model.toughness
-            toughness_str = "%sT +%s" % (comma, str(toughness_increase))
+        if wounds:
+            entry_model_copy.wounds = wounds
+            wounds_increase = wounds - self.base_model.wounds
+            wounds_str = "%sW +%s" % (comma, str(wounds_increase))
             comma = ", "
         else:
-            toughness_str = ""
+            wounds_str = ""
         if jedi:
             entry_model_copy.jedi = jedi
             jedi_str = "%sJedi" % comma
@@ -1582,6 +1603,12 @@ class UpgradeList:
             comma = ", "
         else:
             villain_str = ""
+        if beast:
+            entry_model_copy.beast = beast
+            beast_str = "%sBeast" % comma
+            comma = ", "
+        else:
+            beast_str = ""
         if droid:
             entry_model_copy.droid = droid
             droid_str = "%sDroid" % comma
@@ -1797,11 +1824,12 @@ class UpgradeList:
         model_changes_str = (
             quality_str
             + defense_str
-            + toughness_str
+            + wounds_str
             + jedi_str
             + sith_str
             + hero_str
             + villain_str
+            + beast_str
             + droid_str
             + vehicle_str
             + emplacement_str
