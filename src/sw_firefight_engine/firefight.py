@@ -122,6 +122,7 @@ class Weapon:
             "Right": 0.5,
             "Rear": 0.5,
             "Sides": 0.35,
+            "Front, Rear": 0.35,
             "Front, Sides": 0.25,
             "Rear, Sides": 0.25,
         }
@@ -1051,7 +1052,7 @@ class Model:
         else:
             unique = ""
         if self.companion:
-            companion = "%sUnique[%s]" % (comma, str(self.companion))
+            companion = "%sCompanion[%s]" % (comma, str(self.companion))
             comma = ", "
         else:
             companion = ""
