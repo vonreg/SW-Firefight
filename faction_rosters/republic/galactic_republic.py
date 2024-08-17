@@ -74,11 +74,45 @@ clone_officer.equip_weapon(core.blaster_pistol)
 clone_trooper = Model("Clone Trooper", 4, 4, 1)
 clone_trooper.equip_weapon(core.blaster_carbine)
 
-arc_trooper = Model("ARC Trooper", 3, 4, 1, impervious=True, scout=True)
+arc_trooper = Model("ARC Trooper", 3, 4, 1, impervious=True, scout=True, recon=4)
 arc_trooper.equip_weapon(core.dual_blaster_pistols)
 
-arf_tracker = Model("ARF Tracker", 4, 4, 1, scout=True, spotter=True, disciplined=True)
+arf_tracker = Model(
+    "ARF Tracker", 4, 4, 1, scout=True, spotter=True, disciplined=True, recon=5
+)
 arf_tracker.equip_weapon(core.dual_blaster_pistols)
+
+clone_scout_trooper = Model(
+    "Clone Scout Trooper",
+    4,
+    5,
+    1,
+    scout=True,
+    recon=6,
+)
+clone_scout_trooper.equip_weapon(core.blaster_carbine)
+
+clone_commando = Model(
+    "Clone Commando",
+    3,
+    4,
+    1,
+    impervious=True,
+    scout=True,
+    disciplined=True,
+    shield=1,
+    hunter="Target",
+    recon=4,
+    survivor=1,
+)
+reconfigurable_blaster = Weapon("Reconfigurable Blaster", 18, 4, suppressive=1)
+sniper_config = Weapon("Sniper Config", "inf", 1, pierce=2, sniper=True, deadly=2)
+anti_armour_config = Weapon("Anti-Armour Config", 12, 2, pierce=2, deadly=2)
+grenade_launcher_config = Weapon(
+    "Grenade Launcher Config", 18, 2, pierce=1, ammo=1, blast=3, indirect=True
+)
+clone_commando.equip_weapon(core.vibroblade)
+clone_commando.equip_weapon(reconfigurable_blaster)
 
 massiff = Model(
     "Massiff",
@@ -90,6 +124,7 @@ massiff = Model(
     hunter="Target",
     companion="ARF Tracker",
     beast=True,
+    recon=6,
 )
 massiff_claws = Weapon("Teeth and Claws", "Melee", 4, pierce=1)
 massiff.equip_weapon(massiff_claws)
@@ -202,7 +237,7 @@ upgrade_clone_specialists = UpgradeList(label, base_model=clone_trooper)
 upgrade_clone_specialists.select_upgrade_with_model_changes_type()
 upgrade_clone_specialists.upgrade_with_model_changes_entry("Veteran", disciplined=True)
 upgrade_clone_specialists.upgrade_with_model_changes_entry(
-    "ARF Trooper", scout=True, quality=3
+    "ARF Trooper", scout=True, recon=5
 )
 upgrade_clone_specialists.upgrade_with_model_changes_entry("Medic", heal=1)
 upgrade_clone_specialists.upgrade_with_model_changes_entry("Engineer", repair=1)
@@ -251,6 +286,28 @@ upgrade_arc_equip = UpgradeList(label, base_model=arc_trooper)
 upgrade_arc_equip.select_upgrade_with_model_changes_type()
 upgrade_arc_equip.upgrade_with_model_changes_entry("Jetpack", fly=True, fast=True)
 
+# scout trooper
+
+label = letter_increment(label)
+upgrade_scout = UpgradeList(label, base_model=clone_scout_trooper)
+upgrade_scout.select_upgrade_with_weapon_type(replace_weapon=core.blaster_carbine)
+upgrade_scout.upgrade_with_weapon_entry(core.heavy_blaster_rifle)
+upgrade_scout.upgrade_with_weapon_entry(core.targeting_rifle)
+
+# Commando
+
+label = letter_increment(label)
+upgrade_commando_weaps = UpgradeList(label, base_model=clone_commando)
+upgrade_commando_weaps.select_upgrade_with_weapon_type()
+upgrade_commando_weaps.upgrade_with_weapon_entry(sniper_config)
+upgrade_commando_weaps.upgrade_with_weapon_entry(anti_armour_config)
+upgrade_commando_weaps.upgrade_with_weapon_entry(grenade_launcher_config)
+upgrade_commando_weaps.upgrade_with_weapon_entry(core.thermal_detonator)
+upgrade_commando_weaps.upgrade_with_weapon_entry(core.concussion_grenade)
+upgrade_commando_weaps.upgrade_with_weapon_entry(core.ion_grenade)
+upgrade_commando_weaps.upgrade_with_weapon_entry(core.sonic_imploder)
+upgrade_commando_weaps.upgrade_with_weapon_entry(core.thermal_imploder)
+
 # AT-RT weapons
 
 label = letter_increment(label)
@@ -273,6 +330,8 @@ clone_trooper.add_upgrade_list(upgrade_electrobinoculars)
 arc_trooper.add_upgrade_list(upgrade_arc_weapons)
 arc_trooper.add_upgrade_list(upgrade_arc_grenades)
 arc_trooper.add_upgrade_list(upgrade_arc_equip)
+clone_scout_trooper.add_upgrade_list(upgrade_scout)
+clone_commando.add_upgrade_list(upgrade_commando_weaps)
 at_rt.add_upgrade_list(upgrade_at_rt)
 
 # collate model list
@@ -286,6 +345,8 @@ model_list.add_model_entry(clone_trooper)
 model_list.add_model_entry(arc_trooper)
 model_list.add_model_entry(arf_tracker)
 model_list.add_model_entry(massiff)
+model_list.add_model_entry(clone_scout_trooper)
+model_list.add_model_entry(clone_commando)
 model_list.add_model_entry(at_rt)
 
 # write latex file
@@ -303,6 +364,8 @@ upgrade_clone_specialists.file_write_latex()
 upgrade_arc_weapons.file_write_latex()
 upgrade_arc_grenades.file_write_latex()
 upgrade_arc_equip.file_write_latex()
+upgrade_scout.file_write_latex()
+upgrade_commando_weaps.file_write_latex()
 upgrade_at_rt.file_write_latex()
 
 # write tsv file
@@ -320,4 +383,6 @@ upgrade_clone_specialists.file_write_tsv(tsv_file)
 upgrade_arc_weapons.file_write_tsv(tsv_file)
 upgrade_arc_grenades.file_write_tsv(tsv_file)
 upgrade_arc_equip.file_write_tsv(tsv_file)
+upgrade_scout.file_write_tsv(tsv_file)
+upgrade_commando_weaps.file_write_tsv(tsv_file)
 upgrade_at_rt.file_write_tsv(tsv_file)
