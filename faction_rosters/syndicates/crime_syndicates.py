@@ -181,9 +181,9 @@ maul = Model(
     free_special_rule="Crime Lord",
 )
 maul_lightsaber = Weapon("Lightsaber", "Melee", 3, pierce=2, deadly=3)
-maul_darksaber = Weapon("The Darksaber", "Melee", 4, pierce=3, deadly=3)
+maul_darksaber = Weapon("The Darksaber", "Melee", 5, pierce=2, deadly=3)
 maul_double_lightsaber = Weapon(
-    "Double-bladed Lightsaber", "Melee", 4, pierce=2, deadly=3
+    "Double-bladed Lightsaber", "Melee", 4, pierce=3, deadly=3
 )
 maul_saber_throw = Weapon("Saber Throw", 12, 2, pierce=2, deadly=3, quickdraw=True)
 maul.equip_weapon(maul_lightsaber)
