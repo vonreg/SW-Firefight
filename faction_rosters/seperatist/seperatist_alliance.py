@@ -175,7 +175,7 @@ aqua_droid = Model("AQ Aqua Droid", 5, 5, 2, droid=True, slow=True)
 aqua_droid.equip_weapon(core.light_laser_cannon)
 
 bx_commando_droid = Model(
-    "BX Commando Droid", 4, 5, 1, droid=True, fast=True, jump=3, scout=True
+    "BX Commando Droid", 4, 5, 1, droid=True, fast=True, jump=3, scout=True, recon=4
 )
 bx_commando_droid.equip_weapon(core.blaster_carbine)
 
@@ -226,7 +226,18 @@ b1_emplacement_team = Model(
 )
 b1_emplacement_team.equip_weapon(core.light_blaster_cannon)
 
-stap = Model("STAP Rider", 5, 5, 3, vehicle="Droid", impact=2, fast=True, fly=True)
+stap = Model(
+    "STAP Rider",
+    5,
+    5,
+    3,
+    vehicle="Droid",
+    impact=2,
+    fast=True,
+    fly=True,
+    recon=6,
+    scout=True,
+)
 stap.equip_weapon(blaster_cannons)  # from Droideka
 
 # Crab Droid(s)
