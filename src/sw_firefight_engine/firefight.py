@@ -499,6 +499,7 @@ class Model:
         scout=False,
         shield=0,
         slow=False,
+        survivor=False,
         spotter=0,
         take_cover=0,
         unique=False,
@@ -544,6 +545,7 @@ class Model:
         self.scout = scout
         self.shield = shield
         self.slow = slow
+        self.survivor = survivor
         self.spotter = spotter
         self.take_cover = take_cover
         self.unique = unique
@@ -592,6 +594,7 @@ class Model:
         self.relentless_cost_dict = {False: 0, True: 1}
         self.scout_cost_dict = {False: 0, True: 1}
         self.slow_cost_dict = {False: 0, True: -1}
+        self.survivor_cost_dict = {False: 0, True: 0.25}
         self.spotter_cost_dict = {0: 0, 1: 5, 2: 10, 3: 15}
         self.take_cover_cost_dict = {0: 0, 1: 5, 2: 10, 3: 15}
         self.vehicle_cost_dict = {False: 0, True: 0, "Droid": 0}
@@ -650,6 +653,9 @@ class Model:
         # logic here: essentially +1 Wounds Threshold w/ 3+ save (would cost 8 + Quality cost)
         # then adding +2 pts for recovery chance
         slow_cost = self.slow_cost_dict[self.slow] * quality_cost
+        survivor_cost = self.survivor_cost_dict[self.survivor] * (
+            quality_cost + defense_cost
+        )
         spotter_cost = self.spotter_cost_dict[self.spotter]
         take_cover_cost = self.take_cover_cost_dict[self.take_cover]
         vehicle_cost = self.vehicle_cost_dict[self.vehicle]
@@ -686,6 +692,7 @@ class Model:
             + scout_cost
             + shield_cost
             + slow_cost
+            + survivor_cost
             + spotter_cost
             + take_cover_cost
             + vehicle_cost
@@ -1013,6 +1020,11 @@ class Model:
             comma = ", "
         else:
             slow = ""
+        if self.survivor:
+            survivor = "%sSurvivor" % comma
+            comma = ", "
+        else:
+            survivor = ""
         if self.spotter:
             spotter = "%sSpotter[%s]" % (comma, str(self.spotter))
             comma = ", "
@@ -1072,6 +1084,7 @@ class Model:
             + scout
             + shield
             + slow
+            + survivor
             + spotter
             + take_cover
             + unique
@@ -1542,6 +1555,7 @@ class UpgradeList:
         scout=None,
         shield=None,
         slow=None,
+        survivor=None,
         spotter=None,
         take_cover=None,
         unique=None,
@@ -1791,6 +1805,12 @@ class UpgradeList:
             comma = ", "
         else:
             slow_str = ""
+        if survivor:
+            entry_model_copy.survivor = survivor
+            survivor_str = "%sSurvivor" % comma
+            comma = ", "
+        else:
+            survivor_str = ""
         if spotter:
             entry_model_copy.spotter = spotter
             spotter_str = "%sSpotter[%s]" % (comma, str(spotter))
@@ -1857,6 +1877,7 @@ class UpgradeList:
             + scout_str
             + shield_str
             + slow_str
+            + survivor_str
             + spotter_str
             + take_cover_str
             + unique_str
