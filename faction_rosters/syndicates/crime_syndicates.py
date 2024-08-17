@@ -235,3 +235,32 @@ upgrade_maul.file_write_latex()
 
 list_lords.file_write_tsv(tsv_file, list_title="Crime Lords", append=True)
 upgrade_maul.file_write_tsv(tsv_file)
+
+""" The Hutts """
+
+# models
+greedo = Model(
+    "Greedo",
+    5,
+    5,
+    3,
+    villain=True,
+    unique="Greedo",
+    gunslinger=True,
+)
+greedo.equip_weapon(core.heavy_blaster_pistol)
+greedo.equip_weapon(core.thermal_detonator)
+greedo.equip_weapon(core.dioxis_grenade)
+
+# collate model list
+
+list_hutts = ModelList()
+list_hutts.add_model_entry(greedo)
+
+# write latex files
+
+list_hutts.file_write_latex("syndicates_hutts_roster.tabl")
+
+# write tsv files
+
+list_hutts.file_write_tsv(tsv_file, list_title="The Hutts", append=True)
