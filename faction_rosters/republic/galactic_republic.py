@@ -9,6 +9,11 @@ from sw_firefight_engine import core
 
 tsv_file = "galactic_republic.tsv"
 
+jedi_lightsaber = Weapon("Lightsaber", "Melee", 4, pierce=3, deadly=3)
+jedi_dual_lightsaber = Weapon("Dual Lightsabers", "Melee", 6, pierce=3, deadly=2)
+padawan_lightsaber = Weapon("Lightsaber", "Melee", 3, pierce=2, deadly=2)
+force_push = Weapon("Force Push", 12, 3, throw=True, seek=True, quickdraw=True)
+
 obi_wan_kenobi = Model(
     "Obi-Wan Kenobi",
     3,
@@ -23,9 +28,7 @@ obi_wan_kenobi = Model(
     protector="Any",
     impervious=True,
 )
-kenobi_lightsaber = Weapon("Lightsaber", "Melee", 4, pierce=3, deadly=3)
-force_push = Weapon("Force Push", 12, 3, throw=True, seek=True, quickdraw=True)
-obi_wan_kenobi.equip_weapon(kenobi_lightsaber)
+obi_wan_kenobi.equip_weapon(jedi_lightsaber)
 obi_wan_kenobi.equip_weapon(force_push)
 
 anakin_skywalker = Model(
@@ -43,9 +46,60 @@ anakin_skywalker = Model(
     relentless=True,
     impervious=True,
 )
-anakin_lightsaber = Weapon("Lightsaber", "Melee", 4, pierce=3, deadly=3)
-anakin_skywalker.equip_weapon(anakin_lightsaber)
+anakin_skywalker.equip_weapon(jedi_lightsaber)
 anakin_skywalker.equip_weapon(force_push)
+
+ahsoka_tano_padawan = Model(
+    "Ahsoka Tano (Padawan)",
+    4,
+    3,
+    4,
+    jedi=True,
+    courage=True,
+    jump=3,
+    deflect=True,
+    unique="Ahsoka Tano",
+)
+ahsoka_tano_padawan.equip_weapon(padawan_lightsaber)
+ahsoka_tano_padawan.equip_weapon(force_push)
+
+ahsoka_tano_commander = Model(
+    "Ahsoka Tano (Commander)",
+    3,
+    3,
+    5,
+    jedi=True,
+    courage=True,
+    jump=3,
+    deflect=True,
+    unique="Ahsoka Tano",
+)
+ahsoka_tano_commander.equip_weapon(jedi_dual_lightsaber)
+ahsoka_tano_commander.equip_weapon(force_push)
+
+jedi_master = Model(
+    "Jedi Master",
+    3,
+    3,
+    5,
+    jedi=True,
+    jump=3,
+    deflect=True,
+    courage=True,
+    command=True,
+    impervious=True,
+)
+jedi_master.equip_weapon(jedi_lightsaber)
+jedi_master.equip_weapon(force_push)
+
+jedi_knight = Model(
+    "Jedi Knight", 3, 3, 4, jedi=True, jump=3, deflect=True, courage=True, command=True
+)
+jedi_knight.equip_weapon(jedi_lightsaber)
+jedi_knight.equip_weapon(force_push)
+
+jedi_padawan = Model("Jedi Padawan", 4, 4, 3, jedi=True, jump=3, deflect=True)
+jedi_padawan.equip_weapon(padawan_lightsaber)
 
 rex = Model(
     "Captain Rex",
@@ -128,6 +182,37 @@ massiff = Model(
 )
 massiff_claws = Weapon("Teeth and Claws", "Melee", 4, pierce=1)
 massiff.equip_weapon(massiff_claws)
+
+barc_speeder = Model(
+    "BARC Speeder",
+    4,
+    4,
+    3,
+    vehicle=True,
+    impact=2,
+    fast=True,
+    fly=True,
+    scout=True,
+    recon=5,
+)
+blaster_cannon_array = Weapon("Blaster Cannon Array", 18, 4, pierce=2, fixed="Front")
+barc_speeder.equip_weapon(blaster_cannon_array)
+
+heavy_barc_speeder = Model(
+    "BARC Heavy Weapons Speeder",
+    4,
+    4,
+    4,
+    vehicle=True,
+    impact=2,
+    fast=True,
+    fly=True,
+    arsenal=2,
+)
+sidecar_laser = Weapon("Sidecar Light Repeating Blaster", 18, 4, fixed="Front, Rear")
+sidecar_ion = Weapon("Sidecar Ion Repeater", 18, 3, ion=True, fixed="Front, Rear")
+heavy_barc_speeder.equip_weapon(blaster_cannon_array)
+heavy_barc_speeder.equip_weapon(sidecar_laser)
 
 at_rt = Model(
     "AT-RT", 4, 3, 4, vehicle=True, fast=True, cover="Front", jump=3, impact=3
@@ -308,6 +393,14 @@ upgrade_commando_weaps.upgrade_with_weapon_entry(core.ion_grenade)
 upgrade_commando_weaps.upgrade_with_weapon_entry(core.sonic_imploder)
 upgrade_commando_weaps.upgrade_with_weapon_entry(core.thermal_imploder)
 
+# BARC weapons
+
+label = letter_increment(label)
+upgrade_barc_heavy = UpgradeList(label, base_model=heavy_barc_speeder)
+upgrade_barc_heavy.select_upgrade_with_weapon_type(replace_weapon=sidecar_laser)
+upgrade_barc_heavy.upgrade_with_weapon_entry(core.rocket_launcher)
+upgrade_barc_heavy.upgrade_with_weapon_entry(sidecar_ion)
+
 # AT-RT weapons
 
 label = letter_increment(label)
@@ -332,6 +425,7 @@ arc_trooper.add_upgrade_list(upgrade_arc_grenades)
 arc_trooper.add_upgrade_list(upgrade_arc_equip)
 clone_scout_trooper.add_upgrade_list(upgrade_scout)
 clone_commando.add_upgrade_list(upgrade_commando_weaps)
+heavy_barc_speeder.add_upgrade_list(upgrade_barc_heavy)
 at_rt.add_upgrade_list(upgrade_at_rt)
 
 # collate model list
@@ -339,6 +433,11 @@ at_rt.add_upgrade_list(upgrade_at_rt)
 model_list = ModelList()
 model_list.add_model_entry(obi_wan_kenobi)
 model_list.add_model_entry(anakin_skywalker)
+model_list.add_model_entry(ahsoka_tano_padawan)
+model_list.add_model_entry(ahsoka_tano_commander)
+model_list.add_model_entry(jedi_master)
+model_list.add_model_entry(jedi_knight)
+model_list.add_model_entry(jedi_padawan)
 model_list.add_model_entry(rex)
 model_list.add_model_entry(clone_officer)
 model_list.add_model_entry(clone_trooper)
@@ -347,6 +446,8 @@ model_list.add_model_entry(arf_tracker)
 model_list.add_model_entry(massiff)
 model_list.add_model_entry(clone_scout_trooper)
 model_list.add_model_entry(clone_commando)
+model_list.add_model_entry(barc_speeder)
+model_list.add_model_entry(heavy_barc_speeder)
 model_list.add_model_entry(at_rt)
 
 # write latex file
@@ -366,6 +467,7 @@ upgrade_arc_grenades.file_write_latex()
 upgrade_arc_equip.file_write_latex()
 upgrade_scout.file_write_latex()
 upgrade_commando_weaps.file_write_latex()
+upgrade_barc_heavy.file_write_latex()
 upgrade_at_rt.file_write_latex()
 
 # write tsv file
@@ -385,4 +487,5 @@ upgrade_arc_grenades.file_write_tsv(tsv_file)
 upgrade_arc_equip.file_write_tsv(tsv_file)
 upgrade_scout.file_write_tsv(tsv_file)
 upgrade_commando_weaps.file_write_tsv(tsv_file)
+upgrade_barc_heavy.file_write_tsv(tsv_file)
 upgrade_at_rt.file_write_tsv(tsv_file)
