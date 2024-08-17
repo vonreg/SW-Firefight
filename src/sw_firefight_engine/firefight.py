@@ -493,7 +493,8 @@ class Model:
         noncombatant=False,
         protector=None,
         protector_key=None,
-        relay=False,
+        recon=False,
+        relay=None,
         relentless=False,
         repair=0,
         scout=False,
@@ -539,6 +540,7 @@ class Model:
         self.noncombatant = noncombatant
         self.protector = protector
         self.protector_key = protector_key
+        self.recon = recon
         self.relay = relay
         self.relentless = relentless
         self.repair = repair
@@ -590,6 +592,7 @@ class Model:
             raise Exception(
                 'Must specify protector_key=<unit name> if protector="Unit"'
             )
+        self.recon_cost_dict = {None: 0, 6: 1, 5: 2, 4: 3, 3: 4}
         self.relay_cost_dict = {False: 0, True: 5}
         self.relentless_cost_dict = {False: 0, True: 1}
         self.scout_cost_dict = {False: 0, True: 1}
@@ -645,6 +648,7 @@ class Model:
             self.noncombatant_cost_dict[self.noncombatant] * quality_cost
         )
         protector_cost = self.protector_cost_dict[self.protector] * defense_cost
+        recon_cost = self.recon_cost_dict[self.recon]
         relay_cost = self.relay_cost_dict[self.relay]
         relentless_cost = self.relentless_cost_dict[self.relentless] * quality_cost
         repair_cost = quality_cost * self.repair
@@ -686,6 +690,7 @@ class Model:
             + impervious_cost
             + noncombatant_cost
             + protector_cost
+            + recon_cost
             + relay_cost
             + relentless_cost
             + repair_cost
@@ -898,6 +903,11 @@ class Model:
             comma = ", "
         else:
             command = ""
+        if self.recon:
+            recon = "%sRecon[%s+]" % (comma, str(self.recon))
+            comma = ", "
+        else:
+            recon = ""
         if self.relay:
             relay = "%sRelay" % comma
             comma = ", "
@@ -1060,6 +1070,7 @@ class Model:
             + vehicle
             + emplacement
             + command
+            + recon
             + relay
             + arsenal
             + cover
@@ -1311,6 +1322,7 @@ class UpgradeList:
         jedi=False,
         sith=False,
         impact=0,
+        recon=None,
         relay=False,
         spotter=0,
         take_cover=0,
@@ -1341,6 +1353,7 @@ class UpgradeList:
         jedi_cost = template_model.jedi_sith_cost_dict[jedi]
         sith_cost = template_model.jedi_sith_cost_dict[sith]
         impact_cost = template_model.impact_cost_dict[impact]
+        recon_cost = template_model.recon_cost_dict[recon]
         relay_cost = template_model.relay_cost_dict[relay]
         spotter_cost = template_model.spotter_cost_dict[spotter]
         take_cover_cost = template_model.take_cover_cost_dict[take_cover]
@@ -1359,6 +1372,7 @@ class UpgradeList:
             + jedi_cost
             + sith_cost
             + impact_cost
+            + recon_cost
             + relay_cost
             + spotter_cost
             + take_cover_cost
@@ -1411,6 +1425,11 @@ class UpgradeList:
             comma = ", "
         else:
             command_str = ""
+        if recon:
+            recon_str = "%sRecon[%s+]" % (comma, str(recon))
+            comma = ", "
+        else:
+            recon_str = ""
         if relay:
             relay_str = "%sRelay" % comma
             comma = ", "
@@ -1470,6 +1489,7 @@ class UpgradeList:
             + vehicle_str
             + emplacement_str
             + command_str
+            + recon_str
             + relay_str
             + courage_str
             + expendable_str
@@ -1549,6 +1569,7 @@ class UpgradeList:
         impervious=None,
         protector=None,
         protector_key=None,
+        recon=None,
         relay=None,
         relentless=None,
         repair=None,
@@ -1647,6 +1668,12 @@ class UpgradeList:
             comma = ", "
         else:
             command_str = ""
+        if recon:
+            entry_model_copy.recon = recon
+            recon_str = "%sRecon[%s+]" % (comma, str(recon))
+            comma = ", "
+        else:
+            recon_str = ""
         if relay:
             entry_model_copy.relay = relay
             relay_str = "%sRelay" % comma
@@ -1854,6 +1881,7 @@ class UpgradeList:
             + vehicle_str
             + emplacement_str
             + command_str
+            + recon_str
             + relay_str
             + arsenal_str
             + cover_str
