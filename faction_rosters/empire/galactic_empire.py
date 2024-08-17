@@ -50,7 +50,9 @@ inquisitor = Model("Inquisitor", 4, 3, 4, villain=True, deflect=True, jump=3)
 inquisitor_lightsaber = Weapon("Lightsaber", "Melee", 3, pierce=3, deadly=3)
 inquisitor.equip_weapon(inquisitor_lightsaber)
 
-isf_commander = Model("ISF Commander", 3, 4, 3, villain=True, command=True, scout=True)
+isf_commander = Model(
+    "ISF Commander", 3, 4, 3, villain=True, command=True, scout=True, recon=4
+)
 isf_commander.equip_weapon(core.blaster_rifle)
 isf_commander.equip_weapon(core.combat_training)
 
@@ -90,11 +92,11 @@ imperial_riot_trooper = Model("Imperial Riot Trooper", 5, 4, 1, expendable=2)
 imperial_riot_trooper.equip_weapon(core.truncheon)
 
 scout_trooper = Model(
-    "Scout Trooper", 5, 5, 1, expendable=1, scout=True, disciplined=True
+    "Scout Trooper", 5, 5, 1, expendable=1, scout=True, disciplined=True, recon=5
 )
 scout_trooper.equip_weapon(core.blaster_pistol)
 
-isf_trooper = Model("ISF Trooper", 4, 4, 1, scout=True)
+isf_trooper = Model("ISF Trooper", 4, 4, 1, scout=True, recon=4)
 isf_trooper.equip_weapon(core.blaster_rifle)
 
 purge_trooper = Model("Purge Trooper", 3, 4, 1, hunter="Jedi", impervious=True)
@@ -132,7 +134,16 @@ imperial_royal_guard.equip_weapon(force_pike)
 imperial_royal_guard.equip_weapon(core.heavy_blaster_pistol)
 
 imp_speeder_bike = Model(
-    "74-Z Speeder Bike", 5, 5, 3, vehicle=True, impact=2, fast=True, fly=True
+    "74-Z Speeder Bike",
+    5,
+    5,
+    3,
+    vehicle=True,
+    impact=2,
+    fast=True,
+    fly=True,
+    scout=True,
+    recon=5,
 )
 imp_speeder_bike.equip_weapon(core.light_blaster_cannon)
 imp_speeder_bike.equip_weapon(core.blaster_pistol)
