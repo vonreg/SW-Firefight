@@ -153,6 +153,18 @@ electrowhip = Weapon(
     "Electrowhip", "Melee", 3, pierce=2, immobilise=True, immobilise_roll=5
 )
 
+# Lightsabers
+
+lightsaber_basic = Weapon("Lightsaber", "Melee", 3, pierce=2, deadly=2)
+lightsaber_knight = Weapon("Lightsaber", "Melee", 3, pierce=2, deadly=3)
+lightsaber_master = Weapon("Lightsaber", "Melee", 3, pierce=3, deadly=3)
+lightsaber_heroic = Weapon("Lightsaber", "Melee", 4, pierce=3, deadly=3)
+
+# Force Powers
+
+force_push = Weapon("Force Push", 12, 3, throw=True, seek=True, quickdraw=True)
+jedi_mind_trick = Weapon("Jedi Mind Trick", 12, 3, nonlethal=True, disorient=True)
+
 # Miscellaneous
 
 flamethrower = Weapon("Flamethrower", "Torrent", 2, pierce=1)

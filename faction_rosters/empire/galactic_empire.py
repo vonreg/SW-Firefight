@@ -47,8 +47,7 @@ darth_vader.equip_weapon(vader_lightsaber)
 darth_vader.equip_weapon(vader_force_choke)
 
 inquisitor = Model("Inquisitor", 4, 3, 4, villain=True, deflect=True, jump=3)
-inquisitor_lightsaber = Weapon("Lightsaber", "Melee", 3, pierce=3, deadly=3)
-inquisitor.equip_weapon(inquisitor_lightsaber)
+inquisitor.equip_weapon(core.lightsaber_knight)
 
 isf_commander = Model(
     "ISF Commander", 3, 4, 3, villain=True, command=True, scout=True, recon=4

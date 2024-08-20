@@ -169,8 +169,8 @@ force_choke = Weapon("Force Choke", 6, 1, pierce=2, seek=True, throw=True)
 maul = Model(
     "Maul",
     3,
-    4,
-    6,
+    3,
+    5,
     sith=True,
     fear=True,
     deflect=True,
@@ -178,17 +178,26 @@ maul = Model(
     unique="Maul",
     command=True,
     impervious=True,
-    free_special_rule="Crime Lord",
+    survivor=True,
 )
-maul_lightsaber = Weapon("Lightsaber", "Melee", 3, pierce=2, deadly=3)
+# consolidate into 1 profile; core.lightsaber_master?
+# represents maul's skill in fighting, shouldn't depend on what he's armed with
+# maul_lightsaber = Weapon("Lightsaber", "Melee", 3, pierce=2, deadly=3)
+maul_lightsaber = Weapon(
+    "Lightsaber", "Melee", 3, pierce=3, deadly=3
+)  # lightsaber_master
 maul_darksaber = Weapon("The Darksaber", "Melee", 5, pierce=2, deadly=3)
 maul_double_lightsaber = Weapon(
     "Double-bladed Lightsaber", "Melee", 4, pierce=3, deadly=3
 )
-maul_saber_throw = Weapon("Saber Throw", 12, 2, pierce=2, deadly=3, quickdraw=True)
+maul_saber_throw = Weapon(
+    "Saber Throw", 12, 2, pierce=2, deadly=3, quickdraw=True
+)  # check points
 maul.equip_weapon(maul_lightsaber)
-maul.equip_weapon(maul_saber_throw)
-maul.equip_weapon(force_choke)
+maul.equip_weapon(
+    maul_saber_throw
+)  # doesn't need both or should be cheaper, check points
+maul.equip_weapon(force_choke)  # doesn't need both or should be cheaper, check points
 
 savage = Model(
     "Savage Opress",

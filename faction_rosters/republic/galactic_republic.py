@@ -9,11 +9,6 @@ from sw_firefight_engine import core
 
 tsv_file = "galactic_republic.tsv"
 
-jedi_lightsaber = Weapon("Lightsaber", "Melee", 4, pierce=3, deadly=3)
-jedi_dual_lightsaber = Weapon("Dual Lightsabers", "Melee", 6, pierce=3, deadly=2)
-padawan_lightsaber = Weapon("Lightsaber", "Melee", 3, pierce=2, deadly=2)
-force_push = Weapon("Force Push", 12, 3, throw=True, seek=True, quickdraw=True)
-
 obi_wan_kenobi = Model(
     "Obi-Wan Kenobi",
     3,
@@ -28,8 +23,8 @@ obi_wan_kenobi = Model(
     protector="Any",
     impervious=True,
 )
-obi_wan_kenobi.equip_weapon(jedi_lightsaber)
-obi_wan_kenobi.equip_weapon(force_push)
+obi_wan_kenobi.equip_weapon(core.lightsaber_master)
+obi_wan_kenobi.equip_weapon(core.force_push)
 
 anakin_skywalker = Model(
     "Anakin Skywalker",
@@ -46,8 +41,8 @@ anakin_skywalker = Model(
     relentless=True,
     impervious=True,
 )
-anakin_skywalker.equip_weapon(jedi_lightsaber)
-anakin_skywalker.equip_weapon(force_push)
+anakin_skywalker.equip_weapon(core.lightsaber_heroic)
+anakin_skywalker.equip_weapon(core.force_push)
 
 ahsoka_tano_padawan = Model(
     "Ahsoka Tano (Padawan)",
@@ -60,8 +55,8 @@ ahsoka_tano_padawan = Model(
     deflect=True,
     unique="Ahsoka Tano",
 )
-ahsoka_tano_padawan.equip_weapon(padawan_lightsaber)
-ahsoka_tano_padawan.equip_weapon(force_push)
+ahsoka_tano_padawan.equip_weapon(core.lightsaber_basic)
+ahsoka_tano_padawan.equip_weapon(core.force_push)
 
 ahsoka_tano_commander = Model(
     "Ahsoka Tano (Commander)",
@@ -74,8 +69,9 @@ ahsoka_tano_commander = Model(
     deflect=True,
     unique="Ahsoka Tano",
 )
-ahsoka_tano_commander.equip_weapon(jedi_dual_lightsaber)
-ahsoka_tano_commander.equip_weapon(force_push)
+ahsoka_twin_sabers = Weapon("Dual Lightsabers", "Melee", 5, pierce=2, deadly=2)
+ahsoka_tano_commander.equip_weapon(ahsoka_twin_sabers)
+ahsoka_tano_commander.equip_weapon(core.force_push)
 
 jedi_master = Model(
     "Jedi Master",
@@ -89,17 +85,17 @@ jedi_master = Model(
     command=True,
     impervious=True,
 )
-jedi_master.equip_weapon(jedi_lightsaber)
-jedi_master.equip_weapon(force_push)
+jedi_master.equip_weapon(core.lightsaber_master)
+jedi_master.equip_weapon(core.force_push)
 
 jedi_knight = Model(
     "Jedi Knight", 3, 3, 4, jedi=True, jump=3, deflect=True, courage=True, command=True
 )
-jedi_knight.equip_weapon(jedi_lightsaber)
-jedi_knight.equip_weapon(force_push)
+jedi_knight.equip_weapon(core.lightsaber_knight)
+jedi_knight.equip_weapon(core.force_push)
 
 jedi_padawan = Model("Jedi Padawan", 4, 4, 3, jedi=True, jump=3, deflect=True)
-jedi_padawan.equip_weapon(padawan_lightsaber)
+jedi_padawan.equip_weapon(core.lightsaber_basic)
 
 rex = Model(
     "Captain Rex",
@@ -136,6 +132,22 @@ arf_tracker = Model(
 )
 arf_tracker.equip_weapon(core.dual_blaster_pistols)
 
+massiff = Model(
+    "Massiff",
+    5,
+    5,
+    1,
+    fast=True,
+    scout=True,
+    hunter="Target",
+    companion="ARF Tracker",
+    beast=True,
+    recon=6,
+    expendable=1,
+)
+massiff_claws = Weapon("Teeth and Claws", "Melee", 4, pierce=1)
+massiff.equip_weapon(massiff_claws)
+
 clone_scout_trooper = Model(
     "Clone Scout Trooper",
     4,
@@ -167,21 +179,6 @@ grenade_launcher_config = Weapon(
 )
 clone_commando.equip_weapon(core.vibroblade)
 clone_commando.equip_weapon(reconfigurable_blaster)
-
-massiff = Model(
-    "Massiff",
-    5,
-    5,
-    1,
-    fast=True,
-    scout=True,
-    hunter="Target",
-    companion="ARF Tracker",
-    beast=True,
-    recon=6,
-)
-massiff_claws = Weapon("Teeth and Claws", "Melee", 4, pierce=1)
-massiff.equip_weapon(massiff_claws)
 
 barc_speeder = Model(
     "BARC Speeder",
@@ -329,7 +326,6 @@ upgrade_clone_specialists.upgrade_with_model_changes_entry("Engineer", repair=1)
 upgrade_clone_specialists.upgrade_with_model_changes_entry(
     "Comms Technician", relay=True
 )
-upgrade_clone_specialists.upgrade_with_model_changes_entry("Medic", heal=1)
 upgrade_clone_specialists.upgrade_with_model_changes_entry(
     "Jetpack Trooper", fly=True, fast=True
 )

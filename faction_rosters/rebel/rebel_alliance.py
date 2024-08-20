@@ -22,7 +22,7 @@ luke_skywalker_hero = Model(
     courage=True,
     unique="Luke Skywalker",
 )
-anakin_lightsaber = Weapon("Anakin's Lightsaber", "Melee", 3, pierce=2, deadly=3)
+anakin_lightsaber = Weapon("Anakin's Lightsaber", "Melee", 3, pierce=2, deadly=2)
 luke_skywalker_hero.equip_weapon(core.heavy_blaster_pistol)
 
 luke_skywalker_jedi = Model(
@@ -38,7 +38,7 @@ luke_skywalker_jedi = Model(
     relentless=True,
     impervious=True,
 )
-luke_lightsaber = Weapon("Luke's Lightsaber", "Melee", 4, pierce=3, deadly=3)
+luke_lightsaber = Weapon("Luke's Lightsaber", "Melee", 3, pierce=3, deadly=3)
 force_push = Weapon("Force Push", 12, 3, throw=True, seek=True, quickdraw=True)
 luke_skywalker_jedi.equip_weapon(luke_lightsaber)
 luke_skywalker_jedi.equip_weapon(force_push)
@@ -55,8 +55,7 @@ ben_kenobi = Model(
     protector="Any",
     impervious=True,
 )
-kenobi_lightsaber = Weapon("Lightsaber", "Melee", 4, pierce=3, deadly=3)
-ben_kenobi.equip_weapon(kenobi_lightsaber)
+ben_kenobi.equip_weapon(core.lightsaber_heroic)
 ben_kenobi.equip_weapon(core.heavy_blaster_pistol)
 
 old_ben_kenobi = Model(
@@ -70,10 +69,9 @@ old_ben_kenobi = Model(
     unique="Obi-Wan Kenobi",
     protector="Any",
 )
-old_kenobi_lightsaber = Weapon("Lightsaber", "Melee", 3, pierce=3, deadly=3)
 jedi_mind_trick = Weapon("Jedi Mind Trick", 12, 3, nonlethal=True, disorient=True)
-old_ben_kenobi.equip_weapon(old_kenobi_lightsaber)
-old_ben_kenobi.equip_weapon(jedi_mind_trick)
+old_ben_kenobi.equip_weapon(core.lightsaber_master)
+old_ben_kenobi.equip_weapon(core.jedi_mind_trick)
 
 rebel_captain = Model(
     "Rebel Captain",

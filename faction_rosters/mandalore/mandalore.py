@@ -22,7 +22,7 @@ beskad = Weapon("Beskad", "Melee", 4, pierce=2, rending=True)
 # core: whipcord launcher
 # core: wrist flamethrower
 darksaber = Weapon(
-    "The Darksaber", "Melee", 3, pierce=3, deadly=3, unique="The Darksaber"
+    "The Darksaber", "Melee", 3, pierce=2, deadly=3, unique="The Darksaber"
 )
 
 """ Core mandalorians """

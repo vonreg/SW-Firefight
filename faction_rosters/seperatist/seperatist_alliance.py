@@ -22,11 +22,10 @@ dooku = Model(
     unique="Dooku",
     impervious=True,
 )
-dooku_lightsaber = Weapon("Lightsaber", "Melee", 4, pierce=3, deadly=3)
 dooku_lightning = Weapon(
     "Force Lightning", 12, 3, pierce=1, ion=True, suppressive=1, throw=True
 )
-dooku.equip_weapon(dooku_lightsaber)
+dooku.equip_weapon(core.lightsaber_heroic)
 dooku.equip_weapon(dooku_lightning)
 
 general_grievous = Model(
@@ -58,8 +57,10 @@ darth_maul = Model(
 )
 maul_double_lightsaber = Weapon(
     "Double-bladed Lightsaber", "Melee", 4, pierce=2, deadly=3
-)
-maul_saber_throw = Weapon("Saber Throw", 12, 2, pierce=2, deadly=3, quickdraw=True)
+)  # edit this (core.lightsaber_master?)
+maul_saber_throw = Weapon(
+    "Saber Throw", 12, 2, pierce=2, deadly=3, quickdraw=True
+)  # check points
 darth_maul.equip_weapon(maul_double_lightsaber)
 darth_maul.equip_weapon(maul_saber_throw)
 
@@ -75,7 +76,7 @@ asajj_ventress = Model(
     fast=True,
     jump=3,
 )
-ventress_sabers = Weapon("Dual Lightsabers", "Melee", 6, pierce=2, deadly=2)
+ventress_sabers = Weapon("Dual Lightsabers", "Melee", 5, pierce=2, deadly=2)
 ventress_force_choke = Weapon("Force Choke", "Torrent", 1, pierce=4)
 asajj_ventress.equip_weapon(ventress_sabers)
 asajj_ventress.equip_weapon(ventress_force_choke)
