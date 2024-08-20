@@ -27,5 +27,5 @@ cd ..
 
 cd syndicates
 python crime_syndicates.py
-#pdflatex crime_syndicates.tex
+pdflatex crime_syndicates.tex
 cd ..
