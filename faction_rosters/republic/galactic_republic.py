@@ -336,6 +336,7 @@ upgrade_clone_specialists.upgrade_with_model_changes_entry(
 upgrade_clone_specialists.upgrade_with_model_changes_entry(
     "Sergeant",
     wounds=2,
+    disciplined=True,
     hero=True,
 )
 
