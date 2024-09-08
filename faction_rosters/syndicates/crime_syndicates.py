@@ -162,9 +162,6 @@ upgrade_black_sun.file_write_tsv(tsv_file)
 
 """ Crime Lords """
 
-# common weapons
-force_choke = Weapon("Force Choke", 6, 1, pierce=2, seek=True, throw=True)
-
 # models
 maul = Model(
     "Maul",
@@ -180,24 +177,12 @@ maul = Model(
     impervious=True,
     survivor=True,
 )
-# consolidate into 1 profile; core.lightsaber_master?
-# represents maul's skill in fighting, shouldn't depend on what he's armed with
-# maul_lightsaber = Weapon("Lightsaber", "Melee", 3, pierce=2, deadly=3)
 maul_lightsaber = Weapon(
     "Lightsaber", "Melee", 3, pierce=3, deadly=3
 )  # lightsaber_master
-maul_darksaber = Weapon("The Darksaber", "Melee", 5, pierce=2, deadly=3)
-maul_double_lightsaber = Weapon(
-    "Double-bladed Lightsaber", "Melee", 4, pierce=3, deadly=3
-)
-maul_saber_throw = Weapon(
-    "Saber Throw", 12, 2, pierce=2, deadly=3, quickdraw=True
-)  # check points
 maul.equip_weapon(maul_lightsaber)
-maul.equip_weapon(
-    maul_saber_throw
-)  # doesn't need both or should be cheaper, check points
-maul.equip_weapon(force_choke)  # doesn't need both or should be cheaper, check points
+maul.equip_weapon(core.saber_throw)
+maul.equip_weapon(core.force_choke)
 
 savage = Model(
     "Savage Opress",
@@ -212,22 +197,12 @@ savage = Model(
     impact=2,
 )
 savage_double_lightsaber = Weapon(
-    "Double-bladed Lightsaber", "Melee", 4, pierce=2, deadly=3
+    "Double-bladed Lightsaber", "Melee", 4, pierce=2, deadly=2
 )
 savage.equip_weapon(savage_double_lightsaber)
-savage.equip_weapon(force_choke)
+savage.equip_weapon(core.force_choke)
 
 # -*- Upgrade lists -*-
-
-label = letter_increment(label)
-upgrade_maul = UpgradeList(label, base_model=maul)
-upgrade_maul.select_upgrade_with_weapon_type(replace_weapon=maul_lightsaber)
-upgrade_maul.upgrade_with_weapon_entry(maul_double_lightsaber)
-upgrade_maul.upgrade_with_weapon_entry(maul_darksaber)
-
-# assign upgrade lists
-
-maul.add_upgrade_list(upgrade_maul)
 
 # collate model list
 
@@ -238,12 +213,10 @@ list_lords.add_model_entry(savage)
 # write latex files
 
 list_lords.file_write_latex("syndicates_crime_lords_roster.tabl")
-upgrade_maul.file_write_latex()
 
 # write tsv files
 
 list_lords.file_write_tsv(tsv_file, list_title="Crime Lords", append=True)
-upgrade_maul.file_write_tsv(tsv_file)
 
 """ The Hutts """
 

@@ -46,7 +46,7 @@ general_grievous.equip_weapon(grievous_trophy_lightsabers)
 darth_maul = Model(
     "Darth Maul",
     3,
-    4,
+    3,
     6,
     sith=True,
     fear=True,
@@ -56,13 +56,10 @@ darth_maul = Model(
     unique="Maul",
 )
 maul_double_lightsaber = Weapon(
-    "Double-bladed Lightsaber", "Melee", 4, pierce=2, deadly=3
+    "Double-bladed Lightsaber", "Melee", 3, pierce=3, deadly=3
 )  # edit this (core.lightsaber_master?)
-maul_saber_throw = Weapon(
-    "Saber Throw", 12, 2, pierce=2, deadly=3, quickdraw=True
-)  # check points
 darth_maul.equip_weapon(maul_double_lightsaber)
-darth_maul.equip_weapon(maul_saber_throw)
+darth_maul.equip_weapon(core.saber_throw)
 
 asajj_ventress = Model(
     "Asajj Ventress",
@@ -239,7 +236,10 @@ stap = Model(
     recon=6,
     scout=True,
 )
-stap.equip_weapon(blaster_cannons)  # from Droideka
+stap_blaster_cannons = Weapon(
+    "Blaster Cannons", 18, 3, pierce=2, fixed="Front", suppressive=1
+)
+stap.equip_weapon(stap_blaster_cannons)
 
 # Crab Droid(s)
 # Octuptarra

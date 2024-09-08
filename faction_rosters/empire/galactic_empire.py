@@ -44,7 +44,7 @@ darth_vader = Model(
 vader_lightsaber = Weapon("Lightsaber", "Melee", 4, pierce=4, deadly=3)
 vader_force_choke = Weapon("Force Choke", 6, 1, pierce=4, seek=True, throw=True)
 darth_vader.equip_weapon(vader_lightsaber)
-darth_vader.equip_weapon(vader_force_choke)
+darth_vader.equip_weapon(core.force_choke)
 
 inquisitor = Model("Inquisitor", 4, 3, 4, villain=True, deflect=True, jump=3)
 inquisitor.equip_weapon(core.lightsaber_knight)
@@ -144,6 +144,7 @@ imp_speeder_bike = Model(
     scout=True,
     recon=5,
 )
+speeder_blaster_cannon = Weapon("Light Blaster Cannon", 18, 3, pierce=2, fixed="Front")
 imp_speeder_bike.equip_weapon(core.light_blaster_cannon)
 imp_speeder_bike.equip_weapon(core.blaster_pistol)
 
@@ -153,7 +154,6 @@ e_web_team = Model(
     4,
     3,
     emplacement=True,
-    cover="Front",
     slow=True,
     disciplined=True,
 )
