@@ -162,7 +162,7 @@ lightsaber_heroic = Weapon("Lightsaber", "Melee", 4, pierce=3, deadly=3)
 
 # Force Powers
 
-force_push = Weapon("Force Push/Pull", 6, 2, throw=True, seek=True, quickdraw=True)
+force_push = Weapon("Force Push", 12, 2, throw=True, seek=True, quickdraw=True)
 jedi_mind_trick = Weapon(
     "Jedi Mind Trick",
     6,
