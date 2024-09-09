@@ -8,6 +8,27 @@ dual_blaster_pistols = Weapon(
 )
 heavy_blaster_pistol = Weapon("Heavy Blaster Pistol", 18, 2, pierce=1, quickdraw=True)
 burst_pistol = Weapon("Burst Pistol", 6, 3, quickdraw=True, reciprocating=5)
+bryar_pistol = Weapon(
+    "Bryar Pistol",
+    12,
+    2,
+    quickdraw=True,
+    primary_fire_mode_name="Light shot",
+    secondary_fire_modes=[Weapon("Heavy Shot", 18, 1, pierce=2, ammo=1, deadly=2)],
+)
+convertible_pistol = Weapon(
+    "Convertible Blaster Pistol",
+    12,
+    2,
+    pierce=1,
+    quickdraw=True,
+    primary_fire_mode_name="Pistol Config",
+    secondary_fire_modes=[
+        Weapon("Rifle Config", 18, 3),
+        Weapon("Sniper Config", "inf", 1, pierce=2, ammo=1, sniper=True, deadly=2),
+    ],
+)
+sniper_pistol = Weapon("Sniper Pistol", 18, 2, sniper=True, quickdraw=True)
 
 # blaster rifles
 

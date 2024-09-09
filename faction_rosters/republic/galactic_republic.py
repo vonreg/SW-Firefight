@@ -51,6 +51,7 @@ ahsoka_tano_padawan = Model(
     4,
     jedi=True,
     courage=True,
+    relay=True,
     jump=3,
     deflect=True,
     unique="Ahsoka Tano",
@@ -65,6 +66,8 @@ ahsoka_tano_commander = Model(
     5,
     jedi=True,
     courage=True,
+    command=True,
+    impervious=True,
     jump=3,
     deflect=True,
     unique="Ahsoka Tano",
@@ -216,6 +219,21 @@ at_rt = Model(
 )
 at_rt.equip_weapon(core.laser_cannon_mounted)
 at_rt.equip_weapon(core.grenade_launcher)
+
+astromech_droid = Model("Astromech Droid", 5, 5, 1, droid=True, repair=1, slow=True)
+shock_pulse = Weapon("Shock Pulse", "Melee", 2, suppressive=1)
+astromech_droid.equip_weapon(shock_pulse)
+
+protocol_droid = Model(
+    "Protocol Droid",
+    5,
+    5,
+    1,
+    droid=True,
+    slow=True,
+    noncombatant=True,
+    manual_points_adjustment=8,
+)
 
 # To-Do
 # BARC Speeder
@@ -408,6 +426,32 @@ upgrade_at_rt.select_upgrade_with_weapon_type(replace_weapon=core.laser_cannon_m
 upgrade_at_rt.upgrade_with_weapon_entry(core.heavy_rotary_cannon_mounted)
 upgrade_at_rt.upgrade_with_weapon_entry(core.heavy_flamethrower_mounted)
 
+# R2-D2
+label = letter_increment(label)
+upgrade_r2d2 = UpgradeList(label, base_model=astromech_droid)
+upgrade_r2d2.select_upgrade_with_model_changes_type()
+upgrade_r2d2.upgrade_with_model_changes_entry(
+    "R2-D2",
+    survivor=True,
+    impervious=True,
+    quality=3,
+    impact=1,
+    unique="R2-D2",
+)
+
+# C-3PO
+label = letter_increment(label)
+upgrade_c3po = UpgradeList(label, base_model=protocol_droid)
+upgrade_c3po.select_upgrade_with_model_changes_type()
+upgrade_c3po.upgrade_with_model_changes_entry(
+    "C-3PO",
+    survivor=True,
+    impervious=True,
+    take_cover=2,
+    manual_points_adjustment=-8,
+    unique="C-3PO",
+)
+
 # assign upgrade lists
 
 rex.add_upgrade_list(upgrade_rex_equip)
@@ -426,6 +470,8 @@ clone_scout_trooper.add_upgrade_list(upgrade_scout)
 clone_commando.add_upgrade_list(upgrade_commando_weaps)
 heavy_barc_speeder.add_upgrade_list(upgrade_barc_heavy)
 at_rt.add_upgrade_list(upgrade_at_rt)
+astromech_droid.add_upgrade_list(upgrade_r2d2)
+protocol_droid.add_upgrade_list(upgrade_c3po)
 
 # collate model list
 
@@ -448,6 +494,8 @@ model_list.add_model_entry(clone_commando)
 model_list.add_model_entry(barc_speeder)
 model_list.add_model_entry(heavy_barc_speeder)
 model_list.add_model_entry(at_rt)
+model_list.add_model_entry(astromech_droid)
+model_list.add_model_entry(protocol_droid)
 
 # write latex file
 
@@ -468,6 +516,8 @@ upgrade_scout.file_write_latex()
 upgrade_commando_weaps.file_write_latex()
 upgrade_barc_heavy.file_write_latex()
 upgrade_at_rt.file_write_latex()
+upgrade_r2d2.file_write_latex()
+upgrade_c3po.file_write_latex()
 
 # write tsv file
 
@@ -488,3 +538,5 @@ upgrade_scout.file_write_tsv(tsv_file)
 upgrade_commando_weaps.file_write_tsv(tsv_file)
 upgrade_barc_heavy.file_write_tsv(tsv_file)
 upgrade_at_rt.file_write_tsv(tsv_file)
+upgrade_r2d2.file_write_tsv(tsv_file)
+upgrade_c3po.file_write_tsv(tsv_file)
