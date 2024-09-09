@@ -570,7 +570,7 @@ class Model:
             "Front, Sides": 6,
             "Rear, Sides": 6,
         }
-        self.courage_cost_dict = {False: 0, True: 5}
+        self.courage_cost_dict = {False: 0, True: 3}
         self.command_cost_dict = {False: 0, True: 10}
         self.deflect_cost_dict = {False: 0, True: 2}
         self.beast_cost_dict = {False: 0, True: 0}
@@ -578,7 +578,7 @@ class Model:
         self.emplacement_cost_dict = {False: 0, True: 0}
         self.expendable_cost_dict = {0: 0, 1: 0, 2: 0, 3: 0}
         self.fast_cost_dict = {False: 0, True: 1}
-        self.fear_cost_dict = {False: 0, True: 5}
+        self.fear_cost_dict = {False: 0, True: 4}
         self.fly_cost_dict = {False: 0, True: 1}
         self.hero_villain_cost_dict = {False: 0, True: 0}
         self.hunter_cost_dict = {None: 0, "Jedi": 0.5, "Sith": 0.5, "Target": 0.5}
