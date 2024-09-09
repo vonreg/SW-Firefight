@@ -264,7 +264,10 @@ upgrade_officer_equip.upgrade_with_model_changes_entry("Jetpack", fly=True, fast
 
 label = letter_increment(label)
 upgrade_officer_weapons = UpgradeList(label, base_model=clone_officer)
-upgrade_officer_weapons.select_upgrade_with_weapon_type()
+upgrade_officer_weapons.select_upgrade_with_weapon_type(
+    replace_weapon=core.blaster_pistol
+)
+upgrade_officer_weapons.upgrade_with_weapon_entry(core.dual_blaster_pistols)
 upgrade_officer_weapons.upgrade_with_weapon_entry(core.blaster_carbine)
 upgrade_officer_weapons.upgrade_with_weapon_entry(core.rotary_blaster)
 upgrade_officer_weapons.upgrade_with_weapon_entry(core.heavy_blaster_rifle)
@@ -274,9 +277,8 @@ upgrade_officer_weapons.upgrade_with_weapon_entry(core.targeting_rifle)
 
 label = letter_increment(label)
 upgrade_officer_sidearm = UpgradeList(label, base_model=clone_officer)
-upgrade_officer_sidearm.select_upgrade_with_weapon_type(
-    replace_weapon=core.blaster_pistol
-)
+upgrade_officer_sidearm.select_upgrade_with_weapon_type()
+upgrade_officer_sidearm.upgrade_with_weapon_entry(core.blaster_pistol)
 upgrade_officer_sidearm.upgrade_with_weapon_entry(core.dual_blaster_pistols)
 
 # Generic Officer Binoculars (Spotter[1])
