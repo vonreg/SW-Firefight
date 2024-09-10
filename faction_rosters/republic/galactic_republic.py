@@ -349,15 +349,9 @@ upgrade_clone_specialists.upgrade_with_model_changes_entry(
 upgrade_clone_specialists.upgrade_with_model_changes_entry(
     "Jetpack Trooper", fly=True, fast=True
 )
+upgrade_clone_specialists.upgrade_with_model_changes_entry("Naval Uniform", defense=6)
 upgrade_clone_specialists.upgrade_with_model_changes_entry(
-    "Naval Uniform",
-    defense=6,
-)
-upgrade_clone_specialists.upgrade_with_model_changes_entry(
-    "Sergeant",
-    wounds=2,
-    disciplined=True,
-    hero=True,
+    "Sergeant", wounds=2, disciplined=True, hero=True
 )
 
 # ARC Trooper Weapons

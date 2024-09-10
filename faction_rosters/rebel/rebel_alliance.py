@@ -16,7 +16,7 @@ tsv_file = "rebel_alliance.tsv"
 luke_skywalker_hero = Model(
     "Luke Skywalker (Rebel Hero)",
     3,
-    3,
+    4,
     5,
     hero=True,
     courage=True,
@@ -26,7 +26,6 @@ anakin_lightsaber = Weapon(
     "Anakin's Lightsaber", "Melee", 3, pierce=2, deadly=2
 )  # jedi padawan
 luke_skywalker_hero.equip_weapon(core.heavy_blaster_pistol)
-# upgrade to gain command?
 
 luke_skywalker_jedi = Model(
     "Luke Skywalker (Jedi Knight)",
@@ -44,7 +43,6 @@ luke_skywalker_jedi = Model(
 force_push = Weapon("Force Push", 12, 3, throw=True, seek=True, quickdraw=True)
 luke_skywalker_jedi.equip_weapon(core.lightsaber_knight)
 luke_skywalker_jedi.equip_weapon(force_push)
-# upgrade to gain command?
 
 ben_kenobi = Model(
     "Ben Kenobi",
@@ -202,10 +200,22 @@ rebel_gunslinger = Model(
     gunslinger=True,
 )
 rebel_gunslinger.equip_weapon(core.blaster_pistol)
-# upgrades: more pistol options, none with ammo
 
 rebel_trooper = Model("Rebel Trooper", 4, 5, 1)
 rebel_trooper.equip_weapon(core.blaster_rifle)
+
+rebel_guard = Model(
+    "Rebel Honour Guard",
+    3,
+    5,
+    2,
+    protector="Unit",
+    protector_key="Command",
+    courage=True,
+    # duelist
+)
+rebel_guard.equip_weapon(core.stun_spear)
+rebel_guard.equip_weapon(core.heavy_blaster_pistol)
 
 at_rt = Model(
     "AT-RT", 4, 3, 4, vehicle=True, fast=True, cover="Front", jump=3, impact=3
@@ -301,6 +311,7 @@ upgrade_leia_jedi.upgrade_with_model_changes_entry(
 label = letter_increment(label)
 upgrade_andor = UpgradeList(label, base_model=andor)
 upgrade_andor.select_upgrade_with_weapon_type(replace_weapon=core.blaster_pistol)
+upgrade_andor.upgrade_with_weapon_entry(core.heavy_blaster_pistol)
 upgrade_andor.upgrade_with_weapon_entry(core.bryar_pistol)
 upgrade_andor.upgrade_with_weapon_entry(core.convertible_pistol)
 
@@ -338,9 +349,9 @@ upgrade_rebel_hero.upgrade_with_model_changes_entry("Mechanic", repair=1)
 upgrade_rebel_hero.upgrade_with_model_changes_entry("Medic", heal=1)
 upgrade_rebel_hero.upgrade_with_model_changes_entry("Comms Technician", relay=True)
 upgrade_rebel_hero.upgrade_with_model_changes_entry("Leadership", command=True)
+upgrade_rebel_hero.upgrade_with_model_changes_entry("Clone Survivor", survivor=True)
 upgrade_rebel_hero.upgrade_with_model_changes_entry("Combat Armour", defense=4)
 upgrade_rebel_hero.upgrade_with_model_changes_entry("Jetpack", fly=True, fast=True)
-upgrade_rebel_hero.upgrade_with_model_changes_entry("Clone Survivor", survivor=True)
 
 label = letter_increment(label)
 upgrade_rebel_hero_weapons = UpgradeList(label, base_model=rebel_hero)
@@ -349,6 +360,7 @@ upgrade_rebel_hero_weapons.select_upgrade_with_weapon_type(
 )
 upgrade_rebel_hero_weapons.upgrade_with_weapon_entry(core.heavy_blaster_pistol)
 upgrade_rebel_hero_weapons.upgrade_with_weapon_entry(core.dual_blaster_pistols)
+upgrade_rebel_hero_weapons.upgrade_with_weapon_entry(core.burst_pistol)
 upgrade_rebel_hero_weapons.upgrade_with_weapon_entry(core.bryar_pistol)
 upgrade_rebel_hero_weapons.upgrade_with_weapon_entry(core.sniper_pistol)
 upgrade_rebel_hero_weapons.upgrade_with_weapon_entry(core.convertible_pistol)
@@ -359,6 +371,37 @@ upgrade_rebel_hero_weapons.upgrade_with_weapon_entry(core.heavy_blaster_rifle)
 upgrade_rebel_hero_weapons.upgrade_with_weapon_entry(core.light_repeating_blaster)
 upgrade_rebel_hero_weapons.upgrade_with_weapon_entry(core.sniper_rifle)
 
+# Gunslinger pistols
+
+label = letter_increment(label)
+upgrade_gunslinger_weapons = UpgradeList(label, base_model=rebel_gunslinger)
+upgrade_gunslinger_weapons.select_upgrade_with_weapon_type(
+    replace_weapon=core.blaster_pistol
+)
+upgrade_gunslinger_weapons.upgrade_with_weapon_entry(core.blaster_pistol)
+upgrade_gunslinger_weapons.upgrade_with_weapon_entry(core.heavy_blaster_pistol)
+upgrade_gunslinger_weapons.upgrade_with_weapon_entry(core.dual_blaster_pistols)
+upgrade_gunslinger_weapons.upgrade_with_weapon_entry(core.burst_pistol)
+
+# Rebel trooper specialists
+
+label = letter_increment(label)
+upgrade_rebel_trooper = UpgradeList(label, base_model=rebel_trooper)
+upgrade_rebel_trooper.select_upgrade_with_model_changes_type(limit=2)
+upgrade_rebel_trooper.upgrade_with_model_changes_entry(
+    "Pathfinder", scout=True, recon=5
+)
+upgrade_rebel_trooper.upgrade_with_model_changes_entry("Veteran", disciplined=True)
+upgrade_rebel_trooper.upgrade_with_model_changes_entry(
+    "Sergeant", wounds=2, disciplined=True, hero=True
+)
+upgrade_rebel_trooper.upgrade_with_model_changes_entry("Mechanic", repair=1)
+upgrade_rebel_trooper.upgrade_with_model_changes_entry("Medic", heal=1)
+upgrade_rebel_trooper.upgrade_with_model_changes_entry("Comms Technician", relay=True)
+upgrade_rebel_trooper.upgrade_with_model_changes_entry("Clone Survivor", survivor=True)
+upgrade_rebel_trooper.upgrade_with_model_changes_entry("Combat Armour", defense=4)
+upgrade_rebel_trooper.upgrade_with_model_changes_entry("Jetpack", fly=True, fast=True)
+
 # Rebel weapons (replace)
 
 label = letter_increment(label)
@@ -367,10 +410,12 @@ upgrade_rebel_weapons.select_upgrade_with_weapon_type(replace_weapon=core.blaste
 upgrade_rebel_weapons.upgrade_with_weapon_entry(core.blaster_pistol)
 upgrade_rebel_weapons.upgrade_with_weapon_entry(core.heavy_blaster_pistol)
 upgrade_rebel_weapons.upgrade_with_weapon_entry(core.dual_blaster_pistols)
+upgrade_rebel_weapons.upgrade_with_weapon_entry(core.burst_pistol)
 upgrade_rebel_weapons.upgrade_with_weapon_entry(core.convertible_pistol)
 upgrade_rebel_weapons.upgrade_with_weapon_entry(core.blaster_carbine)
-upgrade_rebel_weapons.upgrade_with_weapon_entry(core.rotary_blaster)
+upgrade_rebel_weapons.upgrade_with_weapon_entry(core.reciprocating_blaster)
 upgrade_rebel_weapons.upgrade_with_weapon_entry(core.heavy_blaster_rifle)
+upgrade_rebel_weapons.upgrade_with_weapon_entry(core.rotary_blaster)
 upgrade_rebel_weapons.upgrade_with_weapon_entry(core.light_repeating_blaster)
 upgrade_rebel_weapons.upgrade_with_weapon_entry(core.scatterblaster)
 upgrade_rebel_weapons.upgrade_with_weapon_entry(core.scattergun)
@@ -393,15 +438,13 @@ upgrade_rebel_weap_add.upgrade_with_weapon_entry(core.concussion_grenade)
 upgrade_rebel_weap_add.upgrade_with_weapon_entry(core.thermal_detonator)
 upgrade_rebel_weap_add.upgrade_with_weapon_entry(core.ion_grenade)
 upgrade_rebel_weap_add.upgrade_with_weapon_entry(core.frag_grenade)
+upgrade_rebel_weap_add.upgrade_with_weapon_entry(core.sonic_imploder)
 upgrade_rebel_weap_add.upgrade_with_weapon_entry(core.thermal_imploder)
 
-# rebel trooper upgrade types (choose 1):
-# pathfinder (scout & recon)
-# shock trooper (armour)
-# clone veteran (survivor)
-
-# rebel trooper specialisms:
-# see rebel hero
+# honour guard
+# bikes
+# creature riders (tauntauns etc)
+# emplacements
 
 # AT-RT weapons
 
@@ -455,6 +498,8 @@ k2so.add_upgrade_list(upgrade_k2so)
 rebel_officer.add_upgrade_list(upgrade_officer)
 rebel_hero.add_upgrade_list(upgrade_rebel_hero)
 rebel_hero.add_upgrade_list(upgrade_rebel_hero_weapons)
+rebel_gunslinger.add_upgrade_list(upgrade_gunslinger_weapons)
+rebel_trooper.add_upgrade_list(upgrade_rebel_trooper)
 rebel_trooper.add_upgrade_list([upgrade_rebel_weapons, upgrade_rebel_weap_add])
 at_rt.add_upgrade_list(upgrade_at_rt)
 astromech_droid.add_upgrade_list(upgrade_r2d2)
@@ -479,6 +524,7 @@ model_list.add_model_entry(rebel_officer)
 model_list.add_model_entry(rebel_hero)
 model_list.add_model_entry(rebel_gunslinger)
 model_list.add_model_entry(rebel_trooper)
+model_list.add_model_entry(rebel_guard)
 model_list.add_model_entry(at_rt)
 model_list.add_model_entry(astromech_droid)
 model_list.add_model_entry(protocol_droid)
@@ -498,6 +544,8 @@ upgrade_k2so.file_write_latex()
 upgrade_officer.file_write_latex()
 upgrade_rebel_hero.file_write_latex()
 upgrade_rebel_hero_weapons.file_write_latex()
+upgrade_gunslinger_weapons.file_write_latex()
+upgrade_rebel_trooper.file_write_latex()
 upgrade_rebel_weapons.file_write_latex()
 upgrade_rebel_weap_add.file_write_latex()
 upgrade_at_rt.file_write_latex()
@@ -519,6 +567,8 @@ upgrade_k2so.file_write_tsv(tsv_file)
 upgrade_officer.file_write_latex(tsv_file)
 upgrade_rebel_hero.file_write_tsv(tsv_file)
 upgrade_rebel_hero_weapons.file_write_tsv(tsv_file)
+upgrade_gunslinger_weapons.file_write_tsv(tsv_file)
+upgrade_rebel_trooper.file_write_tsv(tsv_file)
 upgrade_rebel_weapons.file_write_tsv(tsv_file)
 upgrade_rebel_weap_add.file_write_tsv(tsv_file)
 upgrade_at_rt.file_write_tsv(tsv_file)

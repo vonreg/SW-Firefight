@@ -289,6 +289,7 @@ class Weapon:
                             full_cost
                             * weapon.reduced_multiplier_dict[weapon.ammo]
                             / weapon.ammo_multiplier_dict[weapon.ammo]
+                            * 0.6  # added to further reduce cost of extra fire modes
                         )
                         combination_costs.append(reduced_cost)
 
@@ -1231,9 +1232,9 @@ class UpgradeList:
         if limit is None:
             limit_string = ""
         elif limit == 1:
-            limit_string = " one"
+            limit_string = " up to one"
         elif limit == 2:
-            limit_string = " two"
+            limit_string = " up to two"
         else:
             raise Exception("limit must be None, 1 or 2")
 
@@ -1292,9 +1293,9 @@ class UpgradeList:
         if limit is None:
             limit_string = ""
         elif limit == 1:
-            limit_string = " one"
+            limit_string = " up to one"
         elif limit == 2:
-            limit_string = " two"
+            limit_string = " up to two"
         else:
             raise Exception("limit must be None, 1 or 2")
 
@@ -1521,9 +1522,9 @@ class UpgradeList:
         if limit is None:
             limit_string = ""
         elif limit == 1:
-            limit_string = " one"
+            limit_string = " up to one"
         elif limit == 2:
-            limit_string = " two"
+            limit_string = " up to two"
         else:
             raise Exception("limit must be None, 1 or 2")
 

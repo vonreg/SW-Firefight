@@ -112,6 +112,8 @@ imperial_royal_guard = Model(
     3,
     protector="Unit",
     protector_key="Emperor Palpatine",
+    courage=True,
+    # duelist
 )
 force_pike = Weapon(
     "Force Pike",
