@@ -110,6 +110,7 @@ rex = Model(
     spotter=1,
     take_cover=1,
     gunslinger=True,
+    agile=True,
     unique="Rex",
 )
 rex.equip_weapon(core.dual_blaster_pistols)

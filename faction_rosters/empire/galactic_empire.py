@@ -66,6 +66,19 @@ stormtrooper_captain.equip_weapon(core.blaster_rifle)
 stormtrooper_sergeant = Model("Stormtrooper Sergeant", 4, 4, 2, villain=True)
 stormtrooper_sergeant.equip_weapon(core.blaster_rifle)
 
+isb_agent = Model(
+    "ISB Agent",
+    3,
+    4,
+    3,
+    villain=True,
+    command=True,
+    hunter="Target",
+    recon=5,
+    spotter=1,
+)
+isb_agent.equip_weapon(core.blaster_pistol)
+
 imperial_officer = Model("Imperial Officer", 5, 6, 2, villain=True, take_cover=1)
 imperial_officer.equip_weapon(core.blaster_pistol)
 
@@ -98,7 +111,9 @@ scout_trooper.equip_weapon(core.blaster_pistol)
 isf_trooper = Model("ISF Trooper", 4, 4, 1, scout=True, recon=4)
 isf_trooper.equip_weapon(core.blaster_rifle)
 
-purge_trooper = Model("Purge Trooper", 3, 4, 1, hunter="Jedi", impervious=True)
+purge_trooper = Model(
+    "Purge Trooper", 3, 4, 1, hunter="Jedi", impervious=True, duellist=True
+)
 purge_trooper.equip_weapon(core.blaster_rifle)
 
 death_trooper = Model("Death Trooper", 3, 3, 2, fear=True)
@@ -113,7 +128,7 @@ imperial_royal_guard = Model(
     protector="Unit",
     protector_key="Emperor Palpatine",
     courage=True,
-    # duelist
+    duellist=True,
 )
 force_pike = Weapon(
     "Force Pike",
@@ -216,6 +231,23 @@ upgrade_electrobinoculars.select_upgrade_with_rule_model_agnostic_type()
 upgrade_electrobinoculars.upgrade_with_rule_model_agnostic_entry(
     "Electrobinoculars", spotter=1
 )
+
+# ISB agent weapons
+
+label = letter_increment(label)
+upgrade_isb_weapon = UpgradeList(label, base_model=isb_agent)
+upgrade_isb_weapon.select_upgrade_with_weapon_type()
+kallus_bo_rifle = Weapon(
+    "Kallus' Bo-Rifle",
+    "Melee",
+    4,
+    pierce=2,
+    unique="Alexsandr Kallus",
+    primary_fire_mode_name="Electrostaff",
+    secondary_fire_modes=[Weapon("Blaster Rifle", 30, 3)],
+)
+upgrade_isb_weapon.upgrade_with_weapon_entry(kallus_bo_rifle)
+
 
 # Imperial officer armour
 
@@ -350,6 +382,7 @@ isf_commander.add_upgrade_list(upgrade_electrobinoculars)
 stormtrooper_commander.add_upgrade_list(upgrade_electrobinoculars)
 stormtrooper_captain.add_upgrade_list(upgrade_electrobinoculars)
 stormtrooper_sergeant.add_upgrade_list(upgrade_electrobinoculars)
+isb_agent.add_upgrade_list(upgrade_isb_weapon)
 imperial_officer.add_upgrade_list(upgrade_electrobinoculars)
 imperial_officer.add_upgrade_list(upgrade_officer_armour)
 stormtrooper.add_upgrade_list([upgrade_storm_weapons, upgrade_storm_add_weap])
@@ -373,6 +406,7 @@ model_list.add_model_entry(isf_commander)
 model_list.add_model_entry(stormtrooper_commander)
 model_list.add_model_entry(stormtrooper_captain)
 model_list.add_model_entry(stormtrooper_sergeant)
+model_list.add_model_entry(isb_agent)
 model_list.add_model_entry(imperial_officer)
 model_list.add_model_entry(stormtrooper)
 model_list.add_model_entry(stormtrooper_heavy_mortar)
@@ -396,6 +430,7 @@ model_list.file_write_latex("empire_roster.tabl")
 upgrade_isf_command_ranged.file_write_latex()
 upgrade_isf_command_melee.file_write_latex()
 upgrade_electrobinoculars.file_write_latex()
+upgrade_isb_weapon.file_write_latex()
 upgrade_officer_armour.file_write_latex()
 upgrade_storm_weapons.file_write_latex()
 upgrade_storm_add_weap.file_write_latex()
@@ -416,6 +451,7 @@ model_list.file_write_tsv(tsv_file)
 upgrade_isf_command_ranged.file_write_tsv(tsv_file)
 upgrade_isf_command_melee.file_write_tsv(tsv_file)
 upgrade_electrobinoculars.file_write_tsv(tsv_file)
+upgrade_isb_weapon.file_write_tsv(tsv_file)
 upgrade_officer_armour.file_write_tsv(tsv_file)
 upgrade_storm_weapons.file_write_tsv(tsv_file)
 upgrade_storm_add_weap.file_write_tsv(tsv_file)

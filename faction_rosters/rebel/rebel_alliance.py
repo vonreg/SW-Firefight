@@ -116,12 +116,22 @@ leia = Model(
     disciplined=True,
     hero=True,
     take_cover=2,
+    luck=1,
     unique="Leia Organa",
 )
 leia.equip_weapon(core.blaster_pistol)
 
 han_solo = Model(
-    "Han Solo", 3, 5, 4, hero=True, gunslinger=True, repair=1, unique="Han Solo"
+    "Han Solo",
+    3,
+    5,
+    4,
+    hero=True,
+    gunslinger=True,
+    first_shot=True,
+    luck=3,
+    repair=1,
+    unique="Han Solo",
 )
 han_solo.equip_weapon(core.heavy_blaster_pistol)
 han_solo.equip_weapon(core.combat_training)
@@ -137,7 +147,14 @@ chewbacca.equip_weapon(bowcaster)
 chewbacca.equip_weapon(overwhelming_strength)
 
 lando = Model(
-    "Lando Calrissian", 3, 5, 4, hero=True, unique="Lando Calrissian", gunslinger=True
+    "Lando Calrissian",
+    3,
+    5,
+    4,
+    hero=True,
+    unique="Lando Calrissian",
+    gunslinger=True,
+    luck=2,
 )
 lando.equip_weapon(core.sniper_pistol)
 
@@ -177,6 +194,7 @@ rebel_officer = Model(
     take_cover=1,
     spotter=1,
     command=True,
+    defend=True,
     disciplined=True,
 )
 rebel_officer.equip_weapon(core.heavy_blaster_pistol)
@@ -188,6 +206,7 @@ rebel_hero = Model(
     3,
     hero=True,
     courage=True,
+    agile=True,
 )
 rebel_hero.equip_weapon(core.blaster_pistol)
 
@@ -198,6 +217,7 @@ rebel_gunslinger = Model(
     2,
     hero=True,
     gunslinger=True,
+    agile=True,
 )
 rebel_gunslinger.equip_weapon(core.blaster_pistol)
 
@@ -212,7 +232,7 @@ rebel_guard = Model(
     protector="Unit",
     protector_key="Command",
     courage=True,
-    # duelist
+    duellist=True,
 )
 rebel_guard.equip_weapon(core.stun_spear)
 rebel_guard.equip_weapon(core.heavy_blaster_pistol)
@@ -345,6 +365,8 @@ upgrade_rebel_hero = UpgradeList(label, base_model=rebel_hero)
 upgrade_rebel_hero.select_upgrade_with_model_changes_type(limit=2)
 upgrade_rebel_hero.upgrade_with_model_changes_entry("Pathfinder", scout=True, recon=5)
 upgrade_rebel_hero.upgrade_with_model_changes_entry("Veteran", disciplined=True)
+upgrade_rebel_hero.upgrade_with_model_changes_entry("Skirmisher", agile=True)
+upgrade_rebel_hero.upgrade_with_model_changes_entry("Defender", defend=True)
 upgrade_rebel_hero.upgrade_with_model_changes_entry("Mechanic", repair=1)
 upgrade_rebel_hero.upgrade_with_model_changes_entry("Medic", heal=1)
 upgrade_rebel_hero.upgrade_with_model_changes_entry("Comms Technician", relay=True)
@@ -392,6 +414,8 @@ upgrade_rebel_trooper.upgrade_with_model_changes_entry(
     "Pathfinder", scout=True, recon=5
 )
 upgrade_rebel_trooper.upgrade_with_model_changes_entry("Veteran", disciplined=True)
+upgrade_rebel_trooper.upgrade_with_model_changes_entry("Skirmisher", agile=True)
+upgrade_rebel_trooper.upgrade_with_model_changes_entry("Defender", defend=True)
 upgrade_rebel_trooper.upgrade_with_model_changes_entry(
     "Sergeant", wounds=2, disciplined=True, hero=True
 )

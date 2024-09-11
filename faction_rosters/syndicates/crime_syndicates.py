@@ -218,31 +218,94 @@ list_lords.file_write_latex("syndicates_crime_lords_roster.tabl")
 
 list_lords.file_write_tsv(tsv_file, list_title="Crime Lords", append=True)
 
-""" The Hutts """
+""" Bounty Hunters """
 
 # models
+
+cad_bane = Model(
+    "Cad Bane",
+    3,
+    4,
+    4,
+    villain=True,
+    scout=True,
+    courage=True,
+    jump=6,
+    first_shot=True,
+    unique="Cad Bane",
+)
+bane_dual_pistols = Weapon(
+    "Dual Pistols", 18, 4, pierce=1, sniper=True, split_fire=True
+)
+bane_electro_gauntlets = Weapon("Electro Gauntlets", "Melee", 4, suppressive=1)
+cad_bane.equip_weapon(bane_dual_pistols)
+cad_bane.equip_weapon(bane_electro_gauntlets)
+
+dengar = Model(
+    "Dengar",
+    3,
+    4,
+    3,
+    villain=True,
+    hunter="Target",
+    relentless=True,
+    survivor=True,
+    unique="Dengar",
+)
+modified_heavy_blaster_rifle = Weapon(
+    "Heavy Blaster Rifle", 30, 4, pierce=1, split_fire=True
+)
+fire_blade = Weapon(
+    "Fire Blade",
+    "Melee",
+    3,
+    rending=1,
+)
+dengar.equip_weapon(modified_heavy_blaster_rifle)
+dengar.equip_weapon(fire_blade)
+dengar.equip_weapon(core.thermal_detonator)
+
 greedo = Model(
     "Greedo",
     5,
     5,
     3,
     villain=True,
-    unique="Greedo",
+    hunter="Target",
     gunslinger=True,
+    unique="Greedo",
 )
 greedo.equip_weapon(core.heavy_blaster_pistol)
 greedo.equip_weapon(core.thermal_detonator)
 greedo.equip_weapon(core.dioxis_grenade)
 
+# -*- Upgrade lists -*-
+
+# Cad Bane
+
+label = letter_increment(label)
+upgrade_bane = UpgradeList(label, base_model=cad_bane)
+upgrade_bane.select_upgrade_with_weapon_type(limit=1)
+upgrade_bane.upgrade_with_weapon_entry(core.whipcord_launcher)
+upgrade_bane.upgrade_with_weapon_entry(core.wrist_flamer)
+
+# assign upgrade lists
+
+cad_bane.add_upgrade_list(upgrade_bane)
+
 # collate model list
 
-list_hutts = ModelList()
-list_hutts.add_model_entry(greedo)
+list_bounty_hunters = ModelList()
+list_bounty_hunters.add_model_entry(cad_bane)
+list_bounty_hunters.add_model_entry(dengar)
+list_bounty_hunters.add_model_entry(greedo)
 
 # write latex files
 
-list_hutts.file_write_latex("syndicates_hutts_roster.tabl")
+list_bounty_hunters.file_write_latex("syndicates_bounty_hunters_roster.tabl")
+upgrade_bane.file_write_latex()
 
 # write tsv files
 
-list_hutts.file_write_tsv(tsv_file, list_title="The Hutts", append=True)
+list_bounty_hunters.file_write_tsv(tsv_file, list_title="Bounty Hunters", append=True)
+upgrade_bane.file_write_tsv(tsv_file)

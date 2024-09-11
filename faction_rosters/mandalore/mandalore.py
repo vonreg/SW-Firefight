@@ -44,13 +44,26 @@ mandalorian_captain.equip_weapon(wrist_blaster)
 mandalorian_captain.equip_weapon(jetpack_rocket)
 
 mandalorian = Model(
-    "Mandalorian Warrior", 4, 3, 1, fly=True, fast=True, impervious=True
+    "Mandalorian Warrior",
+    4,
+    3,
+    1,
+    fly=True,
+    fast=True,
+    impervious=True,
 )
 mandalorian.equip_weapon(core.combat_training)
 mandalorian.equip_weapon(wrist_blaster)
 
 mandalorian_commando = Model(
-    "Mandalorian Commando", 3, 3, 2, fly=True, fast=True, impervious=True
+    "Mandalorian Commando",
+    3,
+    3,
+    2,
+    fly=True,
+    fast=True,
+    impervious=True,
+    duellist=True,
 )
 mandalorian_commando.equip_weapon(core.combat_training)
 mandalorian_commando.equip_weapon(wrist_blaster)

@@ -78,22 +78,6 @@ ventress_force_choke = Weapon("Force Choke", "Torrent", 1, pierce=4)
 asajj_ventress.equip_weapon(ventress_sabers)
 asajj_ventress.equip_weapon(ventress_force_choke)
 
-cad_bane = Model(
-    "Cad Bane",
-    3,
-    4,
-    5,
-    villain=True,
-    scout=True,
-    courage=True,
-    jump=6,
-    unique="Cad Bane",
-)
-bane_dual_pistols = Weapon("Dual Pistols", 18, 4, pierce=1, sniper=True)
-bane_electro_gauntlets = Weapon("Electro Gauntlets", "Melee", 4, suppressive=1)
-cad_bane.equip_weapon(bane_dual_pistols)
-cad_bane.equip_weapon(bane_electro_gauntlets)
-
 super_tactical_droid = Model(
     "Super Tactical Droid",
     3,
@@ -173,7 +157,16 @@ aqua_droid = Model("AQ Aqua Droid", 5, 5, 2, droid=True, slow=True)
 aqua_droid.equip_weapon(core.light_laser_cannon)
 
 bx_commando_droid = Model(
-    "BX Commando Droid", 4, 5, 1, droid=True, fast=True, jump=3, scout=True, recon=4
+    "BX Commando Droid",
+    4,
+    5,
+    1,
+    droid=True,
+    fast=True,
+    jump=3,
+    scout=True,
+    recon=4,
+    agile=True,
 )
 bx_commando_droid.equip_weapon(core.blaster_carbine)
 
@@ -186,6 +179,7 @@ magnaguard = Model(
     protector="Unit",
     protector_key="Villain/Sith",
     relentless=True,
+    duellist=True,
 )
 laser_dart = Weapon("Laser Dart", 12, 2, quickdraw=True)
 magnaguard.equip_weapon(core.electrostaff)
@@ -253,14 +247,6 @@ label = "A"
 upgrade_grievous = UpgradeList(label, base_model=general_grievous)
 upgrade_grievous.select_upgrade_with_weapon_type()
 upgrade_grievous.upgrade_with_weapon_entry(core.blaster_rifle)
-
-# Cad Bane
-
-label = letter_increment(label)
-upgrade_bane = UpgradeList(label, base_model=cad_bane)
-upgrade_bane.select_upgrade_with_weapon_type(limit=1)
-upgrade_bane.upgrade_with_weapon_entry(core.whipcord_launcher)
-upgrade_bane.upgrade_with_weapon_entry(core.wrist_flamer)
 
 # super_tac
 
@@ -381,7 +367,6 @@ upgrade_b1team_weapon.upgrade_with_weapon_entry(core.heavy_repeating_blaster)
 # assign upgrade lists
 
 general_grievous.add_upgrade_list(upgrade_grievous)
-cad_bane.add_upgrade_list(upgrade_bane)
 super_tactical_droid.add_upgrade_list(upgrade_super_tac)
 b1_battle_droid.add_upgrade_list(upgrade_electrobinoculars)
 b1_battle_droid.add_upgrade_list([upgrade_b1_weapons, upgrade_b1_weap_add])
@@ -400,7 +385,6 @@ model_list.add_model_entry(dooku)
 model_list.add_model_entry(general_grievous)
 model_list.add_model_entry(darth_maul)
 model_list.add_model_entry(asajj_ventress)
-model_list.add_model_entry(cad_bane)
 model_list.add_model_entry(super_tactical_droid)
 model_list.add_model_entry(tactical_droid)
 model_list.add_model_entry(oom_command_droid)
@@ -424,7 +408,6 @@ model_list.add_model_entry(b1_emplacement_team)
 
 model_list.file_write_latex("seperatist_roster.tabl")
 upgrade_grievous.file_write_latex()
-upgrade_bane.file_write_latex()
 upgrade_super_tac.file_write_latex()
 upgrade_electrobinoculars.file_write_latex()
 upgrade_b1_weapons.file_write_latex()
@@ -443,7 +426,6 @@ upgrade_b1team_weapon.file_write_latex()
 
 model_list.file_write_tsv(tsv_file)
 upgrade_grievous.file_write_tsv(tsv_file)
-upgrade_bane.file_write_tsv(tsv_file)
 upgrade_super_tac.file_write_tsv(tsv_file)
 upgrade_electrobinoculars.file_write_tsv(tsv_file)
 upgrade_b1_weapons.file_write_tsv(tsv_file)
