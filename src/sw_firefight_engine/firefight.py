@@ -403,14 +403,19 @@ class Weapon:
         else:
             disorient = ""
         if self.unique:
-            unique = ", Unique[%s]" % self.unique
+            if self.primary_fire_mode_name:
+                unique = " (Unique[%s])" % self.unique
+            else:
+                unique = ", Unique[%s]" % self.unique
         else:
             unique = ""
 
         if self.primary_fire_mode_name:
-            primary_fire_mode_name = (
-                " - pick one to attack: %s" % self.primary_fire_mode_name
+            primary_fire_mode_name = "%s - pick one to attack: %s" % (
+                unique,
+                self.primary_fire_mode_name,
             )
+            unique = ""
         else:
             primary_fire_mode_name = ""
 
@@ -468,10 +473,12 @@ class Model:
         quality,
         defense,
         wounds,
+        agile=False,
         arsenal=1,
         cover=None,
         courage=False,
         command=False,
+        defend=False,
         deflect=False,
         disciplined=False,
         beast=False,
@@ -482,9 +489,11 @@ class Model:
         fear=False,
         fly=False,
         gunslinger=False,
+        first_shot=False,
         heal=0,
         hero=False,
         villain=False,
+        duellist=False,
         hunter=None,
         immobile=False,
         jedi=False,
@@ -492,6 +501,7 @@ class Model:
         jump=0,
         impact=0,
         impervious=False,
+        luck=0,
         noncombatant=False,
         protector=None,
         protector_key=None,
@@ -515,10 +525,12 @@ class Model:
         self.quality = quality
         self.defense = defense
         self.wounds = wounds
+        self.agile = agile
         self.arsenal = arsenal
         self.cover = cover
         self.courage = courage
         self.command = command
+        self.defend = defend
         self.deflect = deflect
         self.disciplined = disciplined
         self.beast = beast
@@ -531,7 +543,9 @@ class Model:
         self.heal = heal
         self.hero = hero
         self.gunslinger = gunslinger
+        self.first_shot = first_shot
         self.villain = villain
+        self.duellist = duellist
         self.hunter = hunter
         self.immobile = immobile
         self.jedi = jedi
@@ -539,6 +553,7 @@ class Model:
         self.jump = jump
         self.impact = impact
         self.impervious = impervious
+        self.luck = luck
         self.noncombatant = noncombatant
         self.protector = protector
         self.protector_key = protector_key
@@ -561,6 +576,7 @@ class Model:
         self.quality_cost_dict = {6: 2, 5: 4, 4: 6, 3: 8, 2: 12}
         self.defense_cost_dict = {6: 2, 5: 4, 4: 6, 3: 8, 2: 12}
 
+        self.agile_cost_dict = {False: 0, True: 2}
         self.cover_cost_dict = {
             None: 0,
             "Front": 2,
@@ -573,6 +589,7 @@ class Model:
         }
         self.courage_cost_dict = {False: 0, True: 3}
         self.command_cost_dict = {False: 0, True: 10}
+        self.defend_cost_dict = {False: 0, True: 2}
         self.deflect_cost_dict = {False: 0, True: 2}
         self.beast_cost_dict = {False: 0, True: 0}
         self.droid_cost_dict = {False: 0, True: 0}
@@ -581,6 +598,7 @@ class Model:
         self.fast_cost_dict = {False: 0, True: 1}
         self.fear_cost_dict = {False: 0, True: 4}
         self.fly_cost_dict = {False: 0, True: 1}
+        self.first_shot_cost_dict = {False: 0, True: 4}
         self.hero_villain_cost_dict = {False: 0, True: 0}
         self.hunter_cost_dict = {None: 0, "Jedi": 0.5, "Sith": 0.5, "Target": 0.5}
         self.immobile_cost_dict = {False: 0, True: -3}
@@ -588,6 +606,7 @@ class Model:
         self.jedi_sith_cost_dict = {False: 0, True: 0}
         self.jump_cost_dict = {0: 0, 3: 0.5, 6: 1}
         self.impervious_cost_dict = {False: 0, True: 6}
+        self.luck_multiplier_dict = {0: 1, 1: 1.5, 2: 1.65, 3: 1.75}
         self.noncombatant_cost_dict = {False: 0, True: -1}
         self.protector_cost_dict = {None: 0, "Unit": 1, "Any": 1}
         if self.protector == "Unit" and self.protector_key is None:
@@ -617,12 +636,16 @@ class Model:
 
         quality_cost = self.quality_cost_dict[self.quality]
         defense_cost = self.defense_cost_dict[self.defense]
+        if self.luck:
+            defense_cost = defense_cost * self.luck_multiplier_dict[self.luck]
 
         base_cost = (quality_cost + defense_cost) * self.wounds
 
+        agile_cost = self.agile_cost_dict[self.agile] * self.wounds
         cover_cost = self.cover_cost_dict[self.cover] * self.wounds
         courage_cost = self.courage_cost_dict[self.courage]
         command_cost = self.command_cost_dict[self.command]
+        defend_cost = self.defend_cost_dict[self.defend] * self.wounds
         deflect_cost = self.deflect_cost_dict[self.deflect] * self.wounds
         disciplined_cost = (
             self.disciplined
@@ -636,6 +659,7 @@ class Model:
         fast_cost = self.fast_cost_dict[self.fast] * quality_cost
         fear_cost = self.fear_cost_dict[self.fear]
         fly_cost = self.fly_cost_dict[self.fly] * quality_cost
+        first_shot_cost = self.first_shot_cost_dict[self.first_shot] * self.wounds
         heal_cost = quality_cost * self.heal
         hero_cost = self.hero_villain_cost_dict[self.hero]
         villain_cost = self.hero_villain_cost_dict[self.villain]
@@ -668,9 +692,11 @@ class Model:
 
         base_model_cost = (
             base_cost
+            + agile_cost
             + cover_cost
             + courage_cost
             + command_cost
+            + defend_cost
             + deflect_cost
             + disciplined_cost
             + beast_cost
@@ -680,6 +706,7 @@ class Model:
             + fast_cost
             + fear_cost
             + fly_cost
+            + first_shot_cost
             + heal_cost
             + hero_cost
             + villain_cost
@@ -877,6 +904,11 @@ class Model:
             comma = ", "
         else:
             villain = ""
+        if self.duellist:
+            duellist = "%sDuellist" % comma
+            comma = ", "
+        else:
+            duellist = ""
         if self.beast:
             beast = "%sBeast" % comma
             comma = ", "
@@ -915,6 +947,11 @@ class Model:
             comma = ", "
         else:
             relay = ""
+        if self.agile:
+            agile = "%sAgile" % comma
+            comma = ", "
+        else:
+            agile = ""
         if self.arsenal != 1:
             arsenal = "%sArsenal[%s]" % (comma, str(self.arsenal))
             comma = ", "
@@ -930,6 +967,11 @@ class Model:
             comma = ", "
         else:
             courage = ""
+        if self.defend:
+            defend = "%sDefend" % comma
+            comma = ", "
+        else:
+            defend = ""
         if self.deflect:
             deflect = "%sDeflect" % comma
             comma = ", "
@@ -965,6 +1007,11 @@ class Model:
             comma = ", "
         else:
             gunslinger = ""
+        if self.first_shot:
+            first_shot = "%sFirst Shot" % comma
+            comma = ", "
+        else:
+            first_shot = ""
         if self.heal:
             heal = "%sHeal[%s]" % (comma, str(self.heal))
             comma = ", "
@@ -995,6 +1042,11 @@ class Model:
             comma = ", "
         else:
             impervious = ""
+        if self.luck:
+            luck = "%sLuck[%s]" % (comma, str(self.luck))
+            comma = ", "
+        else:
+            luck = ""
         if self.noncombatant:
             noncombatant = "%sNoncombatant" % comma
             comma = ", "
@@ -1067,6 +1119,7 @@ class Model:
             + sith
             + hero
             + villain
+            + duellist
             + beast
             + droid
             + vehicle
@@ -1074,9 +1127,11 @@ class Model:
             + command
             + recon
             + relay
+            + agile
             + arsenal
             + cover
             + courage
+            + defend
             + deflect
             + disciplined
             + expendable
@@ -1084,12 +1139,14 @@ class Model:
             + fear
             + fly
             + gunslinger
+            + first_shot
             + heal
             + hunter
             + immobile
             + jump
             + impact
             + impervious
+            + luck
             + noncombatant
             + protector
             + relentless
@@ -1545,10 +1602,12 @@ class UpgradeList:
         quality=None,
         defense=None,
         wounds=None,
+        agile=None,
         arsenal=1,
         cover=None,
         courage=None,
         command=None,
+        defend=None,
         deflect=None,
         disciplined=None,
         beast=None,
@@ -1682,6 +1741,12 @@ class UpgradeList:
             comma = ", "
         else:
             relay_str = ""
+        if agile:
+            entry_model_copy.agile = agile
+            agile_str = "%sAgile" % comma
+            comma = ", "
+        else:
+            agile_str = ""
         if arsenal != 1:
             entry_model_copy.arsenal = arsenal
             arsenal_str = "%sArsenal[%s]" % (comma, str(arsenal))
@@ -1700,6 +1765,12 @@ class UpgradeList:
             comma = ", "
         else:
             courage_str = ""
+        if defend:
+            entry_model_copy.defend = defend
+            defend_str = "%sDefend" % comma
+            comma = ", "
+        else:
+            defend_str = ""
         if deflect:
             entry_model_copy.deflect = deflect
             deflect_str = "%sDeflect" % comma
@@ -1885,9 +1956,11 @@ class UpgradeList:
             + command_str
             + recon_str
             + relay_str
+            + agile_str
             + arsenal_str
             + cover_str
             + courage_str
+            + defend_str
             + deflect_str
             + disciplined_str
             + expendable_str
