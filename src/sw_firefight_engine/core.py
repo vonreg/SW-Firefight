@@ -38,6 +38,16 @@ blaster_rifle = Weapon("Blaster Rifle", 30, 3)
 reciprocating_blaster = Weapon("Reciprocating Blaster", 30, 3, reciprocating=6)
 heavy_blaster_rifle = Weapon("Heavy Blaster Rifle", 30, 3, pierce=1)
 scatterblaster = Weapon("Scatterblaster", 12, 2, pierce=2, deadly=2)
+convertible_rifle = Weapon(
+    "Convertible Blaster Rifle",
+    30,
+    3,
+    primary_fire_mode_name="Rifle Config",
+    secondary_fire_modes=[
+        Weapon("Carbine Config", 18, 3, quickdraw=True),
+        Weapon("Sniper Config", "inf", 1, pierce=2, ammo=1, sniper=True, deadly=2),
+    ],
+)
 
 # targeting rifles
 
