@@ -279,6 +279,7 @@ upgrade_storm_weapons.upgrade_with_weapon_entry(core.flamethrower)
 label = letter_increment(label)
 upgrade_storm_add_weap = UpgradeList(label, base_model=stormtrooper)
 upgrade_storm_add_weap.select_upgrade_with_weapon_type(limit=1, lose_expendable=True)
+upgrade_storm_add_weap.upgrade_with_weapon_entry(core.truncheon)
 upgrade_storm_add_weap.upgrade_with_weapon_entry(core.rocket_launcher)
 upgrade_storm_add_weap.upgrade_with_weapon_entry(core.mortar)
 upgrade_storm_add_weap.upgrade_with_weapon_entry(core.ion_disruptor)
@@ -287,6 +288,19 @@ upgrade_storm_add_weap.upgrade_with_weapon_entry(core.thermal_detonator)
 upgrade_storm_add_weap.upgrade_with_weapon_entry(core.sonic_imploder)
 upgrade_storm_add_weap.upgrade_with_weapon_entry(core.ion_grenade)
 upgrade_storm_add_weap.upgrade_with_weapon_entry(core.thermal_imploder)
+
+# Stormtrooper specialisms
+
+label = letter_increment(label)
+upgrade_storm_special = UpgradeList(label, base_model=stormtrooper)
+upgrade_storm_special.select_upgrade_with_model_changes_type(limit=1)
+upgrade_storm_special.upgrade_with_model_changes_entry("Riot Trooper", defense=3)
+upgrade_storm_special.upgrade_with_model_changes_entry(
+    "Range Trooper", slow=True, impervious=True
+)
+upgrade_storm_special.upgrade_with_model_changes_entry(
+    "Jetpack Trooper", fast=True, fly=True
+)
 
 # Imperial army trooper weapon replace
 
@@ -386,6 +400,7 @@ isb_agent.add_upgrade_list(upgrade_isb_weapon)
 imperial_officer.add_upgrade_list(upgrade_electrobinoculars)
 imperial_officer.add_upgrade_list(upgrade_officer_armour)
 stormtrooper.add_upgrade_list([upgrade_storm_weapons, upgrade_storm_add_weap])
+stormtrooper.add_upgrade_list(upgrade_storm_special)
 scout_trooper.add_upgrade_list(upgrade_electrobinoculars)
 imperial_army_trooper.add_upgrade_list(upgrade_army)
 imperial_riot_trooper.add_upgrade_list(upgrade_army_riot)
@@ -434,6 +449,7 @@ upgrade_isb_weapon.file_write_latex()
 upgrade_officer_armour.file_write_latex()
 upgrade_storm_weapons.file_write_latex()
 upgrade_storm_add_weap.file_write_latex()
+upgrade_storm_special.file_write_latex()
 upgrade_army.file_write_latex()
 upgrade_army_riot.file_write_latex()
 upgrade_isf_weapons.file_write_latex()
@@ -455,6 +471,7 @@ upgrade_isb_weapon.file_write_tsv(tsv_file)
 upgrade_officer_armour.file_write_tsv(tsv_file)
 upgrade_storm_weapons.file_write_tsv(tsv_file)
 upgrade_storm_add_weap.file_write_tsv(tsv_file)
+upgrade_storm_special.file_write_tsv(tsv_file)
 upgrade_army.file_write_tsv(tsv_file)
 upgrade_army_riot.file_write_tsv(tsv_file)
 upgrade_isf_weapons.file_write_tsv(tsv_file)
@@ -464,3 +481,104 @@ upgrade_purge.file_write_tsv(tsv_file)
 upgrade_death_weap.file_write_tsv(tsv_file)
 upgrade_death_add_weap.file_write_tsv(tsv_file)
 upgrade_irg.file_write_tsv(tsv_file)
+
+""" Moff Gideon's Imperial Remnant """
+
+# models
+
+moff_gideon = Model(
+    "Moff Gideon",
+    3,
+    4,
+    4,
+    villain=True,
+    unique="Moff Gideon",
+    fear=True,
+    spotter=1,
+    command=True,
+    survivor=True,
+)
+moff_gideon.equip_weapon(core.blaster_pistol)
+
+dark_trooper = Model(
+    "Dark Trooper",
+    3,
+    3,
+    2,
+    slow=True,
+    fly=True,
+    impervious=True,
+    duellist=True,
+    survivor=True,
+    droid=True,
+)
+dark_trooper.equip_weapon(core.heavy_blaster_rifle)
+crushing_punch = Weapon(
+    "Crushing Punch", "Melee", 2, pierce=1, deadly=2, reciprocating=5
+)
+dark_trooper.equip_weapon(crushing_punch)
+# upgrade: weapons (Mertalizer, Frag Launcher, Assault Cannon)
+# protocols upgrade: Protector[Moff Gideon] or Hunter[Target]
+
+# -*- Upgrade lists -*-
+
+# Gideon Equipment
+
+label = letter_increment(label)
+upgrade_gideon_armour = UpgradeList(label, base_model=moff_gideon)
+upgrade_gideon_armour.select_upgrade_with_model_changes_type()
+upgrade_gideon_armour.upgrade_with_model_changes_entry(
+    "Dark Trooper Armour",
+    defense=2,
+    impervious=True,
+    fly=True,
+)
+
+# Gideon Darksaber
+
+label = letter_increment(label)
+upgrade_gideon_darksaber = UpgradeList(label, base_model=moff_gideon)
+upgrade_gideon_darksaber.select_upgrade_with_weapon_type()
+darksaber = Weapon(
+    "The Darksaber", "Melee", 3, pierce=2, deadly=3, unique="The Darksaber"
+)
+upgrade_gideon_darksaber.upgrade_with_weapon_entry(darksaber)
+
+# Gideon Armour Weapons
+
+label = letter_increment(label)
+upgrade_gideon_weapons = UpgradeList(label, base_model=moff_gideon)
+upgrade_gideon_weapons.select_upgrade_with_weapon_type()
+upgrade_gideon_weapons.upgrade_with_weapon_entry(core.whipcord_launcher)
+upgrade_gideon_weapons.upgrade_with_weapon_entry(core.wrist_flamer)
+wrist_blaster = Weapon("Wrist Blaster", 6, 2, quickdraw=True)
+rocket_darts = Weapon("Rocket Darts", 12, 2, quickdraw=True)
+upgrade_gideon_weapons.upgrade_with_weapon_entry(wrist_blaster)
+upgrade_gideon_weapons.upgrade_with_weapon_entry(rocket_darts)
+
+# assign upgrade lists
+
+moff_gideon.add_upgrade_list(upgrade_gideon_armour)
+moff_gideon.add_upgrade_list([upgrade_gideon_darksaber, upgrade_gideon_weapons])
+
+# collate model list
+
+list_gideon_remnant = ModelList()
+list_gideon_remnant.add_model_entry(moff_gideon)
+list_gideon_remnant.add_model_entry(dark_trooper)
+
+# write latex files
+
+list_gideon_remnant.file_write_latex("galactic_empire_gideon_remnant_roster.tabl")
+upgrade_gideon_armour.file_write_latex()
+upgrade_gideon_darksaber.file_write_latex()
+upgrade_gideon_weapons.file_write_latex()
+
+# write tsv files
+
+list_gideon_remnant.file_write_tsv(
+    tsv_file, list_title="Moff Gideon's Remnant", append=True
+)
+upgrade_gideon_armour.file_write_tsv(tsv_file)
+upgrade_gideon_darksaber.file_write_tsv(tsv_file)
+upgrade_gideon_weapons.file_write_tsv(tsv_file)
