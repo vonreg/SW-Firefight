@@ -188,7 +188,7 @@ mortar = Weapon(
     "Mortar", 30, 2, pierce=1, ammo=1, blast=3, indirect=True
 )  # should perhaps have a "cumbersome" rule?
 rocket_launcher = Weapon("Rocket Launcher", "inf", 2, pierce=1, ammo=1, blast=3)
-frag_launcher = Weapon("Frag Launcher", 18, 2, ammo=1, blast=5)
+frag_launcher = Weapon("Frag Launcher", "inf", 2, ammo=1, blast=5)
 
 # grenades
 

@@ -174,7 +174,7 @@ e_web_team = Model(
     slow=True,
     disciplined=True,
 )
-e_web = Weapon("E-Web", "inf", 3, pierce=2, deadly=2, fixed="Front")
+e_web = Weapon("E-Web", "inf", 3, pierce=2, deadly=2, fixed="Front", split_fire=True)
 e_web_team.equip_weapon(e_web)
 blaster_rifles = Weapon("Blaster Rifles", 30, 6)
 e_web_team.equip_weapon(blaster_rifles)
@@ -512,9 +512,14 @@ dark_trooper = Model(
     survivor=True,
     droid=True,
 )
-dark_trooper.equip_weapon(core.heavy_blaster_rifle)
 crushing_punch = Weapon(
-    "Crushing Punch", "Melee", 2, pierce=1, deadly=2, reciprocating=5
+    "Crushing Punch",
+    "Melee",
+    2,
+    pierce=1,
+    deadly=2,
+    reciprocating=6,
+    inaccurate=True,
 )
 dark_trooper.equip_weapon(crushing_punch)
 
@@ -554,7 +559,7 @@ upgrade_gideon_weapons.upgrade_with_weapon_entry(core.wrist_flamer)
 # Dark Trooper programming
 
 label = letter_increment(label)
-upgrade_darktrooper_programming = UpgradeList(label, base_model=moff_gideon)
+upgrade_darktrooper_programming = UpgradeList(label, base_model=dark_trooper)
 upgrade_darktrooper_programming.select_upgrade_with_model_changes_type(limit=1)
 upgrade_darktrooper_programming.upgrade_with_model_changes_entry(
     "Retinue Programming",
@@ -568,20 +573,27 @@ upgrade_darktrooper_programming.upgrade_with_model_changes_entry(
 # Dark Trooper weapons
 
 label = letter_increment(label)
-upgrade_darktrooper_weapons = UpgradeList(label, base_model=moff_gideon)
+upgrade_darktrooper_weapons = UpgradeList(label, base_model=dark_trooper)
 upgrade_darktrooper_weapons.select_upgrade_with_weapon_type(limit=1)
-mertalizer = Weapon("Mertalizer", "Melee", 3, pierce=2, deadly=2)
 assault_cannon = Weapon(
-    "Assault Cannon", 24, 5, pierce=1, inaccurate=True, split_fire=True
+    "Assault Cannon", 24, 6, pierce=1, inaccurate=True, split_fire=True
 )
-upgrade_darktrooper_weapons.upgrade_with_weapon_entry(mertalizer)
-upgrade_darktrooper_weapons.upgrade_with_weapon_entry(core.frag_launcher)
+upgrade_darktrooper_weapons.upgrade_with_weapon_entry(core.heavy_blaster_rifle)
 upgrade_darktrooper_weapons.upgrade_with_weapon_entry(assault_cannon)
+upgrade_darktrooper_weapons.upgrade_with_weapon_entry(core.frag_launcher)
+
+label = letter_increment(label)
+upgrade_darktrooper_melee = UpgradeList(label, base_model=dark_trooper)
+upgrade_darktrooper_melee.select_upgrade_with_weapon_type(replace_weapon=crushing_punch)
+greatblade = Weapon("Greatblade", "Melee", 3, pierce=2, deadly=2)
+upgrade_darktrooper_melee.upgrade_with_weapon_entry(greatblade)
 
 # assign upgrade lists
 
 moff_gideon.add_upgrade_list(upgrade_gideon_armour)
 moff_gideon.add_upgrade_list([upgrade_gideon_darksaber, upgrade_gideon_weapons])
+dark_trooper.add_upgrade_list(upgrade_darktrooper_programming)
+dark_trooper.add_upgrade_list([upgrade_darktrooper_weapons, upgrade_darktrooper_melee])
 
 # collate model list
 
@@ -597,6 +609,7 @@ upgrade_gideon_darksaber.file_write_latex()
 upgrade_gideon_weapons.file_write_latex()
 upgrade_darktrooper_programming.file_write_latex()
 upgrade_darktrooper_weapons.file_write_latex()
+upgrade_darktrooper_melee.file_write_latex()
 
 # write tsv files
 
@@ -608,3 +621,4 @@ upgrade_gideon_darksaber.file_write_tsv(tsv_file)
 upgrade_gideon_weapons.file_write_tsv(tsv_file)
 upgrade_darktrooper_programming.file_write_tsv(tsv_file)
 upgrade_darktrooper_weapons.file_write_tsv(tsv_file)
+upgrade_darktrooper_melee.file_write_tsv(tsv_file)
