@@ -517,8 +517,6 @@ crushing_punch = Weapon(
     "Crushing Punch", "Melee", 2, pierce=1, deadly=2, reciprocating=5
 )
 dark_trooper.equip_weapon(crushing_punch)
-# upgrade: weapons (Mertalizer, Frag Launcher, Assault Cannon)
-# protocols upgrade: Protector[Moff Gideon] or Hunter[Target]
 
 # -*- Upgrade lists -*-
 
@@ -549,12 +547,36 @@ upgrade_gideon_darksaber.upgrade_with_weapon_entry(darksaber)
 label = letter_increment(label)
 upgrade_gideon_weapons = UpgradeList(label, base_model=moff_gideon)
 upgrade_gideon_weapons.select_upgrade_with_weapon_type()
+upgrade_gideon_weapons.upgrade_with_weapon_entry(core.electrostaff)
 upgrade_gideon_weapons.upgrade_with_weapon_entry(core.whipcord_launcher)
 upgrade_gideon_weapons.upgrade_with_weapon_entry(core.wrist_flamer)
-wrist_blaster = Weapon("Wrist Blaster", 6, 2, quickdraw=True)
-rocket_darts = Weapon("Rocket Darts", 12, 2, quickdraw=True)
-upgrade_gideon_weapons.upgrade_with_weapon_entry(wrist_blaster)
-upgrade_gideon_weapons.upgrade_with_weapon_entry(rocket_darts)
+
+# Dark Trooper programming
+
+label = letter_increment(label)
+upgrade_darktrooper_programming = UpgradeList(label, base_model=moff_gideon)
+upgrade_darktrooper_programming.select_upgrade_with_model_changes_type(limit=1)
+upgrade_darktrooper_programming.upgrade_with_model_changes_entry(
+    "Retinue Programming",
+    protector="Unit",
+    protector_key="Moff Gideon",
+)
+upgrade_darktrooper_programming.upgrade_with_model_changes_entry(
+    "Hunter Programming", hunter="Target"
+)
+
+# Dark Trooper weapons
+
+label = letter_increment(label)
+upgrade_darktrooper_weapons = UpgradeList(label, base_model=moff_gideon)
+upgrade_darktrooper_weapons.select_upgrade_with_weapon_type(limit=1)
+mertalizer = Weapon("Mertalizer", "Melee", 3, pierce=2, deadly=2)
+assault_cannon = Weapon(
+    "Assault Cannon", 24, 5, pierce=1, inaccurate=True, split_fire=True
+)
+upgrade_darktrooper_weapons.upgrade_with_weapon_entry(mertalizer)
+upgrade_darktrooper_weapons.upgrade_with_weapon_entry(core.frag_launcher)
+upgrade_darktrooper_weapons.upgrade_with_weapon_entry(assault_cannon)
 
 # assign upgrade lists
 
@@ -573,6 +595,8 @@ list_gideon_remnant.file_write_latex("galactic_empire_gideon_remnant_roster.tabl
 upgrade_gideon_armour.file_write_latex()
 upgrade_gideon_darksaber.file_write_latex()
 upgrade_gideon_weapons.file_write_latex()
+upgrade_darktrooper_programming.file_write_latex()
+upgrade_darktrooper_weapons.file_write_latex()
 
 # write tsv files
 
@@ -582,3 +606,5 @@ list_gideon_remnant.file_write_tsv(
 upgrade_gideon_armour.file_write_tsv(tsv_file)
 upgrade_gideon_darksaber.file_write_tsv(tsv_file)
 upgrade_gideon_weapons.file_write_tsv(tsv_file)
+upgrade_darktrooper_programming.file_write_tsv(tsv_file)
+upgrade_darktrooper_weapons.file_write_tsv(tsv_file)

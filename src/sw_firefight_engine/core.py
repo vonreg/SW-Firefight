@@ -77,33 +77,84 @@ heavy_repeater = Weapon(
     primary_fire_mode_name="Main Barrels",
     secondary_fire_modes=[Weapon("Concussion Blast", 12, 2, pierce=1, ammo=1, blast=3)],
 )
-rotary_blaster = Weapon("Rotary Blaster", 24, 6, inaccurate=True)
+rotary_blaster = Weapon("Rotary Blaster", 24, 6, inaccurate=True, split_fire=True)
 
 # laser cannons
 
 light_laser_cannon = Weapon("Light Laser Cannon", 30, 2, pierce=2)
 laser_cannon_mounted = Weapon(
-    "Laser Cannon", "inf", 2, pierce=2, deadly=3, fixed="Front"
+    "Laser Cannon",
+    "inf",
+    2,
+    pierce=2,
+    deadly=3,
+    fixed="Front",
+    split_fire=True,
 )
 heavy_rotary_cannon_mounted = Weapon(
-    "Heavy Rotary Cannon", 24, 5, pierce=2, deadly=2, fixed="Front", inaccurate=True
+    "Heavy Rotary Cannon",
+    24,
+    5,
+    pierce=2,
+    deadly=2,
+    fixed="Front",
+    inaccurate=True,
+    split_fire=True,
 )
 
 # emplacement weapons
 
 medium_repeating_blaster = Weapon(
-    "Medium Repeating Blaster", "inf", 3, pierce=1, deadly=2, fixed="Front"
+    "Medium Repeating Blaster",
+    "inf",
+    3,
+    pierce=1,
+    deadly=2,
+    fixed="Front",
+    split_fire=True,
 )
 heavy_repeating_blaster = Weapon(
-    "Heavy Repeating Blaster", "inf", 3, pierce=2, deadly=2, fixed="Front"
+    "Heavy Repeating Blaster",
+    "inf",
+    3,
+    pierce=2,
+    deadly=2,
+    fixed="Front",
+    split_fire=True,
 )
-light_blaster_cannon = Weapon("Light Blaster Cannon", "inf", 3, pierce=2, fixed="Front")
-blaster_cannon = Weapon("Blaster Cannon", "inf", 2, pierce=2, deadly=2, fixed="Front")
+light_blaster_cannon = Weapon(
+    "Light Blaster Cannon",
+    "inf",
+    3,
+    pierce=2,
+    fixed="Front",
+    split_fire=True,
+)
+blaster_cannon = Weapon(
+    "Blaster Cannon",
+    "inf",
+    2,
+    pierce=2,
+    deadly=2,
+    fixed="Front",
+    split_fire=True,
+)
 heavy_blaster_cannon = Weapon(
-    "Heavy Blaster Cannon", "inf", 2, pierce=2, deadly=3, fixed="Front"
+    "Heavy Blaster Cannon",
+    "inf",
+    2,
+    pierce=2,
+    deadly=3,
+    fixed="Front",
+    split_fire=True,
 )
 repeating_ion_blaster = Weapon(
-    "Repeating Ion Blaster", "inf", 3, ion=True, fixed="Front"
+    "Repeating Ion Blaster",
+    "inf",
+    3,
+    ion=True,
+    fixed="Front",
+    split_fire=True,
 )
 heavy_mortar = Weapon(
     "Heavy Mortar",
@@ -137,6 +188,7 @@ mortar = Weapon(
     "Mortar", 30, 2, pierce=1, ammo=1, blast=3, indirect=True
 )  # should perhaps have a "cumbersome" rule?
 rocket_launcher = Weapon("Rocket Launcher", "inf", 2, pierce=1, ammo=1, blast=3)
+frag_launcher = Weapon("Frag Launcher", 18, 2, ammo=1, blast=5)
 
 # grenades
 
