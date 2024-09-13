@@ -552,9 +552,21 @@ upgrade_gideon_darksaber.upgrade_with_weapon_entry(darksaber)
 label = letter_increment(label)
 upgrade_gideon_weapons = UpgradeList(label, base_model=moff_gideon)
 upgrade_gideon_weapons.select_upgrade_with_weapon_type()
-upgrade_gideon_weapons.upgrade_with_weapon_entry(core.electrostaff)
+heavy_electrostaff = Weapon(
+    "Heavy Electrostaff", "Melee", 3, pierce=2, deadly=2, suppressive=1, throw=True
+)
+upgrade_gideon_weapons.upgrade_with_weapon_entry(heavy_electrostaff)
 upgrade_gideon_weapons.upgrade_with_weapon_entry(core.whipcord_launcher)
 upgrade_gideon_weapons.upgrade_with_weapon_entry(core.wrist_flamer)
+concussion_rocket = Weapon(
+    "Concussion Rocket",
+    12,
+    1,
+    ammo=1,
+    blast=3,
+    suppressive=1,
+)
+upgrade_gideon_weapons.upgrade_with_weapon_entry(concussion_rocket)
 
 # Dark Trooper programming
 
