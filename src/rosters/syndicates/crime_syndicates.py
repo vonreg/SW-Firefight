@@ -122,7 +122,7 @@ label = letter_increment(label)
 upgrade_weequay_replace = UpgradeList(label, base_model=weequay_pirate)
 upgrade_weequay_replace.select_upgrade_with_weapon_type(replace_weapon=core.heavy_blaster_pistol)
 upgrade_weequay_replace.upgrade_with_weapon_entry(core.blaster_carbine)
-upgrade_weequay_replace.upgrade_with_weapon_entry(core.blaster_rifle)
+upgrade_weequay_replace.upgrade_with_weapon_entry(core.targeting_rifle)
 upgrade_weequay_replace.upgrade_with_weapon_entry(core.sniper_rifle)
 
 label = letter_increment(label)
