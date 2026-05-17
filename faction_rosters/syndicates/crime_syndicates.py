@@ -9,38 +9,6 @@ from sw_firefight_engine import core
 
 tsv_file = "crime_syndicates.tsv"
 
-""" Crimson Dawn """
-
-# common weapons
-percussive_cannon = Weapon(
-    "Percussive Cannon", 15, 1, pierce=2, deadly=3, ammo=2, sniper=True, suppressive=1
-)
-
-# models
-hylobon_captain = Model(
-    "Hylobon Captain", 4, 5, 3, relay=True, villain=True, spotter=2, disciplined=True
-)
-hylobon_captain.equip_weapon(core.combat_training)
-hylobon_captain.equip_weapon(percussive_cannon)
-
-hylobon_enforcer = Model("Hylobon Enforcer", 5, 5, 1, disciplined=True)
-hylobon_enforcer.equip_weapon(core.combat_training)
-hylobon_enforcer.equip_weapon(percussive_cannon)
-
-# collate model list
-
-list_crimson_dawn = ModelList()
-list_crimson_dawn.add_model_entry(hylobon_captain)
-list_crimson_dawn.add_model_entry(hylobon_enforcer)
-
-# write latex files
-
-list_crimson_dawn.file_write_latex("syndicates_crimson_dawn_roster.tabl")
-
-# write tsv files
-
-list_crimson_dawn.file_write_tsv(tsv_file, list_title="Crimson Dawn")
-
 """ Pyke Syndicate """
 
 pyke_capo = Model("Pyke Capo", 4, 5, 3, command=True, take_cover=1, villain=True)
@@ -94,6 +62,139 @@ upgrade_pyke_add.file_write_latex()
 list_pykes.file_write_tsv(tsv_file, list_title="Pyke Syndicate", append=True)
 upgrade_pyke_replace.file_write_tsv(tsv_file)
 upgrade_pyke_add.file_write_tsv(tsv_file)
+
+""" Hondo's Gang """
+
+hondo = Model("Hondo Ohnaka", 3, 5, 3, command=True, luck=2, villain=True, gunslinger=True, agile=True, courage=True, survivor=True)
+hondo.equip_weapon(core.combat_training)
+hondo.equip_weapon(core.heavy_blaster_pistol)
+
+weequay_captain = Model("Weequay Captain", 4, 5, 3, relay=True, spotter=1, villain=True)
+weequay_captain.equip_weapon(core.heavy_blaster_pistol)
+
+weequay_pirate = Model("Weequay Pirate", 5, 5, 1, expendable=1)
+weequay_pirate.equip_weapon(core.heavy_blaster_pistol)
+
+weequay_tracker = Model(
+    "Weequay Tracker", 5, 5, 1, scout=True, spotter=1, recon=5, expendable=1
+)
+weequay_tracker.equip_weapon(core.heavy_blaster_pistol)
+
+massiff = Model(
+    "Massiff",
+    5,
+    5,
+    1,
+    fast=True,
+    scout=True,
+    hunter="Target",
+    companion="Weequay Tracker",
+    beast=True,
+    recon=6,
+    expendable=1,
+)
+massiff_claws = Weapon("Teeth and Claws", "Melee", 4, pierce=1)
+massiff.equip_weapon(massiff_claws)
+
+weequay_biker = Model(
+    "Weequay Swoop Bike",
+    5,
+    5,
+    3,
+    vehicle=True,
+    impact=2,
+    fast=True,
+    fly=True,
+)
+biker_blaster_cannons = Weapon("Light Blaster Cannons", 18, 3, pierce=1, fixed="Front")
+weequay_biker.equip_weapon(biker_blaster_cannons)
+weequay_biker.equip_weapon(core.heavy_blaster_pistol)
+
+# -*- Upgrade lists -*-
+
+label = letter_increment(label)
+upgrade_hondo_replace = UpgradeList(label, base_model=hondo)
+upgrade_hondo_replace.select_upgrade_with_weapon_type(replace_weapon=core.combat_training)
+upgrade_hondo_replace.upgrade_with_weapon_entry(core.vibroblade)
+upgrade_hondo_replace.upgrade_with_weapon_entry(core.electrostaff)
+
+label = letter_increment(label)
+upgrade_weequay_replace = UpgradeList(label, base_model=weequay_pirate)
+upgrade_weequay_replace.select_upgrade_with_weapon_type(replace_weapon=core.heavy_blaster_pistol)
+upgrade_weequay_replace.upgrade_with_weapon_entry(core.blaster_carbine)
+upgrade_weequay_replace.upgrade_with_weapon_entry(core.blaster_rifle)
+upgrade_weequay_replace.upgrade_with_weapon_entry(core.sniper_rifle)
+
+label = letter_increment(label)
+upgrade_weequay_add = UpgradeList(label, base_model=weequay_pirate)
+upgrade_weequay_add.select_upgrade_with_weapon_type(limit=1, lose_expendable=True)
+upgrade_weequay_add.upgrade_with_weapon_entry(core.rocket_launcher)
+upgrade_weequay_add.upgrade_with_weapon_entry(core.electrostaff)
+upgrade_weequay_add.upgrade_with_weapon_entry(core.thermal_detonator)
+upgrade_weequay_add.upgrade_with_weapon_entry(core.concussion_grenade)
+upgrade_weequay_add.upgrade_with_weapon_entry(core.thermal_imploder)
+
+# assign upgrade lists
+
+hondo.add_upgrade_list(upgrade_hondo_replace)
+weequay_pirate.add_upgrade_list([upgrade_weequay_replace, upgrade_weequay_add])
+
+# collate model list
+
+list_ohnaka = ModelList()
+list_ohnaka.add_model_entry(hondo)
+list_ohnaka.add_model_entry(weequay_captain)
+list_ohnaka.add_model_entry(weequay_pirate)
+list_ohnaka.add_model_entry(weequay_tracker)
+list_ohnaka.add_model_entry(massiff)
+list_ohnaka.add_model_entry(weequay_biker)
+
+# write latex files
+
+list_ohnaka.file_write_latex("syndicates_ohnaka_gang_roster.tabl")
+upgrade_hondo_replace.file_write_latex()
+upgrade_weequay_replace.file_write_latex()
+upgrade_weequay_add.file_write_latex()
+
+# write tsv files
+
+list_ohnaka.file_write_tsv(tsv_file, list_title="Ohnaka Gang", append=True)
+upgrade_hondo_replace.file_write_tsv(tsv_file)
+upgrade_weequay_replace.file_write_tsv(tsv_file)
+upgrade_weequay_add.file_write_tsv(tsv_file)
+
+
+""" Crimson Dawn """
+
+# common weapons
+percussive_cannon = Weapon(
+    "Percussive Cannon", 15, 1, pierce=2, deadly=3, ammo=2, sniper=True, suppressive=1
+)
+
+# models
+hylobon_captain = Model(
+    "Hylobon Captain", 4, 5, 3, relay=True, villain=True, spotter=2, disciplined=True
+)
+hylobon_captain.equip_weapon(core.combat_training)
+hylobon_captain.equip_weapon(percussive_cannon)
+
+hylobon_enforcer = Model("Hylobon Enforcer", 5, 5, 1, disciplined=True)
+hylobon_enforcer.equip_weapon(core.combat_training)
+hylobon_enforcer.equip_weapon(percussive_cannon)
+
+# collate model list
+
+list_crimson_dawn = ModelList()
+list_crimson_dawn.add_model_entry(hylobon_captain)
+list_crimson_dawn.add_model_entry(hylobon_enforcer)
+
+# write latex files
+
+list_crimson_dawn.file_write_latex("syndicates_crimson_dawn_roster.tabl")
+
+# write tsv files
+
+list_crimson_dawn.file_write_tsv(tsv_file, list_title="Crimson Dawn")
 
 """ Black Sun """
 
