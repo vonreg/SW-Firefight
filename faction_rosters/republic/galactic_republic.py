@@ -132,7 +132,7 @@ arc_trooper = Model("ARC Trooper", 3, 4, 1, impervious=True, scout=True, recon=4
 arc_trooper.equip_weapon(core.dual_blaster_pistols)
 
 arf_tracker = Model(
-    "ARF Tracker", 4, 4, 1, scout=True, spotter=True, disciplined=True, recon=5
+    "ARF Tracker", 4, 4, 1, scout=True, spotter=1, disciplined=True, recon=5
 )
 arf_tracker.equip_weapon(core.dual_blaster_pistols)
 

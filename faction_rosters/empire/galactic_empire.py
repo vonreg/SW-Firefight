@@ -46,7 +46,7 @@ vader_force_choke = Weapon("Force Choke", 6, 1, pierce=4, seek=True, throw=True)
 darth_vader.equip_weapon(vader_lightsaber)
 darth_vader.equip_weapon(core.force_choke)
 
-inquisitor = Model("Inquisitor", 4, 3, 4, villain=True, deflect=True, jump=3)
+inquisitor = Model("Inquisitor", 4, 3, 4, villain=True, deflect=True, jump=3, hunter="Jedi")
 inquisitor.equip_weapon(core.lightsaber_knight)
 
 isf_commander = Model(
