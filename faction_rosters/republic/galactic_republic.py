@@ -432,6 +432,7 @@ upgrade_r2d2.upgrade_with_model_changes_entry(
     quality=3,
     impact=1,
     unique="R2-D2",
+    fly=True,
 )
 
 # C-3PO
