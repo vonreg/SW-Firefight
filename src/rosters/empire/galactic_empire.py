@@ -200,6 +200,10 @@ medical_droid.equip_weapon(lethal_injection)
 astromech_droid = Model("Astromech Droid", 5, 5, 1, droid=True, repair=1, slow=True)
 astromech_droid.equip_weapon(shock_pulse)
 
+gav_tank = Model("TX-225 Combat Assault Tank", 5, 3, 8, vehicle="Heavy", slow=True, impact=4, cover="Front")
+gav_tank.equip_weapon(core.blaster_cannon)
+gav_tank.equip_weapon(core.laser_cannon_mounted)
+
 # -*- Upgrade lists -*-
 
 # ISF Commander Ranged Replace
@@ -437,6 +441,7 @@ model_list.add_model_entry(e_web_team)
 model_list.add_model_entry(id_seeker_droid)
 model_list.add_model_entry(medical_droid)
 model_list.add_model_entry(astromech_droid)
+model_list.add_model_entry(gav_tank)
 
 # write latex files
 

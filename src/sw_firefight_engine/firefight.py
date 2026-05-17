@@ -621,7 +621,7 @@ class Model:
         self.survivor_cost_dict = {False: 0, True: 0.25}
         self.spotter_cost_dict = {0: 0, 1: 5, 2: 10, 3: 15}
         self.take_cover_cost_dict = {0: 0, 1: 5, 2: 10, 3: 15}
-        self.vehicle_cost_dict = {False: 0, True: 0, "Droid": 0}
+        self.vehicle_cost_dict = {False: 0, True: 0, "Droid": 0, "Heavy": 0, "Heavy, Droid": 0}
 
         if hero & villain:
             raise Exception("Cannot select both Hero and Villain")
@@ -922,6 +922,10 @@ class Model:
         if self.vehicle:
             if self.vehicle == "Droid":
                 vehicle = "%sVehicle[Droid]" % comma
+            elif self.vehicle == "Heavy":
+                vehicle = "%sVehicle[Heavy]" % comma
+            elif self.vehicle == "Heavy, Droid":
+                vehicle = "%sVehicle[Heavy, Droid]" % comma
             else:
                 vehicle = "%sVehicle" % comma
             comma = ", "
