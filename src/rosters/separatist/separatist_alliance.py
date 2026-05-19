@@ -7,7 +7,7 @@ from sw_firefight_engine.firefight import (
 )
 from sw_firefight_engine import core
 
-tsv_file = "seperatist_alliance.tsv"
+tsv_file = "separatist_alliance.tsv"
 
 dooku = Model(
     "Count Dooku",
@@ -406,7 +406,7 @@ model_list.add_model_entry(b1_emplacement_team)
 
 # write latex file
 
-model_list.file_write_latex("seperatist_roster.tabl")
+model_list.file_write_latex("separatist_roster.tabl")
 upgrade_grievous.file_write_latex()
 upgrade_super_tac.file_write_latex()
 upgrade_electrobinoculars.file_write_latex()

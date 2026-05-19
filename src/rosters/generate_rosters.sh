@@ -30,10 +30,10 @@ pdflatex galactic_republic.tex
 mv galactic_republic.pdf ../$FACTION_ROSTERS
 cd ..
 
-cd seperatist
-python seperatist_alliance.py
-pdflatex seperatist_alliance.tex
-mv seperatist_alliance.pdf ../$FACTION_ROSTERS
+cd separatist
+python separatist_alliance.py
+pdflatex separatist_alliance.tex
+mv separatist_alliance.pdf ../$FACTION_ROSTERS
 cd ..
 
 cd syndicates
