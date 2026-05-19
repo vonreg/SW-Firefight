@@ -255,7 +255,7 @@ upgrade_rex_equip.upgrade_with_model_changes_entry("Jetpack", fly=True, fast=Tru
 
 label = letter_increment(label)
 upgrade_officer_rank = UpgradeList(label, base_model=clone_officer)
-upgrade_officer_rank.select_upgrade_with_model_changes_type()
+upgrade_officer_rank.select_upgrade_with_model_changes_type(limit=1)
 upgrade_officer_rank.upgrade_with_model_changes_entry("Lieutenant", relay=True)
 upgrade_officer_rank.upgrade_with_model_changes_entry("Captain", command=True)
 upgrade_officer_rank.upgrade_with_model_changes_entry(
@@ -275,7 +275,7 @@ upgrade_officer_rank.upgrade_with_model_changes_entry(
 
 label = letter_increment(label)
 upgrade_officer_equip = UpgradeList(label, base_model=clone_officer)
-upgrade_officer_equip.select_upgrade_with_model_changes_type()
+upgrade_officer_equip.select_upgrade_with_model_changes_type(limit=1)
 upgrade_officer_equip.upgrade_with_model_changes_entry("Naval Uniform", defense=6)
 upgrade_officer_equip.upgrade_with_model_changes_entry("Jetpack", fly=True, fast=True)
 
@@ -296,7 +296,7 @@ upgrade_officer_weapons.upgrade_with_weapon_entry(core.targeting_rifle)
 
 label = letter_increment(label)
 upgrade_officer_sidearm = UpgradeList(label, base_model=clone_officer)
-upgrade_officer_sidearm.select_upgrade_with_weapon_type()
+upgrade_officer_sidearm.select_upgrade_with_weapon_type(limit=1)
 upgrade_officer_sidearm.upgrade_with_weapon_entry(core.blaster_pistol)
 upgrade_officer_sidearm.upgrade_with_weapon_entry(core.dual_blaster_pistols)
 
@@ -337,7 +337,7 @@ upgrade_clone_weap_add.upgrade_with_weapon_entry(core.frag_grenade)
 
 label = letter_increment(label)
 upgrade_clone_specialists = UpgradeList(label, base_model=clone_trooper)
-upgrade_clone_specialists.select_upgrade_with_model_changes_type()
+upgrade_clone_specialists.select_upgrade_with_model_changes_type(limit=2)
 upgrade_clone_specialists.upgrade_with_model_changes_entry("Veteran", disciplined=True)
 upgrade_clone_specialists.upgrade_with_model_changes_entry(
     "ARF Trooper", scout=True, recon=5
@@ -359,7 +359,7 @@ upgrade_clone_specialists.upgrade_with_model_changes_entry(
 
 label = letter_increment(label)
 upgrade_arc_weapons = UpgradeList(label, base_model=arc_trooper)
-upgrade_arc_weapons.select_upgrade_with_weapon_type()
+upgrade_arc_weapons.select_upgrade_with_weapon_type(limit=1)
 upgrade_arc_weapons.upgrade_with_weapon_entry(core.blaster_carbine)
 upgrade_arc_weapons.upgrade_with_weapon_entry(core.rotary_blaster)
 upgrade_arc_weapons.upgrade_with_weapon_entry(core.heavy_blaster_rifle)
