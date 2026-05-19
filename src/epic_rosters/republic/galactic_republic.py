@@ -47,7 +47,7 @@ atte.equip_weapon(atte_rear_lasers)
 saber = Model(
     "Saber Tank",
     4,
-    4,
+    3,
     3,
     arsenal=2,
     vehicle="Heavy",
@@ -92,20 +92,21 @@ upgrade_saber.upgrade_with_weapon_entry(saber_turret_beam)
 
 saber.add_upgrade_list(upgrade_saber)
 
-at_rt_squad = Model("AT-RT Squadron", 4, 5, 2, fast=True, vehicle=True)
+at_rt_squad = Model("AT-RT Squadron", 4, 4, 2, fast=True, vehicle=True, cover="Front")
 at_rt_lasers = Weapon("Laser Cannons", 15, 3, pierce=1, quickdraw=True)
 at_rt_squad.equip_weapon(at_rt_lasers)
 
 barc_squad = Model(
     "BARC Speeder Squadron",
     4,
-    6,
+    5,
     2,
     fast=True,
     fly=True,
     scout=True,
     recon=5,
     vehicle=True,
+    agile=True,
 )
 barc_blasters = Weapon("Blaster Cannons", 12, 3, quickdraw=True)
 barc_squad.equip_weapon(barc_blasters)
