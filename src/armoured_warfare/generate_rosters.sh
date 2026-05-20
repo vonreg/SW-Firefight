@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FACTION_ROSTERS="../../epic_faction_rosters"
+FACTION_ROSTERS="../../armoured_warfare_rosters"
 
 if [ ! -d $FACTION_ROSTERS ]; then
     mkdir $FACTION_ROSTERS
