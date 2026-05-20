@@ -18,5 +18,6 @@ dependencies = [
 [tool.hatch.build.targets.wheel]
 packages = [
     "sw_firefight_engine/firefight",
-    "sw_firefight_engine/core"
+    "sw_firefight_engine/core",
+    "armoured_warfare/aw_core"
 ]

@@ -5,9 +5,11 @@ from sw_firefight_engine.firefight import (
     UpgradeList,
     letter_increment,
 )
+from armoured_warfare.aw_core import armoured_warfare_special_rules
 
 tsv_file = "galactic_republic.tsv"
 
+atte_armoured_warfare_rules = armoured_warfare_special_rules(transport=2)
 atte = Model(
     "AT-TE",
     4,
@@ -16,7 +18,9 @@ atte = Model(
     arsenal=2,
     slow=True,
     impervious=True,
-    vehicle="Heavy"
+    vehicle="Heavy",
+    free_special_rule=atte_armoured_warfare_rules[0],
+    manual_points_adjustment=atte_armoured_warfare_rules[1],
 )
 atte_mass_driver = Weapon(
     "Mass Driver Cannon",

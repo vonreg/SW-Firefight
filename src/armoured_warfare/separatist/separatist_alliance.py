@@ -5,8 +5,31 @@ from sw_firefight_engine.firefight import (
     UpgradeList,
     letter_increment,
 )
+from armoured_warfare.aw_core import armoured_warfare_special_rules
 
 tsv_file = "separatist_alliance.tsv"
+
+mtt_armoured_warfare_rules = armoured_warfare_special_rules(transport=5)
+mtt = Model(
+    "MTT",
+    4,
+    3,
+    5,
+    slow=True,
+    vehicle="Heavy, Droid",
+    impervious=True,
+    free_special_rule=mtt_armoured_warfare_rules[0],
+    manual_points_adjustment=mtt_armoured_warfare_rules[1],
+)
+mtt_blasters = Weapon(
+    "Blaster Cannons",
+    18,
+    2,
+    pierce=2,
+    fixed="Front",
+    split_fire=True,
+)
+mtt.equip_weapon(mtt_blasters)
 
 aat = Model(
     "AAT",
@@ -138,6 +161,7 @@ stap_squad.equip_weapon(stap_blasters)
 # collate model list
 
 model_list = ModelList()
+model_list.add_model_entry(mtt)
 model_list.add_model_entry(aat)
 model_list.add_model_entry(snail)
 model_list.add_model_entry(hailfire)
