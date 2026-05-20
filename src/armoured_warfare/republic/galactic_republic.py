@@ -5,11 +5,13 @@ from sw_firefight_engine.firefight import (
     UpgradeList,
     letter_increment,
 )
-from armoured_warfare.aw_core import armoured_warfare_special_rules
+from armoured_warfare.aw_core import armoured_warfare_special_rules as aw_rules
 
 tsv_file = "galactic_republic.tsv"
 
-atte_armoured_warfare_rules = armoured_warfare_special_rules(transport=2)
+hover = aw_rules(hover=True)
+
+atte_aw_rules = aw_rules(transport=2)
 atte = Model(
     "AT-TE",
     4,
@@ -19,8 +21,8 @@ atte = Model(
     slow=True,
     impervious=True,
     vehicle="Heavy",
-    free_special_rule=atte_armoured_warfare_rules[0],
-    manual_points_adjustment=atte_armoured_warfare_rules[1],
+    free_special_rule=atte_aw_rules[0],
+    manual_points_adjustment=atte_aw_rules[1],
 )
 atte_mass_driver = Weapon(
     "Mass Driver Cannon",
@@ -106,11 +108,12 @@ barc_squad = Model(
     5,
     2,
     fast=True,
-    fly=True,
     scout=True,
     recon=5,
     vehicle=True,
     agile=True,
+    free_special_rule=hover[0],
+    manual_points_adjustment=hover[1],
 )
 barc_blasters = Weapon("Blaster Cannons", 12, 3, quickdraw=True)
 barc_squad.equip_weapon(barc_blasters)
