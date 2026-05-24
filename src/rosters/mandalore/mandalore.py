@@ -549,10 +549,23 @@ amban_rifle = Weapon(
     pierce=2,
     ammo=1,
     sniper=True,
+    deadly=2,
+    primary_fire_mode_name="Sniper Shot",
+    secondary_fire_modes=[
+        Weapon("Electro-pulse", "Melee", 3, pierce=2, immobilise=True, immobilise_roll=4)
+    ],
+)
+amban_disruptor_rifle = Weapon(
+    "Amban Disruptor Rifle",
+    "inf",
+    1,
+    pierce=2,
+    ammo=1,
+    sniper=True,
     deadly=3,
     primary_fire_mode_name="Disintegrating Shot",
     secondary_fire_modes=[
-        Weapon("Electro-pulse", "Melee", 3, immobilise=True, immobilise_roll=4)
+        Weapon("Electro-pulse", "Melee", 3, pierce=2, immobilise=True, immobilise_roll=4)
     ],
 )
 beskad = Weapon("Beskad", "Melee", 4, pierce=2, rending=True)
@@ -666,6 +679,7 @@ upgrade_din_weapons.select_upgrade_with_weapon_type(
     limit=1, replace_weapon=core.vibroblade
 )
 upgrade_din_weapons.upgrade_with_weapon_entry(amban_rifle)
+upgrade_din_weapons.upgrade_with_weapon_entry(amban_disruptor_rifle)
 upgrade_din_weapons.upgrade_with_weapon_entry(beskar_spear)
 upgrade_din_weapons.upgrade_with_weapon_entry(din_darksaber)
 
