@@ -24,6 +24,9 @@ beskad = Weapon("Beskad", "Melee", 4, pierce=2, rending=True)
 darksaber = Weapon(
     "The Darksaber", "Melee", 3, pierce=2, deadly=3, unique="The Darksaber"
 )
+din_darksaber = Weapon(
+    "The Darksaber", "Melee", 3, pierce=2, deadly=3, inaccurate=True, unique="The Darksaber"
+)
 
 """ Core mandalorians """
 
@@ -43,17 +46,37 @@ mandalorian_captain.equip_weapon(core.combat_training)
 mandalorian_captain.equip_weapon(wrist_blaster)
 mandalorian_captain.equip_weapon(jetpack_rocket)
 
+mandalorian_initiate = Model(
+    "Mandalorian Initiate",
+    4,
+    4,
+    1,
+)
+mandalorian_initiate.equip_weapon(core.combat_training)
+mandalorian_initiate.equip_weapon(wrist_blaster)
+
 mandalorian = Model(
     "Mandalorian Warrior",
     4,
+    4,
+    1,
+    fly=True,
+    impervious=True,
+)
+mandalorian.equip_weapon(core.combat_training)
+mandalorian.equip_weapon(wrist_blaster)
+
+mandalorian_veteran = Model(
+    "Mandalorian Veteran",
+    3,
     3,
     1,
     fly=True,
     fast=True,
     impervious=True,
 )
-mandalorian.equip_weapon(core.combat_training)
-mandalorian.equip_weapon(wrist_blaster)
+mandalorian_veteran.equip_weapon(core.combat_training)
+mandalorian_veteran.equip_weapon(wrist_blaster)
 
 mandalorian_commando = Model(
     "Mandalorian Commando",
@@ -92,19 +115,19 @@ upgrade_captain_weapons = UpgradeList(label, base_model=mandalorian_captain)
 upgrade_captain_weapons.select_upgrade_with_weapon_type()
 upgrade_captain_weapons.upgrade_with_weapon_entry(beskad, manual_points_adjustment=-6)
 upgrade_captain_weapons.upgrade_with_weapon_entry(
-    core.dual_blaster_pistols, manual_points_adjustment=-6
+    core.dual_blaster_pistols, manual_points_adjustment=-8
 )
 upgrade_captain_weapons.upgrade_with_weapon_entry(
-    core.blaster_carbine, manual_points_adjustment=-6
+    core.blaster_carbine, manual_points_adjustment=-8
 )
 upgrade_captain_weapons.upgrade_with_weapon_entry(
-    core.targeting_rifle, manual_points_adjustment=-6
+    core.targeting_rifle, manual_points_adjustment=-8
 )
 upgrade_captain_weapons.upgrade_with_weapon_entry(
-    core.sniper_rifle, manual_points_adjustment=-6
+    core.sniper_rifle, manual_points_adjustment=-8
 )
 upgrade_captain_weapons.upgrade_with_weapon_entry(
-    core.heavy_sniper_rifle, manual_points_adjustment=-6
+    core.heavy_sniper_rifle, manual_points_adjustment=-8
 )
 upgrade_captain_weapons.upgrade_with_weapon_entry(jetpack_rocket)
 upgrade_captain_weapons.upgrade_with_weapon_entry(core.whipcord_launcher)
@@ -114,7 +137,7 @@ upgrade_captain_weapons.upgrade_with_weapon_entry(core.concussion_grenade)
 upgrade_captain_weapons.upgrade_with_weapon_entry(core.thermal_detonator)
 upgrade_captain_weapons.upgrade_with_weapon_entry(core.ion_grenade)
 
-# Mandalorian warrior weapons
+# Mandalorian warrior + initiate weapons
 
 label = letter_increment(label)
 upgrade_mando_weapons = UpgradeList(label, base_model=mandalorian)
@@ -143,25 +166,25 @@ upgrade_mando_weapons.upgrade_with_weapon_entry(core.concussion_grenade)
 upgrade_mando_weapons.upgrade_with_weapon_entry(core.thermal_detonator)
 upgrade_mando_weapons.upgrade_with_weapon_entry(core.ion_grenade)
 
-# Mandalorian commando weapons
+# Mandalorian veteran + commando weapons
 label = letter_increment(label)
 upgrade_mando_vet_weapons = UpgradeList(label, base_model=mandalorian_commando)
 upgrade_mando_vet_weapons.select_upgrade_with_weapon_type()
-upgrade_mando_vet_weapons.upgrade_with_weapon_entry(beskad, manual_points_adjustment=-6)
+upgrade_mando_vet_weapons.upgrade_with_weapon_entry(beskad, manual_points_adjustment=-8)
 upgrade_mando_vet_weapons.upgrade_with_weapon_entry(
-    core.dual_blaster_pistols, manual_points_adjustment=-6
+    core.dual_blaster_pistols, manual_points_adjustment=-8
 )
 upgrade_mando_vet_weapons.upgrade_with_weapon_entry(
-    core.blaster_carbine, manual_points_adjustment=-6
+    core.blaster_carbine, manual_points_adjustment=-8
 )
 upgrade_mando_vet_weapons.upgrade_with_weapon_entry(
-    core.targeting_rifle, manual_points_adjustment=-6
+    core.targeting_rifle, manual_points_adjustment=-8
 )
 upgrade_mando_vet_weapons.upgrade_with_weapon_entry(
-    core.sniper_rifle, manual_points_adjustment=-6
+    core.sniper_rifle, manual_points_adjustment=-8
 )
 upgrade_mando_vet_weapons.upgrade_with_weapon_entry(
-    core.heavy_sniper_rifle, manual_points_adjustment=-6
+    core.heavy_sniper_rifle, manual_points_adjustment=-8
 )
 upgrade_mando_vet_weapons.upgrade_with_weapon_entry(jetpack_rocket)
 upgrade_mando_vet_weapons.upgrade_with_weapon_entry(core.whipcord_launcher)
@@ -181,14 +204,18 @@ upgrade_at_rt.upgrade_with_weapon_entry(core.heavy_flamethrower_mounted)
 
 # assign upgrade lists
 mandalorian_captain.add_upgrade_list(upgrade_captain_weapons)
+mandalorian_initiate.add_upgrade_list(upgrade_mando_weapons)
 mandalorian.add_upgrade_list(upgrade_mando_weapons)
+mandalorian_veteran.add_upgrade_list(upgrade_mando_vet_weapons)
 mandalorian_commando.add_upgrade_list(upgrade_mando_vet_weapons)
 scavenged_at_rt.add_upgrade_list(upgrade_at_rt)
 
 # collate model lists
 list_core = ModelList()
 list_core.add_model_entry(mandalorian_captain)
+list_core.add_model_entry(mandalorian_initiate)
 list_core.add_model_entry(mandalorian)
+list_core.add_model_entry(mandalorian_veteran)
 list_core.add_model_entry(mandalorian_commando)
 list_core.add_model_entry(scavenged_at_rt)
 
@@ -539,8 +566,8 @@ beskar_spear = Weapon(
 )
 
 grogu = Model(
-    "Grogu",
-    6,
+    "The Child",
+    5,
     3,
     2,
     disciplined=True,
@@ -548,16 +575,36 @@ grogu = Model(
     jedi=True,
     protector="Unit",
     protector_key="Din Djarin",
-    heal=4,
+    heal=1,
     slow=True,
     noncombatant=True,
     unique="Grogu",
     companion="Din Djarin",
 )
 force_push = Weapon("Force Push", 6, 3, throw=True, seek=True, quickdraw=True)
-force_choke = Weapon("Force Choke", 6, 2, pierce=4, seek=True, quickdraw=True)
-grogu.equip_weapon(force_push)
-grogu.equip_weapon(force_choke)
+force_overwhelm = Weapon("Force Overwhelm", 6, 2, pierce=1, seek=True, split_fire=True, suppressive=1, immobilise=True, immobilise_roll=6, ammo="Single Use")
+
+din_grogu = Model(
+    "Din Grogu, Mandalorian Apprentice",
+    4,
+    3,
+    3,
+    jump=6,
+    jedi=True,
+    courage=True,
+    agile=True,
+    protector="Any",
+    impervious=True,
+    heal=1,
+    hunter="Target",
+    unique="Grogu",
+    companion="Din Djarin",
+    manual_points_adjustment=-6, # Grogu's melee attack is expensive (8) for something he can shoot with anyway
+)
+force_throw = Weapon("Force Throw", "Melee", 3, throw=True, seek=True)
+din_grogu.equip_weapon(force_throw)
+din_grogu.equip_weapon(force_push)
+din_grogu.equip_weapon(force_overwhelm)
 
 armourer = Model(
     "The Armourer",
@@ -620,9 +667,17 @@ upgrade_din_weapons.select_upgrade_with_weapon_type(
 )
 upgrade_din_weapons.upgrade_with_weapon_entry(amban_rifle)
 upgrade_din_weapons.upgrade_with_weapon_entry(beskar_spear)
-upgrade_din_weapons.upgrade_with_weapon_entry(darksaber)
+upgrade_din_weapons.upgrade_with_weapon_entry(din_darksaber)
 
-# Grogu model changes
+# Grogu (The Child) force powers
+
+label = letter_increment(label)
+upgrade_grogu_force = UpgradeList(label, base_model=grogu)
+upgrade_grogu_force.select_upgrade_with_weapon_type()
+upgrade_grogu_force.upgrade_with_weapon_entry(force_push)
+upgrade_grogu_force.upgrade_with_weapon_entry(force_overwhelm)
+
+# Grogu (The Child) model changes
 
 label = letter_increment(label)
 upgrade_grogu_model = UpgradeList(label, base_model=grogu)
@@ -632,12 +687,14 @@ upgrade_grogu_model.upgrade_with_model_changes_entry(
     "Hover Crib", slow=False, jump=False, fly=True
 )
 upgrade_grogu_model.upgrade_with_model_changes_entry("Run", slow=False)
+upgrade_grogu_model.upgrade_with_model_changes_entry("IG-12", slow=False, jump=False, noncombatant=False, wounds=3, impact=3)
 
 # assign upgrade lists
 
 din_djarin.add_upgrade_list(upgrade_din_equipment)
 din_djarin.add_upgrade_list(upgrade_din_gadgets)
 din_djarin.add_upgrade_list(upgrade_din_weapons)
+grogu.add_upgrade_list(upgrade_grogu_force)
 grogu.add_upgrade_list(upgrade_grogu_model)
 
 # collate model list
@@ -645,6 +702,7 @@ grogu.add_upgrade_list(upgrade_grogu_model)
 list_tribe = ModelList()
 list_tribe.add_model_entry(din_djarin)
 list_tribe.add_model_entry(grogu)
+list_tribe.add_model_entry(din_grogu)
 list_tribe.add_model_entry(armourer)
 list_tribe.add_model_entry(paz_vizsla)
 
@@ -654,6 +712,7 @@ list_tribe.file_write_latex("mandalore_tribe_roster.tabl")
 upgrade_din_equipment.file_write_latex()
 upgrade_din_gadgets.file_write_latex()
 upgrade_din_weapons.file_write_latex()
+upgrade_grogu_force.file_write_latex()
 upgrade_grogu_model.file_write_latex()
 
 # write tsv files
@@ -662,6 +721,7 @@ list_tribe.file_write_tsv(tsv_file, list_title="The Tribe", append=True)
 upgrade_din_equipment.file_write_tsv(tsv_file)
 upgrade_din_gadgets.file_write_tsv(tsv_file)
 upgrade_din_weapons.file_write_tsv(tsv_file)
+upgrade_grogu_force.file_write_tsv(tsv_file)
 upgrade_grogu_model.file_write_tsv(tsv_file)
 
 """ The Fetts """
