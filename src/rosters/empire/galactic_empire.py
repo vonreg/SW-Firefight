@@ -201,7 +201,7 @@ astromech_droid = Model("Astromech Droid", 5, 5, 1, droid=True, repair=1, slow=T
 astromech_droid.equip_weapon(shock_pulse)
 
 at_rt = Model(
-    "Imperial AT-RT", 5, 3, 4, vehicle=True, fast=True, cover="Front", jump=3, impact=3
+    "Imperial AT-RT", 5, 3, 4, vehicle=True, fast=True, cover="Front", jump=3, impact=3, recon=5
 )
 at_rt_twin_blaster_cannon = Weapon(
     "Twin Blaster Cannon",
@@ -212,8 +212,7 @@ at_rt_twin_blaster_cannon = Weapon(
     split_fire=True,
 )
 at_rt.equip_weapon(at_rt_twin_blaster_cannon)
-# at_rt.equip_weapon(core.burst_pistol)
-at_rt.equip_weapon(core.sniper_rifle)
+at_rt.equip_weapon(core.burst_pistol)
 
 gav_tank = Model("TX-225 Combat Assault Tank", 5, 3, 8, vehicle="Heavy", slow=True, impact=4, cover="Front")
 gav_tank.equip_weapon(core.blaster_cannon)
@@ -407,6 +406,14 @@ upgrade_irg.select_upgrade_with_weapon_type(replace_weapon=force_pike)
 upgrade_irg.upgrade_with_weapon_entry(core.electrostaff)
 upgrade_irg.upgrade_with_weapon_entry(enhanced_force_pike)
 
+label = letter_increment(label)
+upgrade_atrt = UpgradeList(label, base_model=at_rt)
+upgrade_atrt.select_upgrade_with_weapon_type()
+upgrade_atrt.upgrade_with_weapon_entry(core.sniper_rifle)
+upgrade_atrt.upgrade_with_weapon_entry(core.heavy_sniper_rifle)
+
+# at_rt.equip_weapon(core.heavy_sniper_rifle)
+
 # assign upgrade lists
 
 isf_commander.add_upgrade_list(upgrade_isf_command_ranged)
@@ -429,6 +436,7 @@ purge_trooper.add_upgrade_list(upgrade_purge)
 death_trooper.add_upgrade_list(upgrade_death_weap)
 death_trooper.add_upgrade_list(upgrade_death_add_weap)
 imperial_royal_guard.add_upgrade_list(upgrade_irg)
+at_rt.add_upgrade_list(upgrade_atrt)
 
 # collate model list
 
@@ -480,6 +488,7 @@ upgrade_purge.file_write_latex()
 upgrade_death_weap.file_write_latex()
 upgrade_death_add_weap.file_write_latex()
 upgrade_irg.file_write_latex()
+upgrade_atrt.file_write_latex()
 
 # write tsv files
 
@@ -502,6 +511,7 @@ upgrade_purge.file_write_tsv(tsv_file)
 upgrade_death_weap.file_write_tsv(tsv_file)
 upgrade_death_add_weap.file_write_tsv(tsv_file)
 upgrade_irg.file_write_tsv(tsv_file)
+upgrade_atrt.file_write_tsv(tsv_file)
 
 """ Moff Gideon's Imperial Remnant """
 
