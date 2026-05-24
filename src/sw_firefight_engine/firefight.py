@@ -201,7 +201,7 @@ class Weapon:
             / self.range_multiplier_dict["inf"]
         )
         if self.immobilise_roll:
-            immobilise_multiplier = 1 + (
+            immobilise_multiplier = (
                 min(
                     self.quality_cost_dict[self.immobilise_roll], effective_quality_cost
                 )
@@ -761,10 +761,14 @@ class Model:
             # check upgrade list can be applied to this model
             if upgrade_list_single.base_model:
                 if upgrade_list_single.base_model.name != self.name:
-                    raise Exception(
-                        "Upgrade list base model does not match "
-                        "the model it is being applied to"
-                    )
+                    if not (upgrade_list_single.base_model.quality == self.quality
+                            and upgrade_list_single.base_model.arsenal == self.arsenal
+                            and upgrade_list_single.base_model.gunslinger == self.gunslinger
+                        ):
+                        raise Exception(
+                            "Upgrade list base model is not compatible "
+                            "with the model it is being applied to"
+                        )
             # create upgrade list string
             if i == 0:
                 delim = ""
@@ -1632,6 +1636,7 @@ class UpgradeList:
         jump=None,
         impact=None,
         impervious=None,
+        noncombatant=None,
         protector=None,
         protector_key=None,
         recon=None,
@@ -1865,6 +1870,15 @@ class UpgradeList:
             comma = ", "
         else:
             impervious_str = ""
+        if noncombatant or noncombatant is False:
+            entry_model_copy.noncombatant = noncombatant
+            if noncombatant is False:
+                noncombatant_str = "%sLose Noncombatant" % comma
+            else:
+                noncombatant_str = "%sNoncombatant" % comma
+            comma = ", "
+        else:
+            noncombatant_str = ""
         if protector == "Any":
             entry_model_copy.protector = protector
             entry_model_copy.protector_key = protector_key
@@ -1978,6 +1992,7 @@ class UpgradeList:
             + jump_str
             + impact_str
             + impervious_str
+            + noncombatant_str
             + protector_str
             + relentless_str
             + repair_str
