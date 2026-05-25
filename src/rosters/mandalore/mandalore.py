@@ -237,6 +237,8 @@ upgrade_at_rt.file_write_tsv(tsv_file)
 
 """ Nite Owls """
 
+tex_upgrade_name = "upgrade_kryze_"
+
 bo_katan = Model(
     "Bo-Katan Kryze",
     3,
@@ -260,7 +262,7 @@ bo_katan.equip_weapon(jetpack_rocket)
 
 # Bo-Katan Melee
 
-label = letter_increment(label)
+label = "A"
 upgrade_bo_melee = UpgradeList(label, base_model=bo_katan)
 upgrade_bo_melee.select_upgrade_with_weapon_type(replace_weapon=core.combat_training)
 upgrade_bo_melee.upgrade_with_weapon_entry(gauntlet_blades)
@@ -291,8 +293,8 @@ list_nite_owls.add_model_entry(bo_katan)
 # write latex files
 
 list_nite_owls.file_write_latex("mandalore_nite_owls_roster.tabl")
-upgrade_bo_melee.file_write_latex()
-upgrade_bo_weapon.file_write_latex()
+upgrade_bo_melee.file_write_latex(tex_upgrade_name)
+upgrade_bo_weapon.file_write_latex(tex_upgrade_name)
 
 # write tsv files
 
@@ -301,6 +303,9 @@ upgrade_bo_melee.file_write_tsv(tsv_file)
 upgrade_bo_weapon.file_write_tsv(tsv_file)
 
 """ Clan Wren """
+
+tex_upgrade_name = "upgrade_wren_"
+
 ursa_wren = Model(
     "Ursa Wren",
     3,
@@ -327,7 +332,6 @@ sabine_wren = Model(
     3,
     hero=True,
     impervious=True,
-    gunslinger=True,
     arsenal=2,
     courage=True,
     fast=True,
@@ -376,7 +380,7 @@ repulsor = Weapon(
     free_special_rule='Repulsor[6"]',
 )
 
-label = letter_increment(label)
+label = "A"
 upgrade_sabine_weapon = UpgradeList(label, base_model=sabine_wren)
 upgrade_sabine_weapon.select_upgrade_with_weapon_type()
 upgrade_sabine_weapon.upgrade_with_weapon_entry(repulsor, manual_points_adjustment=1)
@@ -425,10 +429,10 @@ list_clan_wren.add_model_entry(tristan_wren)
 # write latex files
 
 list_clan_wren.file_write_latex("mandalore_clan_wren_roster.tabl")
-upgrade_sabine_weapon.file_write_latex()
-upgrade_sabine_shield.file_write_latex()
-upgrade_sabine_darksaber.file_write_latex()
-upgrade_tristan_rocket.file_write_latex()
+upgrade_sabine_weapon.file_write_latex(tex_upgrade_name)
+upgrade_sabine_shield.file_write_latex(tex_upgrade_name)
+upgrade_sabine_darksaber.file_write_latex(tex_upgrade_name)
+upgrade_tristan_rocket.file_write_latex(tex_upgrade_name)
 
 # write tsv files
 
@@ -443,6 +447,8 @@ upgrade_tristan_rocket.file_write_tsv(tsv_file)
 # Just use core Mandos
 
 """ Deathwatch/Maul Loyalists """
+
+tex_upgrade_name = "upgrade_deathwatch_"
 
 pre_vizsla = Model(
     "Pre Vizsla",
@@ -483,7 +489,7 @@ rook_kast.equip_weapon(core.whipcord_launcher)
 
 # -*- Upgrade lists -*-
 
-label = letter_increment(label)
+label = "A"
 upgrade_rook = UpgradeList(label, base_model=rook_kast)
 upgrade_rook.select_upgrade_with_weapon_type(replace_weapon=core.blaster_carbine)
 upgrade_rook.upgrade_with_weapon_entry(core.dual_blaster_pistols)
@@ -502,7 +508,7 @@ list_deathwatch.add_model_entry(rook_kast)
 # write latex files
 
 list_deathwatch.file_write_latex("mandalore_deathwatch_roster.tabl")
-upgrade_rook.file_write_latex()
+upgrade_rook.file_write_latex(tex_upgrade_name)
 
 # write tsv files
 
@@ -515,6 +521,8 @@ upgrade_rook.file_write_tsv(tsv_file)
 # Maul Loyalists: see Shadow Collective/crime lords.
 
 """ The Tribe """
+
+tex_upgrade_name = "upgrade_tribe_"
 
 din_djarin = Model(
     "Din Djarin",
@@ -568,7 +576,6 @@ amban_disruptor_rifle = Weapon(
         Weapon("Electro-pulse", "Melee", 3, pierce=2, immobilise=True, immobilise_roll=4)
     ],
 )
-beskad = Weapon("Beskad", "Melee", 4, pierce=2, rending=True)
 
 beskar_spear = Weapon(
     "Beskar Spear",
@@ -655,7 +662,7 @@ paz_vizsla.equip_weapon(repeating_blaster)
 
 # Din armour & jetpack
 
-label = letter_increment(label)
+label = "A"
 upgrade_din_equipment = UpgradeList(label, base_model=din_djarin)
 upgrade_din_equipment.select_upgrade_with_model_changes_type()
 upgrade_din_equipment.upgrade_with_model_changes_entry("Full Beskar Armour", defense=2)
@@ -723,11 +730,11 @@ list_tribe.add_model_entry(paz_vizsla)
 # write latex files
 
 list_tribe.file_write_latex("mandalore_tribe_roster.tabl")
-upgrade_din_equipment.file_write_latex()
-upgrade_din_gadgets.file_write_latex()
-upgrade_din_weapons.file_write_latex()
-upgrade_grogu_force.file_write_latex()
-upgrade_grogu_model.file_write_latex()
+upgrade_din_equipment.file_write_latex(tex_upgrade_name)
+upgrade_din_gadgets.file_write_latex(tex_upgrade_name)
+upgrade_din_weapons.file_write_latex(tex_upgrade_name)
+upgrade_grogu_force.file_write_latex(tex_upgrade_name)
+upgrade_grogu_model.file_write_latex(tex_upgrade_name)
 
 # write tsv files
 
@@ -739,6 +746,8 @@ upgrade_grogu_force.file_write_tsv(tsv_file)
 upgrade_grogu_model.file_write_tsv(tsv_file)
 
 """ The Fetts """
+
+tex_upgrade_name = "upgrade_fett_"
 
 jango_fett = Model(
     "Jango Fett",
@@ -781,7 +790,7 @@ rocket_darts = Weapon("Rocket Darts", 12, 2, quickdraw=True)
 
 # -*- Upgrade lists -*-
 
-label = letter_increment(label)
+label = "A"
 upgrade_boba_melee = UpgradeList(label, base_model=boba_fett)
 upgrade_boba_melee.select_upgrade_with_weapon_type(replace_weapon=core.combat_training)
 upgrade_boba_melee.upgrade_with_weapon_entry(gaderffi_stick)
@@ -831,10 +840,10 @@ list_fett.add_model_entry(boba_fett)
 # write latex files
 
 list_fett.file_write_latex("mandalore_fett_roster.tabl")
-upgrade_boba_melee.file_write_latex()
-upgrade_boba_main_weapon.file_write_latex()
-upgrade_boba_gadgets.file_write_latex()
-upgrade_boba_unarmoured.file_write_latex()
+upgrade_boba_melee.file_write_latex(tex_upgrade_name)
+upgrade_boba_main_weapon.file_write_latex(tex_upgrade_name)
+upgrade_boba_gadgets.file_write_latex(tex_upgrade_name)
+upgrade_boba_unarmoured.file_write_latex(tex_upgrade_name)
 
 # write tsv files
 
@@ -845,6 +854,8 @@ upgrade_boba_gadgets.file_write_tsv(tsv_file)
 upgrade_boba_unarmoured.file_write_tsv(tsv_file)
 
 """ Clan Saxon """
+
+tex_upgrade_name = "upgrade_saxon_"
 
 gar_saxon = Model(
     "Gar Saxon",
@@ -883,7 +894,7 @@ tiber_saxon.equip_weapon(core.targeting_rifle)
 
 # Gar Saxon Darksaber
 
-label = letter_increment(label)
+label = "A"
 upgrade_gar_darksaber = UpgradeList(label, base_model=gar_saxon)
 upgrade_gar_darksaber.select_upgrade_with_weapon_type(
     replace_weapon=core.combat_training
@@ -912,8 +923,8 @@ list_imperial_supercommandos.add_model_entry(tiber_saxon)
 # write latex files
 
 list_imperial_supercommandos.file_write_latex("mandalore_clan_saxon_roster.tabl")
-upgrade_gar_darksaber.file_write_latex()
-upgrade_gar_weapon.file_write_latex()
+upgrade_gar_darksaber.file_write_latex(tex_upgrade_name)
+upgrade_gar_weapon.file_write_latex(tex_upgrade_name)
 
 # write tsv files
 

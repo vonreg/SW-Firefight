@@ -11,6 +11,8 @@ tsv_file = "crime_syndicates.tsv"
 
 """ Pyke Syndicate """
 
+tex_upgrade_name = "upgrade_pyke_"
+
 pyke_capo = Model("Pyke Capo", 4, 5, 3, command=True, take_cover=1, villain=True)
 pyke_capo.equip_weapon(core.blaster_pistol)
 
@@ -54,8 +56,8 @@ list_pykes.add_model_entry(pyke_soldier)
 # write latex files
 
 list_pykes.file_write_latex("syndicates_pykes_roster.tabl")
-upgrade_pyke_replace.file_write_latex()
-upgrade_pyke_add.file_write_latex()
+upgrade_pyke_replace.file_write_latex(tex_upgrade_name)
+upgrade_pyke_add.file_write_latex(tex_upgrade_name)
 
 # write tsv files
 
@@ -64,6 +66,8 @@ upgrade_pyke_replace.file_write_tsv(tsv_file)
 upgrade_pyke_add.file_write_tsv(tsv_file)
 
 """ Hondo's Gang """
+
+tex_upgrade_name = "upgrade_ohnaka_"
 
 hondo = Model("Hondo Ohnaka", 3, 5, 3, command=True, luck=2, villain=True, gunslinger=True, agile=True, courage=True, survivor=True)
 hondo.equip_weapon(core.combat_training)
@@ -112,7 +116,7 @@ weequay_biker.equip_weapon(core.heavy_blaster_pistol)
 
 # -*- Upgrade lists -*-
 
-label = letter_increment(label)
+label = "A"
 upgrade_hondo_replace = UpgradeList(label, base_model=hondo)
 upgrade_hondo_replace.select_upgrade_with_weapon_type(replace_weapon=core.combat_training)
 upgrade_hondo_replace.upgrade_with_weapon_entry(core.vibroblade)
@@ -152,9 +156,9 @@ list_ohnaka.add_model_entry(weequay_biker)
 # write latex files
 
 list_ohnaka.file_write_latex("syndicates_ohnaka_gang_roster.tabl")
-upgrade_hondo_replace.file_write_latex()
-upgrade_weequay_replace.file_write_latex()
-upgrade_weequay_add.file_write_latex()
+upgrade_hondo_replace.file_write_latex(tex_upgrade_name)
+upgrade_weequay_replace.file_write_latex(tex_upgrade_name)
+upgrade_weequay_add.file_write_latex(tex_upgrade_name)
 
 # write tsv files
 
@@ -165,6 +169,8 @@ upgrade_weequay_add.file_write_tsv(tsv_file)
 
 
 """ Crimson Dawn """
+
+tex_upgrade_name = "upgrade_crimson_"
 
 # common weapons
 percussive_cannon = Weapon(
@@ -198,6 +204,8 @@ list_crimson_dawn.file_write_tsv(tsv_file, list_title="Crimson Dawn")
 
 """ Black Sun """
 
+tex_upgrade_name = "upgrade_black_"
+
 # common weapons
 double_blaster = Weapon("Double Blaster", 9, 4, inaccurate=True)
 mag_det = Weapon(
@@ -230,7 +238,7 @@ black_sun_soldier.equip_weapon(double_blaster)
 
 # -*- Upgrade lists -*-
 
-label = letter_increment(label)
+label = "A"
 upgrade_black_sun = UpgradeList(label, base_model=black_sun_soldier)
 upgrade_black_sun.select_upgrade_with_weapon_type(limit=2, lose_expendable=True)
 upgrade_black_sun.upgrade_with_weapon_entry(core.scattergun)
@@ -254,7 +262,7 @@ list_black_sun.add_model_entry(black_sun_soldier)
 # write latex files
 
 list_black_sun.file_write_latex("syndicates_black_sun_roster.tabl")
-upgrade_black_sun.file_write_latex()
+upgrade_black_sun.file_write_latex(tex_upgrade_name)
 
 # write tsv files
 
@@ -262,6 +270,8 @@ list_black_sun.file_write_tsv(tsv_file, list_title="Black Sun", append=True)
 upgrade_black_sun.file_write_tsv(tsv_file)
 
 """ Crime Lords """
+
+tex_upgrade_name = "upgrade_lords_"
 
 # models
 maul = Model(
@@ -320,6 +330,8 @@ list_lords.file_write_latex("syndicates_crime_lords_roster.tabl")
 list_lords.file_write_tsv(tsv_file, list_title="Crime Lords", append=True)
 
 """ Bounty Hunters """
+
+tex_upgrade_name = "upgrade_hunters_"
 
 # models
 
@@ -384,7 +396,7 @@ greedo.equip_weapon(core.dioxis_grenade)
 
 # Cad Bane
 
-label = letter_increment(label)
+label = "A"
 upgrade_bane = UpgradeList(label, base_model=cad_bane)
 upgrade_bane.select_upgrade_with_weapon_type(limit=1)
 upgrade_bane.upgrade_with_weapon_entry(core.whipcord_launcher)
@@ -404,7 +416,7 @@ list_bounty_hunters.add_model_entry(greedo)
 # write latex files
 
 list_bounty_hunters.file_write_latex("syndicates_bounty_hunters_roster.tabl")
-upgrade_bane.file_write_latex()
+upgrade_bane.file_write_latex(tex_upgrade_name)
 
 # write tsv files
 
