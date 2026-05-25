@@ -25,7 +25,7 @@ class Weapon:
         reciprocating=False,
         rending=False,
         seek=False,
-        slugthrower=False,
+        kinetic=False,
         fixed=None,
         split_fire=False,
         split_fire_range=None,
@@ -35,6 +35,7 @@ class Weapon:
         immobilise_roll=None,
         disorient=False,
         unique=False,
+        wargear=False,
         primary_fire_mode_name=None,
         secondary_fire_modes=None,
         free_special_rule=None,
@@ -55,7 +56,7 @@ class Weapon:
         self.reciprocating = reciprocating
         self.rending = rending
         self.seek = seek
-        self.slugthrower = slugthrower
+        self.kinetic = kinetic
         self.fixed = fixed
         self.split_fire = split_fire
         self.split_fire_range = split_fire_range
@@ -65,6 +66,7 @@ class Weapon:
         self.immobilise_roll = immobilise_roll
         self.disorient = disorient
         self.unique = unique
+        self.wargear = wargear
         self.primary_fire_mode_name = primary_fire_mode_name
         self.secondary_fire_modes = secondary_fire_modes
         self.free_special_rule = free_special_rule
@@ -112,7 +114,7 @@ class Weapon:
         self.quickdraw_multiplier_dict = {False: 1, True: 1.3}
         self.rending_multiplier_dict = {False: 1, True: 1.5}
         self.seek_multiplier_dict = {False: 1, True: 1.25}
-        self.slugthrower_multiplier_dict = {False: 1, True: 1.25}
+        self.kinetic_multiplier_dict = {False: 1, True: 1.1}
         self.split_fire_multiplier_dict = {False: 1, True: 1.1}
 
         self.fixed_reduction_multiplier_dict = {
@@ -165,7 +167,7 @@ class Weapon:
 
         rending_multiplier = self.rending_multiplier_dict[self.rending]
         seek_multiplier = self.seek_multiplier_dict[self.seek]
-        slugthrower_multiplier = self.slugthrower_multiplier_dict[self.slugthrower]
+        kinetic_multiplier = self.kinetic_multiplier_dict[self.kinetic]
 
         if self.split_fire_range is not None:
             split_fire_range_fraction = self.split_fire_range / self.range
@@ -253,7 +255,7 @@ class Weapon:
             * reciprocating_multiplier
             * rending_multiplier
             * seek_multiplier
-            * slugthrower_multiplier
+            * kinetic_multiplier
             * split_fire_multiplier
             + fixed_cost_reduction
             + suppressive_cost_increase
@@ -368,10 +370,10 @@ class Weapon:
             seek = ", Seek"
         else:
             seek = ""
-        if self.slugthrower:
-            slugthrower = ", Slugthrower"
+        if self.kinetic:
+            kinetic = ", Kinetic"
         else:
-            slugthrower = ""
+            kinetic = ""
         if self.fixed:
             fixed = ", Fixed[%s]" % str(self.fixed)
         else:
@@ -404,18 +406,31 @@ class Weapon:
             disorient = ""
         if self.unique:
             if self.primary_fire_mode_name:
-                unique = " (Unique[%s])" % self.unique
+                unique_firemode = " (Unique[%s])" % self.unique
+                unique = ""
             else:
+                unique_firemode = ""
                 unique = ", Unique[%s]" % self.unique
         else:
+            unique_firemode = ""
             unique = ""
+        if self.wargear:
+            if self.primary_fire_mode_name:
+                wargear_firemode = " (Wargear[%s])" % self.wargear
+                wargear = ""
+            else:
+                wargear_firemode = ""
+                wargear = ", Wargear[%s]" % self.wargear
+        else:
+            wargear_firemode = ""
+            wargear = ""
 
         if self.primary_fire_mode_name:
-            primary_fire_mode_name = "%s - pick one to attack: %s" % (
-                unique,
+            primary_fire_mode_name = "%s%s - pick one to attack: %s" % (
+                wargear_firemode,
+                unique_firemode,
                 self.primary_fire_mode_name,
             )
-            unique = ""
         else:
             primary_fire_mode_name = ""
 
@@ -453,12 +468,13 @@ class Weapon:
             + reciprocating
             + rending
             + seek
-            + slugthrower
+            + kinetic
             + split_fire
             + suppressive
             + throw
             + fixed
             + unique
+            + wargear
             + free_special_rule
             + ")"
             + secondary_fire_mode_string
@@ -484,6 +500,7 @@ class Model:
         beast=False,
         droid=False,
         emplacement=False,
+        entourage=False,
         expendable=0,
         fast=False,
         fear=False,
@@ -536,6 +553,7 @@ class Model:
         self.beast = beast
         self.droid = droid
         self.emplacement = emplacement
+        self.entourage = entourage
         self.expendable = expendable
         self.fast = fast
         self.fear = fear
@@ -940,6 +958,11 @@ class Model:
             comma = ", "
         else:
             emplacement = ""
+        if self.entourage:
+            entourage = "%sEntourage[%s]" % (comma, str(self.entourage))
+            comma = ", "
+        else:
+            entourage = ""
         if self.command:
             command = "%sCommand" % comma
             comma = ", "
@@ -1132,6 +1155,7 @@ class Model:
             + droid
             + vehicle
             + emplacement
+            + entourage
             + command
             + recon
             + relay
@@ -1621,6 +1645,7 @@ class UpgradeList:
         beast=None,
         droid=None,
         emplacement=None,
+        entourage=None,
         expendable=None,
         fast=None,
         fear=None,
@@ -1732,6 +1757,12 @@ class UpgradeList:
             comma = ", "
         else:
             emplacement_str = ""
+        if entourage:
+            entry_model_copy.entourage = entourage
+            entourage_str = "%sEntourage[%s]" % (comma, str(entourage))
+            comma = ", "
+        else:
+            entourage_str = ""
         if command:
             entry_model_copy.command = command
             command_str = "%sCommand" % comma
@@ -1971,6 +2002,7 @@ class UpgradeList:
             + droid_str
             + vehicle_str
             + emplacement_str
+            + entourage_str
             + command_str
             + recon_str
             + relay_str
@@ -2030,6 +2062,8 @@ class UpgradeList:
             filename = "upgrade_" + self.label + ".tabl"
         elif type(filename) is not str:
             raise Exception("Filename must be a string or None for default name")
+        else:
+            filename = filename + self.label + ".tabl"
         # create table as a string
         table_string = self.upgrades[0]
         for i in range(len(self.upgrades) - 1):

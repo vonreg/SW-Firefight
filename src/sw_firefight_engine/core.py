@@ -171,10 +171,10 @@ heavy_mortar = Weapon(
 # slugthrowers
 
 scattergun = Weapon(
-    "Scatter Gun", 6, 2, pierce=2, reciprocating=5, slugthrower=True, quickdraw=True
+    "Scatter Gun", 6, 2, pierce=2, reciprocating=5, kinetic=True, quickdraw=True
 )
 cycler_rifle = Weapon(
-    "Cycler Rifle", "inf", 1, pierce=3, deadly=3, ammo=1, slugthrower=True
+    "Cycler Rifle", "inf", 1, pierce=3, deadly=3, ammo=1, kinetic=True
 )
 
 # missile weapons
@@ -187,7 +187,8 @@ ion_torpedo = Weapon("Ion Torpedo", 24, 1, ammo=1, ion=True, seek=True)
 mortar = Weapon(
     "Mortar", 30, 2, pierce=1, ammo=1, blast=3, indirect=True
 )  # should perhaps have a "cumbersome" rule?
-rocket_launcher = Weapon("Rocket Launcher", "inf", 2, pierce=1, ammo=1, blast=3)
+rocket_launcher = Weapon("Rocket Launcher", "inf", 2, pierce=1, ammo=1, blast=3, kinetic=True)
+smart_rocket = Weapon("Smart Rocket", "inf", 2, pierce=1, ammo=1, blast=3, seek=True, kinetic=True)
 frag_launcher = Weapon("Frag Launcher", "inf", 2, ammo=1, blast=5)
 
 # grenades
