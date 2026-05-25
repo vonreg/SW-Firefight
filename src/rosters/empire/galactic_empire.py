@@ -57,6 +57,7 @@ imperial_commander = Model(
     villain=True,
     spotter=1,
 )
+imperial_commander.equip_weapon(core.combat_training)
 imperial_commander.equip_weapon(core.blaster_pistol)
 
 imperial_officer = Model("Imperial Officer", 5, 6, 2, villain=True, disciplined=True)
@@ -314,6 +315,14 @@ upgrade_electrobinoculars.upgrade_with_rule_model_agnostic_entry(
 # ISF Commander Ranged Replace
 
 label = letter_increment(label)
+upgrade_isf_command = UpgradeList(label, base_model=isf_commander)
+upgrade_isf_command.select_upgrade_with_model_changes_type()
+upgrade_isf_command.upgrade_with_model_changes_entry("Commander Versio", agile=True, disciplined=True, unique="Iden Versio")
+upgrade_isf_command.upgrade_with_model_changes_entry("Commander Vonreg", repair=1, survivor=True, unique="Rodjer Vonreg")
+
+# ISF Commander Ranged Replace
+
+label = letter_increment(label)
 upgrade_isf_command_ranged = UpgradeList(label, base_model=isf_commander)
 upgrade_isf_command_ranged.select_upgrade_with_weapon_type(
     replace_weapon=core.blaster_rifle
@@ -476,6 +485,7 @@ imperial_commander.add_upgrade_list(upgrade_commander_weapon)
 imperial_officer.add_upgrade_list(upgrade_officer)
 imperial_officer.add_upgrade_list(upgrade_electrobinoculars)
 isf_commander.add_upgrade_list(upgrade_electrobinoculars)
+isf_commander.add_upgrade_list(upgrade_isf_command)
 isf_commander.add_upgrade_list(upgrade_isf_command_ranged)
 isf_commander.add_upgrade_list(upgrade_isf_command_melee)
 stormtrooper_commander.add_upgrade_list(upgrade_electrobinoculars)
@@ -531,6 +541,7 @@ upgrade_commander.file_write_latex()
 upgrade_commander_weapon.file_write_latex()
 upgrade_officer.file_write_latex()
 upgrade_electrobinoculars.file_write_latex()
+upgrade_isf_command.file_write_latex()
 upgrade_isf_command_ranged.file_write_latex()
 upgrade_isf_command_melee.file_write_latex()
 upgrade_storm_weapons.file_write_latex()
@@ -555,6 +566,7 @@ upgrade_commander.file_write_tsv(tsv_file)
 upgrade_commander_weapon.file_write_tsv(tsv_file)
 upgrade_officer.file_write_tsv(tsv_file)
 upgrade_electrobinoculars.file_write_tsv(tsv_file)
+upgrade_isf_command.file_write_tsv(tsv_file)
 upgrade_isf_command_ranged.file_write_tsv(tsv_file)
 upgrade_isf_command_melee.file_write_tsv(tsv_file)
 upgrade_storm_weapons.file_write_tsv(tsv_file)
