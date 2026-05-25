@@ -49,6 +49,19 @@ darth_vader.equip_weapon(core.force_choke)
 inquisitor = Model("Inquisitor", 4, 3, 4, villain=True, deflect=True, jump=3, hunter="Jedi")
 inquisitor.equip_weapon(core.lightsaber_knight)
 
+imperial_commander = Model(
+    "Imperial Commander",
+    3,
+    5,
+    3,
+    villain=True,
+    spotter=1,
+)
+imperial_commander.equip_weapon(core.blaster_pistol)
+
+imperial_officer = Model("Imperial Officer", 5, 6, 2, villain=True, disciplined=True)
+imperial_officer.equip_weapon(core.blaster_pistol)
+
 isf_commander = Model(
     "ISF Commander", 3, 4, 3, villain=True, command=True, scout=True, recon=4
 )
@@ -65,22 +78,6 @@ stormtrooper_captain.equip_weapon(core.blaster_rifle)
 
 stormtrooper_sergeant = Model("Stormtrooper Sergeant", 4, 4, 2, villain=True)
 stormtrooper_sergeant.equip_weapon(core.blaster_rifle)
-
-isb_agent = Model(
-    "ISB Agent",
-    3,
-    4,
-    3,
-    villain=True,
-    command=True,
-    hunter="Target",
-    recon=5,
-    spotter=1,
-)
-isb_agent.equip_weapon(core.blaster_pistol)
-
-imperial_officer = Model("Imperial Officer", 5, 6, 2, villain=True, take_cover=1)
-imperial_officer.equip_weapon(core.blaster_pistol)
 
 stormtrooper = Model("Stormtrooper", 5, 4, 1, expendable=1, disciplined=True)
 stormtrooper.equip_weapon(core.blaster_rifle)
@@ -220,9 +217,103 @@ gav_tank.equip_weapon(core.laser_cannon_mounted)
 
 # -*- Upgrade lists -*-
 
-# ISF Commander Ranged Replace
+# Imperial Commander weapons
 
 label = "A"
+
+upgrade_commander = UpgradeList(label, base_model=imperial_commander)
+upgrade_commander.select_upgrade_with_model_changes_type()
+upgrade_commander.upgrade_with_model_changes_entry("Combat Armour", defense=4)
+upgrade_commander.upgrade_with_model_changes_entry("ISB", hunter="Target", recon=5)
+upgrade_commander.upgrade_with_model_changes_entry("Field Agent", command=False, relay=True, agile=True)
+upgrade_commander.upgrade_with_model_changes_entry("Senior Officer", spotter=2, take_cover=1)
+upgrade_commander.upgrade_with_model_changes_entry("Agent Kallus", unique="Alexsandr Kallus")
+upgrade_commander.upgrade_with_model_changes_entry("Lord Vonreg (Jetpack)", fly=True, repair=1, survivor=True, unique="Rodjer Vonreg")
+upgrade_commander.upgrade_with_model_changes_entry("Lord Vonreg", slow=True, relentless=True, repair=1, survivor=True, unique="Rodjer Vonreg")
+upgrade_commander.upgrade_with_model_changes_entry("Agent Selina", unique="Agent Selina")
+
+label = letter_increment(label)
+upgrade_commander_weapon = UpgradeList(label, base_model=imperial_commander)
+upgrade_commander_weapon.select_upgrade_with_weapon_type(replace_weapon=core.blaster_pistol)
+upgrade_commander_weapon.upgrade_with_weapon_entry(core.heavy_blaster_pistol)
+upgrade_commander_weapon.upgrade_with_weapon_entry(core.dual_blaster_pistols)
+upgrade_commander_weapon.upgrade_with_weapon_entry(core.burst_pistol)
+upgrade_commander_weapon.upgrade_with_weapon_entry(core.sniper_pistol)
+upgrade_commander_weapon.upgrade_with_weapon_entry(core.bryar_pistol)
+vonreg_wargear = Weapon(
+    "Vonreg's Wargear",
+    "Melee",
+    3,
+    pierce=2,
+    deadly=2,
+    inaccurate=True,
+    wargear="Rodjer Vonreg",
+    primary_fire_mode_name="Lightsaber",
+    secondary_fire_modes=[
+        core.burst_pistol,
+        Weapon("Rifle Full Auto", 30, 3, pierce=1),
+        Weapon("Rifle Sniper Shot", "inf", 1, pierce=2, ammo=1, sniper=True, deadly=2),
+    ],
+)
+upgrade_commander_weapon.upgrade_with_weapon_entry(vonreg_wargear)
+vonreg_lightsaber_pistol = Weapon(
+    "Vonreg's Lightsaber and Pistol",
+    "Melee",
+    3,
+    pierce=2,
+    deadly=2,
+    inaccurate=True,
+    wargear="Rodjer Vonreg",
+    primary_fire_mode_name="Lightsaber",
+    secondary_fire_modes=[core.burst_pistol],
+)
+upgrade_commander_weapon.upgrade_with_weapon_entry(vonreg_lightsaber_pistol)
+selina_burst_pistols = Weapon(
+    "Selina's Wargear",
+    "Melee",
+    3,
+    rending=1,
+    inaccurate=True,
+    wargear="Agent Selina",
+    primary_fire_mode_name="Vibromachete",
+    secondary_fire_modes=[
+        core.blaster_rifle,
+        Weapon("Twin Burst Pistols", 6, 6, quickdraw=True, inaccurate=True, reciprocating=5)],
+)
+upgrade_commander_weapon.upgrade_with_weapon_entry(selina_burst_pistols)
+kallus_bo_rifle = Weapon(
+    "Kallus' Bo-Rifle",
+    "Melee",
+    4,
+    pierce=2,
+    wargear="Alexsandr Kallus",
+    primary_fire_mode_name="Electrostaff",
+    secondary_fire_modes=[Weapon("Blaster Rifle", 30, 3)],
+)
+upgrade_commander_weapon.upgrade_with_weapon_entry(kallus_bo_rifle)
+
+# Imperial Officer armour & ranks
+
+label = letter_increment(label)
+upgrade_officer = UpgradeList(label, base_model=imperial_officer)
+upgrade_officer.select_upgrade_with_model_changes_type()
+upgrade_officer.upgrade_with_model_changes_entry("Combat Armour", defense=4)
+upgrade_officer.upgrade_with_model_changes_entry("Commlink", relay=True)
+upgrade_officer.upgrade_with_model_changes_entry("Offensive Orders", spotter=2)
+upgrade_officer.upgrade_with_model_changes_entry("Defensive Orders", defend=True, take_cover=1)
+
+# Generic Officer Binoculars (Spotter[1])
+
+label = letter_increment(label)
+upgrade_electrobinoculars = UpgradeList(label)
+upgrade_electrobinoculars.select_upgrade_with_rule_model_agnostic_type()
+upgrade_electrobinoculars.upgrade_with_rule_model_agnostic_entry(
+    "Electrobinoculars", spotter=1
+)
+
+# ISF Commander Ranged Replace
+
+label = letter_increment(label)
 upgrade_isf_command_ranged = UpgradeList(label, base_model=isf_commander)
 upgrade_isf_command_ranged.select_upgrade_with_weapon_type(
     replace_weapon=core.blaster_rifle
@@ -238,44 +329,8 @@ upgrade_isf_command_melee = UpgradeList(label, base_model=isf_commander)
 upgrade_isf_command_melee.select_upgrade_with_weapon_type(
     replace_weapon=core.combat_training
 )
-vibroblades = Weapon("Vibroblades", "Melee", 4, rending=True)
-upgrade_isf_command_melee.upgrade_with_weapon_entry(vibroblades)
-
-# Generic Officer Binoculars (Spotter[1])
-
-label = letter_increment(label)
-upgrade_electrobinoculars = UpgradeList(label)
-upgrade_electrobinoculars.select_upgrade_with_rule_model_agnostic_type()
-upgrade_electrobinoculars.upgrade_with_rule_model_agnostic_entry(
-    "Electrobinoculars", spotter=1
-)
-
-# ISB agent weapons
-
-label = letter_increment(label)
-upgrade_isb_weapon = UpgradeList(label, base_model=isb_agent)
-upgrade_isb_weapon.select_upgrade_with_weapon_type()
-kallus_bo_rifle = Weapon(
-    "Kallus' Bo-Rifle",
-    "Melee",
-    4,
-    pierce=2,
-    unique="Alexsandr Kallus",
-    primary_fire_mode_name="Electrostaff",
-    secondary_fire_modes=[Weapon("Blaster Rifle", 30, 3)],
-)
-upgrade_isb_weapon.upgrade_with_weapon_entry(kallus_bo_rifle)
-
-
-# Imperial officer armour
-
-label = letter_increment(label)
-upgrade_officer_armour = UpgradeList(label, base_model=imperial_officer)
-upgrade_officer_armour.select_upgrade_with_model_changes_type(limit=1)
-upgrade_officer_armour.upgrade_with_model_changes_entry("Combat Armour", defense=5)
-upgrade_officer_armour.upgrade_with_model_changes_entry(
-    "Heavy Combat Armour", defense=4
-)
+vonreg_vibroblades = Weapon("Sith Vibroblades", "Melee", 4, rending=True, wargear="Rodjer Vonreg")
+upgrade_isf_command_melee.upgrade_with_weapon_entry(vonreg_vibroblades)
 
 # Stormtrooper weapons (replace)
 
@@ -416,15 +471,16 @@ upgrade_atrt.upgrade_with_weapon_entry(core.heavy_sniper_rifle)
 
 # assign upgrade lists
 
+imperial_commander.add_upgrade_list(upgrade_commander)
+imperial_commander.add_upgrade_list(upgrade_commander_weapon)
+imperial_officer.add_upgrade_list(upgrade_officer)
+imperial_officer.add_upgrade_list(upgrade_electrobinoculars)
+isf_commander.add_upgrade_list(upgrade_electrobinoculars)
 isf_commander.add_upgrade_list(upgrade_isf_command_ranged)
 isf_commander.add_upgrade_list(upgrade_isf_command_melee)
-isf_commander.add_upgrade_list(upgrade_electrobinoculars)
 stormtrooper_commander.add_upgrade_list(upgrade_electrobinoculars)
 stormtrooper_captain.add_upgrade_list(upgrade_electrobinoculars)
 stormtrooper_sergeant.add_upgrade_list(upgrade_electrobinoculars)
-isb_agent.add_upgrade_list(upgrade_isb_weapon)
-imperial_officer.add_upgrade_list(upgrade_electrobinoculars)
-imperial_officer.add_upgrade_list(upgrade_officer_armour)
 stormtrooper.add_upgrade_list([upgrade_storm_weapons, upgrade_storm_add_weap])
 stormtrooper.add_upgrade_list(upgrade_storm_special)
 scout_trooper.add_upgrade_list(upgrade_electrobinoculars)
@@ -444,12 +500,12 @@ model_list = ModelList()
 model_list.add_model_entry(emperor_palpatine)
 model_list.add_model_entry(darth_vader)
 model_list.add_model_entry(inquisitor)
+model_list.add_model_entry(imperial_commander)
+model_list.add_model_entry(imperial_officer)
 model_list.add_model_entry(isf_commander)
 model_list.add_model_entry(stormtrooper_commander)
 model_list.add_model_entry(stormtrooper_captain)
 model_list.add_model_entry(stormtrooper_sergeant)
-model_list.add_model_entry(isb_agent)
-model_list.add_model_entry(imperial_officer)
 model_list.add_model_entry(stormtrooper)
 model_list.add_model_entry(stormtrooper_heavy_mortar)
 model_list.add_model_entry(imperial_army_trooper)
@@ -471,11 +527,12 @@ model_list.add_model_entry(gav_tank)
 
 model_list.file_write_latex("empire_roster.tabl")
 
+upgrade_commander.file_write_latex()
+upgrade_commander_weapon.file_write_latex()
+upgrade_officer.file_write_latex()
+upgrade_electrobinoculars.file_write_latex()
 upgrade_isf_command_ranged.file_write_latex()
 upgrade_isf_command_melee.file_write_latex()
-upgrade_electrobinoculars.file_write_latex()
-upgrade_isb_weapon.file_write_latex()
-upgrade_officer_armour.file_write_latex()
 upgrade_storm_weapons.file_write_latex()
 upgrade_storm_add_weap.file_write_latex()
 upgrade_storm_special.file_write_latex()
@@ -494,11 +551,12 @@ upgrade_atrt.file_write_latex()
 
 model_list.file_write_tsv(tsv_file)
 
+upgrade_commander.file_write_tsv(tsv_file)
+upgrade_commander_weapon.file_write_tsv(tsv_file)
+upgrade_officer.file_write_tsv(tsv_file)
+upgrade_electrobinoculars.file_write_tsv(tsv_file)
 upgrade_isf_command_ranged.file_write_tsv(tsv_file)
 upgrade_isf_command_melee.file_write_tsv(tsv_file)
-upgrade_electrobinoculars.file_write_tsv(tsv_file)
-upgrade_isb_weapon.file_write_tsv(tsv_file)
-upgrade_officer_armour.file_write_tsv(tsv_file)
 upgrade_storm_weapons.file_write_tsv(tsv_file)
 upgrade_storm_add_weap.file_write_tsv(tsv_file)
 upgrade_storm_special.file_write_tsv(tsv_file)
@@ -514,6 +572,8 @@ upgrade_irg.file_write_tsv(tsv_file)
 upgrade_atrt.file_write_tsv(tsv_file)
 
 """ Moff Gideon's Imperial Remnant """
+
+tex_upgrade_name = "upgrade_gideon_"
 
 # models
 
@@ -542,6 +602,7 @@ dark_trooper = Model(
     duellist=True,
     survivor=True,
     droid=True,
+    entourage="Moff Gideon",
 )
 crushing_punch = Weapon(
     "Crushing Punch",
@@ -558,7 +619,7 @@ dark_trooper.equip_weapon(crushing_punch)
 
 # Gideon Equipment
 
-label = letter_increment(label)
+label = "A"
 upgrade_gideon_armour = UpgradeList(label, base_model=moff_gideon)
 upgrade_gideon_armour.select_upgrade_with_model_changes_type()
 upgrade_gideon_armour.upgrade_with_model_changes_entry(
@@ -647,12 +708,12 @@ list_gideon_remnant.add_model_entry(dark_trooper)
 # write latex files
 
 list_gideon_remnant.file_write_latex("galactic_empire_gideon_remnant_roster.tabl")
-upgrade_gideon_armour.file_write_latex()
-upgrade_gideon_darksaber.file_write_latex()
-upgrade_gideon_weapons.file_write_latex()
-upgrade_darktrooper_programming.file_write_latex()
-upgrade_darktrooper_weapons.file_write_latex()
-upgrade_darktrooper_melee.file_write_latex()
+upgrade_gideon_armour.file_write_latex(tex_upgrade_name)
+upgrade_gideon_darksaber.file_write_latex(tex_upgrade_name)
+upgrade_gideon_weapons.file_write_latex(tex_upgrade_name)
+upgrade_darktrooper_programming.file_write_latex(tex_upgrade_name)
+upgrade_darktrooper_weapons.file_write_latex(tex_upgrade_name)
+upgrade_darktrooper_melee.file_write_latex(tex_upgrade_name)
 
 # write tsv files
 
