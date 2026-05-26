@@ -665,11 +665,14 @@ class Model:
         command_cost = self.command_cost_dict[self.command]
         defend_cost = self.defend_cost_dict[self.defend] * self.wounds
         deflect_cost = self.deflect_cost_dict[self.deflect] * self.wounds
-        disciplined_cost = (
-            self.disciplined
-            * (self.quality_cost_dict[self.quality - 1] - quality_cost)
-            * self.wounds
-        )
+        if self.disciplined:
+            disciplined_cost = (
+                self.disciplined
+                * (self.quality_cost_dict[self.quality - 1] - quality_cost)
+                * self.wounds
+            )
+        else:
+            disciplined_cost = 0
         beast_cost = self.beast_cost_dict[self.beast]
         droid_cost = self.droid_cost_dict[self.droid]
         emplacement_cost = self.emplacement_cost_dict[self.emplacement]
@@ -1661,6 +1664,7 @@ class UpgradeList:
         jump=None,
         impact=None,
         impervious=None,
+        luck=None,
         noncombatant=None,
         protector=None,
         protector_key=None,
@@ -1901,6 +1905,12 @@ class UpgradeList:
             comma = ", "
         else:
             impervious_str = ""
+        if luck:
+            entry_model_copy.luck = luck
+            luck_str = "%sLuck[%s]" % (comma, str(luck))
+            comma = ", "
+        else:
+            luck_str = ""
         if noncombatant or noncombatant is False:
             entry_model_copy.noncombatant = noncombatant
             if noncombatant is False:
@@ -2024,6 +2034,7 @@ class UpgradeList:
             + jump_str
             + impact_str
             + impervious_str
+            + luck_str
             + noncombatant_str
             + protector_str
             + relentless_str
@@ -2100,6 +2111,6 @@ def letter_increment(label: str):
         raise Exception("Function only works for single letters")
     if not label.isupper:
         raise Exception("Function only works for upper case letters")
-    letters = string.ascii_uppercase
+    letters = string.ascii_uppercase+"ΓΔΘΛΞΠΣΦΨΩ"
     index = letters.index(label)
     return letters[index + 1]
