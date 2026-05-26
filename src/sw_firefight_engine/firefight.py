@@ -1773,6 +1773,15 @@ class UpgradeList:
             comma = ", "
         else:
             command_str = ""
+        if command or command is False:
+            entry_model_copy.command = command
+            if command is False:
+                command_str = "%sLose Command" % comma
+            else:
+                command_str = "%sCommand" % comma
+            comma = ", "
+        else:
+            fast_str = ""
         if recon:
             entry_model_copy.recon = recon
             recon_str = "%sRecon[%s+]" % (comma, str(recon))

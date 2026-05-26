@@ -56,6 +56,7 @@ imperial_commander = Model(
     3,
     villain=True,
     spotter=1,
+    command=True,
 )
 
 imperial_officer = Model("Imperial Officer", 5, 6, 2, villain=True, disciplined=True)
