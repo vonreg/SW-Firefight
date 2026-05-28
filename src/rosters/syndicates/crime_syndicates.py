@@ -13,7 +13,9 @@ tsv_file = "crime_syndicates.tsv"
 
 tex_upgrade_name = "upgrade_pyke_"
 
-pyke_capo = Model("Pyke Capo", 4, 5, 3, command=True, take_cover=1, villain=True)
+pyke_capo = Model(
+    "Pyke Capo", 4, 5, 3, command=True, take_cover=1, villain=True
+)
 pyke_capo.equip_weapon(core.blaster_pistol)
 
 pyke_soldier = Model("Pyke Soldier", 5, 5, 1, expendable=1)
@@ -23,7 +25,9 @@ pyke_soldier.equip_weapon(core.blaster_pistol)
 
 label = "A"
 upgrade_pyke_replace = UpgradeList(label, base_model=pyke_soldier)
-upgrade_pyke_replace.select_upgrade_with_weapon_type(replace_weapon=core.blaster_pistol)
+upgrade_pyke_replace.select_upgrade_with_weapon_type(
+    replace_weapon=core.blaster_pistol
+)
 upgrade_pyke_replace.upgrade_with_weapon_entry(core.blaster_rifle)
 
 label = letter_increment(label)
@@ -69,11 +73,25 @@ upgrade_pyke_add.file_write_tsv(tsv_file)
 
 tex_upgrade_name = "upgrade_ohnaka_"
 
-hondo = Model("Hondo Ohnaka", 3, 5, 3, command=True, luck=2, villain=True, gunslinger=True, agile=True, courage=True, survivor=True)
+hondo = Model(
+    "Hondo Ohnaka",
+    3,
+    5,
+    3,
+    command=True,
+    luck=2,
+    villain=True,
+    gunslinger=True,
+    agile=True,
+    courage=True,
+    survivor=True,
+)
 hondo.equip_weapon(core.combat_training)
 hondo.equip_weapon(core.heavy_blaster_pistol)
 
-weequay_captain = Model("Weequay Captain", 4, 5, 3, relay=True, spotter=1, villain=True)
+weequay_captain = Model(
+    "Weequay Captain", 4, 5, 3, relay=True, spotter=1, villain=True
+)
 weequay_captain.equip_weapon(core.heavy_blaster_pistol)
 
 weequay_pirate = Model("Weequay Pirate", 5, 5, 1, expendable=1)
@@ -110,7 +128,9 @@ weequay_biker = Model(
     fast=True,
     fly=True,
 )
-biker_blaster_cannons = Weapon("Light Blaster Cannons", 18, 3, pierce=1, fixed="Front")
+biker_blaster_cannons = Weapon(
+    "Light Blaster Cannons", 18, 3, pierce=1, fixed="Front"
+)
 weequay_biker.equip_weapon(biker_blaster_cannons)
 weequay_biker.equip_weapon(core.heavy_blaster_pistol)
 
@@ -118,20 +138,26 @@ weequay_biker.equip_weapon(core.heavy_blaster_pistol)
 
 label = "A"
 upgrade_hondo_replace = UpgradeList(label, base_model=hondo)
-upgrade_hondo_replace.select_upgrade_with_weapon_type(replace_weapon=core.combat_training)
+upgrade_hondo_replace.select_upgrade_with_weapon_type(
+    replace_weapon=core.combat_training
+)
 upgrade_hondo_replace.upgrade_with_weapon_entry(core.vibroblade)
 upgrade_hondo_replace.upgrade_with_weapon_entry(core.electrostaff)
 
 label = letter_increment(label)
 upgrade_weequay_replace = UpgradeList(label, base_model=weequay_pirate)
-upgrade_weequay_replace.select_upgrade_with_weapon_type(replace_weapon=core.heavy_blaster_pistol)
+upgrade_weequay_replace.select_upgrade_with_weapon_type(
+    replace_weapon=core.heavy_blaster_pistol
+)
 upgrade_weequay_replace.upgrade_with_weapon_entry(core.blaster_carbine)
 upgrade_weequay_replace.upgrade_with_weapon_entry(core.targeting_rifle)
 upgrade_weequay_replace.upgrade_with_weapon_entry(core.sniper_rifle)
 
 label = letter_increment(label)
 upgrade_weequay_add = UpgradeList(label, base_model=weequay_pirate)
-upgrade_weequay_add.select_upgrade_with_weapon_type(limit=1, lose_expendable=True)
+upgrade_weequay_add.select_upgrade_with_weapon_type(
+    limit=1, lose_expendable=True
+)
 upgrade_weequay_add.upgrade_with_weapon_entry(core.rocket_launcher)
 upgrade_weequay_add.upgrade_with_weapon_entry(core.electrostaff)
 upgrade_weequay_add.upgrade_with_weapon_entry(core.thermal_detonator)
@@ -174,12 +200,26 @@ tex_upgrade_name = "upgrade_crimson_"
 
 # common weapons
 percussive_cannon = Weapon(
-    "Percussive Cannon", 15, 1, pierce=2, deadly=3, ammo=2, sniper=True, suppressive=1
+    "Percussive Cannon",
+    15,
+    1,
+    pierce=2,
+    deadly=3,
+    ammo=2,
+    sniper=True,
+    suppressive=1,
 )
 
 # models
 hylobon_captain = Model(
-    "Hylobon Captain", 4, 5, 3, relay=True, villain=True, spotter=2, disciplined=True
+    "Hylobon Captain",
+    4,
+    5,
+    3,
+    relay=True,
+    villain=True,
+    spotter=2,
+    disciplined=True,
 )
 hylobon_captain.equip_weapon(core.combat_training)
 hylobon_captain.equip_weapon(percussive_cannon)
@@ -222,7 +262,9 @@ mag_det = Weapon(
 
 # models
 
-black_sun_vigo = Model("Black Sun Vigo", 4, 4, 3, command=True, spotter=2, villain=True)
+black_sun_vigo = Model(
+    "Black Sun Vigo", 4, 4, 3, command=True, spotter=2, villain=True
+)
 black_sun_vigo.equip_weapon(core.combat_training)
 black_sun_vigo.equip_weapon(double_blaster)
 
@@ -240,7 +282,9 @@ black_sun_soldier.equip_weapon(double_blaster)
 
 label = "A"
 upgrade_black_sun = UpgradeList(label, base_model=black_sun_soldier)
-upgrade_black_sun.select_upgrade_with_weapon_type(limit=2, lose_expendable=True)
+upgrade_black_sun.select_upgrade_with_weapon_type(
+    limit=2, lose_expendable=True
+)
 upgrade_black_sun.upgrade_with_weapon_entry(core.scattergun)
 upgrade_black_sun.upgrade_with_weapon_entry(core.thermal_detonator)
 upgrade_black_sun.upgrade_with_weapon_entry(core.concussion_grenade)
@@ -420,5 +464,7 @@ upgrade_bane.file_write_latex(tex_upgrade_name)
 
 # write tsv files
 
-list_bounty_hunters.file_write_tsv(tsv_file, list_title="Bounty Hunters", append=True)
+list_bounty_hunters.file_write_tsv(
+    tsv_file, list_title="Bounty Hunters", append=True
+)
 upgrade_bane.file_write_tsv(tsv_file)

@@ -7,13 +7,13 @@ def armoured_warfare_special_rules(hover=False, transport=0):
     else:
         hover_str = ""
     if transport:
-        transport_str = "%sTransport[%i]" % (comma,int(transport))
+        transport_str = "%sTransport[%i]" % (comma, int(transport))
         comma = ", "
     else:
         transport_str = ""
 
     hover_cost = hover_cost_dict[hover]
-    transport_cost = transport*5
+    transport_cost = transport * 5
 
     extra_rules_str = hover_str + transport_str
     extra_rules_cost = hover_cost + transport_cost

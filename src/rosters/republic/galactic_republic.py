@@ -92,7 +92,15 @@ jedi_master.equip_weapon(core.lightsaber_master)
 jedi_master.equip_weapon(core.force_push)
 
 jedi_knight = Model(
-    "Jedi Knight", 3, 3, 4, jedi=True, jump=3, deflect=True, courage=True, command=True
+    "Jedi Knight",
+    3,
+    3,
+    4,
+    jedi=True,
+    jump=3,
+    deflect=True,
+    courage=True,
+    command=True,
 )
 jedi_knight.equip_weapon(core.lightsaber_knight)
 jedi_knight.equip_weapon(core.force_push)
@@ -128,7 +136,9 @@ clone_officer.equip_weapon(core.blaster_pistol)
 clone_trooper = Model("Clone Trooper", 4, 4, 1)
 clone_trooper.equip_weapon(core.blaster_carbine)
 
-arc_trooper = Model("ARC Trooper", 3, 4, 1, impervious=True, scout=True, recon=4)
+arc_trooper = Model(
+    "ARC Trooper", 3, 4, 1, impervious=True, scout=True, recon=4
+)
 arc_trooper.equip_weapon(core.dual_blaster_pistols)
 
 arf_tracker = Model(
@@ -176,7 +186,9 @@ clone_commando = Model(
     survivor=1,
 )
 reconfigurable_blaster = Weapon("Reconfigurable Blaster", 18, 4, suppressive=1)
-sniper_config = Weapon("Sniper Config", "inf", 1, pierce=2, sniper=True, deadly=2)
+sniper_config = Weapon(
+    "Sniper Config", "inf", 1, pierce=2, sniper=True, deadly=2
+)
 anti_armour_config = Weapon("Anti-Armour Config", 12, 2, pierce=2, deadly=2)
 grenade_launcher_config = Weapon(
     "Grenade Launcher Config", 18, 2, pierce=1, ammo=1, blast=3, indirect=True
@@ -196,7 +208,9 @@ barc_speeder = Model(
     scout=True,
     recon=5,
 )
-blaster_cannon_array = Weapon("Blaster Cannon Array", 18, 4, pierce=2, fixed="Front")
+blaster_cannon_array = Weapon(
+    "Blaster Cannon Array", 18, 4, pierce=2, fixed="Front"
+)
 barc_speeder.equip_weapon(blaster_cannon_array)
 
 heavy_barc_speeder = Model(
@@ -210,8 +224,12 @@ heavy_barc_speeder = Model(
     fly=True,
     arsenal=2,
 )
-sidecar_laser = Weapon("Sidecar Light Repeating Blaster", 18, 4, fixed="Front, Rear")
-sidecar_ion = Weapon("Sidecar Ion Repeater", 18, 3, ion=True, fixed="Front, Rear")
+sidecar_laser = Weapon(
+    "Sidecar Light Repeating Blaster", 18, 4, fixed="Front, Rear"
+)
+sidecar_ion = Weapon(
+    "Sidecar Ion Repeater", 18, 3, ion=True, fixed="Front, Rear"
+)
 heavy_barc_speeder.equip_weapon(blaster_cannon_array)
 heavy_barc_speeder.equip_weapon(sidecar_laser)
 
@@ -221,7 +239,9 @@ at_rt = Model(
 at_rt.equip_weapon(core.laser_cannon_mounted)
 at_rt.equip_weapon(core.grenade_launcher)
 
-astromech_droid = Model("Astromech Droid", 5, 5, 1, droid=True, repair=1, slow=True)
+astromech_droid = Model(
+    "Astromech Droid", 5, 5, 1, droid=True, repair=1, slow=True
+)
 shock_pulse = Weapon("Shock Pulse", "Melee", 2, suppressive=1)
 astromech_droid.equip_weapon(shock_pulse)
 
@@ -249,7 +269,9 @@ protocol_droid = Model(
 label = "A"
 upgrade_rex_equip = UpgradeList(label, base_model=rex)
 upgrade_rex_equip.select_upgrade_with_model_changes_type()
-upgrade_rex_equip.upgrade_with_model_changes_entry("Jetpack", fly=True, fast=True)
+upgrade_rex_equip.upgrade_with_model_changes_entry(
+    "Jetpack", fly=True, fast=True
+)
 
 # Clone Officer Ranks
 
@@ -276,8 +298,12 @@ upgrade_officer_rank.upgrade_with_model_changes_entry(
 label = letter_increment(label)
 upgrade_officer_equip = UpgradeList(label, base_model=clone_officer)
 upgrade_officer_equip.select_upgrade_with_model_changes_type(limit=1)
-upgrade_officer_equip.upgrade_with_model_changes_entry("Naval Uniform", defense=6)
-upgrade_officer_equip.upgrade_with_model_changes_entry("Jetpack", fly=True, fast=True)
+upgrade_officer_equip.upgrade_with_model_changes_entry(
+    "Naval Uniform", defense=6
+)
+upgrade_officer_equip.upgrade_with_model_changes_entry(
+    "Jetpack", fly=True, fast=True
+)
 
 # Clone Officer Weapons
 
@@ -338,19 +364,25 @@ upgrade_clone_weap_add.upgrade_with_weapon_entry(core.frag_grenade)
 label = letter_increment(label)
 upgrade_clone_specialists = UpgradeList(label, base_model=clone_trooper)
 upgrade_clone_specialists.select_upgrade_with_model_changes_type(limit=2)
-upgrade_clone_specialists.upgrade_with_model_changes_entry("Veteran", disciplined=True)
+upgrade_clone_specialists.upgrade_with_model_changes_entry(
+    "Veteran", disciplined=True
+)
 upgrade_clone_specialists.upgrade_with_model_changes_entry(
     "ARF Trooper", scout=True, recon=5
 )
 upgrade_clone_specialists.upgrade_with_model_changes_entry("Medic", heal=1)
-upgrade_clone_specialists.upgrade_with_model_changes_entry("Engineer", repair=1)
+upgrade_clone_specialists.upgrade_with_model_changes_entry(
+    "Engineer", repair=1
+)
 upgrade_clone_specialists.upgrade_with_model_changes_entry(
     "Comms Technician", relay=True
 )
 upgrade_clone_specialists.upgrade_with_model_changes_entry(
     "Jetpack Trooper", fly=True, fast=True
 )
-upgrade_clone_specialists.upgrade_with_model_changes_entry("Naval Uniform", defense=6)
+upgrade_clone_specialists.upgrade_with_model_changes_entry(
+    "Naval Uniform", defense=6
+)
 upgrade_clone_specialists.upgrade_with_model_changes_entry(
     "Sergeant", wounds=2, disciplined=True, hero=True
 )
@@ -381,13 +413,17 @@ upgrade_arc_grenades.upgrade_with_weapon_entry(core.thermal_imploder)
 label = letter_increment(label)
 upgrade_arc_equip = UpgradeList(label, base_model=arc_trooper)
 upgrade_arc_equip.select_upgrade_with_model_changes_type()
-upgrade_arc_equip.upgrade_with_model_changes_entry("Jetpack", fly=True, fast=True)
+upgrade_arc_equip.upgrade_with_model_changes_entry(
+    "Jetpack", fly=True, fast=True
+)
 
 # scout trooper
 
 label = letter_increment(label)
 upgrade_scout = UpgradeList(label, base_model=clone_scout_trooper)
-upgrade_scout.select_upgrade_with_weapon_type(replace_weapon=core.blaster_carbine)
+upgrade_scout.select_upgrade_with_weapon_type(
+    replace_weapon=core.blaster_carbine
+)
 upgrade_scout.upgrade_with_weapon_entry(core.heavy_blaster_rifle)
 upgrade_scout.upgrade_with_weapon_entry(core.targeting_rifle)
 
@@ -409,7 +445,9 @@ upgrade_commando_weaps.upgrade_with_weapon_entry(core.thermal_imploder)
 
 label = letter_increment(label)
 upgrade_barc_heavy = UpgradeList(label, base_model=heavy_barc_speeder)
-upgrade_barc_heavy.select_upgrade_with_weapon_type(replace_weapon=sidecar_laser)
+upgrade_barc_heavy.select_upgrade_with_weapon_type(
+    replace_weapon=sidecar_laser
+)
 upgrade_barc_heavy.upgrade_with_weapon_entry(core.rocket_launcher)
 upgrade_barc_heavy.upgrade_with_weapon_entry(sidecar_ion)
 
@@ -417,7 +455,9 @@ upgrade_barc_heavy.upgrade_with_weapon_entry(sidecar_ion)
 
 label = letter_increment(label)
 upgrade_at_rt = UpgradeList(label, base_model=at_rt)
-upgrade_at_rt.select_upgrade_with_weapon_type(replace_weapon=core.laser_cannon_mounted)
+upgrade_at_rt.select_upgrade_with_weapon_type(
+    replace_weapon=core.laser_cannon_mounted
+)
 upgrade_at_rt.upgrade_with_weapon_entry(core.heavy_rotary_cannon_mounted)
 upgrade_at_rt.upgrade_with_weapon_entry(core.heavy_flamethrower_mounted)
 

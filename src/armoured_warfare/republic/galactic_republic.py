@@ -98,7 +98,9 @@ upgrade_saber.upgrade_with_weapon_entry(saber_turret_beam)
 
 saber.add_upgrade_list(upgrade_saber)
 
-at_rt_squad = Model("AT-RT Squadron", 4, 4, 2, fast=True, vehicle=True, cover="Front")
+at_rt_squad = Model(
+    "AT-RT Squadron", 4, 4, 2, fast=True, vehicle=True, cover="Front"
+)
 at_rt_lasers = Weapon("Laser Cannons", 15, 3, pierce=1, quickdraw=True)
 at_rt_squad.equip_weapon(at_rt_lasers)
 

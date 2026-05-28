@@ -4,9 +4,16 @@ from sw_firefight_engine.firefight import Weapon
 
 blaster_pistol = Weapon("Blaster Pistol", 12, 2, quickdraw=True)
 dual_blaster_pistols = Weapon(
-    "Dual Blaster Pistols", 12, 4, quickdraw=True, split_fire=True, split_fire_range=6
+    "Dual Blaster Pistols",
+    12,
+    4,
+    quickdraw=True,
+    split_fire=True,
+    split_fire_range=6,
 )
-heavy_blaster_pistol = Weapon("Heavy Blaster Pistol", 18, 2, pierce=1, quickdraw=True)
+heavy_blaster_pistol = Weapon(
+    "Heavy Blaster Pistol", 18, 2, pierce=1, quickdraw=True
+)
 burst_pistol = Weapon("Burst Pistol", 6, 3, quickdraw=True, reciprocating=5)
 bryar_pistol = Weapon(
     "Bryar Pistol",
@@ -14,7 +21,9 @@ bryar_pistol = Weapon(
     2,
     quickdraw=True,
     primary_fire_mode_name="Light shot",
-    secondary_fire_modes=[Weapon("Heavy Shot", 18, 1, pierce=2, ammo=1, deadly=2)],
+    secondary_fire_modes=[
+        Weapon("Heavy Shot", 18, 1, pierce=2, ammo=1, deadly=2)
+    ],
 )
 convertible_pistol = Weapon(
     "Convertible Blaster Pistol",
@@ -25,7 +34,9 @@ convertible_pistol = Weapon(
     primary_fire_mode_name="Pistol Config",
     secondary_fire_modes=[
         Weapon("Rifle Config", 18, 3),
-        Weapon("Sniper Config", "inf", 1, pierce=2, ammo=1, sniper=True, deadly=2),
+        Weapon(
+            "Sniper Config", "inf", 1, pierce=2, ammo=1, sniper=True, deadly=2
+        ),
     ],
 )
 sniper_pistol = Weapon("Sniper Pistol", 18, 2, sniper=True, quickdraw=True)
@@ -45,14 +56,18 @@ convertible_rifle = Weapon(
     primary_fire_mode_name="Rifle Config",
     secondary_fire_modes=[
         Weapon("Carbine Config", 18, 3, quickdraw=True),
-        Weapon("Sniper Config", "inf", 1, pierce=2, ammo=1, sniper=True, deadly=2),
+        Weapon(
+            "Sniper Config", "inf", 1, pierce=2, ammo=1, sniper=True, deadly=2
+        ),
     ],
 )
 
 # targeting rifles
 
 targeting_rifle = Weapon("Targeting Rifle", "inf", 2, pierce=2, sniper=True)
-sniper_rifle = Weapon("Sniper Rifle", "inf", 1, pierce=2, sniper=True, deadly=2)
+sniper_rifle = Weapon(
+    "Sniper Rifle", "inf", 1, pierce=2, sniper=True, deadly=2
+)
 heavy_sniper_rifle = Weapon(
     "Heavy Sniper Rifle", "inf", 1, pierce=2, ammo=2, sniper=True, deadly=3
 )
@@ -63,7 +78,9 @@ heavy_configurable_rifle = Weapon(
     pierce=1,
     primary_fire_mode_name="Full Auto",
     secondary_fire_modes=[
-        Weapon("Sniper Shot", "inf", 1, pierce=2, ammo=1, sniper=True, deadly=2)
+        Weapon(
+            "Sniper Shot", "inf", 1, pierce=2, ammo=1, sniper=True, deadly=2
+        )
     ],
 )
 
@@ -75,9 +92,13 @@ heavy_repeater = Weapon(
     18,
     4,
     primary_fire_mode_name="Main Barrels",
-    secondary_fire_modes=[Weapon("Concussion Blast", 12, 2, pierce=1, ammo=1, blast=3)],
+    secondary_fire_modes=[
+        Weapon("Concussion Blast", 12, 2, pierce=1, ammo=1, blast=3)
+    ],
 )
-rotary_blaster = Weapon("Rotary Blaster", 24, 6, inaccurate=True, split_fire=True)
+rotary_blaster = Weapon(
+    "Rotary Blaster", 24, 6, inaccurate=True, split_fire=True
+)
 
 # laser cannons
 
@@ -171,7 +192,13 @@ heavy_mortar = Weapon(
 # slugthrowers
 
 scattergun = Weapon(
-    "Scatter Gun", 6, 2, pierce=2, reciprocating=5, kinetic=True, quickdraw=True
+    "Scatter Gun",
+    6,
+    2,
+    pierce=2,
+    reciprocating=5,
+    kinetic=True,
+    quickdraw=True,
 )
 cycler_rifle = Weapon(
     "Cycler Rifle", "inf", 1, pierce=3, deadly=3, ammo=1, kinetic=True
@@ -187,14 +214,31 @@ ion_torpedo = Weapon("Ion Torpedo", 24, 1, ammo=1, ion=True, seek=True)
 mortar = Weapon(
     "Mortar", 30, 2, pierce=1, ammo=1, blast=3, indirect=True
 )  # should perhaps have a "cumbersome" rule?
-rocket_launcher = Weapon("Rocket Launcher", "inf", 2, pierce=1, ammo=1, blast=3, kinetic=True)
-smart_rocket = Weapon("Smart Rocket", "inf", 2, pierce=1, ammo=1, blast=3, seek=True, kinetic=True)
+rocket_launcher = Weapon(
+    "Rocket Launcher", "inf", 2, pierce=1, ammo=1, blast=3, kinetic=True
+)
+smart_rocket = Weapon(
+    "Smart Rocket",
+    "inf",
+    2,
+    pierce=1,
+    ammo=1,
+    blast=3,
+    seek=True,
+    kinetic=True,
+)
 frag_launcher = Weapon("Frag Launcher", "inf", 2, ammo=1, blast=5)
 
 # grenades
 
 thermal_detonator = Weapon(
-    "Thermal Detonator", 12, 2, pierce=1, ammo="Single Use", blast=3, indirect=True
+    "Thermal Detonator",
+    12,
+    2,
+    pierce=1,
+    ammo="Single Use",
+    blast=3,
+    indirect=True,
 )
 concussion_grenade = Weapon(
     "Concussion Grenade",
@@ -209,10 +253,22 @@ ion_grenade = Weapon(
     "Ion Grenade", 12, 1, ammo="Single Use", blast=3, indirect=True, ion=True
 )
 dioxis_grenade = Weapon(
-    "Dioxis Grenade", 12, 1, ammo="Single Use", blast=5, indirect=True, disorient=True
+    "Dioxis Grenade",
+    12,
+    1,
+    ammo="Single Use",
+    blast=5,
+    indirect=True,
+    disorient=True,
 )
 sonic_imploder = Weapon(
-    "Sonic Imploder", 6, 1, ammo="Single Use", blast=5, indirect=True, suppressive=2
+    "Sonic Imploder",
+    6,
+    1,
+    ammo="Single Use",
+    blast=5,
+    indirect=True,
+    suppressive=2,
 )
 thermal_imploder = Weapon(
     "Thermal Imploder",
@@ -224,7 +280,9 @@ thermal_imploder = Weapon(
     indirect=True,
     deadly=3,
 )
-frag_grenade = Weapon("Frag Grenade", 12, 2, ammo="Single Use", blast=5, indirect=True)
+frag_grenade = Weapon(
+    "Frag Grenade", 12, 2, ammo="Single Use", blast=5, indirect=True
+)
 
 # Melee weapons
 
@@ -281,6 +339,11 @@ ion_blaster_mounted = Weapon(
     "Ion Blaster", "inf", 1, ammo=2, blast=3, ion=True, deadly=3, fixed="Front"
 )
 whipcord_launcher = Weapon(
-    "Whipcord Launcher", 6, 1, ammo="Single Use", immobilise=True, nonlethal=True
+    "Whipcord Launcher",
+    6,
+    1,
+    ammo="Single Use",
+    immobilise=True,
+    nonlethal=True,
 )
 radiation_cannon = Weapon("Radiation Cannon", 24, 3, disorient=True)

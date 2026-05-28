@@ -135,9 +135,13 @@ class Weapon:
     def calculate_cost(self, quality):
 
         if self.blast:
-            effective_quality_cost = np.sqrt(self.quality_cost_dict[quality]) * 2.2
+            effective_quality_cost = (
+                np.sqrt(self.quality_cost_dict[quality]) * 2.2
+            )
         else:
-            effective_quality = min(max(quality - self.sniper + self.inaccurate, 2), 6)
+            effective_quality = min(
+                max(quality - self.sniper + self.inaccurate, 2), 6
+            )
             effective_quality_cost = self.quality_cost_dict[effective_quality]
 
         range_multiplier = self.range_multiplier_dict[self.range]
@@ -159,7 +163,10 @@ class Weapon:
 
         if self.reciprocating:
             reciprocating_multiplier = 1 + (
-                min(self.quality_cost_dict[self.reciprocating], effective_quality_cost)
+                min(
+                    self.quality_cost_dict[self.reciprocating],
+                    effective_quality_cost,
+                )
                 / effective_quality_cost
             )
         else:
@@ -205,7 +212,8 @@ class Weapon:
         if self.immobilise_roll:
             immobilise_multiplier = (
                 min(
-                    self.quality_cost_dict[self.immobilise_roll], effective_quality_cost
+                    self.quality_cost_dict[self.immobilise_roll],
+                    effective_quality_cost,
                 )
                 / effective_quality_cost
             )
@@ -234,7 +242,9 @@ class Weapon:
 
         if self.range == "melee":
             melee_cost_reduction = (
-                -2 * effective_quality_cost * self.range_multiplier_dict["melee"]
+                -2
+                * effective_quality_cost
+                * self.range_multiplier_dict["melee"]
             )
         else:
             melee_cost_reduction = 0
@@ -618,7 +628,12 @@ class Model:
         self.fly_cost_dict = {False: 0, True: 1}
         self.first_shot_cost_dict = {False: 0, True: 4}
         self.hero_villain_cost_dict = {False: 0, True: 0}
-        self.hunter_cost_dict = {None: 0, "Jedi": 0.5, "Sith": 0.5, "Target": 0.5}
+        self.hunter_cost_dict = {
+            None: 0,
+            "Jedi": 0.5,
+            "Sith": 0.5,
+            "Target": 0.5,
+        }
         self.immobile_cost_dict = {False: 0, True: -3}
         self.impact_cost_dict = {0: 0, 1: 3, 2: 6, 3: 9, 4: 12, 5: 15, 6: 18}
         self.jedi_sith_cost_dict = {False: 0, True: 0}
@@ -639,7 +654,13 @@ class Model:
         self.survivor_cost_dict = {False: 0, True: 0.25}
         self.spotter_cost_dict = {0: 0, 1: 5, 2: 10, 3: 15}
         self.take_cover_cost_dict = {0: 0, 1: 5, 2: 10, 3: 15}
-        self.vehicle_cost_dict = {False: 0, True: 0, "Droid": 0, "Heavy": 0, "Heavy, Droid": 0}
+        self.vehicle_cost_dict = {
+            False: 0,
+            True: 0,
+            "Droid": 0,
+            "Heavy": 0,
+            "Heavy, Droid": 0,
+        }
 
         if hero & villain:
             raise Exception("Cannot select both Hero and Villain")
@@ -680,7 +701,9 @@ class Model:
         fast_cost = self.fast_cost_dict[self.fast] * quality_cost
         fear_cost = self.fear_cost_dict[self.fear]
         fly_cost = self.fly_cost_dict[self.fly] * quality_cost
-        first_shot_cost = self.first_shot_cost_dict[self.first_shot] * self.wounds
+        first_shot_cost = (
+            self.first_shot_cost_dict[self.first_shot] * self.wounds
+        )
         heal_cost = quality_cost * self.heal
         hero_cost = self.hero_villain_cost_dict[self.hero]
         villain_cost = self.hero_villain_cost_dict[self.villain]
@@ -690,14 +713,20 @@ class Model:
         sith_cost = self.jedi_sith_cost_dict[self.sith]
         jump_cost = self.jump_cost_dict[self.jump] * quality_cost
         impact_cost = self.impact_cost_dict[self.impact]
-        impervious_cost = self.impervious_cost_dict[self.impervious] * self.wounds
+        impervious_cost = (
+            self.impervious_cost_dict[self.impervious] * self.wounds
+        )
         noncombatant_cost = (
             self.noncombatant_cost_dict[self.noncombatant] * quality_cost
         )
-        protector_cost = self.protector_cost_dict[self.protector] * defense_cost
+        protector_cost = (
+            self.protector_cost_dict[self.protector] * defense_cost
+        )
         recon_cost = self.recon_cost_dict[self.recon]
         relay_cost = self.relay_cost_dict[self.relay]
-        relentless_cost = self.relentless_cost_dict[self.relentless] * quality_cost
+        relentless_cost = (
+            self.relentless_cost_dict[self.relentless] * quality_cost
+        )
         repair_cost = quality_cost * self.repair
         scout_cost = self.scout_cost_dict[self.scout] * quality_cost
         shield_cost = self.shield * (10 + quality_cost)
@@ -767,7 +796,9 @@ class Model:
                 self.weapons.remove(equipped_weapon)
                 unequipped += 1
         if unequipped == 0:
-            raise Exception("Matching weapon not found - could not be unequipped")
+            raise Exception(
+                "Matching weapon not found - could not be unequipped"
+            )
         elif unequipped > 1:
             raise Exception("Multiple matching weapons found - unequipped all")
 
@@ -782,10 +813,13 @@ class Model:
             # check upgrade list can be applied to this model
             if upgrade_list_single.base_model:
                 if upgrade_list_single.base_model.name != self.name:
-                    if not (upgrade_list_single.base_model.quality == self.quality
-                            and upgrade_list_single.base_model.arsenal == self.arsenal
-                            and upgrade_list_single.base_model.gunslinger == self.gunslinger
-                        ):
+                    if not (
+                        upgrade_list_single.base_model.quality == self.quality
+                        and upgrade_list_single.base_model.arsenal
+                        == self.arsenal
+                        and upgrade_list_single.base_model.gunslinger
+                        == self.gunslinger
+                    ):
                         raise Exception(
                             "Upgrade list base model is not compatible "
                             "with the model it is being applied to"
@@ -809,9 +843,13 @@ class Model:
                 removed += 1
 
         if removed == 0:
-            raise Exception("Matching upgrade list not found - could not remove")
+            raise Exception(
+                "Matching upgrade list not found - could not remove"
+            )
         elif removed > 1:
-            raise Exception("Multiple matching upgrade lists found - removed all")
+            raise Exception(
+                "Multiple matching upgrade lists found - removed all"
+            )
 
     def calculate_total_cost(self) -> None:
 
@@ -820,10 +858,14 @@ class Model:
         weapons_range_getter = attrgetter("range")
 
         melee_weapons = [
-            weapon for weapon in self.weapons if weapons_range_getter(weapon) == "Melee"
+            weapon
+            for weapon in self.weapons
+            if weapons_range_getter(weapon) == "Melee"
         ]
         ranged_weapons = [
-            weapon for weapon in self.weapons if weapons_range_getter(weapon) != "Melee"
+            weapon
+            for weapon in self.weapons
+            if weapons_range_getter(weapon) != "Melee"
         ]
 
         if len(melee_weapons) > 0:
@@ -853,7 +895,9 @@ class Model:
         weapon_indices = range(num_weapons)
 
         if num_weapons < arsenal:
-            weapon_combinations = list(combinations(weapon_indices, num_weapons))
+            weapon_combinations = list(
+                combinations(weapon_indices, num_weapons)
+            )
         else:
             weapon_combinations = list(combinations(weapon_indices, arsenal))
 
@@ -875,7 +919,10 @@ class Model:
                     )
                     combination_costs.append(reduced_cost)
 
-                if combination_costs[i] > highest_non_ammo_cost and weapon.ammo is None:
+                if (
+                    combination_costs[i] > highest_non_ammo_cost
+                    and weapon.ammo is None
+                ):
                     highest_non_ammo_cost = combination_costs[i]
 
             combination_cost = sum(combination_costs)
@@ -1265,7 +1312,9 @@ class ModelList:
         table_string = table_string.replace("), ", ")\\newline ")
 
         # convert table to pandas dataframe
-        table_df = pd.DataFrame([x.split("\t") for x in table_string.split("\n")])
+        table_df = pd.DataFrame(
+            [x.split("\t") for x in table_string.split("\n")]
+        )
         table_df.columns = self.header.split("\t")
 
         # write dataframe to latex string
@@ -1312,7 +1361,9 @@ class UpgradeList:
         self, replace_weapon=None, limit=None, lose_expendable=False
     ):
         if self.upgrade_list_type is not None:
-            raise Exception("Upgrade list cannot have more than one upgrade list type")
+            raise Exception(
+                "Upgrade list cannot have more than one upgrade list type"
+            )
         else:
             self.upgrade_list_type = "Weapon"
         if not self.base_model:
@@ -1348,13 +1399,17 @@ class UpgradeList:
             + ":\tCost"
         )
 
-    def upgrade_with_weapon_entry(self, weapon: Weapon, manual_points_adjustment=0):
+    def upgrade_with_weapon_entry(
+        self, weapon: Weapon, manual_points_adjustment=0
+    ):
         if type(weapon) is not Weapon:
             raise TypeError("weapon type must be Weapon")
         # should also have a case for multiple weapons in 1 entry; can just be an option in this function
         # this would also work for "replace" upgrade types, just with an extra conditional
         if not self.upgrade_list_type == "Weapon":
-            raise Exception('This entry is valid only for "Weapon" type upgrade lists')
+            raise Exception(
+                'This entry is valid only for "Weapon" type upgrade lists'
+            )
 
         entry_model_copy = copy.deepcopy(self.model_copy)
         entry_model_copy.equip_weapon(weapon)
@@ -1373,11 +1428,15 @@ class UpgradeList:
         self, limit=None, lose_expendable=False
     ):
         if self.upgrade_list_type is not None:
-            raise Exception("Upgrade list cannot have more than one upgrade list type")
+            raise Exception(
+                "Upgrade list cannot have more than one upgrade list type"
+            )
         else:
             self.upgrade_list_type = "Rule (model-agnostic)"
         if self.base_model:
-            raise Exception("Model-agnostic rule upgrades should not have a base model")
+            raise Exception(
+                "Model-agnostic rule upgrades should not have a base model"
+            )
         if lose_expendable:
             lose_expendable_string = " (lose Expendable)"
         else:
@@ -1600,13 +1659,19 @@ class UpgradeList:
 
         self.upgrades.append(upgrade_string)
 
-    def select_upgrade_with_model_changes_type(self, limit=None, lose_expendable=False):
+    def select_upgrade_with_model_changes_type(
+        self, limit=None, lose_expendable=False
+    ):
         if self.upgrade_list_type is not None:
-            raise Exception("Upgrade list cannot have more than one upgrade list type")
+            raise Exception(
+                "Upgrade list cannot have more than one upgrade list type"
+            )
         else:
             self.upgrade_list_type = "Model changes"
         if not self.base_model:
-            raise Exception("Model-changing rule upgrades must have a base model")
+            raise Exception(
+                "Model-changing rule upgrades must have a base model"
+            )
         if lose_expendable:
             lose_expendable_string = " (lose Expendable)"
         else:
@@ -2081,7 +2146,9 @@ class UpgradeList:
         if filename is None:
             filename = "upgrade_" + self.label + ".tabl"
         elif type(filename) is not str:
-            raise Exception("Filename must be a string or None for default name")
+            raise Exception(
+                "Filename must be a string or None for default name"
+            )
         else:
             filename = filename + self.label + ".tabl"
         # create table as a string
@@ -2095,7 +2162,9 @@ class UpgradeList:
         table_string = table_string.replace("), ", ")\\newline ")
 
         # convert table to pandas dataframe
-        table_df = pd.DataFrame([x.split("\t") for x in table_string.split("\n")])
+        table_df = pd.DataFrame(
+            [x.split("\t") for x in table_string.split("\n")]
+        )
         table_df.columns = self.upgrade_list_header.split("\t")
 
         # write dataframe to latex string
@@ -2120,6 +2189,6 @@ def letter_increment(label: str):
         raise Exception("Function only works for single letters")
     if not label.isupper:
         raise Exception("Function only works for upper case letters")
-    letters = string.ascii_uppercase+"ΓΔΘΛΞΠΣΦΨΩ"
+    letters = string.ascii_uppercase + "ΓΔΘΛΞΠΣΦΨΩ"
     index = letters.index(label)
     return letters[index + 1]

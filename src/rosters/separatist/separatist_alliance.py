@@ -40,7 +40,9 @@ general_grievous = Model(
     impact=2,
     unique="Grievous",
 )
-grievous_trophy_lightsabers = Weapon("Trophy Lightsabers", "Melee", 12, rending=True)
+grievous_trophy_lightsabers = Weapon(
+    "Trophy Lightsabers", "Melee", 12, rending=True
+)
 general_grievous.equip_weapon(grievous_trophy_lightsabers)
 
 darth_maul = Model(
@@ -108,7 +110,14 @@ tactical_droid = Model(
 tactical_droid.equip_weapon(core.light_blaster_rifle)
 
 oom_command_droid = Model(
-    "OOM Command Droid", 5, 6, 1, villain=True, droid=True, relay=True, spotter=1
+    "OOM Command Droid",
+    5,
+    6,
+    1,
+    villain=True,
+    droid=True,
+    relay=True,
+    spotter=1,
 )
 oom_command_droid.equip_weapon(core.light_blaster_rifle)
 
@@ -127,16 +136,27 @@ oom_security_droid.equip_weapon(core.light_blaster_rifle)
 b1_battle_droid = Model("B1 Battle Droid", 6, 6, 1, droid=True, expendable=2)
 b1_battle_droid.equip_weapon(core.light_blaster_rifle)
 
-b1_rocket_droid = Model("B1 Rocket Droid", 6, 6, 1, droid=True, expendable=1, fly=True)
+b1_rocket_droid = Model(
+    "B1 Rocket Droid", 6, 6, 1, droid=True, expendable=1, fly=True
+)
 b1_rocket_droid.equip_weapon(core.light_blaster_rifle)
 
 d1_aerial_battle_droid = Model(
-    "D1 Aerial Battle Droid", 6, 6, 1, droid=True, expendable=2, fly=True, fast=True
+    "D1 Aerial Battle Droid",
+    6,
+    6,
+    1,
+    droid=True,
+    expendable=2,
+    fly=True,
+    fast=True,
 )
 wing_blasters = Weapon("Wing Blasters", 12, 4)
 d1_aerial_battle_droid.equip_weapon(wing_blasters)
 
-b2_super_battle_droid = Model("B2 Super Battle Droid", 5, 5, 2, droid=True, slow=True)
+b2_super_battle_droid = Model(
+    "B2 Super Battle Droid", 5, 5, 2, droid=True, slow=True
+)
 wrist_blaster = Weapon("Wrist Blaster", 18, 3, pierce=1)
 b2_super_battle_droid.equip_weapon(wrist_blaster)
 
@@ -194,7 +214,13 @@ blaster_cannons = Weapon(
 droideka.equip_weapon(blaster_cannons)
 
 droideka_sniper = Model(
-    "Droideka Sniper", 4, 4, 3, vehicle="Droid", cover="Front", free_special_rule="Roll"
+    "Droideka Sniper",
+    4,
+    4,
+    3,
+    vehicle="Droid",
+    cover="Front",
+    free_special_rule="Roll",
 )
 sniper_cannon = Weapon(
     "Sniper Cannon",
@@ -252,7 +278,9 @@ upgrade_grievous.upgrade_with_weapon_entry(core.blaster_rifle)
 
 label = letter_increment(label)
 upgrade_super_tac = UpgradeList(label, base_model=super_tactical_droid)
-upgrade_super_tac.select_upgrade_with_weapon_type(replace_weapon=calculated_strikes)
+upgrade_super_tac.select_upgrade_with_weapon_type(
+    replace_weapon=calculated_strikes
+)
 vibroblade_mastery = Weapon("Vibroblade Mastery", "Melee", 4, rending=True)
 upgrade_super_tac.upgrade_with_weapon_entry(vibroblade_mastery)
 
@@ -295,7 +323,9 @@ upgrade_b1_weap_add.upgrade_with_weapon_entry(core.rocket_launcher)
 
 label = letter_increment(label)
 upgrade_b2_weapons = UpgradeList(label, base_model=b2_super_battle_droid)
-upgrade_b2_weapons.select_upgrade_with_weapon_type(replace_weapon=wrist_blaster)
+upgrade_b2_weapons.select_upgrade_with_weapon_type(
+    replace_weapon=wrist_blaster
+)
 wrist_repeater = Weapon("Wrist Repeater", 18, 4, pierce=1)
 upgrade_b2_weapons.upgrade_with_weapon_entry(wrist_repeater)
 
@@ -311,7 +341,9 @@ upgrade_b2_weap_add.upgrade_with_weapon_entry(wrist_rocket)
 
 label = letter_increment(label)
 upgrade_bx_weapons = UpgradeList(label, base_model=bx_commando_droid)
-upgrade_bx_weapons.select_upgrade_with_weapon_type(replace_weapon=core.blaster_carbine)
+upgrade_bx_weapons.select_upgrade_with_weapon_type(
+    replace_weapon=core.blaster_carbine
+)
 upgrade_bx_weapons.upgrade_with_weapon_entry(core.heavy_sniper_rifle)
 # blaster&shield???
 
@@ -348,7 +380,9 @@ upgrade_magnaguard_weap_add.upgrade_with_weapon_entry(core.dioxis_grenade)
 
 label = letter_increment(label)
 upgrade_dsd = UpgradeList(label, base_model=dwarf_spider_droid)
-upgrade_dsd.select_upgrade_with_weapon_type(replace_weapon=core.laser_cannon_mounted)
+upgrade_dsd.select_upgrade_with_weapon_type(
+    replace_weapon=core.laser_cannon_mounted
+)
 upgrade_dsd.upgrade_with_weapon_entry(core.ion_blaster_mounted)
 upgrade_dsd.upgrade_with_weapon_entry(core.heavy_flamethrower_mounted)
 
@@ -371,11 +405,15 @@ super_tactical_droid.add_upgrade_list(upgrade_super_tac)
 b1_battle_droid.add_upgrade_list(upgrade_electrobinoculars)
 b1_battle_droid.add_upgrade_list([upgrade_b1_weapons, upgrade_b1_weap_add])
 oom_security_droid.add_upgrade_list(upgrade_electrobinoculars)
-b2_super_battle_droid.add_upgrade_list([upgrade_b2_weapons, upgrade_b2_weap_add])
+b2_super_battle_droid.add_upgrade_list(
+    [upgrade_b2_weapons, upgrade_b2_weap_add]
+)
 bx_commando_droid.add_upgrade_list(upgrade_electrobinoculars)
 bx_commando_droid.add_upgrade_list([upgrade_bx_weapons, upgrade_bx_weap_add])
 magnaguard.add_upgrade_list(upgrade_electrobinoculars)
-magnaguard.add_upgrade_list([upgrade_magnaguard_weap, upgrade_magnaguard_weap_add])
+magnaguard.add_upgrade_list(
+    [upgrade_magnaguard_weap, upgrade_magnaguard_weap_add]
+)
 dwarf_spider_droid.add_upgrade_list(upgrade_dsd)
 b1_emplacement_team.add_upgrade_list(upgrade_b1team_weapon)
 

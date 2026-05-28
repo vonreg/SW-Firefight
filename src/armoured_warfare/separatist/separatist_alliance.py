@@ -33,14 +33,7 @@ mtt_blasters = Weapon(
 )
 mtt.equip_weapon(mtt_blasters)
 
-aat = Model(
-    "AAT",
-    4,
-    3,
-    3,
-    arsenal=2,
-    vehicle="Heavy, Droid"
-)
+aat = Model("AAT", 4, 3, 3, arsenal=2, vehicle="Heavy, Droid")
 aat_heavy_laser_turret = Weapon(
     "Heavy Laser Cannon",
     24,
@@ -137,11 +130,13 @@ hailfire_missile = Weapon(
             fixed="Front",
             quickdraw=True,
         )
-    ]
+    ],
 )
 hailfire.equip_weapon(hailfire_missile)
 
-dwarf_spider_squad = Model("Dwarf Spider Droid Squadron", 4, 5, 2, vehicle="Droid", slow=True)
+dwarf_spider_squad = Model(
+    "Dwarf Spider Droid Squadron", 4, 5, 2, vehicle="Droid", slow=True
+)
 dwarf_spider_lasers = Weapon("Laser Cannons", 18, 2, sniper=True, pierce=2)
 dwarf_spider_squad.equip_weapon(dwarf_spider_lasers)
 

@@ -137,7 +137,15 @@ han_solo.equip_weapon(core.heavy_blaster_pistol)
 han_solo.equip_weapon(core.combat_training)
 
 chewbacca = Model(
-    "Chewbacca", 3, 4, 5, hero=True, fear=True, impact=2, repair=2, unique="Chewbacca"
+    "Chewbacca",
+    3,
+    4,
+    5,
+    hero=True,
+    fear=True,
+    impact=2,
+    repair=2,
+    unique="Chewbacca",
 )
 bowcaster = Weapon("Bowcaster", 18, 1, pierce=2, deadly=3)
 overwhelming_strength = Weapon(
@@ -243,7 +251,9 @@ at_rt = Model(
 at_rt.equip_weapon(core.laser_cannon_mounted)
 at_rt.equip_weapon(core.blaster_rifle)
 
-astromech_droid = Model("Astromech Droid", 5, 5, 1, droid=True, repair=1, slow=True)
+astromech_droid = Model(
+    "Astromech Droid", 5, 5, 1, droid=True, repair=1, slow=True
+)
 shock_pulse = Weapon("Shock Pulse", "Melee", 2, suppressive=1)
 astromech_droid.equip_weapon(shock_pulse)
 
@@ -272,7 +282,9 @@ upgrade_luke_lightsaber.upgrade_with_weapon_entry(anakin_lightsaber)
 label = letter_increment(label)
 upgrade_command = UpgradeList(label)
 upgrade_command.select_upgrade_with_rule_model_agnostic_type()
-upgrade_command.upgrade_with_rule_model_agnostic_entry("Leadership", command=True)
+upgrade_command.upgrade_with_rule_model_agnostic_entry(
+    "Leadership", command=True
+)
 
 # Ben kenobi blaster -> force push
 
@@ -309,7 +321,9 @@ upgrade_jedi_sidearm.upgrade_with_weapon_entry(core.bryar_pistol)
 
 label = letter_increment(label)
 upgrade_leia_weapon = UpgradeList(label, base_model=leia)
-upgrade_leia_weapon.select_upgrade_with_weapon_type(replace_weapon=core.blaster_pistol)
+upgrade_leia_weapon.select_upgrade_with_weapon_type(
+    replace_weapon=core.blaster_pistol
+)
 upgrade_leia_weapon.upgrade_with_weapon_entry(core.blaster_carbine)
 upgrade_leia_weapon.upgrade_with_weapon_entry(core.lightsaber_basic)
 
@@ -317,7 +331,9 @@ upgrade_leia_weapon.upgrade_with_weapon_entry(core.lightsaber_basic)
 
 label = letter_increment(label)
 upgrade_leia_jedi = UpgradeList(label, base_model=leia)
-upgrade_leia_jedi.select_upgrade_with_weapon_type(replace_weapon=core.blaster_pistol)
+upgrade_leia_jedi.select_upgrade_with_weapon_type(
+    replace_weapon=core.blaster_pistol
+)
 upgrade_leia_jedi.upgrade_with_model_changes_entry(
     "Jedi Training",
     hero=False,
@@ -330,7 +346,9 @@ upgrade_leia_jedi.upgrade_with_model_changes_entry(
 
 label = letter_increment(label)
 upgrade_andor = UpgradeList(label, base_model=andor)
-upgrade_andor.select_upgrade_with_weapon_type(replace_weapon=core.blaster_pistol)
+upgrade_andor.select_upgrade_with_weapon_type(
+    replace_weapon=core.blaster_pistol
+)
 upgrade_andor.upgrade_with_weapon_entry(core.heavy_blaster_pistol)
 upgrade_andor.upgrade_with_weapon_entry(core.bryar_pistol)
 upgrade_andor.upgrade_with_weapon_entry(core.convertible_pistol)
@@ -347,7 +365,9 @@ upgrade_k2so.upgrade_with_weapon_entry(core.burst_pistol)
 label = letter_increment(label)
 upgrade_officer = UpgradeList(label, base_model=rebel_officer)
 upgrade_officer.select_upgrade_with_model_changes_type(limit=1)
-upgrade_officer.upgrade_with_model_changes_entry("Pathfinder", scout=True, recon=5)
+upgrade_officer.upgrade_with_model_changes_entry(
+    "Pathfinder", scout=True, recon=5
+)
 upgrade_officer.upgrade_with_model_changes_entry("Combat Armour", defense=4)
 upgrade_officer.upgrade_with_model_changes_entry(
     "Saw Gererra",
@@ -363,17 +383,27 @@ upgrade_officer.upgrade_with_model_changes_entry(
 label = letter_increment(label)
 upgrade_rebel_hero = UpgradeList(label, base_model=rebel_hero)
 upgrade_rebel_hero.select_upgrade_with_model_changes_type(limit=2)
-upgrade_rebel_hero.upgrade_with_model_changes_entry("Pathfinder", scout=True, recon=5)
-upgrade_rebel_hero.upgrade_with_model_changes_entry("Veteran", disciplined=True)
+upgrade_rebel_hero.upgrade_with_model_changes_entry(
+    "Pathfinder", scout=True, recon=5
+)
+upgrade_rebel_hero.upgrade_with_model_changes_entry(
+    "Veteran", disciplined=True
+)
 upgrade_rebel_hero.upgrade_with_model_changes_entry("Skirmisher", agile=True)
 upgrade_rebel_hero.upgrade_with_model_changes_entry("Defender", defend=True)
 upgrade_rebel_hero.upgrade_with_model_changes_entry("Mechanic", repair=1)
 upgrade_rebel_hero.upgrade_with_model_changes_entry("Medic", heal=1)
-upgrade_rebel_hero.upgrade_with_model_changes_entry("Comms Technician", relay=True)
+upgrade_rebel_hero.upgrade_with_model_changes_entry(
+    "Comms Technician", relay=True
+)
 upgrade_rebel_hero.upgrade_with_model_changes_entry("Leadership", command=True)
-upgrade_rebel_hero.upgrade_with_model_changes_entry("Clone Survivor", survivor=True)
+upgrade_rebel_hero.upgrade_with_model_changes_entry(
+    "Clone Survivor", survivor=True
+)
 upgrade_rebel_hero.upgrade_with_model_changes_entry("Combat Armour", defense=4)
-upgrade_rebel_hero.upgrade_with_model_changes_entry("Jetpack", fly=True, fast=True)
+upgrade_rebel_hero.upgrade_with_model_changes_entry(
+    "Jetpack", fly=True, fast=True
+)
 
 label = letter_increment(label)
 upgrade_rebel_hero_weapons = UpgradeList(label, base_model=rebel_hero)
@@ -391,7 +421,9 @@ upgrade_rebel_hero_weapons.upgrade_with_weapon_entry(core.blaster_rifle)
 upgrade_rebel_hero_weapons.upgrade_with_weapon_entry(core.convertible_rifle)
 upgrade_rebel_hero_weapons.upgrade_with_weapon_entry(core.rotary_blaster)
 upgrade_rebel_hero_weapons.upgrade_with_weapon_entry(core.heavy_blaster_rifle)
-upgrade_rebel_hero_weapons.upgrade_with_weapon_entry(core.light_repeating_blaster)
+upgrade_rebel_hero_weapons.upgrade_with_weapon_entry(
+    core.light_repeating_blaster
+)
 upgrade_rebel_hero_weapons.upgrade_with_weapon_entry(core.sniper_rifle)
 
 # Gunslinger pistols
@@ -415,24 +447,38 @@ upgrade_rebel_trooper.select_upgrade_with_model_changes_type(limit=2)
 upgrade_rebel_trooper.upgrade_with_model_changes_entry(
     "Pathfinder", scout=True, recon=5
 )
-upgrade_rebel_trooper.upgrade_with_model_changes_entry("Veteran", disciplined=True)
-upgrade_rebel_trooper.upgrade_with_model_changes_entry("Skirmisher", agile=True)
+upgrade_rebel_trooper.upgrade_with_model_changes_entry(
+    "Veteran", disciplined=True
+)
+upgrade_rebel_trooper.upgrade_with_model_changes_entry(
+    "Skirmisher", agile=True
+)
 upgrade_rebel_trooper.upgrade_with_model_changes_entry("Defender", defend=True)
 upgrade_rebel_trooper.upgrade_with_model_changes_entry(
     "Sergeant", wounds=2, disciplined=True, hero=True
 )
 upgrade_rebel_trooper.upgrade_with_model_changes_entry("Mechanic", repair=1)
 upgrade_rebel_trooper.upgrade_with_model_changes_entry("Medic", heal=1)
-upgrade_rebel_trooper.upgrade_with_model_changes_entry("Comms Technician", relay=True)
-upgrade_rebel_trooper.upgrade_with_model_changes_entry("Clone Survivor", survivor=True)
-upgrade_rebel_trooper.upgrade_with_model_changes_entry("Combat Armour", defense=4)
-upgrade_rebel_trooper.upgrade_with_model_changes_entry("Jetpack", fly=True, fast=True)
+upgrade_rebel_trooper.upgrade_with_model_changes_entry(
+    "Comms Technician", relay=True
+)
+upgrade_rebel_trooper.upgrade_with_model_changes_entry(
+    "Clone Survivor", survivor=True
+)
+upgrade_rebel_trooper.upgrade_with_model_changes_entry(
+    "Combat Armour", defense=4
+)
+upgrade_rebel_trooper.upgrade_with_model_changes_entry(
+    "Jetpack", fly=True, fast=True
+)
 
 # Rebel weapons (replace)
 
 label = letter_increment(label)
 upgrade_rebel_weapons = UpgradeList(label, base_model=rebel_trooper)
-upgrade_rebel_weapons.select_upgrade_with_weapon_type(replace_weapon=core.blaster_rifle)
+upgrade_rebel_weapons.select_upgrade_with_weapon_type(
+    replace_weapon=core.blaster_rifle
+)
 upgrade_rebel_weapons.upgrade_with_weapon_entry(core.blaster_pistol)
 upgrade_rebel_weapons.upgrade_with_weapon_entry(core.heavy_blaster_pistol)
 upgrade_rebel_weapons.upgrade_with_weapon_entry(core.dual_blaster_pistols)
@@ -477,7 +523,9 @@ upgrade_rebel_weap_add.upgrade_with_weapon_entry(core.thermal_imploder)
 
 label = letter_increment(label)
 upgrade_at_rt = UpgradeList(label, base_model=at_rt)
-upgrade_at_rt.select_upgrade_with_weapon_type(replace_weapon=core.laser_cannon_mounted)
+upgrade_at_rt.select_upgrade_with_weapon_type(
+    replace_weapon=core.laser_cannon_mounted
+)
 upgrade_at_rt.upgrade_with_weapon_entry(core.heavy_rotary_cannon_mounted)
 upgrade_at_rt.upgrade_with_weapon_entry(core.heavy_flamethrower_mounted)
 
