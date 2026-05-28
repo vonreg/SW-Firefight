@@ -1271,7 +1271,7 @@ class ModelList:
         # write dataframe to latex string
         table_tex = (
             table_df.style.hide(axis="index")
-            .applymap_index(lambda v: "textbf:--rwrap;", axis="columns")
+            .map_index(lambda v: "textbf:--rwrap;", axis="columns")
             .to_latex(
                 column_format="m{2.6cm} "
                 ">{\\centering\\arraybackslash}m{0.3cm} "
@@ -2101,7 +2101,7 @@ class UpgradeList:
         # write dataframe to latex string
         table_tex = (
             table_df.style.hide(axis="index")
-            .applymap_index(lambda v: "textbf:--rwrap;", axis="columns")
+            .map_index(lambda v: "textbf:--rwrap;", axis="columns")
             .to_latex(
                 column_format="m{7.6cm} >{\\centering\\arraybackslash}m{0.4cm}",
             )
