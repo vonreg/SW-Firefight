@@ -331,6 +331,7 @@ upgrade_inquisitor.upgrade_with_model_changes_entry(
 upgrade_inquisitor.upgrade_with_model_changes_entry(
     "Seventh Sister",
     companion="ID Seeker Droid",
+    scout=True,
     recon=4,
     unique="Seventh Sister",
 )
@@ -359,6 +360,11 @@ upgrade_commander = UpgradeList(label, base_model=imperial_commander)
 upgrade_commander.select_upgrade_with_model_changes_type()
 upgrade_commander.upgrade_with_model_changes_entry("Combat Armour", defense=4)
 upgrade_commander.upgrade_with_model_changes_entry(
+    "Seeker Droid",
+    companion="ID Seeker Droid",
+    scout=True,
+)
+upgrade_commander.upgrade_with_model_changes_entry(
     "ISB", hunter="Target", recon=5
 )
 upgrade_commander.upgrade_with_model_changes_entry(
@@ -366,6 +372,16 @@ upgrade_commander.upgrade_with_model_changes_entry(
 )
 upgrade_commander.upgrade_with_model_changes_entry(
     "Senior Officer", spotter=2, take_cover=1
+)
+upgrade_commander.upgrade_with_model_changes_entry(
+    "Sentinel Droid",
+    droid=True,
+    fear=True,
+    defense=3,
+    noncombatant=True,
+    spotter=2,
+    shield=1,
+    unique="Palpatine",
 )
 upgrade_commander.upgrade_with_model_changes_entry(
     "Grand Moff Tarkin",
