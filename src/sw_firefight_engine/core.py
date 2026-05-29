@@ -289,10 +289,35 @@ frag_grenade = Weapon(
 combat_training = Weapon("Combat Training", "Melee", 3)
 vibroblade = Weapon("Vibroblade", "Melee", 3, rending=1)
 truncheon = Weapon("Truncheon", "Melee", 2, suppressive=1)
-stun_spear = Weapon("Stun Spear", "Melee", 2, suppressive=2, pierce=1)
-electrostaff = Weapon("Electrostaff", "Melee", 4, pierce=2)
+riot_baton = Weapon(
+    "Riot Control Baton",
+    "Melee",
+    3,
+    suppressive=2,
+    immobilise=True,
+    immobilise_roll=6,
+)
+stun_baton = Weapon(
+    "Stun Baton", "Melee", 3, immobilise=True, immobilise_roll=5
+)
+stun_spear = Weapon(
+    "Stun Spear", "Melee", 2, immobilise=True, immobilise_roll=5, pierce=1
+)
+electrostaff = Weapon(
+    "Electrostaff",
+    "Melee",
+    4,
+    pierce=1,
+    suppressive=1,
+)
 electrowhip = Weapon(
-    "Electrowhip", "Melee", 3, pierce=2, immobilise=True, immobilise_roll=5
+    "Electrowhip",
+    "Melee",
+    3,
+    pierce=1,
+    suppressive=1,
+    immobilise=True,
+    immobilise_roll=5,
 )
 
 # Lightsabers

@@ -430,6 +430,8 @@ label = letter_increment(label)
 upgrade_commander_melee = UpgradeList(label, base_model=imperial_commander)
 upgrade_commander_melee.select_upgrade_with_weapon_type()
 upgrade_commander_melee.upgrade_with_weapon_entry(core.combat_training)
+upgrade_commander_melee.upgrade_with_weapon_entry(core.stun_baton)
+upgrade_commander_melee.upgrade_with_weapon_entry(core.riot_baton)
 chiss_martial_arts = Weapon(
     "Chiss Martial Arts", "Melee", 4, disorient=True, wargear="Thrawn"
 )
