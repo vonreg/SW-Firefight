@@ -275,7 +275,7 @@ stap = Model(
     fly=True,
     recon=6,
     scout=True,
-    cover=True,
+    cover="Front",
 )
 stap_blaster_cannons = Weapon(
     "Blaster Cannons", 18, 3, pierce=2, fixed="Front", suppressive=1

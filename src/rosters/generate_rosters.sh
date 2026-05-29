@@ -41,3 +41,10 @@ python crime_syndicates.py 2>&1 | tee log.py_syndicates
 pdflatex crime_syndicates.tex
 mv crime_syndicates.pdf ../$FACTION_ROSTERS
 cd ..
+
+echo "Python Logs:"
+cat */log.*
+echo "LaTeX Logs:"
+grep -i error */*.log
+grep "Output written" */*.log
+echo "Done"
