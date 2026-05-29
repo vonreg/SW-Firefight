@@ -234,7 +234,7 @@ heavy_barc_speeder.equip_weapon(blaster_cannon_array)
 heavy_barc_speeder.equip_weapon(sidecar_laser)
 
 at_rt = Model(
-    "AT-RT", 4, 3, 4, vehicle=True, fast=True, cover="Front", jump=3, impact=3
+    "AT-RT", 4, 4, 4, vehicle=True, fast=True, cover="Front", jump=3, impact=3
 )
 at_rt.equip_weapon(core.laser_cannon_mounted)
 at_rt.equip_weapon(core.grenade_launcher)

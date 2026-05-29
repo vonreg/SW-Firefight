@@ -267,7 +267,7 @@ crab.equip_weapon(blaster_cannons)
 stap = Model(
     "STAP Rider",
     5,
-    5,
+    6,
     3,
     vehicle="Droid",
     impact=2,
@@ -275,6 +275,7 @@ stap = Model(
     fly=True,
     recon=6,
     scout=True,
+    cover=True,
 )
 stap_blaster_cannons = Weapon(
     "Blaster Cannons", 18, 3, pierce=2, fixed="Front", suppressive=1

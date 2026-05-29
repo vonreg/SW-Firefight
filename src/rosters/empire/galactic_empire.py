@@ -265,7 +265,7 @@ astromech_droid.equip_weapon(shock_pulse)
 at_rt = Model(
     "Imperial AT-RT",
     5,
-    3,
+    4,
     4,
     vehicle=True,
     fast=True,

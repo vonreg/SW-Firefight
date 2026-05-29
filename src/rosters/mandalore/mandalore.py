@@ -95,7 +95,7 @@ mandalorian_commando.equip_weapon(wrist_blaster)
 scavenged_at_rt = Model(
     "Scavenged AT-RT",
     4,
-    3,
+    4,
     4,
     vehicle=True,
     fast=True,

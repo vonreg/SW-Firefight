@@ -246,7 +246,7 @@ rebel_guard.equip_weapon(core.stun_spear)
 rebel_guard.equip_weapon(core.heavy_blaster_pistol)
 
 at_rt = Model(
-    "AT-RT", 4, 3, 4, vehicle=True, fast=True, cover="Front", jump=3, impact=3
+    "AT-RT", 4, 5, 4, vehicle=True, fast=True, cover="Front", jump=3, impact=3
 )
 at_rt.equip_weapon(core.laser_cannon_mounted)
 at_rt.equip_weapon(core.blaster_rifle)
