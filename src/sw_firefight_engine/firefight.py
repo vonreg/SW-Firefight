@@ -1400,7 +1400,10 @@ class UpgradeList:
         )
 
     def upgrade_with_weapon_entry(
-        self, weapon: Weapon, manual_points_adjustment=0
+        self,
+        weapon: Weapon,
+        manual_points_adjustment=0,
+        lose_expendable=False,
     ):
         if type(weapon) is not Weapon:
             raise TypeError("weapon type must be Weapon")
@@ -1422,7 +1425,8 @@ class UpgradeList:
         # will need to modify this if enabling equipping multiple weapons in 1 upgrade
         upgrade_string = weapon.write_weapon() + "\t%i" % round(upgrade_cost)
 
-        self.upgrades.append(upgrade_string)
+        # self.upgrades.append(upgrade_string)
+        self.upgrades.append((upgrade_string, lose_expendable))
 
     def select_upgrade_with_rule_model_agnostic_type(
         self, limit=None, lose_expendable=False
@@ -2138,8 +2142,37 @@ class UpgradeList:
         # works in append mode; assumes this will be done after writing model list
         with open(filename, "a", encoding="utf-8") as file:
             file.write("\n" + self.upgrade_list_header)
-            for upgrade_string in self.upgrades:
-                file.write("\n" + upgrade_string)
+
+            # Handle both old format (strings) and new format (tuples)
+            # Group weapon upgrades by lose_expendable status
+            if self.upgrade_list_type == "Weapon" and self.upgrades:
+                # Check if we have tuples (new format) or strings (old format)
+                if isinstance(self.upgrades[0], tuple):
+                    # Group by lose_expendable
+                    non_losing = [u[0] for u in self.upgrades if not u[1]]
+                    losing = [u[0] for u in self.upgrades if u[1]]
+
+                    # Write non-losing first
+                    for upgrade_string in non_losing:
+                        file.write("\n" + upgrade_string)
+
+                    # Write subheader if there are losing upgrades
+                    if losing:
+                        file.write("\n↓ Lose Expendable:")
+                        for upgrade_string in losing:
+                            file.write("\n" + upgrade_string)
+                else:
+                    # Fallback for old format
+                    for upgrade_string in self.upgrades:
+                        file.write("\n" + upgrade_string)
+            else:
+                # For non-weapon upgrades, just write normally
+                for upgrade in self.upgrades:
+                    if isinstance(upgrade, tuple):
+                        file.write("\n" + upgrade[0])
+                    else:
+                        file.write("\n" + upgrade)
+
             file.write("\n")
 
     def file_write_latex(self, filename=None):
@@ -2151,10 +2184,40 @@ class UpgradeList:
             )
         else:
             filename = filename + self.label + ".tabl"
+
         # create table as a string
-        table_string = self.upgrades[0]
-        for i in range(len(self.upgrades) - 1):
-            table_string += "\n" + self.upgrades[i + 1]
+        # Handle both tuple and string formats, and group weapon upgrades
+        table_lines = []
+
+        if self.upgrade_list_type == "Weapon" and self.upgrades:
+            # Check if we have tuples (new format) or strings (old format)
+            if isinstance(self.upgrades[0], tuple):
+                # Group by lose_expendable
+                non_losing = [u[0] for u in self.upgrades if not u[1]]
+                losing = [u[0] for u in self.upgrades if u[1]]
+
+                # Add non-losing first
+                table_lines.extend(non_losing)
+
+                # Add subheader if there are losing upgrades
+                if losing:
+                    table_lines.append("↓ Lose Expendable:\t")
+                    table_lines.extend(losing)
+            else:
+                # Fallback for old format
+                table_lines = self.upgrades
+        else:
+            # For non-weapon upgrades, just use normally
+            for upgrade in self.upgrades:
+                if isinstance(upgrade, tuple):
+                    table_lines.append(upgrade[0])
+                else:
+                    table_lines.append(upgrade)
+
+        # Build table string
+        table_string = table_lines[0]
+        for i in range(len(table_lines) - 1):
+            table_string += "\n" + table_lines[i + 1]
 
         # create linebreaks for table
         table_string = table_string.replace(": ", ":\\newline ")
@@ -2178,6 +2241,11 @@ class UpgradeList:
 
         # fix for pandas bug (last column not bold)
         table_tex = table_tex.replace("Cost", "\\textbf{Cost}")
+
+        # Make Lose Expendable bold
+        table_tex = table_tex.replace(
+            "↓ Lose Expendable:", "\\textbf{↓ Lose Expendable:}"
+        )
 
         # write latex string to file
         with open(filename, "w", encoding="utf-8") as file:

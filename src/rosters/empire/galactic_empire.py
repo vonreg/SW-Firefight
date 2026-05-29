@@ -587,33 +587,63 @@ upgrade_isf_command_melee.upgrade_with_weapon_entry(vonreg_vibroblades)
 label = letter_increment(label)
 upgrade_storm_weapons = UpgradeList(label, base_model=stormtrooper)
 upgrade_storm_weapons.select_upgrade_with_weapon_type(
-    replace_weapon=core.blaster_rifle, lose_expendable=True
+    replace_weapon=core.blaster_rifle
 )
+upgrade_storm_weapons.upgrade_with_weapon_entry(core.blaster_pistol)
 upgrade_storm_weapons.upgrade_with_weapon_entry(core.burst_pistol)
-upgrade_storm_weapons.upgrade_with_weapon_entry(core.heavy_blaster_rifle)
-upgrade_storm_weapons.upgrade_with_weapon_entry(core.light_repeating_blaster)
 upgrade_storm_weapons.upgrade_with_weapon_entry(core.reciprocating_blaster)
-upgrade_storm_weapons.upgrade_with_weapon_entry(core.rotary_blaster)
-upgrade_storm_weapons.upgrade_with_weapon_entry(core.sniper_rifle)
-upgrade_storm_weapons.upgrade_with_weapon_entry(core.flamethrower)
+upgrade_storm_weapons.upgrade_with_weapon_entry(
+    core.heavy_blaster_rifle, lose_expendable=True
+)
+upgrade_storm_weapons.upgrade_with_weapon_entry(
+    core.light_repeating_blaster, lose_expendable=True
+)
+upgrade_storm_weapons.upgrade_with_weapon_entry(
+    core.targeting_rifle, lose_expendable=True
+)
+upgrade_storm_weapons.upgrade_with_weapon_entry(
+    core.rotary_blaster, lose_expendable=True
+)
+upgrade_storm_weapons.upgrade_with_weapon_entry(
+    core.sniper_rifle, lose_expendable=True
+)
+upgrade_storm_weapons.upgrade_with_weapon_entry(
+    core.flamethrower, lose_expendable=True
+)
 
 # Stormtrooper weapons (additional)
 
 label = letter_increment(label)
 upgrade_storm_add_weap = UpgradeList(label, base_model=stormtrooper)
-upgrade_storm_add_weap.select_upgrade_with_weapon_type(
-    limit=1, lose_expendable=True
-)
+upgrade_storm_add_weap.select_upgrade_with_weapon_type(limit=1)
 upgrade_storm_add_weap.upgrade_with_weapon_entry(core.truncheon)
-upgrade_storm_add_weap.upgrade_with_weapon_entry(core.rocket_launcher)
-upgrade_storm_add_weap.upgrade_with_weapon_entry(core.smart_rocket)
-upgrade_storm_add_weap.upgrade_with_weapon_entry(core.mortar)
-upgrade_storm_add_weap.upgrade_with_weapon_entry(core.ion_disruptor)
-upgrade_storm_add_weap.upgrade_with_weapon_entry(core.concussion_grenade)
-upgrade_storm_add_weap.upgrade_with_weapon_entry(core.thermal_detonator)
-upgrade_storm_add_weap.upgrade_with_weapon_entry(core.sonic_imploder)
-upgrade_storm_add_weap.upgrade_with_weapon_entry(core.ion_grenade)
-upgrade_storm_add_weap.upgrade_with_weapon_entry(core.thermal_imploder)
+upgrade_storm_add_weap.upgrade_with_weapon_entry(
+    core.rocket_launcher, lose_expendable=True
+)
+upgrade_storm_add_weap.upgrade_with_weapon_entry(
+    core.smart_rocket, lose_expendable=True
+)
+upgrade_storm_add_weap.upgrade_with_weapon_entry(
+    core.mortar, lose_expendable=True
+)
+upgrade_storm_add_weap.upgrade_with_weapon_entry(
+    core.ion_disruptor, lose_expendable=True
+)
+upgrade_storm_add_weap.upgrade_with_weapon_entry(
+    core.concussion_grenade, lose_expendable=True
+)
+upgrade_storm_add_weap.upgrade_with_weapon_entry(
+    core.thermal_detonator, lose_expendable=True
+)
+upgrade_storm_add_weap.upgrade_with_weapon_entry(
+    core.sonic_imploder, lose_expendable=True
+)
+upgrade_storm_add_weap.upgrade_with_weapon_entry(
+    core.ion_grenade, lose_expendable=True
+)
+upgrade_storm_add_weap.upgrade_with_weapon_entry(
+    core.thermal_imploder, lose_expendable=True
+)
 
 # Stormtrooper specialisms
 

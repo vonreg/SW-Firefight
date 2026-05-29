@@ -32,19 +32,39 @@ upgrade_pyke_replace.upgrade_with_weapon_entry(core.blaster_rifle)
 
 label = letter_increment(label)
 upgrade_pyke_add = UpgradeList(label, base_model=pyke_soldier)
-upgrade_pyke_add.select_upgrade_with_weapon_type(limit=1, lose_expendable=True)
-upgrade_pyke_add.upgrade_with_weapon_entry(core.sniper_rifle)
-upgrade_pyke_add.upgrade_with_weapon_entry(core.heavy_sniper_rifle)
+upgrade_pyke_add.select_upgrade_with_weapon_type(limit=1)
+upgrade_pyke_add.upgrade_with_weapon_entry(
+    core.sniper_rifle, lose_expendable=True
+)
+upgrade_pyke_add.upgrade_with_weapon_entry(
+    core.heavy_sniper_rifle, lose_expendable=True
+)
 upgrade_pyke_add.upgrade_with_weapon_entry(core.truncheon)
 upgrade_pyke_add.upgrade_with_weapon_entry(core.stun_spear)
-upgrade_pyke_add.upgrade_with_weapon_entry(core.electrowhip)
-upgrade_pyke_add.upgrade_with_weapon_entry(core.thermal_detonator)
-upgrade_pyke_add.upgrade_with_weapon_entry(core.concussion_grenade)
-upgrade_pyke_add.upgrade_with_weapon_entry(core.ion_grenade)
-upgrade_pyke_add.upgrade_with_weapon_entry(core.dioxis_grenade)
-upgrade_pyke_add.upgrade_with_weapon_entry(core.frag_grenade)
-upgrade_pyke_add.upgrade_with_weapon_entry(core.sonic_imploder)
-upgrade_pyke_add.upgrade_with_weapon_entry(core.thermal_imploder)
+upgrade_pyke_add.upgrade_with_weapon_entry(
+    core.electrowhip, lose_expendable=True
+)
+upgrade_pyke_add.upgrade_with_weapon_entry(
+    core.thermal_detonator, lose_expendable=True
+)
+upgrade_pyke_add.upgrade_with_weapon_entry(
+    core.concussion_grenade, lose_expendable=True
+)
+upgrade_pyke_add.upgrade_with_weapon_entry(
+    core.ion_grenade, lose_expendable=True
+)
+upgrade_pyke_add.upgrade_with_weapon_entry(
+    core.dioxis_grenade, lose_expendable=True
+)
+upgrade_pyke_add.upgrade_with_weapon_entry(
+    core.frag_grenade, lose_expendable=True
+)
+upgrade_pyke_add.upgrade_with_weapon_entry(
+    core.sonic_imploder, lose_expendable=True
+)
+upgrade_pyke_add.upgrade_with_weapon_entry(
+    core.thermal_imploder, lose_expendable=True
+)
 
 # assign upgrade lists
 
