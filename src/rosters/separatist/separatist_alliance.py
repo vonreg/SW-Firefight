@@ -32,7 +32,7 @@ general_grievous = Model(
     "General Grievous",
     3,
     3,
-    8,
+    7,
     villain=True,
     fear=True,
     relentless=True,
@@ -141,6 +141,11 @@ b1_rocket_droid = Model(
 )
 b1_rocket_droid.equip_weapon(core.light_blaster_rifle)
 
+b1_emplacement_team = Model(
+    "B1 Emplacement Team", 6, 6, 3, cover="Front", droid=True, emplacement=True
+)
+b1_emplacement_team.equip_weapon(core.light_blaster_cannon)
+
 d1_aerial_battle_droid = Model(
     "D1 Aerial Battle Droid",
     6,
@@ -239,10 +244,25 @@ dwarf_spider_droid = Model(
 )
 dwarf_spider_droid.equip_weapon(core.laser_cannon_mounted)
 
-b1_emplacement_team = Model(
-    "B1 Emplacement Team", 6, 6, 3, cover="Front", droid=True, emplacement=True
+crab = Model(
+    "LM-423 Crab Droid",
+    4,
+    4,
+    4,
+    vehicle="Droid",
+    scout=True,
+    jump=3,
+    impact=2,
 )
-b1_emplacement_team.equip_weapon(core.light_blaster_cannon)
+crab_claws = Weapon(
+    "Claw Strike",
+    "Melee",
+    2,
+    pierce=2,
+    deadly=2,
+    suppressive=1,
+)
+crab.equip_weapon(blaster_cannons)
 
 stap = Model(
     "STAP Rider",
@@ -261,7 +281,30 @@ stap_blaster_cannons = Weapon(
 )
 stap.equip_weapon(stap_blaster_cannons)
 
-# Crab Droid(s)
+wheel_bike = Model(
+    "Wheel Bike",
+    4,
+    5,
+    4,
+    vehicle="Droid",
+    impact=4,
+    fast=True,
+    relentless=True,
+    cover="Right",
+    jump=6,
+)
+wheel_bike_laser = Weapon(
+    "Twin Laser Cannon",
+    "inf",
+    2,
+    pierce=2,
+    deadly=2,
+    fixed="Front",
+    reciprocating=6,
+)
+wheel_bike.equip_weapon(wheel_bike_laser)
+wheel_bike.equip_weapon(core.blaster_carbine)
+
 # Octuptarra
 # Savage Opress; see Crime Lords
 
@@ -272,7 +315,7 @@ stap.equip_weapon(stap_blaster_cannons)
 label = "A"
 upgrade_grievous = UpgradeList(label, base_model=general_grievous)
 upgrade_grievous.select_upgrade_with_weapon_type()
-upgrade_grievous.upgrade_with_weapon_entry(core.blaster_rifle)
+upgrade_grievous.upgrade_with_weapon_entry(core.blaster_carbine)
 
 # super_tac
 
@@ -313,11 +356,17 @@ upgrade_b1_weap_add = UpgradeList(label, base_model=b1_battle_droid)
 upgrade_b1_weap_add.select_upgrade_with_weapon_type(lose_expendable=True)
 upgrade_b1_weap_add.upgrade_with_weapon_entry(core.rocket_launcher)
 
-# G
+# B1 emplacement team weapon
 
-# upgrade_list_G = UpgradeList("G", base_model=b1_rocket_droid)
-# upgrade_list_G.select_upgrade_with_weapon_type()
-# upgrade_list_G.upgrade_with_weapon_entry(fusion_cutter) # gives repair[1]
+label = letter_increment(label)
+upgrade_b1team_weapon = UpgradeList(label, base_model=b1_emplacement_team)
+upgrade_b1team_weapon.select_upgrade_with_weapon_type(
+    replace_weapon=core.light_blaster_cannon
+)
+upgrade_b1team_weapon.upgrade_with_weapon_entry(core.blaster_cannon)
+upgrade_b1team_weapon.upgrade_with_weapon_entry(core.heavy_blaster_cannon)
+upgrade_b1team_weapon.upgrade_with_weapon_entry(core.medium_repeating_blaster)
+upgrade_b1team_weapon.upgrade_with_weapon_entry(core.heavy_repeating_blaster)
 
 # B2 weapon (replace)
 
@@ -386,17 +435,59 @@ upgrade_dsd.select_upgrade_with_weapon_type(
 upgrade_dsd.upgrade_with_weapon_entry(core.ion_blaster_mounted)
 upgrade_dsd.upgrade_with_weapon_entry(core.heavy_flamethrower_mounted)
 
-# B1 emplacement team weapon
+# Crab need more legs
 
 label = letter_increment(label)
-upgrade_b1team_weapon = UpgradeList(label, base_model=b1_emplacement_team)
-upgrade_b1team_weapon.select_upgrade_with_weapon_type(
-    replace_weapon=core.light_blaster_cannon
+upgrade_crab_legs = UpgradeList(label, base_model=crab)
+upgrade_crab_legs.select_upgrade_with_model_changes_type()
+upgrade_crab_legs.upgrade_with_model_changes_entry(
+    "6 Legs",
+    impact=4,
 )
-upgrade_b1team_weapon.upgrade_with_weapon_entry(core.blaster_cannon)
-upgrade_b1team_weapon.upgrade_with_weapon_entry(core.heavy_blaster_cannon)
-upgrade_b1team_weapon.upgrade_with_weapon_entry(core.medium_repeating_blaster)
-upgrade_b1team_weapon.upgrade_with_weapon_entry(core.heavy_repeating_blaster)
+
+# Crab big gun
+
+label = letter_increment(label)
+upgrade_crab_weap = UpgradeList(label, base_model=crab)
+upgrade_crab_weap.select_upgrade_with_weapon_type(
+    replace_weapon=blaster_cannons
+)
+upgrade_crab_weap.upgrade_with_weapon_entry(core.laser_cannon_mounted)
+
+# Wheel Bike Pilots & Weapons
+
+label = letter_increment(label)
+upgrade_wheel_bike_pilot = UpgradeList(label, base_model=wheel_bike)
+upgrade_wheel_bike_pilot.select_upgrade_with_model_changes_type()
+upgrade_wheel_bike_pilot.upgrade_with_model_changes_entry(
+    "BX Commando Droid",
+    recon=4,
+    scout=True,
+)
+upgrade_wheel_bike_pilot.upgrade_with_model_changes_entry(
+    "IG-100 Magnaguard",
+    wounds=5,
+    defense=4,
+)
+upgrade_wheel_bike_pilot.upgrade_with_model_changes_entry(
+    "General Grievous",
+    wounds=7,
+    defense=3,
+    fear=True,
+    villain=True,
+    command=True,
+    unique="General Grievous",
+)
+
+label = letter_increment(label)
+upgrade_wheel_bike_weap = UpgradeList(label, base_model=wheel_bike)
+upgrade_wheel_bike_weap.select_upgrade_with_weapon_type()
+upgrade_wheel_bike_weap.upgrade_with_weapon_entry(core.vibroblade)
+upgrade_wheel_bike_weap.upgrade_with_weapon_entry(core.electrostaff)
+grievous_bike_lightsabers = Weapon(
+    "Trophy Lightsabers", "Melee", 6, rending=True, wargear="General Grievous"
+)
+upgrade_wheel_bike_weap.upgrade_with_weapon_entry(grievous_bike_lightsabers)
 
 # assign upgrade lists
 
@@ -405,6 +496,7 @@ super_tactical_droid.add_upgrade_list(upgrade_super_tac)
 b1_battle_droid.add_upgrade_list(upgrade_electrobinoculars)
 b1_battle_droid.add_upgrade_list([upgrade_b1_weapons, upgrade_b1_weap_add])
 oom_security_droid.add_upgrade_list(upgrade_electrobinoculars)
+b1_emplacement_team.add_upgrade_list(upgrade_b1team_weapon)
 b2_super_battle_droid.add_upgrade_list(
     [upgrade_b2_weapons, upgrade_b2_weap_add]
 )
@@ -415,7 +507,10 @@ magnaguard.add_upgrade_list(
     [upgrade_magnaguard_weap, upgrade_magnaguard_weap_add]
 )
 dwarf_spider_droid.add_upgrade_list(upgrade_dsd)
-b1_emplacement_team.add_upgrade_list(upgrade_b1team_weapon)
+crab.add_upgrade_list(upgrade_crab_legs)
+crab.add_upgrade_list(upgrade_crab_weap)
+wheel_bike.add_upgrade_list(upgrade_wheel_bike_pilot)
+wheel_bike.add_upgrade_list(upgrade_wheel_bike_weap)
 
 # collate model list
 model_list = ModelList()
@@ -429,6 +524,7 @@ model_list.add_model_entry(oom_command_droid)
 model_list.add_model_entry(oom_security_droid)
 model_list.add_model_entry(b1_battle_droid)
 model_list.add_model_entry(b1_rocket_droid)
+model_list.add_model_entry(b1_emplacement_team)
 model_list.add_model_entry(d1_aerial_battle_droid)
 model_list.add_model_entry(b2_super_battle_droid)
 model_list.add_model_entry(b2_rp_super_battle_droid)
@@ -439,8 +535,9 @@ model_list.add_model_entry(magnaguard)
 model_list.add_model_entry(droideka)
 model_list.add_model_entry(droideka_sniper)
 model_list.add_model_entry(dwarf_spider_droid)
+model_list.add_model_entry(crab)
 model_list.add_model_entry(stap)
-model_list.add_model_entry(b1_emplacement_team)
+model_list.add_model_entry(wheel_bike)
 
 # write latex file
 
@@ -450,6 +547,7 @@ upgrade_super_tac.file_write_latex()
 upgrade_electrobinoculars.file_write_latex()
 upgrade_b1_weapons.file_write_latex()
 upgrade_b1_weap_add.file_write_latex()
+upgrade_b1team_weapon.file_write_latex()
 upgrade_b2_weapons.file_write_latex()
 upgrade_b2_weap_add.file_write_latex()
 upgrade_bx_weapons.file_write_latex()
@@ -457,7 +555,10 @@ upgrade_bx_weap_add.file_write_latex()
 upgrade_magnaguard_weap.file_write_latex()
 upgrade_magnaguard_weap_add.file_write_latex()
 upgrade_dsd.file_write_latex()
-upgrade_b1team_weapon.file_write_latex()
+upgrade_crab_legs.file_write_latex()
+upgrade_crab_weap.file_write_latex()
+upgrade_wheel_bike_pilot.file_write_latex()
+upgrade_wheel_bike_weap.file_write_latex()
 
 
 # write tsv file
@@ -468,6 +569,7 @@ upgrade_super_tac.file_write_tsv(tsv_file)
 upgrade_electrobinoculars.file_write_tsv(tsv_file)
 upgrade_b1_weapons.file_write_tsv(tsv_file)
 upgrade_b1_weap_add.file_write_tsv(tsv_file)
+upgrade_b1team_weapon.file_write_tsv(tsv_file)
 upgrade_b2_weapons.file_write_tsv(tsv_file)
 upgrade_b2_weap_add.file_write_tsv(tsv_file)
 upgrade_bx_weapons.file_write_tsv(tsv_file)
@@ -475,4 +577,7 @@ upgrade_bx_weap_add.file_write_tsv(tsv_file)
 upgrade_magnaguard_weap.file_write_tsv(tsv_file)
 upgrade_magnaguard_weap_add.file_write_tsv(tsv_file)
 upgrade_dsd.file_write_tsv(tsv_file)
-upgrade_b1team_weapon.file_write_tsv(tsv_file)
+upgrade_crab_legs.file_write_tsv(tsv_file)
+upgrade_crab_weap.file_write_tsv(tsv_file)
+upgrade_wheel_bike_pilot.file_write_tsv(tsv_file)
+upgrade_wheel_bike_weap.file_write_tsv(tsv_file)
