@@ -1534,8 +1534,14 @@ class UpgradeList:
         fear_cost = template_model.fear_cost_dict[fear]
         hero_cost = template_model.hero_villain_cost_dict[hero]
         villain_cost = template_model.hero_villain_cost_dict[villain]
-        jedi_cost = template_model.jedi_sith_cost_dict[jedi]
-        sith_cost = template_model.jedi_sith_cost_dict[sith]
+        jedi_cost = (
+            template_model.light_dark_cost_dict[jedi]
+            + template_model.hero_villain_cost_dict[jedi]
+        )
+        sith_cost = (
+            template_model.light_dark_cost_dict[sith]
+            + template_model.hero_villain_cost_dict[sith]
+        )
         impact_cost = template_model.impact_cost_dict[impact]
         recon_cost = template_model.recon_cost_dict[recon]
         relay_cost = template_model.relay_cost_dict[relay]
@@ -1757,6 +1763,8 @@ class UpgradeList:
         immobile=None,
         jedi=None,
         sith=None,
+        light_side=None,
+        dark_side=None,
         jump=None,
         impact=None,
         impervious=None,
@@ -1815,6 +1823,18 @@ class UpgradeList:
             comma = ", "
         else:
             sith_str = ""
+        if light_side:
+            entry_model_copy.light_side = light_side
+            light_side_str = "%sLight Side" % comma
+            comma = ", "
+        else:
+            light_side_str = ""
+        if dark_side:
+            entry_model_copy.dark_side = dark_side
+            dark_side_str = "%sDark Side" % comma
+            comma = ", "
+        else:
+            dark_side_str = ""
         if hero or hero is False:
             entry_model_copy.hero = hero
             if hero is False:
@@ -1863,12 +1883,6 @@ class UpgradeList:
             comma = ", "
         else:
             entourage_str = ""
-        if command:
-            entry_model_copy.command = command
-            command_str = "%sCommand" % comma
-            comma = ", "
-        else:
-            command_str = ""
         if command or command is False:
             entry_model_copy.command = command
             if command is False:
@@ -1877,7 +1891,7 @@ class UpgradeList:
                 command_str = "%sCommand" % comma
             comma = ", "
         else:
-            fast_str = ""
+            command_str = ""
         if recon:
             entry_model_copy.recon = recon
             recon_str = "%sRecon[%s+]" % (comma, str(recon))
@@ -2111,6 +2125,8 @@ class UpgradeList:
             + wounds_str
             + jedi_str
             + sith_str
+            + light_side_str
+            + dark_side_str
             + hero_str
             + villain_str
             + beast_str
