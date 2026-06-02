@@ -80,18 +80,8 @@ isf_commander = Model(
 isf_commander.equip_weapon(core.blaster_rifle)
 isf_commander.equip_weapon(core.combat_training)
 
-stormtrooper_commander = Model(
-    "Stormtrooper Commander", 3, 4, 3, villain=True, command=True
-)
-stormtrooper_commander.equip_weapon(core.blaster_rifle)
-
-stormtrooper_captain = Model(
-    "Stormtrooper Captain", 4, 4, 3, villain=True, relay=True
-)
-stormtrooper_captain.equip_weapon(core.blaster_rifle)
-
-stormtrooper_sergeant = Model("Stormtrooper Sergeant", 4, 4, 2, villain=True)
-stormtrooper_sergeant.equip_weapon(core.blaster_rifle)
+stormtrooper_officer = Model("Stormtrooper Officer", 4, 4, 2, villain=True)
+stormtrooper_officer.equip_weapon(core.blaster_rifle)
 
 stormtrooper = Model("Stormtrooper", 5, 4, 1, expendable=1, disciplined=True)
 stormtrooper.equip_weapon(core.blaster_rifle)
@@ -300,7 +290,7 @@ gav_tank.equip_weapon(core.laser_cannon_mounted)
 
 # -*- Upgrade lists -*-
 
-# Imperial Commander weapons
+# Inquisitors
 
 label = "A"
 upgrade_inquisitor = UpgradeList(label, base_model=inquisitor)
@@ -354,6 +344,8 @@ upgrade_inquisitor_force.select_upgrade_with_weapon_type()
 upgrade_inquisitor_force.upgrade_with_weapon_entry(core.force_choke)
 upgrade_inquisitor_force.upgrade_with_weapon_entry(core.force_push)
 upgrade_inquisitor_force.upgrade_with_weapon_entry(core.saber_throw)
+
+# Imperial Commander
 
 label = letter_increment(label)
 upgrade_commander = UpgradeList(label, base_model=imperial_commander)
@@ -480,7 +472,6 @@ krennic_pistol = Weapon(
     sniper=True,
     quickdraw=True,
 )
-sniper_pistol = Weapon("Sniper Pistol", 18, 2, sniper=True, quickdraw=True)
 upgrade_commander_weapon.upgrade_with_weapon_entry(krennic_pistol)
 vonreg_wargear = Weapon(
     "Vonreg's Blasters",
@@ -581,6 +572,23 @@ upgrade_isf_command_melee.select_upgrade_with_weapon_type(
     replace_weapon=core.combat_training
 )
 upgrade_isf_command_melee.upgrade_with_weapon_entry(vonreg_vibroblades)
+
+# Stormtrooper officers
+
+label = letter_increment(label)
+upgrade_storm_officer = UpgradeList(label, base_model=stormtrooper_officer)
+upgrade_storm_officer.select_upgrade_with_model_changes_type()
+upgrade_storm_officer.upgrade_with_model_changes_entry(
+    "Captain",
+    wounds=3,
+    relay=True,
+)
+upgrade_storm_officer.upgrade_with_model_changes_entry(
+    "Commander",
+    quality=3,
+    wounds=3,
+    command=True,
+)
 
 # Stormtrooper weapons (replace)
 
@@ -820,9 +828,8 @@ isf_commander.add_upgrade_list(upgrade_electrobinoculars)
 isf_commander.add_upgrade_list(upgrade_isf_command)
 isf_commander.add_upgrade_list(upgrade_isf_command_ranged)
 isf_commander.add_upgrade_list(upgrade_isf_command_melee)
-stormtrooper_commander.add_upgrade_list(upgrade_electrobinoculars)
-stormtrooper_captain.add_upgrade_list(upgrade_electrobinoculars)
-stormtrooper_sergeant.add_upgrade_list(upgrade_electrobinoculars)
+stormtrooper_officer.add_upgrade_list(upgrade_electrobinoculars)
+stormtrooper_officer.add_upgrade_list(upgrade_storm_officer)
 stormtrooper.add_upgrade_list([upgrade_storm_weapons, upgrade_storm_add_weap])
 stormtrooper.add_upgrade_list(upgrade_storm_special)
 scout_trooper.add_upgrade_list(upgrade_electrobinoculars)
@@ -848,9 +855,7 @@ model_list.add_model_entry(inquisitor)
 model_list.add_model_entry(imperial_commander)
 model_list.add_model_entry(imperial_officer)
 model_list.add_model_entry(isf_commander)
-model_list.add_model_entry(stormtrooper_commander)
-model_list.add_model_entry(stormtrooper_captain)
-model_list.add_model_entry(stormtrooper_sergeant)
+model_list.add_model_entry(stormtrooper_officer)
 model_list.add_model_entry(stormtrooper)
 model_list.add_model_entry(stormtrooper_heavy_mortar)
 model_list.add_model_entry(imperial_army_trooper)
@@ -885,6 +890,7 @@ upgrade_electrobinoculars.file_write_latex()
 upgrade_isf_command.file_write_latex()
 upgrade_isf_command_ranged.file_write_latex()
 upgrade_isf_command_melee.file_write_latex()
+upgrade_storm_officer.file_write_latex()
 upgrade_storm_weapons.file_write_latex()
 upgrade_storm_add_weap.file_write_latex()
 upgrade_storm_special.file_write_latex()
@@ -916,6 +922,7 @@ upgrade_electrobinoculars.file_write_tsv(tsv_file)
 upgrade_isf_command.file_write_tsv(tsv_file)
 upgrade_isf_command_ranged.file_write_tsv(tsv_file)
 upgrade_isf_command_melee.file_write_tsv(tsv_file)
+upgrade_storm_officer.file_write_tsv(tsv_file)
 upgrade_storm_weapons.file_write_tsv(tsv_file)
 upgrade_storm_add_weap.file_write_tsv(tsv_file)
 upgrade_storm_special.file_write_tsv(tsv_file)

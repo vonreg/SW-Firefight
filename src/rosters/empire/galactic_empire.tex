@@ -6,6 +6,10 @@
 \usepackage{multicol}
 \usepackage[none]{hyphenat}
 \usepackage[a4paper, left=0.6cm, right=0.6cm, top=1.2cm, bottom=2.2cm]{geometry}
+\usepackage{newunicodechar}
+\newunicodechar{Γ}{\ensuremath{\mathbf\Gamma}}
+% ΔΘΛΞΠΣΦΨΩ
+
 
 \DeclareUnicodeCharacter{221E}{\ensuremath{\infty}}
 
@@ -167,6 +171,11 @@
 \setlength\extrarowheight{1.5pt}
 \rowcolors{2}{white}{gray!25}
 \input upgrade_Z.tabl
+
+\vspace{0.6cm}
+\setlength\extrarowheight{1.5pt}
+\rowcolors{2}{white}{gray!25}
+\input{\detokenize{upgrade_Γ.tabl}}
 }
 \end{multicols}
 
