@@ -29,7 +29,7 @@ snoke = Model(
     "Supreme Leader Snoke",
     3,
     3,
-    5,
+    4,
     villain=True,
     dark_side=True,
     fear=True,
@@ -76,7 +76,7 @@ ren_stasis = Weapon(
     kinetic=True,
     immobilise=True,
 )
-kylo_ren.equip_weapon(core.lightsaber_heroic)
+kylo_ren.equip_weapon(core.lightsaber_knight)
 kylo_ren.equip_weapon(core.force_choke)
 kylo_ren.equip_weapon(ren_stasis)
 
@@ -150,9 +150,34 @@ sith_trooper.equip_weapon(sith_blaster)
 
 # -*- Upgrade lists -*-
 
+# Kylo Ren
+label = "A"
+upgrade_kylo = UpgradeList(label, base_model=kylo_ren)
+upgrade_kylo.select_upgrade_with_model_changes_type(limit=1)
+upgrade_kylo.upgrade_with_model_changes_entry(
+    "Injured", wounds=4, quality=4, survivor=True, impervious=False
+)
+upgrade_kylo.upgrade_with_model_changes_entry(
+    "Unbalanced", quality=4, impervious=False
+)
+upgrade_kylo.upgrade_with_model_changes_entry(
+    "Supreme Leader",
+    command=True,
+)
+upgrade_kylo.upgrade_with_model_changes_entry(
+    "Ben Solo",
+    fear=False,
+    villain=False,
+    dark_side=False,
+    jedi=True,
+    protector="Unit",
+    protector_key="Rey",
+    heal=1,
+)
+
 # FO Commander weapons
 
-label = "A"
+label = letter_increment(label)
 upgrade_commander = UpgradeList(label, base_model=fo_commander)
 upgrade_commander.select_upgrade_with_model_changes_type()
 upgrade_commander.upgrade_with_model_changes_entry("Combat Armour", defense=4)
@@ -321,6 +346,7 @@ upgrade_storm_special.upgrade_with_model_changes_entry(
 
 # assign upgrade lists
 
+kylo_ren.add_upgrade_list(upgrade_kylo)
 fo_commander.add_upgrade_list(upgrade_commander)
 fo_commander.add_upgrade_list(upgrade_commander_melee)
 fo_commander.add_upgrade_list(upgrade_commander_weapon)
@@ -350,6 +376,7 @@ model_list.add_model_entry(sith_trooper)  # MOVE!!!!
 
 model_list.file_write_latex("first_order_roster.tabl")
 
+upgrade_kylo.file_write_latex()
 upgrade_commander.file_write_latex()
 upgrade_commander_melee.file_write_latex()
 upgrade_commander_weapon.file_write_latex()
@@ -365,6 +392,7 @@ upgrade_storm_special.file_write_latex()
 
 model_list.file_write_tsv(tsv_file)
 
+upgrade_kylo.file_write_tsv(tsv_file)
 upgrade_commander.file_write_tsv(tsv_file)
 upgrade_commander_melee.file_write_tsv(tsv_file)
 upgrade_commander_weapon.file_write_tsv(tsv_file)

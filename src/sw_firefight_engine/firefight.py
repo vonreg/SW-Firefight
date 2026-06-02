@@ -1807,7 +1807,14 @@ class UpgradeList:
         if wounds:
             entry_model_copy.wounds = wounds
             wounds_increase = wounds - self.base_model.wounds
-            wounds_str = "%sW +%s" % (comma, str(wounds_increase))
+            if wounds_increase > 0:
+                wounds_str = "%sW +%s" % (comma, str(wounds_increase))
+            elif wounds_increase < 0:
+                wounds_str = "%sW -%s" % (comma, str(abs(wounds_increase)))
+            else:
+                raise (
+                    Exception("Upgrade wounds matches original model wounds")
+                )
             comma = ", "
         else:
             wounds_str = ""
@@ -1823,15 +1830,21 @@ class UpgradeList:
             comma = ", "
         else:
             sith_str = ""
-        if light_side:
+        if light_side or light_side is False:
             entry_model_copy.light_side = light_side
-            light_side_str = "%sLight Side" % comma
+            if light_side is False:
+                light_side_str = "%sLose Light Side" % comma
+            else:
+                light_side_str = "%sLight Side" % comma
             comma = ", "
         else:
             light_side_str = ""
-        if dark_side:
+        if dark_side or dark_side is False:
             entry_model_copy.dark_side = dark_side
-            dark_side_str = "%sDark Side" % comma
+            if dark_side is False:
+                dark_side_str = "%sLose Dark Side" % comma
+            else:
+                dark_side_str = "%sDark Side" % comma
             comma = ", "
         else:
             dark_side_str = ""
