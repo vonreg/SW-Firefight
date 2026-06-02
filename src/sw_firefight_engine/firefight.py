@@ -493,6 +493,7 @@ class Weapon:
 
 
 class Model:
+
     def __init__(
         self,
         name: str,
@@ -528,6 +529,8 @@ class Model:
         jump=0,
         impact=0,
         impervious=False,
+        light_side=False,
+        dark_side=False,
         luck=0,
         noncombatant=False,
         protector=None,
@@ -581,6 +584,8 @@ class Model:
         self.jump = jump
         self.impact = impact
         self.impervious = impervious
+        self.light_side = light_side
+        self.dark_side = dark_side
         self.luck = luck
         self.noncombatant = noncombatant
         self.protector = protector
@@ -636,7 +641,7 @@ class Model:
         }
         self.immobile_cost_dict = {False: 0, True: -3}
         self.impact_cost_dict = {0: 0, 1: 3, 2: 6, 3: 9, 4: 12, 5: 15, 6: 18}
-        self.jedi_sith_cost_dict = {False: 0, True: 0}
+        self.light_dark_cost_dict = {False: 0, True: 0}
         self.jump_cost_dict = {0: 0, 3: 0.5, 6: 1}
         self.impervious_cost_dict = {False: 0, True: 6}
         self.luck_multiplier_dict = {0: 1, 1: 1.5, 2: 1.65, 3: 1.75}
@@ -709,8 +714,16 @@ class Model:
         villain_cost = self.hero_villain_cost_dict[self.villain]
         hunter_cost = self.hunter_cost_dict[self.hunter] * quality_cost
         immobile_cost = self.immobile_cost_dict[self.immobile] * quality_cost
-        jedi_cost = self.jedi_sith_cost_dict[self.jedi]
-        sith_cost = self.jedi_sith_cost_dict[self.sith]
+        jedi_cost = (
+            self.light_dark_cost_dict[self.jedi]
+            + self.hero_villain_cost_dict[self.jedi]
+        )
+        sith_cost = (
+            self.light_dark_cost_dict[self.sith]
+            + self.hero_villain_cost_dict[self.sith]
+        )
+        light_cost = self.light_dark_cost_dict[self.light_side]
+        dark_cost = self.light_dark_cost_dict[self.dark_side]
         jump_cost = self.jump_cost_dict[self.jump] * quality_cost
         impact_cost = self.impact_cost_dict[self.impact]
         impervious_cost = (
@@ -764,6 +777,8 @@ class Model:
             + immobile_cost
             + jedi_cost
             + sith_cost
+            + light_cost
+            + dark_cost
             + jump_cost
             + impact_cost
             + impervious_cost
@@ -966,6 +981,16 @@ class Model:
             comma = ", "
         else:
             sith = ""
+        if self.light_side:
+            light_side = "%sLight Side" % comma
+            comma = ", "
+        else:
+            light_side = ""
+        if self.dark_side:
+            dark_side = "%sDark Side" % comma
+            comma = ", "
+        else:
+            dark_side = ""
         if self.hero:
             hero = "%sHero" % comma
             comma = ", "
@@ -1198,6 +1223,8 @@ class Model:
         special_rules = (
             jedi
             + sith
+            + light_side
+            + dark_side
             + hero
             + villain
             + duellist

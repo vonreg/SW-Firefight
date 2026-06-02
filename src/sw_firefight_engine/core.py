@@ -349,6 +349,9 @@ force_choke = Weapon(
     seek=True,
     throw=True,
 )
+force_lightning = Weapon(
+    "Force Lightning", 12, 3, pierce=1, ion=True, suppressive=1, throw=True
+)
 
 # Miscellaneous
 

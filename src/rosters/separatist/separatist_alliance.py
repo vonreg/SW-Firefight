@@ -22,11 +22,8 @@ dooku = Model(
     unique="Dooku",
     impervious=True,
 )
-dooku_lightning = Weapon(
-    "Force Lightning", 12, 3, pierce=1, ion=True, suppressive=1, throw=True
-)
 dooku.equip_weapon(core.lightsaber_heroic)
-dooku.equip_weapon(dooku_lightning)
+dooku.equip_weapon(core.force_lightning)
 
 general_grievous = Model(
     "General Grievous",

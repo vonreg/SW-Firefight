@@ -12,6 +12,12 @@ pdflatex galactic_empire.tex
 mv galactic_empire.pdf ../$FACTION_ROSTERS
 cd ..
 
+cd first_order
+python first_order.py 2>&1 | tee log.py_first_order
+pdflatex first_order.tex
+mv first_order.pdf ../$FACTION_ROSTERS
+cd ..
+
 cd mandalore
 python mandalore.py 2>&1 | tee log.py_mandalore
 pdflatex mandalore.tex
