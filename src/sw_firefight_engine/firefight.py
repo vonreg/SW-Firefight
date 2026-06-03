@@ -1890,9 +1890,12 @@ class UpgradeList:
             comma = ", "
         else:
             emplacement_str = ""
-        if entourage:
+        if entourage or entourage is False:
             entry_model_copy.entourage = entourage
-            entourage_str = "%sEntourage[%s]" % (comma, str(entourage))
+            if entourage is False:
+                entourage_str = "%sLose Entourage" % comma
+            else:
+                entourage_str = "%sEntourage[%s]" % (comma, str(entourage))
             comma = ", "
         else:
             entourage_str = ""
@@ -1959,9 +1962,12 @@ class UpgradeList:
             comma = ", "
         else:
             disciplined_str = ""
-        if expendable:
+        if expendable or expendable is False:
             entry_model_copy.expendable = expendable
-            expendable_str = "%sExpendable[%s]" % (comma, str(expendable))
+            if expendable is False:
+                expendable_str = "%sLose Expendable" % comma
+            else:
+                expendable_str = "%sExpendable[%s]" % (comma, str(expendable))
             comma = ", "
         else:
             expendable_str = ""
