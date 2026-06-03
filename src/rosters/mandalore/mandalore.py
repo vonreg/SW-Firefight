@@ -583,6 +583,7 @@ beskar_spear = Weapon(
     4,
     pierce=2,
     rending=True,
+    unique="Beskar Spear",
 )
 
 grogu = Model(

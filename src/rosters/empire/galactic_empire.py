@@ -55,7 +55,15 @@ darth_vader.equip_weapon(vader_lightsaber)
 darth_vader.equip_weapon(core.force_choke)
 
 inquisitor = Model(
-    "Inquisitor", 4, 3, 4, villain=True, deflect=True, jump=3, hunter="Jedi"
+    "Inquisitor",
+    4,
+    3,
+    4,
+    villain=True,
+    dark_side=True,
+    deflect=True,
+    jump=3,
+    hunter="Jedi",
 )
 inquisitor.equip_weapon(core.lightsaber_knight)
 
@@ -335,7 +343,12 @@ upgrade_inquisitor.upgrade_with_model_changes_entry(
     "Eleventh Brother", fear=True, relentless=True, unique="Eleventh Brother"
 )
 upgrade_inquisitor.upgrade_with_model_changes_entry(
-    "Bariss Offee", heal=1, jedi=True, villain=False, unique="Bariss Offee"
+    "Bariss Offee",
+    heal=1,
+    jedi=True,
+    villain=False,
+    dark_side=False,
+    unique="Bariss Offee",
 )
 
 label = letter_increment(label)
@@ -387,7 +400,8 @@ upgrade_commander.upgrade_with_model_changes_entry(
     wounds=4,
     spotter=2,
     take_cover=2,
-    unique="Mitth'raw'nuruodo",
+    disciplined=True,
+    unique="Thrawn",
 )
 upgrade_commander.upgrade_with_model_changes_entry(
     "Director Krennic",
@@ -415,7 +429,7 @@ upgrade_commander.upgrade_with_model_changes_entry(
     unique="Rodjer Vonreg",
 )
 upgrade_commander.upgrade_with_model_changes_entry(
-    "Agent Selina", unique="Agent Selina"
+    "Agent Selina", unique="Selina Kast"
 )
 
 label = letter_increment(label)
@@ -434,7 +448,7 @@ selina_vibromachete = Weapon(
     3,
     rending=1,
     inaccurate=True,
-    wargear="Agent Selina",
+    wargear="Selina Kast",
 )
 upgrade_commander_melee.upgrade_with_weapon_entry(selina_vibromachete)
 vonreg_vibroblades = Weapon(
@@ -502,7 +516,7 @@ selina_burst_pistols = Weapon(
     quickdraw=True,
     inaccurate=True,
     reciprocating=5,
-    wargear="Agent Selina",
+    wargear="Selina Kast",
     primary_fire_mode_name="Twin Burst Pistols",
     secondary_fire_modes=[core.blaster_rifle],
 )
@@ -666,6 +680,13 @@ upgrade_storm_special.upgrade_with_model_changes_entry(
 )
 upgrade_storm_special.upgrade_with_model_changes_entry(
     "Jetpack Trooper", fast=True, fly=True
+)
+
+label = letter_increment(label)
+upgrade_storm_limited = UpgradeList(label, base_model=stormtrooper)
+upgrade_storm_limited.select_upgrade_with_model_changes_type()
+upgrade_storm_limited.upgrade_with_model_changes_entry(
+    "Limited Supply", expendable=False, manual_points_adjustment=2
 )
 
 # Imperial army trooper weapon replace
@@ -832,6 +853,7 @@ stormtrooper_officer.add_upgrade_list(upgrade_electrobinoculars)
 stormtrooper_officer.add_upgrade_list(upgrade_storm_officer)
 stormtrooper.add_upgrade_list([upgrade_storm_weapons, upgrade_storm_add_weap])
 stormtrooper.add_upgrade_list(upgrade_storm_special)
+stormtrooper.add_upgrade_list(upgrade_storm_limited)
 scout_trooper.add_upgrade_list(upgrade_electrobinoculars)
 imperial_army_trooper.add_upgrade_list(upgrade_army)
 imperial_riot_trooper.add_upgrade_list(upgrade_army_riot)
@@ -894,6 +916,7 @@ upgrade_storm_officer.file_write_latex()
 upgrade_storm_weapons.file_write_latex()
 upgrade_storm_add_weap.file_write_latex()
 upgrade_storm_special.file_write_latex()
+upgrade_storm_limited.file_write_latex()
 upgrade_army.file_write_latex()
 upgrade_army_riot.file_write_latex()
 upgrade_isf_weapons.file_write_latex()
@@ -926,6 +949,7 @@ upgrade_storm_officer.file_write_tsv(tsv_file)
 upgrade_storm_weapons.file_write_tsv(tsv_file)
 upgrade_storm_add_weap.file_write_tsv(tsv_file)
 upgrade_storm_special.file_write_tsv(tsv_file)
+upgrade_storm_limited.file_write_tsv(tsv_file)
 upgrade_army.file_write_tsv(tsv_file)
 upgrade_army_riot.file_write_tsv(tsv_file)
 upgrade_isf_weapons.file_write_tsv(tsv_file)
@@ -954,11 +978,22 @@ moff_gideon = Model(
     villain=True,
     unique="Moff Gideon",
     fear=True,
-    spotter=1,
+    spotter=2,
     command=True,
     survivor=True,
 )
 moff_gideon.equip_weapon(core.blaster_pistol)
+
+remnant_warlord = Model(
+    "Remnant Warlord",
+    3,
+    5,
+    3,
+    villain=True,
+    spotter=1,
+    command=True,
+    survivor=True,
+)
 
 dark_trooper = Model(
     "Dark Trooper",
@@ -983,6 +1018,10 @@ crushing_punch = Weapon(
     inaccurate=True,
 )
 dark_trooper.equip_weapon(crushing_punch)
+
+night_trooper = Model("Night Trooper", 5, 4, 1, disciplined=True)
+night_trooper.equip_weapon(core.combat_training)
+night_trooper.equip_weapon(core.blaster_rifle)
 
 praetorian_guard = Model(
     "Praetorian Guard",
@@ -1037,8 +1076,6 @@ praetorian_split_spear = Weapon(
     ],
 )
 praetorian_guard.equip_weapon(force_pike)
-# praetorian_guard.equip_weapon(praetorian_whip)
-# praetorian_guard.equip_weapon(core.heavy_blaster_pistol)
 
 # -*- Upgrade lists -*-
 
@@ -1091,6 +1128,342 @@ concussion_rocket = Weapon(
 )
 upgrade_gideon_weapons.upgrade_with_weapon_entry(concussion_rocket)
 
+thrawn = Model(
+    "Grand Admiral Thrawn",
+    3,
+    5,
+    4,
+    villain=True,
+    command=True,
+    spotter=2,
+    take_cover=2,
+    survivor=True,
+    disciplined=True,
+    unique="Thrawn",
+)
+thrawn.equip_weapon(chiss_martial_arts)
+thrawn.equip_weapon(core.blaster_pistol)
+
+great_mothers = Model(
+    "The Great Mothers",
+    3,
+    5,
+    6,
+    villain=True,
+    dark_side=True,
+    noncombatant=True,
+    immobile=True,
+    defend=True,
+    emplacement=True,
+    impervious=True,
+    unique="The Great Mothers",
+    free_special_rule="Dark Magicks",
+)
+
+morgan_elsbeth = Model(
+    "Morgan Elsbeth",
+    3,
+    3,
+    3,
+    villain=True,
+    command=True,
+    defend=True,
+    survivor=True,
+    unique="Morgan Elsbeth",
+)
+morgan_elsbeth.equip_weapon(core.combat_training)
+
+baylan_skoll = Model(
+    "Baylan Skoll",
+    3,
+    3,
+    4,
+    villain=True,
+    dark_side=True,
+    deflect=True,
+    slow=True,
+    jump=3,
+    survivor=True,
+    impervious=True,
+    unique="Baylan Skoll",
+)
+baylan_skoll.equip_weapon(core.lightsaber_master)
+baylan_skoll.equip_weapon(core.force_choke)
+
+shin_hati = Model(
+    "Shin Hati",
+    4,
+    4,
+    3,
+    villain=True,
+    dark_side=True,
+    deflect=True,
+    jump=3,
+    unique="Shin Hati",
+    command=True,
+)
+shin_hati.equip_weapon(core.lightsaber_basic)
+shin_hati.equip_weapon(core.force_choke)
+
+marrok = Model(
+    "Marrok",
+    4,
+    3,
+    4,
+    villain=True,
+    dark_side=True,
+    deflect=True,
+    jump=3,
+    survivor=True,
+    scout=True,
+    hunter="Jedi",
+    unique="Marrok",
+)
+marrok.equip_weapon(core.lightsaber_knight)
+
+# Vonreg
+
+# Selina
+
+# Remnant Warlord
+# ADD Pellaeon
+
+label = letter_increment(label)
+upgrade_morgan = UpgradeList(label, base_model=morgan_elsbeth)
+upgrade_morgan.select_upgrade_with_model_changes_type()
+upgrade_morgan.upgrade_with_model_changes_entry(
+    "Gift of Shadow",
+    dark_side=True,
+    fear=True,
+    hunter="Target",
+    manual_points_adjustment=2,  # since dark side is usually free
+)
+
+label = letter_increment(label)
+upgrade_morgan_weap = UpgradeList(label, base_model=morgan_elsbeth)
+upgrade_morgan_weap.select_upgrade_with_weapon_type(
+    replace_weapon=core.combat_training
+)
+beskar_spear = Weapon(
+    "Beskar Spear",
+    "Melee",
+    4,
+    pierce=2,
+    rending=True,
+    unique="Beskar Spear",
+)
+upgrade_morgan_weap.upgrade_with_weapon_entry(beskar_spear)
+blade_of_talzin = Weapon(
+    "Blade of Talzin",
+    "Melee",
+    4,
+    sniper=True,
+    rending=True,
+    deadly=2,
+    unique="Blade of Talzin",
+    wargear="Dark Side",
+)
+upgrade_morgan_weap.upgrade_with_weapon_entry(blade_of_talzin)
+
+label = letter_increment(label)
+upgrade_warlord = UpgradeList(label, base_model=remnant_warlord)
+upgrade_warlord.select_upgrade_with_model_changes_type()
+upgrade_warlord.upgrade_with_model_changes_entry("Combat Armour", defense=4)
+upgrade_warlord.upgrade_with_model_changes_entry(
+    "Seeker Droid",
+    companion="ID Seeker Droid",
+    scout=True,
+)
+upgrade_warlord.upgrade_with_model_changes_entry(
+    "ISB", hunter="Target", recon=5
+)
+upgrade_warlord.upgrade_with_model_changes_entry(
+    "Field Agent", command=False, relay=True, agile=True
+)
+upgrade_warlord.upgrade_with_model_changes_entry(
+    "Senior Officer", spotter=2, take_cover=1
+)
+upgrade_warlord.upgrade_with_model_changes_entry(
+    "Sentinel Droid",
+    droid=True,
+    fear=True,
+    defense=3,
+    noncombatant=True,
+    spotter=2,
+    shield=1,
+    unique="Palpatine",
+)
+upgrade_warlord.upgrade_with_model_changes_entry(
+    "Captain Pellaeon",
+    wounds=4,
+    command=False,
+    relay=True,
+    spotter=2,
+    take_cover=1,
+    recon=4,
+    unique="Gilad Pellaeon",
+)
+upgrade_warlord.upgrade_with_model_changes_entry(
+    "Lord Vonreg",
+    wounds=4,
+    slow=True,
+    repair=1,
+    survivor=True,
+    unique="Rodjer Vonreg",
+)
+upgrade_warlord.upgrade_with_model_changes_entry(
+    "Lord Vonreg (Jetpack)",
+    wounds=4,
+    fly=True,
+    repair=1,
+    survivor=True,
+    unique="Rodjer Vonreg",
+)
+upgrade_warlord.upgrade_with_model_changes_entry(
+    "Lord Vonreg (Dark Trooper Armour)",
+    defense=2,
+    wounds=4,
+    fly=True,
+    repair=1,
+    impervious=True,
+    survivor=True,
+    unique="Rodjer Vonreg",
+)
+upgrade_warlord.upgrade_with_model_changes_entry(
+    "Agent Selina", unique="Selina Kast"
+)
+upgrade_warlord.upgrade_with_model_changes_entry(
+    "Selina Kast, Daughter of Mandalore",
+    unique="Selina Kast",
+    defense=3,
+    fast=True,
+    fly=True,
+    impervious=True,
+)
+
+label = letter_increment(label)
+upgrade_warlord_melee = UpgradeList(label, base_model=remnant_warlord)
+upgrade_warlord_melee.select_upgrade_with_weapon_type()
+upgrade_warlord_melee.upgrade_with_weapon_entry(core.combat_training)
+upgrade_warlord_melee.upgrade_with_weapon_entry(core.stun_baton)
+upgrade_warlord_melee.upgrade_with_weapon_entry(core.riot_baton)
+chiss_martial_arts = Weapon(
+    "Chiss Martial Arts", "Melee", 4, disorient=True, wargear="Thrawn"
+)
+upgrade_warlord_melee.upgrade_with_weapon_entry(chiss_martial_arts)
+selina_vibromachete = Weapon(
+    "Vibromachete",
+    "Melee",
+    3,
+    rending=True,
+    inaccurate=True,
+    wargear="Selina Kast",
+)
+upgrade_warlord_melee.upgrade_with_weapon_entry(selina_vibromachete)
+selina_beskad = Weapon(
+    "Beskad",
+    "Melee",
+    4,
+    pierce=2,
+    rending=True,
+    wargear="Selina Kast",
+)
+upgrade_warlord_melee.upgrade_with_weapon_entry(selina_beskad)
+vonreg_vibroblades = Weapon(
+    "Sith Vibroblades", "Melee", 4, rending=True, wargear="Rodjer Vonreg"
+)
+upgrade_warlord_melee.upgrade_with_weapon_entry(vonreg_vibroblades)
+vonreg_lightsaber = Weapon(
+    "Trophy Lightsaber",
+    "Melee",
+    3,
+    pierce=2,
+    deadly=2,
+    inaccurate=True,
+    wargear="Rodjer Vonreg",
+)
+upgrade_warlord_melee.upgrade_with_weapon_entry(vonreg_lightsaber)
+
+label = letter_increment(label)
+upgrade_warlord_weapon = UpgradeList(label, base_model=remnant_warlord)
+upgrade_warlord_weapon.select_upgrade_with_weapon_type(limit=1)
+upgrade_warlord_weapon.upgrade_with_weapon_entry(core.blaster_pistol)
+upgrade_warlord_weapon.upgrade_with_weapon_entry(core.heavy_blaster_pistol)
+upgrade_warlord_weapon.upgrade_with_weapon_entry(core.dual_blaster_pistols)
+upgrade_warlord_weapon.upgrade_with_weapon_entry(core.burst_pistol)
+upgrade_warlord_weapon.upgrade_with_weapon_entry(core.sniper_pistol)
+upgrade_warlord_weapon.upgrade_with_weapon_entry(core.bryar_pistol)
+upgrade_warlord_weapon.upgrade_with_weapon_entry(core.blaster_rifle)
+vonreg_wargear = Weapon(
+    "Vonreg's Blasters",
+    6,
+    3,
+    quickdraw=True,
+    reciprocating=5,
+    wargear="Rodjer Vonreg",
+    primary_fire_mode_name="Burst Pistol",
+    secondary_fire_modes=[
+        Weapon("Rifle Full Auto", 30, 3, pierce=1),
+        Weapon(
+            "Rifle Sniper Shot",
+            "inf",
+            1,
+            pierce=2,
+            ammo=1,
+            sniper=True,
+            deadly=2,
+        ),
+    ],
+)
+upgrade_warlord_weapon.upgrade_with_weapon_entry(vonreg_wargear)
+selina_burst_pistols = Weapon(
+    "Selina's Blasters",
+    6,
+    6,
+    quickdraw=True,
+    inaccurate=True,
+    reciprocating=5,
+    wargear="Selina Kast",
+    primary_fire_mode_name="Twin Burst Pistols",
+    secondary_fire_modes=[core.blaster_rifle],
+)
+upgrade_warlord_weapon.upgrade_with_weapon_entry(selina_burst_pistols)
+
+# Night Troopers: Enoch and Zombies
+
+label = letter_increment(label)
+upgrade_night_trooper = UpgradeList(label, base_model=night_trooper)
+upgrade_night_trooper.select_upgrade_with_model_changes_type(limit=1)
+upgrade_night_trooper.upgrade_with_model_changes_entry(
+    "Captain Enoch",
+    wounds=3,
+    quality=4,
+    relay=True,
+    protector="Unit",
+    protector_key="Thrawn",
+    unique="Enoch",
+)
+upgrade_night_trooper.upgrade_with_model_changes_entry(
+    "Zombie Night Trooper",
+    survivor=True,
+    impervious=True,
+    impact=1,
+    beast=True,
+    slow=True,
+    entourage="The Great Mothers or Gift of Shadow",
+)
+upgrade_night_trooper.upgrade_with_model_changes_entry(
+    "Zombie Death Trooper",
+    defense=3,
+    wounds=2,
+    survivor=True,
+    impervious=True,
+    impact=2,
+    beast=True,
+    slow=True,
+    entourage="The Great Mothers or Gift of Shadow",
+)
+
 # Dark Trooper programming
 
 label = letter_increment(label)
@@ -1103,6 +1476,13 @@ upgrade_darktrooper_programming.upgrade_with_model_changes_entry(
 )
 upgrade_darktrooper_programming.upgrade_with_model_changes_entry(
     "Hunter Programming", hunter="Target"
+)
+upgrade_darktrooper_programming.upgrade_with_model_changes_entry(
+    "Reprogrammed Loyalty",
+    entourage=False,
+    protector="Unit",
+    protector_key="Villain",
+    manual_points_adjustment=10,
 )
 
 # Dark Trooper weapons
@@ -1124,15 +1504,14 @@ upgrade_darktrooper_melee.upgrade_with_weapon_entry(greatblade)
 
 # Praetorian Guard weapons
 
-
 label = letter_increment(label)
 upgrade_praetorian_melee = UpgradeList(label, base_model=praetorian_guard)
 upgrade_praetorian_melee.select_upgrade_with_weapon_type(
     replace_weapon=force_pike
 )
 upgrade_praetorian_melee.upgrade_with_weapon_entry(praetorian_whip)
-upgrade_praetorian_melee.upgrade_with_weapon_entry(praetorian_glaive)
 upgrade_praetorian_melee.upgrade_with_weapon_entry(praetorian_split_spear)
+upgrade_praetorian_melee.upgrade_with_weapon_entry(praetorian_glaive)
 
 label = letter_increment(label)
 upgrade_praetorian_ranged = UpgradeList(label, base_model=praetorian_guard)
@@ -1145,6 +1524,12 @@ moff_gideon.add_upgrade_list(upgrade_gideon_armour)
 moff_gideon.add_upgrade_list(
     [upgrade_gideon_darksaber, upgrade_gideon_weapons]
 )
+morgan_elsbeth.add_upgrade_list(upgrade_morgan)
+morgan_elsbeth.add_upgrade_list(upgrade_morgan_weap)
+remnant_warlord.add_upgrade_list(upgrade_warlord)
+remnant_warlord.add_upgrade_list(upgrade_warlord_melee)
+remnant_warlord.add_upgrade_list(upgrade_warlord_weapon)
+night_trooper.add_upgrade_list(upgrade_night_trooper)
 dark_trooper.add_upgrade_list(upgrade_darktrooper_programming)
 dark_trooper.add_upgrade_list(
     [upgrade_darktrooper_weapons, upgrade_darktrooper_melee]
@@ -1156,7 +1541,18 @@ praetorian_guard.add_upgrade_list(upgrade_praetorian_ranged)
 
 list_remnant = ModelList()
 list_remnant.add_model_entry(moff_gideon)
+list_remnant.add_model_entry(thrawn)
+list_remnant.add_model_entry(great_mothers)
+list_remnant.add_model_entry(morgan_elsbeth)
+list_remnant.add_model_entry(baylan_skoll)
+list_remnant.add_model_entry(shin_hati)
+list_remnant.add_model_entry(marrok)
+# list_remnant.add_model_entry(vonreg)
+# list_remnant.add_model_entry(selina)
+list_remnant.add_model_entry(remnant_warlord)
 list_remnant.add_model_entry(dark_trooper)
+list_remnant.add_model_entry(night_trooper)
+list_remnant.add_model_entry(praetorian_guard)
 
 # write latex files
 
@@ -1164,6 +1560,12 @@ list_remnant.file_write_latex("galactic_empire_remnant_roster.tabl")
 upgrade_gideon_armour.file_write_latex(tex_upgrade_name)
 upgrade_gideon_darksaber.file_write_latex(tex_upgrade_name)
 upgrade_gideon_weapons.file_write_latex(tex_upgrade_name)
+upgrade_morgan.file_write_latex(tex_upgrade_name)
+upgrade_morgan_weap.file_write_latex(tex_upgrade_name)
+upgrade_warlord.file_write_latex(tex_upgrade_name)
+upgrade_warlord_melee.file_write_latex(tex_upgrade_name)
+upgrade_warlord_weapon.file_write_latex(tex_upgrade_name)
+upgrade_night_trooper.file_write_latex(tex_upgrade_name)
 upgrade_darktrooper_programming.file_write_latex(tex_upgrade_name)
 upgrade_darktrooper_weapons.file_write_latex(tex_upgrade_name)
 upgrade_darktrooper_melee.file_write_latex(tex_upgrade_name)
@@ -1178,6 +1580,12 @@ list_remnant.file_write_tsv(
 upgrade_gideon_armour.file_write_tsv(tsv_file)
 upgrade_gideon_darksaber.file_write_tsv(tsv_file)
 upgrade_gideon_weapons.file_write_tsv(tsv_file)
+upgrade_morgan.file_write_tsv(tsv_file)
+upgrade_morgan_weap.file_write_tsv(tsv_file)
+upgrade_warlord.file_write_tsv(tsv_file)
+upgrade_warlord_melee.file_write_tsv(tsv_file)
+upgrade_warlord_weapon.file_write_tsv(tsv_file)
+upgrade_night_trooper.file_write_tsv(tsv_file)
 upgrade_darktrooper_programming.file_write_tsv(tsv_file)
 upgrade_darktrooper_weapons.file_write_tsv(tsv_file)
 upgrade_darktrooper_melee.file_write_tsv(tsv_file)
