@@ -81,6 +81,7 @@ ahsoka_tano = Model(
     3,
     6,
     jedi=True,
+    agile=True,
     survivor=True,
     impervious=True,
     courage=True,

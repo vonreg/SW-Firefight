@@ -65,6 +65,7 @@ ahsoka_tano_commander = Model(
     3,
     5,
     jedi=True,
+    agile=True,
     courage=True,
     command=True,
     impervious=True,
