@@ -940,9 +940,9 @@ upgrade_kx.file_write_tsv(tsv_file)
 upgrade_sentry.file_write_tsv(tsv_file)
 upgrade_atrt.file_write_tsv(tsv_file)
 
-""" Moff Gideon's Imperial Remnant """
+""" Imperial Remnant """
 
-tex_upgrade_name = "upgrade_gideon_"
+tex_upgrade_name = "upgrade_remnant_"
 
 # models
 
@@ -983,6 +983,62 @@ crushing_punch = Weapon(
     inaccurate=True,
 )
 dark_trooper.equip_weapon(crushing_punch)
+
+praetorian_guard = Model(
+    "Praetorian Guard",
+    3,
+    4,
+    3,
+    protector="Unit",
+    protector_key="Villain",
+    impervious=True,
+    courage=True,
+    duellist=True,
+)
+praetorian_whip = Weapon(
+    "Electro-Chain Whip",
+    "Melee",
+    3,
+    pierce=2,
+    suppressive=1,
+    primary_fire_mode_name="Sword mode",
+    secondary_fire_modes=[
+        Weapon(
+            "Whip mode",
+            "Melee",
+            3,
+            pierce=1,
+            suppressive=1,
+            immobilise=True,
+            immobilise_roll=5,
+        )
+    ],
+)
+praetorian_glaive = Weapon(
+    "Electro-Bisento",
+    "Melee",
+    3,
+    pierce=2,
+    deadly=2,
+)
+praetorian_split_spear = Weapon(
+    "Vibro-Abir Blade",
+    "Melee",
+    3,
+    pierce=3,
+    primary_fire_mode_name="Spear Mode",
+    secondary_fire_modes=[
+        Weapon(
+            "Split mode",
+            "Melee",
+            4,
+            pierce=2,
+        )
+    ],
+)
+praetorian_guard.equip_weapon(force_pike)
+# praetorian_guard.equip_weapon(praetorian_whip)
+# praetorian_guard.equip_weapon(core.heavy_blaster_pistol)
 
 # -*- Upgrade lists -*-
 
@@ -1066,6 +1122,23 @@ upgrade_darktrooper_melee.select_upgrade_with_weapon_type(
 greatblade = Weapon("Greatblade", "Melee", 3, pierce=2, deadly=2)
 upgrade_darktrooper_melee.upgrade_with_weapon_entry(greatblade)
 
+# Praetorian Guard weapons
+
+
+label = letter_increment(label)
+upgrade_praetorian_melee = UpgradeList(label, base_model=praetorian_guard)
+upgrade_praetorian_melee.select_upgrade_with_weapon_type(
+    replace_weapon=force_pike
+)
+upgrade_praetorian_melee.upgrade_with_weapon_entry(praetorian_whip)
+upgrade_praetorian_melee.upgrade_with_weapon_entry(praetorian_glaive)
+upgrade_praetorian_melee.upgrade_with_weapon_entry(praetorian_split_spear)
+
+label = letter_increment(label)
+upgrade_praetorian_ranged = UpgradeList(label, base_model=praetorian_guard)
+upgrade_praetorian_ranged.select_upgrade_with_weapon_type()
+upgrade_praetorian_ranged.upgrade_with_weapon_entry(core.heavy_blaster_pistol)
+
 # assign upgrade lists
 
 moff_gideon.add_upgrade_list(upgrade_gideon_armour)
@@ -1076,29 +1149,31 @@ dark_trooper.add_upgrade_list(upgrade_darktrooper_programming)
 dark_trooper.add_upgrade_list(
     [upgrade_darktrooper_weapons, upgrade_darktrooper_melee]
 )
+praetorian_guard.add_upgrade_list(upgrade_praetorian_melee)
+praetorian_guard.add_upgrade_list(upgrade_praetorian_ranged)
 
 # collate model list
 
-list_gideon_remnant = ModelList()
-list_gideon_remnant.add_model_entry(moff_gideon)
-list_gideon_remnant.add_model_entry(dark_trooper)
+list_remnant = ModelList()
+list_remnant.add_model_entry(moff_gideon)
+list_remnant.add_model_entry(dark_trooper)
 
 # write latex files
 
-list_gideon_remnant.file_write_latex(
-    "galactic_empire_gideon_remnant_roster.tabl"
-)
+list_remnant.file_write_latex("galactic_empire_remnant_roster.tabl")
 upgrade_gideon_armour.file_write_latex(tex_upgrade_name)
 upgrade_gideon_darksaber.file_write_latex(tex_upgrade_name)
 upgrade_gideon_weapons.file_write_latex(tex_upgrade_name)
 upgrade_darktrooper_programming.file_write_latex(tex_upgrade_name)
 upgrade_darktrooper_weapons.file_write_latex(tex_upgrade_name)
 upgrade_darktrooper_melee.file_write_latex(tex_upgrade_name)
+upgrade_praetorian_melee.file_write_latex(tex_upgrade_name)
+upgrade_praetorian_ranged.file_write_latex(tex_upgrade_name)
 
 # write tsv files
 
-list_gideon_remnant.file_write_tsv(
-    tsv_file, list_title="Moff Gideon's Remnant", append=True
+list_remnant.file_write_tsv(
+    tsv_file, list_title="Imperial Remnant", append=True
 )
 upgrade_gideon_armour.file_write_tsv(tsv_file)
 upgrade_gideon_darksaber.file_write_tsv(tsv_file)
@@ -1106,3 +1181,5 @@ upgrade_gideon_weapons.file_write_tsv(tsv_file)
 upgrade_darktrooper_programming.file_write_tsv(tsv_file)
 upgrade_darktrooper_weapons.file_write_tsv(tsv_file)
 upgrade_darktrooper_melee.file_write_tsv(tsv_file)
+upgrade_praetorian_melee.file_write_tsv(tsv_file)
+upgrade_praetorian_ranged.file_write_tsv(tsv_file)

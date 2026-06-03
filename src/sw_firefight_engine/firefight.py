@@ -2298,6 +2298,18 @@ class UpgradeList:
         # fix for pandas bug (last column not bold)
         table_tex = table_tex.replace("Cost", "\\textbf{Cost}")
 
+        # Bold Greek letters
+        table_tex = table_tex.replace("Γ", "\\ensuremath{\\mathbf\\Gamma}")
+        table_tex = table_tex.replace("Δ", "\\ensuremath{\\mathbf\\Delta}")
+        table_tex = table_tex.replace("Θ", "\\ensuremath{\\mathbf\\Theta}")
+        table_tex = table_tex.replace("Λ", "\\ensuremath{\\mathbf\\Lambda}")
+        table_tex = table_tex.replace("Ξ", "\\ensuremath{\\mathbf\\Xi}")
+        table_tex = table_tex.replace("Π", "\\ensuremath{\\mathbf\\Pi}")
+        table_tex = table_tex.replace("Σ", "\\ensuremath{\\mathbf\\Sigma}")
+        table_tex = table_tex.replace("Φ", "\\ensuremath{\\mathbf\\Phi}")
+        table_tex = table_tex.replace("Ψ", "\\ensuremath{\\mathbf\\Psi}")
+        table_tex = table_tex.replace("Ω", "\\ensuremath{\\mathbf\\Omega}")
+
         # Make Lose Expendable bold
         table_tex = table_tex.replace(
             "↓ Lose Expendable:", "\\textbf{↓ Lose Expendable:}"
