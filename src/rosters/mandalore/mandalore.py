@@ -338,6 +338,7 @@ sabine_wren = Model(
     2,
     3,
     hero=True,
+    agile=True,
     impervious=True,
     arsenal=2,
     courage=True,
@@ -353,7 +354,7 @@ sabine_wren.equip_weapon(explosives)
 tristan_wren = Model(
     "Tristan Wren",
     3,
-    2,
+    4,
     2,
     hero=True,
     impervious=True,
@@ -417,6 +418,8 @@ upgrade_sabine_shield.select_upgrade_with_model_changes_type()
 upgrade_sabine_shield.upgrade_with_model_changes_entry(
     "Padawan",
     jedi=True,
+    jump=3,
+    deflect=True,
 )
 upgrade_sabine_shield.upgrade_with_model_changes_entry(
     "Combat Shield", shield=1
@@ -439,12 +442,20 @@ upgrade_tristan_rocket = UpgradeList(label, base_model=tristan_wren)
 upgrade_tristan_rocket.select_upgrade_with_weapon_type()
 upgrade_tristan_rocket.upgrade_with_weapon_entry(jetpack_rocket)
 
+label = letter_increment(label)
+upgrade_tristan_armour = UpgradeList(label, base_model=tristan_wren)
+upgrade_tristan_armour.select_upgrade_with_model_changes_type()
+upgrade_tristan_armour.upgrade_with_model_changes_entry(
+    "Relic Armour", defense=2
+)
+
 # assign upgrade lists
 
 sabine_wren.add_upgrade_list(upgrade_sabine_weapon)
 sabine_wren.add_upgrade_list(upgrade_sabine_shield)
 sabine_wren.add_upgrade_list(upgrade_sabine_darksaber)
 tristan_wren.add_upgrade_list(upgrade_tristan_rocket)
+tristan_wren.add_upgrade_list(upgrade_tristan_armour)
 
 # collate model list
 
@@ -460,6 +471,7 @@ upgrade_sabine_weapon.file_write_latex(tex_upgrade_name)
 upgrade_sabine_shield.file_write_latex(tex_upgrade_name)
 upgrade_sabine_darksaber.file_write_latex(tex_upgrade_name)
 upgrade_tristan_rocket.file_write_latex(tex_upgrade_name)
+upgrade_tristan_armour.file_write_latex(tex_upgrade_name)
 
 # write tsv files
 
@@ -468,6 +480,7 @@ upgrade_sabine_weapon.file_write_tsv(tsv_file)
 upgrade_sabine_shield.file_write_tsv(tsv_file)
 upgrade_sabine_darksaber.file_write_tsv(tsv_file)
 upgrade_tristan_rocket.file_write_tsv(tsv_file)
+upgrade_tristan_armour.file_write_tsv(tsv_file)
 
 """ Protectors of Concord Dawn """
 # Fenn Rau

@@ -981,6 +981,8 @@ moff_gideon = Model(
     spotter=2,
     command=True,
     survivor=True,
+    hunter="Target",
+    recon=4,
 )
 moff_gideon.equip_weapon(core.blaster_pistol)
 
