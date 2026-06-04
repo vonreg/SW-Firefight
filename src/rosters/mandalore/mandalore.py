@@ -6,6 +6,7 @@ from sw_firefight_engine.firefight import (
     letter_increment,
 )
 from sw_firefight_engine import core
+import copy
 
 tsv_file = "mandalore.tsv"
 
@@ -24,8 +25,14 @@ beskad = Weapon("Beskad", "Melee", 4, pierce=2, rending=True)
 darksaber = Weapon(
     "The Darksaber", "Melee", 3, pierce=2, deadly=3, unique="The Darksaber"
 )
-din_darksaber = Weapon(
-    "The Darksaber", "Melee", 3, pierce=2, deadly=3, inaccurate=True, unique="The Darksaber"
+darksaber_inaccurate = Weapon(
+    "The Darksaber",
+    "Melee",
+    3,
+    pierce=2,
+    deadly=3,
+    inaccurate=True,
+    unique="The Darksaber",
 )
 
 """ Core mandalorians """
@@ -388,13 +395,32 @@ upgrade_sabine_weapon.upgrade_with_weapon_entry(core.whipcord_launcher)
 upgrade_sabine_weapon.upgrade_with_weapon_entry(core.wrist_flamer)
 upgrade_sabine_weapon.upgrade_with_weapon_entry(paralysing_dart_launcher)
 upgrade_sabine_weapon.upgrade_with_weapon_entry(jetpack_rocket)
+weak_force_push = Weapon(
+    "Weak Force Push",
+    6,
+    1,
+    throw=True,
+    seek=True,
+    ammo="Single Use",
+    wargear="Jedi",
+)
+upgrade_sabine_weapon.upgrade_with_weapon_entry(weak_force_push)
+sabine_force_push = copy.deepcopy(core.force_push)
+sabine_force_push.wargear = "Jedi"
+upgrade_sabine_weapon.upgrade_with_weapon_entry(core.force_push)
 
 # Sabine shield
 
 label = letter_increment(label)
 upgrade_sabine_shield = UpgradeList(label, base_model=sabine_wren)
 upgrade_sabine_shield.select_upgrade_with_model_changes_type()
-upgrade_sabine_shield.upgrade_with_model_changes_entry("Combat Shield", shield=1)
+upgrade_sabine_shield.upgrade_with_model_changes_entry(
+    "Padawan",
+    jedi=True,
+)
+upgrade_sabine_shield.upgrade_with_model_changes_entry(
+    "Combat Shield", shield=1
+)
 
 # Sabine Darksaber
 
@@ -403,7 +429,8 @@ upgrade_sabine_darksaber = UpgradeList(label, base_model=sabine_wren)
 upgrade_sabine_darksaber.select_upgrade_with_weapon_type(
     replace_weapon=core.combat_training
 )
-upgrade_sabine_darksaber.upgrade_with_weapon_entry(darksaber)
+upgrade_sabine_darksaber.upgrade_with_weapon_entry(darksaber_inaccurate)
+upgrade_sabine_darksaber.upgrade_with_weapon_entry(core.lightsaber_basic)
 
 # Tristan rocket
 
@@ -689,7 +716,7 @@ upgrade_din_weapons.select_upgrade_with_weapon_type(
 upgrade_din_weapons.upgrade_with_weapon_entry(amban_rifle)
 upgrade_din_weapons.upgrade_with_weapon_entry(amban_disruptor_rifle)
 upgrade_din_weapons.upgrade_with_weapon_entry(beskar_spear)
-upgrade_din_weapons.upgrade_with_weapon_entry(din_darksaber)
+upgrade_din_weapons.upgrade_with_weapon_entry(darksaber_inaccurate)
 
 # Grogu (The Child) force powers
 
@@ -900,7 +927,7 @@ upgrade_gar_darksaber = UpgradeList(label, base_model=gar_saxon)
 upgrade_gar_darksaber.select_upgrade_with_weapon_type(
     replace_weapon=core.combat_training
 )
-upgrade_gar_darksaber.upgrade_with_weapon_entry(darksaber)
+upgrade_gar_darksaber.upgrade_with_weapon_entry(darksaber_inaccurate)
 
 # Gar Saxon weapons
 
