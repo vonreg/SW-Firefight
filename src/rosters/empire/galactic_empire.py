@@ -964,27 +964,11 @@ upgrade_kx.file_write_tsv(tsv_file)
 upgrade_sentry.file_write_tsv(tsv_file)
 upgrade_atrt.file_write_tsv(tsv_file)
 
-""" Imperial Remnant """
+""" Imperial Remnants """
 
 tex_upgrade_name = "upgrade_remnant_"
 
 # models
-
-moff_gideon = Model(
-    "Moff Gideon",
-    3,
-    4,
-    4,
-    villain=True,
-    unique="Moff Gideon",
-    fear=True,
-    spotter=2,
-    command=True,
-    survivor=True,
-    hunter="Target",
-    recon=4,
-)
-moff_gideon.equip_weapon(core.blaster_pistol)
 
 remnant_warlord = Model(
     "Remnant Warlord",
@@ -1020,10 +1004,6 @@ crushing_punch = Weapon(
     inaccurate=True,
 )
 dark_trooper.equip_weapon(crushing_punch)
-
-night_trooper = Model("Night Trooper", 5, 4, 1, disciplined=True)
-night_trooper.equip_weapon(core.combat_training)
-night_trooper.equip_weapon(core.blaster_rifle)
 
 praetorian_guard = Model(
     "Praetorian Guard",
@@ -1081,193 +1061,7 @@ praetorian_guard.equip_weapon(force_pike)
 
 # -*- Upgrade lists -*-
 
-# Gideon Equipment
-
 label = "A"
-upgrade_gideon_armour = UpgradeList(label, base_model=moff_gideon)
-upgrade_gideon_armour.select_upgrade_with_model_changes_type()
-upgrade_gideon_armour.upgrade_with_model_changes_entry(
-    "Dark Trooper Armour",
-    defense=2,
-    impervious=True,
-    fly=True,
-)
-
-# Gideon Darksaber
-
-label = letter_increment(label)
-upgrade_gideon_darksaber = UpgradeList(label, base_model=moff_gideon)
-upgrade_gideon_darksaber.select_upgrade_with_weapon_type()
-darksaber = Weapon(
-    "The Darksaber", "Melee", 3, pierce=2, deadly=3, unique="The Darksaber"
-)
-upgrade_gideon_darksaber.upgrade_with_weapon_entry(darksaber)
-
-# Gideon Armour Weapons
-
-label = letter_increment(label)
-upgrade_gideon_weapons = UpgradeList(label, base_model=moff_gideon)
-upgrade_gideon_weapons.select_upgrade_with_weapon_type()
-heavy_electrostaff = Weapon(
-    "Heavy Electrostaff",
-    "Melee",
-    3,
-    pierce=2,
-    deadly=2,
-    suppressive=1,
-    throw=True,
-)
-upgrade_gideon_weapons.upgrade_with_weapon_entry(heavy_electrostaff)
-upgrade_gideon_weapons.upgrade_with_weapon_entry(core.whipcord_launcher)
-upgrade_gideon_weapons.upgrade_with_weapon_entry(core.wrist_flamer)
-concussion_rocket = Weapon(
-    "Concussion Rocket",
-    12,
-    1,
-    ammo=1,
-    blast=3,
-    suppressive=1,
-)
-upgrade_gideon_weapons.upgrade_with_weapon_entry(concussion_rocket)
-
-thrawn = Model(
-    "Grand Admiral Thrawn",
-    3,
-    5,
-    4,
-    villain=True,
-    command=True,
-    spotter=2,
-    take_cover=2,
-    survivor=True,
-    disciplined=True,
-    unique="Thrawn",
-)
-thrawn.equip_weapon(chiss_martial_arts)
-thrawn.equip_weapon(core.blaster_pistol)
-
-great_mothers = Model(
-    "The Great Mothers",
-    3,
-    5,
-    6,
-    villain=True,
-    dark_side=True,
-    noncombatant=True,
-    immobile=True,
-    defend=True,
-    emplacement=True,
-    impervious=True,
-    unique="The Great Mothers",
-    free_special_rule="Dark Magicks",
-)
-
-morgan_elsbeth = Model(
-    "Morgan Elsbeth",
-    3,
-    3,
-    3,
-    villain=True,
-    command=True,
-    defend=True,
-    survivor=True,
-    unique="Morgan Elsbeth",
-)
-morgan_elsbeth.equip_weapon(core.combat_training)
-
-baylan_skoll = Model(
-    "Baylan Skoll",
-    3,
-    3,
-    4,
-    villain=True,
-    dark_side=True,
-    deflect=True,
-    slow=True,
-    jump=3,
-    survivor=True,
-    impervious=True,
-    unique="Baylan Skoll",
-)
-baylan_skoll.equip_weapon(core.lightsaber_master)
-baylan_skoll.equip_weapon(core.force_choke)
-
-shin_hati = Model(
-    "Shin Hati",
-    4,
-    4,
-    3,
-    villain=True,
-    dark_side=True,
-    deflect=True,
-    jump=3,
-    unique="Shin Hati",
-    command=True,
-)
-shin_hati.equip_weapon(core.lightsaber_basic)
-shin_hati.equip_weapon(core.force_choke)
-
-marrok = Model(
-    "Marrok",
-    4,
-    3,
-    4,
-    villain=True,
-    dark_side=True,
-    deflect=True,
-    jump=3,
-    survivor=True,
-    scout=True,
-    hunter="Jedi",
-    unique="Marrok",
-)
-marrok.equip_weapon(core.lightsaber_knight)
-
-# Vonreg
-
-# Selina
-
-# Remnant Warlord
-# ADD Pellaeon
-
-label = letter_increment(label)
-upgrade_morgan = UpgradeList(label, base_model=morgan_elsbeth)
-upgrade_morgan.select_upgrade_with_model_changes_type()
-upgrade_morgan.upgrade_with_model_changes_entry(
-    "Gift of Shadow",
-    dark_side=True,
-    fear=True,
-    hunter="Target",
-    manual_points_adjustment=2,  # since dark side is usually free
-)
-
-label = letter_increment(label)
-upgrade_morgan_weap = UpgradeList(label, base_model=morgan_elsbeth)
-upgrade_morgan_weap.select_upgrade_with_weapon_type(
-    replace_weapon=core.combat_training
-)
-beskar_spear = Weapon(
-    "Beskar Spear",
-    "Melee",
-    4,
-    pierce=2,
-    rending=True,
-    unique="Beskar Spear",
-)
-upgrade_morgan_weap.upgrade_with_weapon_entry(beskar_spear)
-blade_of_talzin = Weapon(
-    "Blade of Talzin",
-    "Melee",
-    4,
-    sniper=True,
-    rending=True,
-    deadly=2,
-    unique="Blade of Talzin",
-    wargear="Dark Side",
-)
-upgrade_morgan_weap.upgrade_with_weapon_entry(blade_of_talzin)
-
-label = letter_increment(label)
 upgrade_warlord = UpgradeList(label, base_model=remnant_warlord)
 upgrade_warlord.select_upgrade_with_model_changes_type()
 upgrade_warlord.upgrade_with_model_changes_entry("Combat Armour", defense=4)
@@ -1431,41 +1225,6 @@ selina_burst_pistols = Weapon(
 )
 upgrade_warlord_weapon.upgrade_with_weapon_entry(selina_burst_pistols)
 
-# Night Troopers: Enoch and Zombies
-
-label = letter_increment(label)
-upgrade_night_trooper = UpgradeList(label, base_model=night_trooper)
-upgrade_night_trooper.select_upgrade_with_model_changes_type(limit=1)
-upgrade_night_trooper.upgrade_with_model_changes_entry(
-    "Captain Enoch",
-    wounds=3,
-    quality=4,
-    relay=True,
-    protector="Unit",
-    protector_key="Thrawn",
-    unique="Enoch",
-)
-upgrade_night_trooper.upgrade_with_model_changes_entry(
-    "Zombie Night Trooper",
-    survivor=True,
-    impervious=True,
-    impact=1,
-    beast=True,
-    slow=True,
-    entourage="The Great Mothers or Gift of Shadow",
-)
-upgrade_night_trooper.upgrade_with_model_changes_entry(
-    "Zombie Death Trooper",
-    defense=3,
-    wounds=2,
-    survivor=True,
-    impervious=True,
-    impact=2,
-    beast=True,
-    slow=True,
-    entourage="The Great Mothers or Gift of Shadow",
-)
-
 # Dark Trooper programming
 
 label = letter_increment(label)
@@ -1522,16 +1281,8 @@ upgrade_praetorian_ranged.upgrade_with_weapon_entry(core.heavy_blaster_pistol)
 
 # assign upgrade lists
 
-moff_gideon.add_upgrade_list(upgrade_gideon_armour)
-moff_gideon.add_upgrade_list(
-    [upgrade_gideon_darksaber, upgrade_gideon_weapons]
-)
-morgan_elsbeth.add_upgrade_list(upgrade_morgan)
-morgan_elsbeth.add_upgrade_list(upgrade_morgan_weap)
-remnant_warlord.add_upgrade_list(upgrade_warlord)
 remnant_warlord.add_upgrade_list(upgrade_warlord_melee)
 remnant_warlord.add_upgrade_list(upgrade_warlord_weapon)
-night_trooper.add_upgrade_list(upgrade_night_trooper)
 dark_trooper.add_upgrade_list(upgrade_darktrooper_programming)
 dark_trooper.add_upgrade_list(
     [upgrade_darktrooper_weapons, upgrade_darktrooper_melee]
@@ -1542,32 +1293,17 @@ praetorian_guard.add_upgrade_list(upgrade_praetorian_ranged)
 # collate model list
 
 list_remnant = ModelList()
-list_remnant.add_model_entry(moff_gideon)
-list_remnant.add_model_entry(thrawn)
-list_remnant.add_model_entry(great_mothers)
-list_remnant.add_model_entry(morgan_elsbeth)
-list_remnant.add_model_entry(baylan_skoll)
-list_remnant.add_model_entry(shin_hati)
-list_remnant.add_model_entry(marrok)
-# list_remnant.add_model_entry(vonreg)
-# list_remnant.add_model_entry(selina)
+
 list_remnant.add_model_entry(remnant_warlord)
 list_remnant.add_model_entry(dark_trooper)
-list_remnant.add_model_entry(night_trooper)
 list_remnant.add_model_entry(praetorian_guard)
 
 # write latex files
 
 list_remnant.file_write_latex("galactic_empire_remnant_roster.tabl")
-upgrade_gideon_armour.file_write_latex(tex_upgrade_name)
-upgrade_gideon_darksaber.file_write_latex(tex_upgrade_name)
-upgrade_gideon_weapons.file_write_latex(tex_upgrade_name)
-upgrade_morgan.file_write_latex(tex_upgrade_name)
-upgrade_morgan_weap.file_write_latex(tex_upgrade_name)
 upgrade_warlord.file_write_latex(tex_upgrade_name)
 upgrade_warlord_melee.file_write_latex(tex_upgrade_name)
 upgrade_warlord_weapon.file_write_latex(tex_upgrade_name)
-upgrade_night_trooper.file_write_latex(tex_upgrade_name)
 upgrade_darktrooper_programming.file_write_latex(tex_upgrade_name)
 upgrade_darktrooper_weapons.file_write_latex(tex_upgrade_name)
 upgrade_darktrooper_melee.file_write_latex(tex_upgrade_name)
@@ -1579,17 +1315,340 @@ upgrade_praetorian_ranged.file_write_latex(tex_upgrade_name)
 list_remnant.file_write_tsv(
     tsv_file, list_title="Imperial Remnant", append=True
 )
-upgrade_gideon_armour.file_write_tsv(tsv_file)
-upgrade_gideon_darksaber.file_write_tsv(tsv_file)
-upgrade_gideon_weapons.file_write_tsv(tsv_file)
-upgrade_morgan.file_write_tsv(tsv_file)
-upgrade_morgan_weap.file_write_tsv(tsv_file)
 upgrade_warlord.file_write_tsv(tsv_file)
 upgrade_warlord_melee.file_write_tsv(tsv_file)
 upgrade_warlord_weapon.file_write_tsv(tsv_file)
-upgrade_night_trooper.file_write_tsv(tsv_file)
 upgrade_darktrooper_programming.file_write_tsv(tsv_file)
 upgrade_darktrooper_weapons.file_write_tsv(tsv_file)
 upgrade_darktrooper_melee.file_write_tsv(tsv_file)
 upgrade_praetorian_melee.file_write_tsv(tsv_file)
 upgrade_praetorian_ranged.file_write_tsv(tsv_file)
+
+""" Gideon's Remnant """
+
+tex_upgrade_name = "upgrade_remnant_gideon_"
+
+# models
+
+moff_gideon = Model(
+    "Moff Gideon",
+    3,
+    4,
+    4,
+    villain=True,
+    unique="Moff Gideon",
+    fear=True,
+    spotter=2,
+    command=True,
+    survivor=True,
+    hunter="Target",
+    recon=4,
+)
+moff_gideon.equip_weapon(core.blaster_pistol)
+
+# -*- Upgrade lists -*-
+
+# Gideon Equipment
+
+label = "A"
+upgrade_gideon_armour = UpgradeList(label, base_model=moff_gideon)
+upgrade_gideon_armour.select_upgrade_with_model_changes_type()
+upgrade_gideon_armour.upgrade_with_model_changes_entry(
+    "Dark Trooper Armour",
+    defense=2,
+    impervious=True,
+    fly=True,
+)
+
+# Gideon Darksaber
+
+label = letter_increment(label)
+upgrade_gideon_darksaber = UpgradeList(label, base_model=moff_gideon)
+upgrade_gideon_darksaber.select_upgrade_with_weapon_type()
+darksaber = Weapon(
+    "The Darksaber", "Melee", 3, pierce=2, deadly=3, unique="The Darksaber"
+)
+upgrade_gideon_darksaber.upgrade_with_weapon_entry(darksaber)
+
+# Gideon Armour Weapons
+
+label = letter_increment(label)
+upgrade_gideon_weapons = UpgradeList(label, base_model=moff_gideon)
+upgrade_gideon_weapons.select_upgrade_with_weapon_type()
+heavy_electrostaff = Weapon(
+    "Heavy Electrostaff",
+    "Melee",
+    3,
+    pierce=2,
+    deadly=2,
+    suppressive=1,
+    throw=True,
+)
+upgrade_gideon_weapons.upgrade_with_weapon_entry(heavy_electrostaff)
+upgrade_gideon_weapons.upgrade_with_weapon_entry(core.whipcord_launcher)
+upgrade_gideon_weapons.upgrade_with_weapon_entry(core.wrist_flamer)
+concussion_rocket = Weapon(
+    "Concussion Rocket",
+    12,
+    1,
+    ammo=1,
+    blast=3,
+    suppressive=1,
+)
+upgrade_gideon_weapons.upgrade_with_weapon_entry(concussion_rocket)
+
+# assign upgrade lists
+
+moff_gideon.add_upgrade_list(upgrade_gideon_armour)
+moff_gideon.add_upgrade_list(
+    [upgrade_gideon_darksaber, upgrade_gideon_weapons]
+)
+
+# collate model list
+
+list_remnant_gideon = ModelList()
+list_remnant_gideon.add_model_entry(moff_gideon)
+
+# write latex files
+
+list_remnant_gideon.file_write_latex("galactic_empire_gideon_roster.tabl")
+upgrade_gideon_armour.file_write_latex(tex_upgrade_name)
+upgrade_gideon_darksaber.file_write_latex(tex_upgrade_name)
+upgrade_gideon_weapons.file_write_latex(tex_upgrade_name)
+
+# write tsv files
+
+list_remnant_gideon.file_write_tsv(
+    tsv_file, list_title="Gideon's Remnant", append=True
+)
+upgrade_gideon_armour.file_write_tsv(tsv_file)
+upgrade_gideon_darksaber.file_write_tsv(tsv_file)
+upgrade_gideon_weapons.file_write_tsv(tsv_file)
+
+""" Thrawn's Return """
+
+tex_upgrade_name = "upgrade_remnant_thrawn_"
+
+# models
+
+thrawn = Model(
+    "Grand Admiral Thrawn",
+    3,
+    5,
+    4,
+    villain=True,
+    command=True,
+    spotter=2,
+    take_cover=2,
+    survivor=True,
+    disciplined=True,
+    unique="Thrawn",
+)
+thrawn.equip_weapon(chiss_martial_arts)
+thrawn.equip_weapon(core.blaster_pistol)
+
+great_mothers = Model(
+    "The Great Mothers",
+    3,
+    5,
+    6,
+    villain=True,
+    dark_side=True,
+    noncombatant=True,
+    immobile=True,
+    defend=True,
+    emplacement=True,
+    impervious=True,
+    unique="The Great Mothers",
+    free_special_rule="Dark Magicks",
+)
+
+morgan_elsbeth = Model(
+    "Morgan Elsbeth",
+    3,
+    3,
+    3,
+    villain=True,
+    command=True,
+    defend=True,
+    survivor=True,
+    unique="Morgan Elsbeth",
+)
+morgan_elsbeth.equip_weapon(core.combat_training)
+
+baylan_skoll = Model(
+    "Baylan Skoll",
+    3,
+    3,
+    4,
+    villain=True,
+    dark_side=True,
+    deflect=True,
+    slow=True,
+    jump=3,
+    survivor=True,
+    impervious=True,
+    unique="Baylan Skoll",
+)
+baylan_skoll.equip_weapon(core.lightsaber_master)
+baylan_skoll.equip_weapon(core.force_choke)
+
+shin_hati = Model(
+    "Shin Hati",
+    4,
+    4,
+    3,
+    villain=True,
+    dark_side=True,
+    deflect=True,
+    jump=3,
+    unique="Shin Hati",
+    command=True,
+)
+shin_hati.equip_weapon(core.lightsaber_basic)
+shin_hati.equip_weapon(core.force_choke)
+
+marrok = Model(
+    "Marrok",
+    4,
+    3,
+    4,
+    villain=True,
+    dark_side=True,
+    deflect=True,
+    jump=3,
+    survivor=True,
+    scout=True,
+    hunter="Jedi",
+    unique="Marrok",
+)
+marrok.equip_weapon(core.lightsaber_knight)
+
+night_trooper = Model("Night Trooper", 5, 4, 1, disciplined=True)
+night_trooper.equip_weapon(core.combat_training)
+night_trooper.equip_weapon(core.blaster_rifle)
+
+# -*- Upgrade lists -*-
+
+label = "A"
+upgrade_morgan = UpgradeList(label, base_model=morgan_elsbeth)
+upgrade_morgan.select_upgrade_with_model_changes_type()
+upgrade_morgan.upgrade_with_model_changes_entry(
+    "Gift of Shadow",
+    dark_side=True,
+    fear=True,
+    hunter="Target",
+    manual_points_adjustment=2,  # since dark side is usually free
+)
+
+label = letter_increment(label)
+upgrade_morgan_weap = UpgradeList(label, base_model=morgan_elsbeth)
+upgrade_morgan_weap.select_upgrade_with_weapon_type(
+    replace_weapon=core.combat_training
+)
+beskar_spear = Weapon(
+    "Beskar Spear",
+    "Melee",
+    4,
+    pierce=2,
+    rending=True,
+    unique="Beskar Spear",
+)
+upgrade_morgan_weap.upgrade_with_weapon_entry(beskar_spear)
+blade_of_talzin = Weapon(
+    "Blade of Talzin",
+    "Melee",
+    4,
+    sniper=True,
+    rending=True,
+    deadly=2,
+    unique="Blade of Talzin",
+    wargear="Dark Side",
+)
+upgrade_morgan_weap.upgrade_with_weapon_entry(blade_of_talzin)
+
+# Night Troopers: Enoch and Zombies
+
+label = letter_increment(label)
+upgrade_night_trooper = UpgradeList(label, base_model=night_trooper)
+upgrade_night_trooper.select_upgrade_with_model_changes_type(limit=1)
+upgrade_night_trooper.upgrade_with_model_changes_entry(
+    "Captain Enoch",
+    wounds=3,
+    quality=4,
+    relay=True,
+    protector="Unit",
+    protector_key="Thrawn",
+    unique="Enoch",
+)
+upgrade_night_trooper.upgrade_with_model_changes_entry(
+    "Zombie Night Trooper",
+    survivor=True,
+    impervious=True,
+    impact=1,
+    beast=True,
+    slow=True,
+    entourage="The Great Mothers or Gift of Shadow",
+)
+upgrade_night_trooper.upgrade_with_model_changes_entry(
+    "Zombie Death Trooper",
+    defense=3,
+    wounds=2,
+    survivor=True,
+    impervious=True,
+    impact=2,
+    beast=True,
+    slow=True,
+    entourage="The Great Mothers or Gift of Shadow",
+)
+
+# assign upgrade lists
+
+morgan_elsbeth.add_upgrade_list(upgrade_morgan)
+morgan_elsbeth.add_upgrade_list(upgrade_morgan_weap)
+remnant_warlord.add_upgrade_list(upgrade_warlord)
+night_trooper.add_upgrade_list(upgrade_night_trooper)
+
+# collate model list
+
+list_remnant_thrawn = ModelList()
+list_remnant_thrawn.add_model_entry(thrawn)
+list_remnant_thrawn.add_model_entry(great_mothers)
+list_remnant_thrawn.add_model_entry(morgan_elsbeth)
+list_remnant_thrawn.add_model_entry(baylan_skoll)
+list_remnant_thrawn.add_model_entry(shin_hati)
+list_remnant_thrawn.add_model_entry(marrok)
+list_remnant_thrawn.add_model_entry(night_trooper)
+
+# write latex files
+
+list_remnant_thrawn.file_write_latex("galactic_empire_thrawn_roster.tabl")
+upgrade_morgan.file_write_latex(tex_upgrade_name)
+upgrade_morgan_weap.file_write_latex(tex_upgrade_name)
+upgrade_night_trooper.file_write_latex(tex_upgrade_name)
+
+# write tsv files
+
+list_remnant_thrawn.file_write_tsv(
+    tsv_file, list_title="Thrawn's Return", append=True
+)
+upgrade_morgan.file_write_tsv(tsv_file)
+upgrade_morgan_weap.file_write_tsv(tsv_file)
+upgrade_night_trooper.file_write_tsv(tsv_file)
+
+""" The Eternal Sanction """
+
+tex_upgrade_name = "upgrade_eternal_sanction_"
+
+# -*- Upgrade lists -*-
+
+# assign upgrade lists
+
+# collate model list
+
+# list_eternal_sanction.add_model_entry(vonreg)
+# list_eternal_sanction.add_model_entry(selina)
+
+# write latex files
+
+# write tsv files
