@@ -87,6 +87,7 @@ ahsoka_tano = Model(
     courage=True,
     jump=3,
     deflect=True,
+    protector="Any",
     unique="Ahsoka Tano",
 )
 ahsoka_twin_sabers = Weapon("Dual Lightsabers", "Melee", 6, pierce=2, deadly=2)
