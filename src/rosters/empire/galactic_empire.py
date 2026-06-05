@@ -6,6 +6,7 @@ from sw_firefight_engine.firefight import (
     letter_increment,
 )
 from sw_firefight_engine import core
+import copy
 
 tsv_file = "galactic_empire.tsv"
 
@@ -412,25 +413,6 @@ upgrade_commander.upgrade_with_model_changes_entry(
 upgrade_commander.upgrade_with_model_changes_entry(
     "Agent Kallus", wounds=4, agile=True, unique="Alexsandr Kallus"
 )
-upgrade_commander.upgrade_with_model_changes_entry(
-    "Lord Vonreg (Jetpack)",
-    wounds=4,
-    fly=True,
-    repair=1,
-    survivor=True,
-    unique="Rodjer Vonreg",
-)
-upgrade_commander.upgrade_with_model_changes_entry(
-    "Lord Vonreg",
-    wounds=4,
-    slow=True,
-    repair=1,
-    survivor=True,
-    unique="Rodjer Vonreg",
-)
-upgrade_commander.upgrade_with_model_changes_entry(
-    "Agent Selina", unique="Selina Kast"
-)
 
 label = letter_increment(label)
 upgrade_commander_melee = UpgradeList(label, base_model=imperial_commander)
@@ -442,29 +424,6 @@ chiss_martial_arts = Weapon(
     "Chiss Martial Arts", "Melee", 4, disorient=True, wargear="Thrawn"
 )
 upgrade_commander_melee.upgrade_with_weapon_entry(chiss_martial_arts)
-selina_vibromachete = Weapon(
-    "Vibromachete",
-    "Melee",
-    3,
-    rending=1,
-    inaccurate=True,
-    wargear="Selina Kast",
-)
-upgrade_commander_melee.upgrade_with_weapon_entry(selina_vibromachete)
-vonreg_vibroblades = Weapon(
-    "Sith Vibroblades", "Melee", 4, rending=True, wargear="Rodjer Vonreg"
-)
-upgrade_commander_melee.upgrade_with_weapon_entry(vonreg_vibroblades)
-vonreg_lightsaber = Weapon(
-    "Trophy Lightsaber",
-    "Melee",
-    3,
-    pierce=2,
-    deadly=2,
-    inaccurate=True,
-    wargear="Rodjer Vonreg",
-)
-upgrade_commander_melee.upgrade_with_weapon_entry(vonreg_lightsaber)
 
 label = letter_increment(label)
 upgrade_commander_weapon = UpgradeList(label, base_model=imperial_commander)
@@ -487,40 +446,6 @@ krennic_pistol = Weapon(
     quickdraw=True,
 )
 upgrade_commander_weapon.upgrade_with_weapon_entry(krennic_pistol)
-vonreg_wargear = Weapon(
-    "Vonreg's Blasters",
-    6,
-    3,
-    quickdraw=True,
-    reciprocating=5,
-    wargear="Rodjer Vonreg",
-    primary_fire_mode_name="Burst Pistol",
-    secondary_fire_modes=[
-        Weapon("Rifle Full Auto", 30, 3, pierce=1),
-        Weapon(
-            "Rifle Sniper Shot",
-            "inf",
-            1,
-            pierce=2,
-            ammo=1,
-            sniper=True,
-            deadly=2,
-        ),
-    ],
-)
-upgrade_commander_weapon.upgrade_with_weapon_entry(vonreg_wargear)
-selina_burst_pistols = Weapon(
-    "Selina's Blasters",
-    6,
-    6,
-    quickdraw=True,
-    inaccurate=True,
-    reciprocating=5,
-    wargear="Selina Kast",
-    primary_fire_mode_name="Twin Burst Pistols",
-    secondary_fire_modes=[core.blaster_rifle],
-)
-upgrade_commander_weapon.upgrade_with_weapon_entry(selina_burst_pistols)
 kallus_bo_rifle = Weapon(
     "Kallus' Bo-Rifle",
     "Melee",
@@ -584,6 +509,9 @@ label = letter_increment(label)
 upgrade_isf_command_melee = UpgradeList(label, base_model=isf_commander)
 upgrade_isf_command_melee.select_upgrade_with_weapon_type(
     replace_weapon=core.combat_training
+)
+vonreg_vibroblades = Weapon(
+    "Sith Vibroblades", "Melee", 4, rending=True, wargear="Rodjer Vonreg"
 )
 upgrade_isf_command_melee.upgrade_with_weapon_entry(vonreg_vibroblades)
 
@@ -1099,43 +1027,6 @@ upgrade_warlord.upgrade_with_model_changes_entry(
     recon=4,
     unique="Gilad Pellaeon",
 )
-upgrade_warlord.upgrade_with_model_changes_entry(
-    "Lord Vonreg",
-    wounds=4,
-    slow=True,
-    repair=1,
-    survivor=True,
-    unique="Rodjer Vonreg",
-)
-upgrade_warlord.upgrade_with_model_changes_entry(
-    "Lord Vonreg (Jetpack)",
-    wounds=4,
-    fly=True,
-    repair=1,
-    survivor=True,
-    unique="Rodjer Vonreg",
-)
-upgrade_warlord.upgrade_with_model_changes_entry(
-    "Lord Vonreg (Dark Trooper Armour)",
-    defense=2,
-    wounds=4,
-    fly=True,
-    repair=1,
-    impervious=True,
-    survivor=True,
-    unique="Rodjer Vonreg",
-)
-upgrade_warlord.upgrade_with_model_changes_entry(
-    "Agent Selina", unique="Selina Kast"
-)
-upgrade_warlord.upgrade_with_model_changes_entry(
-    "Selina Kast, Daughter of Mandalore",
-    unique="Selina Kast",
-    defense=3,
-    fast=True,
-    fly=True,
-    impervious=True,
-)
 
 label = letter_increment(label)
 upgrade_warlord_melee = UpgradeList(label, base_model=remnant_warlord)
@@ -1143,42 +1034,6 @@ upgrade_warlord_melee.select_upgrade_with_weapon_type()
 upgrade_warlord_melee.upgrade_with_weapon_entry(core.combat_training)
 upgrade_warlord_melee.upgrade_with_weapon_entry(core.stun_baton)
 upgrade_warlord_melee.upgrade_with_weapon_entry(core.riot_baton)
-chiss_martial_arts = Weapon(
-    "Chiss Martial Arts", "Melee", 4, disorient=True, wargear="Thrawn"
-)
-upgrade_warlord_melee.upgrade_with_weapon_entry(chiss_martial_arts)
-selina_vibromachete = Weapon(
-    "Vibromachete",
-    "Melee",
-    3,
-    rending=True,
-    inaccurate=True,
-    wargear="Selina Kast",
-)
-upgrade_warlord_melee.upgrade_with_weapon_entry(selina_vibromachete)
-selina_beskad = Weapon(
-    "Beskad",
-    "Melee",
-    4,
-    pierce=2,
-    rending=True,
-    wargear="Selina Kast",
-)
-upgrade_warlord_melee.upgrade_with_weapon_entry(selina_beskad)
-vonreg_vibroblades = Weapon(
-    "Sith Vibroblades", "Melee", 4, rending=True, wargear="Rodjer Vonreg"
-)
-upgrade_warlord_melee.upgrade_with_weapon_entry(vonreg_vibroblades)
-vonreg_lightsaber = Weapon(
-    "Trophy Lightsaber",
-    "Melee",
-    3,
-    pierce=2,
-    deadly=2,
-    inaccurate=True,
-    wargear="Rodjer Vonreg",
-)
-upgrade_warlord_melee.upgrade_with_weapon_entry(vonreg_lightsaber)
 
 label = letter_increment(label)
 upgrade_warlord_weapon = UpgradeList(label, base_model=remnant_warlord)
@@ -1190,40 +1045,6 @@ upgrade_warlord_weapon.upgrade_with_weapon_entry(core.burst_pistol)
 upgrade_warlord_weapon.upgrade_with_weapon_entry(core.sniper_pistol)
 upgrade_warlord_weapon.upgrade_with_weapon_entry(core.bryar_pistol)
 upgrade_warlord_weapon.upgrade_with_weapon_entry(core.blaster_rifle)
-vonreg_wargear = Weapon(
-    "Vonreg's Blasters",
-    6,
-    3,
-    quickdraw=True,
-    reciprocating=5,
-    wargear="Rodjer Vonreg",
-    primary_fire_mode_name="Burst Pistol",
-    secondary_fire_modes=[
-        Weapon("Rifle Full Auto", 30, 3, pierce=1),
-        Weapon(
-            "Rifle Sniper Shot",
-            "inf",
-            1,
-            pierce=2,
-            ammo=1,
-            sniper=True,
-            deadly=2,
-        ),
-    ],
-)
-upgrade_warlord_weapon.upgrade_with_weapon_entry(vonreg_wargear)
-selina_burst_pistols = Weapon(
-    "Selina's Blasters",
-    6,
-    6,
-    quickdraw=True,
-    inaccurate=True,
-    reciprocating=5,
-    wargear="Selina Kast",
-    primary_fire_mode_name="Twin Burst Pistols",
-    secondary_fire_modes=[core.blaster_rifle],
-)
-upgrade_warlord_weapon.upgrade_with_weapon_entry(selina_burst_pistols)
 
 # Dark Trooper programming
 
@@ -1640,15 +1461,213 @@ upgrade_night_trooper.file_write_tsv(tsv_file)
 
 tex_upgrade_name = "upgrade_eternal_sanction_"
 
+# models
+
+# vonreg's master, the imperial hand
+
+umbra = Model(
+    "Mandator Umbra, Hand of the Emperor",
+    3,
+    4,
+    3,
+    villain=True,
+    dark_side=True,
+    fear=True,
+    hunter="Target",
+    jump=3,
+    relentless=True,
+    unique="Umbra",
+    free_special_rule="Faction[Galactic Empire, Imperial Remnants]",
+)
+umbra.equip_weapon(core.riot_baton)
+umbra.equip_weapon(core.heavy_blaster_pistol)
+
+vonreg = Model(
+    "Lord Vonreg",
+    3,
+    5,
+    4,
+    villain=True,
+    command=True,
+    survivor=True,
+    slow=True,
+    unique="Rodjer Vonreg",
+)
+vonreg.equip_weapon(core.combat_training)
+vonreg.equip_weapon(core.burst_pistol)
+
+selina_agent = Model(
+    "Agent Selina",
+    3,
+    4,
+    3,
+    villain=True,
+    relay=True,
+    agile=True,
+    unique="Selina Kast",
+)
+selina_vibromachete = Weapon(
+    "Vibromachete",
+    "Melee",
+    3,
+    rending=1,
+    inaccurate=True,
+)
+selina_burst_pistols = Weapon(
+    "Dual Burst Pistols",
+    6,
+    6,
+    quickdraw=True,
+    inaccurate=True,
+    reciprocating=5,
+)
+selina_agent.equip_weapon(selina_vibromachete)
+selina_agent.equip_weapon(selina_burst_pistols)
+selina_agent.equip_weapon(core.blaster_rifle)
+
+selina_kast = Model(
+    "Selina Kast, Mandalorian Hunter",
+    3,
+    3,
+    3,
+    villain=True,
+    relay=True,
+    agile=True,
+    fast=True,
+    fly=True,
+    impervious=True,
+    unique="Selina Kast",
+    free_special_rule="Faction[Imperial Remnants]",
+)
+selina_beskad = Weapon(
+    "Beskad",
+    "Melee",
+    4,
+    pierce=2,
+    rending=True,
+)
+selina_kast.equip_weapon(selina_beskad)
+selina_kast.equip_weapon(selina_burst_pistols)
+
 # -*- Upgrade lists -*-
+
+label = "A"
+upgrade_umbra = UpgradeList(label, base_model=umbra)
+upgrade_umbra.select_upgrade_with_weapon_type()
+umbra_tonfa = copy.deepcopy(core.lightsaber_basic)
+umbra_tonfa.name = "Lightsaber Tonfa"
+upgrade_umbra.upgrade_with_weapon_entry(core.lightsaber_basic)
+
+label = letter_increment(label)
+upgrade_vonreg_equipment = UpgradeList(label, base_model=vonreg)
+upgrade_vonreg_equipment.select_upgrade_with_model_changes_type()
+
+upgrade_vonreg_equipment.upgrade_with_model_changes_entry(
+    "Jetpack",
+    fly=True,
+    slow=False,
+)
+upgrade_vonreg_equipment.upgrade_with_model_changes_entry(
+    "Armour",
+    defense=4,
+)
+upgrade_vonreg_equipment.upgrade_with_model_changes_entry(
+    "Dark Trooper Armour",
+    defense=2,
+    impervious=True,
+    free_special_rule="Faction[Imperial Remnants]",
+)
+upgrade_vonreg_equipment.upgrade_with_model_changes_entry(
+    "Field Commander",
+    spotter=2,
+)
+upgrade_vonreg_equipment.upgrade_with_model_changes_entry(
+    "Special Forces Mission",
+    recon=4,
+    scout=True,
+)
+upgrade_vonreg_equipment.upgrade_with_model_changes_entry(
+    "Sniper Mission",
+    defend=1,
+)
+upgrade_vonreg_equipment.upgrade_with_model_changes_entry(
+    "Engineer",
+    repair=1,
+)
+upgrade_vonreg_equipment.upgrade_with_model_changes_entry(
+    "Mandator Vonreg",
+    dark_side=True,
+    fear=True,
+    free_special_rule="Faction[First Order]",
+)
+
+label = letter_increment(label)
+upgrade_vonreg_melee = UpgradeList(label, base_model=vonreg)
+upgrade_vonreg_melee.select_upgrade_with_weapon_type(
+    replace_weapon=core.combat_training
+)
+upgrade_vonreg_melee.upgrade_with_weapon_entry(vonreg_vibroblades)
+vonreg_lightsaber = Weapon(
+    "Trophy Lightsaber",
+    "Melee",
+    3,
+    pierce=2,
+    deadly=2,
+    inaccurate=True,
+)
+upgrade_vonreg_melee.upgrade_with_weapon_entry(vonreg_lightsaber)
+
+label = letter_increment(label)
+upgrade_vonreg_weapon = UpgradeList(label, base_model=vonreg)
+upgrade_vonreg_weapon.select_upgrade_with_weapon_type()
+upgrade_vonreg_weapon.upgrade_with_weapon_entry(core.heavy_configurable_rifle)
+
+label = letter_increment(label)
+upgrade_vonreg_droid = UpgradeList(label, base_model=vonreg)
+upgrade_vonreg_droid.select_upgrade_with_model_changes_type()
+upgrade_vonreg_droid.upgrade_with_model_changes_entry(
+    "VRT-ID Droid Controller",
+    companion="ID Seeker Droid",
+)
+upgrade_vonreg_droid.upgrade_with_model_changes_entry(
+    "VRT-KX Droid Controller",
+    companion="KX Security Droid",
+)
 
 # assign upgrade lists
 
+umbra.add_upgrade_list(upgrade_umbra)
+vonreg.add_upgrade_list(upgrade_vonreg_equipment)
+vonreg.add_upgrade_list(upgrade_vonreg_melee)
+vonreg.add_upgrade_list(upgrade_vonreg_weapon)
+vonreg.add_upgrade_list(upgrade_vonreg_droid)
+selina_agent.add_upgrade_list(upgrade_vonreg_droid)
+selina_kast.add_upgrade_list(upgrade_vonreg_droid)
+
 # collate model list
 
-# list_eternal_sanction.add_model_entry(vonreg)
-# list_eternal_sanction.add_model_entry(selina)
+list_eternal_sanction = ModelList()
+list_eternal_sanction.add_model_entry(umbra)
+list_eternal_sanction.add_model_entry(vonreg)
+list_eternal_sanction.add_model_entry(selina_agent)
+list_eternal_sanction.add_model_entry(selina_kast)
 
 # write latex files
 
+list_eternal_sanction.file_write_latex("eternal_sanction_roster.tabl")
+upgrade_umbra.file_write_latex(tex_upgrade_name)
+upgrade_vonreg_equipment.file_write_latex(tex_upgrade_name)
+upgrade_vonreg_melee.file_write_latex(tex_upgrade_name)
+upgrade_vonreg_weapon.file_write_latex(tex_upgrade_name)
+upgrade_vonreg_droid.file_write_latex(tex_upgrade_name)
+
 # write tsv files
+
+list_eternal_sanction.file_write_tsv(
+    tsv_file, list_title="The Eternal Sanction", append=True
+)
+upgrade_umbra.file_write_tsv(tsv_file)
+upgrade_vonreg_equipment.file_write_tsv(tsv_file)
+upgrade_vonreg_melee.file_write_tsv(tsv_file)
+upgrade_vonreg_weapon.file_write_tsv(tsv_file)
+upgrade_vonreg_droid.file_write_tsv(tsv_file)
