@@ -1553,10 +1553,10 @@ selina_kast.equip_weapon(selina_burst_pistols)
 
 label = "A"
 upgrade_umbra = UpgradeList(label, base_model=umbra)
-upgrade_umbra.select_upgrade_with_weapon_type()
+upgrade_umbra.select_upgrade_with_weapon_type(replace_weapon=core.riot_baton)
 umbra_tonfa = copy.deepcopy(core.lightsaber_basic)
 umbra_tonfa.name = "Lightsaber Tonfa"
-upgrade_umbra.upgrade_with_weapon_entry(core.lightsaber_basic)
+upgrade_umbra.upgrade_with_weapon_entry(umbra_tonfa)
 
 label = letter_increment(label)
 upgrade_vonreg_equipment = UpgradeList(label, base_model=vonreg)
@@ -1616,6 +1616,13 @@ vonreg_lightsaber = Weapon(
     inaccurate=True,
 )
 upgrade_vonreg_melee.upgrade_with_weapon_entry(vonreg_lightsaber)
+vonreg_lightsaber_training = copy.deepcopy(core.lightsaber_basic)
+vonreg_lightsaber_training.name = "Lightsaber Training"
+upgrade_vonreg_melee.upgrade_with_weapon_entry(vonreg_lightsaber_training)
+vonreg_lightsaber_mastery = copy.deepcopy(core.lightsaber_knight)
+vonreg_lightsaber_mastery.name = "Lightsaber Mastery"
+vonreg_lightsaber_mastery.wargear = "Dark Side"
+upgrade_vonreg_melee.upgrade_with_weapon_entry(vonreg_lightsaber_mastery)
 
 label = letter_increment(label)
 upgrade_vonreg_weapon = UpgradeList(label, base_model=vonreg)
