@@ -617,6 +617,7 @@ class Model:
             "Right": 2,
             "Rear": 2,
             "Sides": 4,
+            "Front, Rear": 4,
             "Front, Sides": 6,
             "Rear, Sides": 6,
         }

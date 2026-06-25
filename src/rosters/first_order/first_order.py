@@ -6,6 +6,7 @@ from sw_firefight_engine.firefight import (
     letter_increment,
 )
 from sw_firefight_engine import core
+import copy
 
 tsv_file = "first_order.tsv"
 
@@ -96,7 +97,9 @@ fo_officer = Model(
 )
 fo_officer.equip_weapon(core.blaster_pistol)
 
-stormtrooper_officer = Model("Stormtrooper Officer", 3, 4, 2, villain=True)
+stormtrooper_officer = Model(
+    "Stormtrooper Officer", 3, 4, 2, villain=True, relay=True
+)
 stormtrooper_officer.equip_weapon(core.combat_training)
 stormtrooper_officer.equip_weapon(core.blaster_pistol)
 stormtrooper_officer.equip_weapon(core.blaster_rifle)
@@ -124,6 +127,31 @@ flametrooper = Model(
     impervious=True,
 )
 flametrooper.equip_weapon(core.flamethrower)
+
+liuv = Model(
+    "LIUV Snowspeeder",
+    4,
+    4,
+    4,
+    cover="Front, Rear",
+    fly=True,
+    vehicle=True,
+    fast=True,
+    impact=2,
+    shield=1,
+    arsenal=2,
+)
+liuv_nose_blasters = Weapon(
+    "Mounted Blasters",
+    18,
+    3,
+    pierce=1,
+    inaccurate=True,
+    reciprocating=6,
+    fixed="Front",
+)
+liuv.equip_weapon(liuv_nose_blasters)
+liuv.equip_weapon(core.blaster_carbine)
 
 sith_trooper = Model(
     "MOVE Sith Trooper MOVE",
@@ -245,17 +273,15 @@ label = letter_increment(label)
 upgrade_storm_officer = UpgradeList(label, base_model=stormtrooper_officer)
 upgrade_storm_officer.select_upgrade_with_model_changes_type()
 upgrade_storm_officer.upgrade_with_model_changes_entry(
-    "Sergeant",
-    relay=True,
-)
-upgrade_storm_officer.upgrade_with_model_changes_entry(
     "Captain",
     wounds=3,
+    relay=False,
     command=True,
 )
 upgrade_storm_officer.upgrade_with_model_changes_entry(
     "Captain Cardinal",
     wounds=3,
+    relay=False,
     command=True,
     protector="Any",
     unique="Archex",
@@ -263,6 +289,7 @@ upgrade_storm_officer.upgrade_with_model_changes_entry(
 upgrade_storm_officer.upgrade_with_model_changes_entry(
     "Captain Phasma",
     wounds=3,
+    relay=False,
     command=True,
     impervious=True,
     relentless=True,
@@ -344,6 +371,44 @@ upgrade_storm_special.upgrade_with_model_changes_entry(
     disciplined=True,
 )
 
+# Snowspeeder megablaster
+
+label = letter_increment(label)
+upgrade_liuv_replace = UpgradeList(label, base_model=liuv)
+upgrade_liuv_replace.select_upgrade_with_weapon_type(
+    limit=1, replace_weapon=core.blaster_carbine
+)
+upgrade_liuv_replace.upgrade_with_weapon_entry(megablaster_mounted)
+
+# Snowspeeder add weapons
+
+label = letter_increment(label)
+upgrade_liuv_add = UpgradeList(label, base_model=liuv)
+upgrade_liuv_add.select_upgrade_with_weapon_type(limit=1)
+liuv_extra_blaster_rifle = copy.deepcopy(core.blaster_rifle)
+liuv_extra_blaster_rifle.wargear = "Arsenal[3]"
+upgrade_liuv_add.upgrade_with_weapon_entry(liuv_extra_blaster_rifle)
+
+# Snowspeeder crew
+
+label = letter_increment(label)
+upgrade_liuv_crew = UpgradeList(label, base_model=liuv)
+upgrade_liuv_crew.select_upgrade_with_model_changes_type(limit=1)
+upgrade_liuv_crew.upgrade_with_model_changes_entry(
+    "Snowtrooper", arsenal=3, manual_points_adjustment=3
+)
+upgrade_liuv_crew.upgrade_with_model_changes_entry(
+    "Snowtrooper Officer",
+    villain=True,
+    relay=True,
+    arsenal=3,
+    manual_points_adjustment=5,
+)
+upgrade_liuv_crew.upgrade_with_model_changes_entry(
+    "Staff Officer",
+    spotter=2,
+)
+
 # assign upgrade lists
 
 kylo_ren.add_upgrade_list(upgrade_kylo)
@@ -358,6 +423,9 @@ stormtrooper_officer.add_upgrade_list(upgrade_phasma_baton)
 stormtrooper.add_upgrade_list(upgrade_storm_weapons)
 stormtrooper.add_upgrade_list(upgrade_storm_add_weap)
 stormtrooper.add_upgrade_list(upgrade_storm_special)
+liuv.add_upgrade_list(upgrade_liuv_replace)
+liuv.add_upgrade_list(upgrade_liuv_add)
+liuv.add_upgrade_list(upgrade_liuv_crew)
 
 # collate model list
 
@@ -370,6 +438,7 @@ model_list.add_model_entry(stormtrooper_officer)
 model_list.add_model_entry(stormtrooper)
 model_list.add_model_entry(heavy_stormtrooper)
 model_list.add_model_entry(flametrooper)
+model_list.add_model_entry(liuv)
 model_list.add_model_entry(sith_trooper)  # MOVE!!!!
 
 # write latex files
@@ -387,6 +456,10 @@ upgrade_storm_officer.file_write_latex()
 upgrade_storm_weapons.file_write_latex()
 upgrade_storm_add_weap.file_write_latex()
 upgrade_storm_special.file_write_latex()
+upgrade_liuv_replace.file_write_latex()
+upgrade_liuv_add.file_write_latex()
+upgrade_liuv_crew.file_write_latex()
+
 
 # write tsv files
 
@@ -403,3 +476,6 @@ upgrade_storm_officer.file_write_tsv(tsv_file)
 upgrade_storm_weapons.file_write_tsv(tsv_file)
 upgrade_storm_add_weap.file_write_tsv(tsv_file)
 upgrade_storm_special.file_write_tsv(tsv_file)
+upgrade_liuv_replace.file_write_latex(tsv_file)
+upgrade_liuv_add.file_write_latex(tsv_file)
+upgrade_liuv_crew.file_write_latex(tsv_file)
