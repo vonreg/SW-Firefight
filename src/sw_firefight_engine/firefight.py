@@ -734,7 +734,10 @@ class Model:
             self.noncombatant_cost_dict[self.noncombatant] * quality_cost
         )
         protector_cost = (
-            self.protector_cost_dict[self.protector] * defense_cost
+            self.protector_cost_dict[self.protector]
+            * (defense_cost + quality_cost)
+            * np.sqrt(self.wounds)
+            / 4
         )
         recon_cost = self.recon_cost_dict[self.recon]
         relay_cost = self.relay_cost_dict[self.relay]
@@ -2109,9 +2112,12 @@ class UpgradeList:
             comma = ", "
         else:
             survivor_str = ""
-        if spotter:
+        if spotter or spotter is False:
             entry_model_copy.spotter = spotter
-            spotter_str = "%sSpotter[%s]" % (comma, str(spotter))
+            if spotter is False:
+                spotter_str = "%sLose Spotter" % comma
+            else:
+                spotter_str = "%sSpotter[%s]" % (comma, str(spotter))
             comma = ", "
         else:
             spotter_str = ""
