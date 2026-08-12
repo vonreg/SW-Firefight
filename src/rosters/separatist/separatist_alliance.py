@@ -62,7 +62,7 @@ darth_maul.equip_weapon(core.saber_throw)
 
 asajj_ventress = Model(
     "Asajj Ventress",
-    4,
+    3,
     4,
     5,
     sith=True,
@@ -70,10 +70,13 @@ asajj_ventress = Model(
     hunter="Jedi",
     scout=True,
     fast=True,
-    jump=3,
+    jump=6,
+    agile=True,
 )
 ventress_sabers = Weapon("Dual Lightsabers", "Melee", 5, pierce=2, deadly=2)
-ventress_force_choke = Weapon("Force Choke", "Torrent", 1, pierce=4)
+ventress_force_choke = Weapon(
+    "Force Choke", "Torrent", 1, pierce=4, ammo="Single Use"
+)
 asajj_ventress.equip_weapon(ventress_sabers)
 asajj_ventress.equip_weapon(ventress_force_choke)
 
@@ -90,7 +93,6 @@ super_tactical_droid = Model(
     take_cover=1,
 )
 calculated_strikes = Weapon("Calculated Strikes", "Melee", 3)
-super_tactical_droid.equip_weapon(core.light_blaster_rifle)
 super_tactical_droid.equip_weapon(calculated_strikes)
 
 tactical_droid = Model(
@@ -126,7 +128,7 @@ oom_security_droid = Model(
     droid=True,
     expendable=1,
     protector="Unit",
-    protector_key="OOM Command Droid",
+    protector_key="Villain",
 )
 oom_security_droid.equip_weapon(core.light_blaster_rifle)
 
@@ -157,25 +159,42 @@ wing_blasters = Weapon("Wing Blasters", 12, 4)
 d1_aerial_battle_droid.equip_weapon(wing_blasters)
 
 b2_super_battle_droid = Model(
-    "B2 Super Battle Droid", 5, 5, 2, droid=True, slow=True
+    "B2 Super Battle Droid", 5, 4, 2, droid=True, slow=True
 )
-wrist_blaster = Weapon("Wrist Blaster", 18, 3, pierce=1)
+
+wrist_blaster = Weapon(
+    "Wrist Blaster",
+    18,
+    3,
+    pierce=1,
+    primary_fire_mode_name="Standard Fire",
+    secondary_fire_modes=[
+        Weapon(
+            "Rapid Fire",
+            12,
+            6,
+            inaccurate=True,
+            split_fire=True,
+            split_fire_range=3,
+        )
+    ],
+)
 b2_super_battle_droid.equip_weapon(wrist_blaster)
 
 b2_rp_super_battle_droid = Model(
-    "B2-RP Super Battle Droid", 5, 5, 2, droid=True, fly=True
+    "B2-RP Super Battle Droid", 5, 4, 2, droid=True, fly=True
 )
 b2_rp_super_battle_droid.equip_weapon(wrist_blaster)
 
 b2_super_rocket_trooper = Model(
-    "B2 Super Rocket Trooper", 5, 5, 2, droid=True, fly=True, fast=True
+    "B2 Super Rocket Battle Droid", 5, 4, 2, droid=True, fly=True, fast=True
 )
 dual_heavy_wrist_blasters = Weapon(
-    "Dual Heavy Wrist Blasters", 12, 4, pierce=1, reciprocating=6
+    "Heavy Wrist Blaster", 18, 4, pierce=1, reciprocating=6
 )
 b2_super_rocket_trooper.equip_weapon(dual_heavy_wrist_blasters)
 
-aqua_droid = Model("AQ Aqua Droid", 5, 5, 2, droid=True, slow=True)
+aqua_droid = Model("AQ Aqua Droid", 5, 5, 3, droid=True, slow=True)
 aqua_droid.equip_weapon(core.light_laser_cannon)
 
 bx_commando_droid = Model(
@@ -315,17 +334,91 @@ upgrade_grievous = UpgradeList(label, base_model=general_grievous)
 upgrade_grievous.select_upgrade_with_weapon_type()
 upgrade_grievous.upgrade_with_weapon_entry(core.blaster_carbine)
 
-# super_tac
+label = letter_increment(label)
+upgrade_grievous_melee = UpgradeList(label, base_model=general_grievous)
+upgrade_grievous_melee.select_upgrade_with_weapon_type(
+    replace_weapon=grievous_trophy_lightsabers
+)
+upgrade_grievous_melee.upgrade_with_weapon_entry(core.electrostaff)
+
+# super tac
+
+# ST variants
+label = letter_increment(label)
+upgrade_super_tac_variants = UpgradeList(
+    label, base_model=super_tactical_droid
+)
+upgrade_super_tac_variants.select_upgrade_with_model_changes_type()
+upgrade_super_tac_variants.upgrade_with_model_changes_entry(
+    "Priority Target", hunter="Target"
+)
+upgrade_super_tac_variants.upgrade_with_model_changes_entry(
+    "Assault Protocols", impact=2
+)
+upgrade_super_tac_variants.upgrade_with_model_changes_entry(
+    "Preservation Protocols",
+    spotter=False,
+    take_cover=2,
+    agile=True,
+    manual_points_adjustment=4,
+)
+upgrade_super_tac_variants.upgrade_with_model_changes_entry(
+    "Targeting Relay", spotter=3, manual_points_adjustment=5
+)
+upgrade_super_tac_variants.upgrade_with_model_changes_entry(
+    "Limiter Override", repair=1
+)
+upgrade_super_tac_variants.upgrade_with_model_changes_entry(
+    "Tactical Advisor",
+    command=False,
+    protector="Unit",
+    protector_key="Command",
+)
+upgrade_super_tac_variants.upgrade_with_model_changes_entry(
+    "Kalani", disciplined=True, slow=True, survivor=True, unique="Kalani"
+)
+upgrade_super_tac_variants.upgrade_with_model_changes_entry(
+    "Kraken", relentless=True, unique="Kraken"
+)
+
+# ST melee weapons
 
 label = letter_increment(label)
-upgrade_super_tac = UpgradeList(label, base_model=super_tactical_droid)
-upgrade_super_tac.select_upgrade_with_weapon_type(
+upgrade_super_tac_melee = UpgradeList(label, base_model=super_tactical_droid)
+upgrade_super_tac_melee.select_upgrade_with_weapon_type(
     replace_weapon=calculated_strikes
 )
 vibroblade_mastery = Weapon("Vibroblade Mastery", "Melee", 4, rending=True)
-upgrade_super_tac.upgrade_with_weapon_entry(vibroblade_mastery)
+upgrade_super_tac_melee.upgrade_with_weapon_entry(vibroblade_mastery)
+upgrade_super_tac_melee.upgrade_with_weapon_entry(core.electrostaff)
+kraken_melee = Weapon(
+    "Kraken's Wrath",
+    "Melee",
+    3,
+    pierce=1,
+    deadly=2,
+    wargear="Kraken",
+    suppressive=1,
+)
+upgrade_super_tac_melee.upgrade_with_weapon_entry(kraken_melee)
 
-# D: electrobinoculars (Spotter[1])
+# ST ranged
+
+label = letter_increment(label)
+upgrade_super_tac_ranged = UpgradeList(label, base_model=super_tactical_droid)
+upgrade_super_tac_ranged.select_upgrade_with_weapon_type(limit=2)
+upgrade_super_tac_ranged.upgrade_with_weapon_entry(core.light_blaster_rifle)
+upgrade_super_tac_ranged.upgrade_with_weapon_entry(core.blaster_carbine)
+arm_cannon = Weapon(
+    "Heavy Arm Cannon",
+    18,
+    4,
+    pierce=1,
+    suppressive=1,
+)
+upgrade_super_tac_ranged.upgrade_with_weapon_entry(arm_cannon)
+
+# electrobinoculars
 
 label = letter_increment(label)
 upgrade_electrobinoculars = UpgradeList(label)
@@ -333,8 +426,6 @@ upgrade_electrobinoculars.select_upgrade_with_rule_model_agnostic_type()
 upgrade_electrobinoculars.upgrade_with_rule_model_agnostic_entry(
     "Electrobinoculars", spotter=1
 )
-
-# Targeting orders: Spotter[2]?
 
 # B1 weapon (replace)
 
@@ -373,15 +464,18 @@ upgrade_b2_weapons = UpgradeList(label, base_model=b2_super_battle_droid)
 upgrade_b2_weapons.select_upgrade_with_weapon_type(
     replace_weapon=wrist_blaster
 )
-wrist_repeater = Weapon("Wrist Repeater", 18, 4, pierce=1)
-upgrade_b2_weapons.upgrade_with_weapon_entry(wrist_repeater)
+b2_ha_launcher = Weapon("Heavy Arm Launcher", 24, 2, pierce=1, ammo=1, blast=3)
+upgrade_b2_weapons.upgrade_with_weapon_entry(b2_ha_launcher)
+upgrade_b2_weapons.upgrade_with_weapon_entry(arm_cannon)
 
 # B2 weapon (add)
 
 label = letter_increment(label)
 upgrade_b2_weap_add = UpgradeList(label, base_model=b2_super_battle_droid)
 upgrade_b2_weap_add.select_upgrade_with_weapon_type()
-wrist_rocket = Weapon("Wrist Rocket", 30, 2, pierce=1, ammo=1, blast=3)
+wrist_rocket = Weapon(
+    "Wrist Rocket", 12, 1, pierce=1, ammo="Single Use", blast=3
+)
 upgrade_b2_weap_add.upgrade_with_weapon_entry(wrist_rocket)
 
 # BX weapon (replace)
@@ -403,6 +497,7 @@ upgrade_bx_weap_add.upgrade_with_weapon_entry(core.vibroblade)
 upgrade_bx_weap_add.upgrade_with_weapon_entry(core.concussion_grenade)
 upgrade_bx_weap_add.upgrade_with_weapon_entry(core.thermal_detonator)
 upgrade_bx_weap_add.upgrade_with_weapon_entry(core.dioxis_grenade)
+upgrade_bx_weap_add.upgrade_with_weapon_entry(core.thermal_imploder)
 
 # Magnaguard weapon (replace)
 
@@ -490,12 +585,18 @@ upgrade_wheel_bike_weap.upgrade_with_weapon_entry(grievous_bike_lightsabers)
 # assign upgrade lists
 
 general_grievous.add_upgrade_list(upgrade_grievous)
-super_tactical_droid.add_upgrade_list(upgrade_super_tac)
+general_grievous.add_upgrade_list(upgrade_grievous_melee)
+super_tactical_droid.add_upgrade_list(upgrade_super_tac_variants)
+super_tactical_droid.add_upgrade_list(upgrade_super_tac_melee)
+super_tactical_droid.add_upgrade_list(upgrade_super_tac_ranged)
 b1_battle_droid.add_upgrade_list(upgrade_electrobinoculars)
 b1_battle_droid.add_upgrade_list([upgrade_b1_weapons, upgrade_b1_weap_add])
 oom_security_droid.add_upgrade_list(upgrade_electrobinoculars)
 b1_emplacement_team.add_upgrade_list(upgrade_b1team_weapon)
 b2_super_battle_droid.add_upgrade_list(
+    [upgrade_b2_weapons, upgrade_b2_weap_add]
+)
+b2_rp_super_battle_droid.add_upgrade_list(
     [upgrade_b2_weapons, upgrade_b2_weap_add]
 )
 bx_commando_droid.add_upgrade_list(upgrade_electrobinoculars)
@@ -541,7 +642,10 @@ model_list.add_model_entry(wheel_bike)
 
 model_list.file_write_latex("separatist_roster.tabl")
 upgrade_grievous.file_write_latex()
-upgrade_super_tac.file_write_latex()
+upgrade_grievous_melee.file_write_latex()
+upgrade_super_tac_variants.file_write_latex()
+upgrade_super_tac_melee.file_write_latex()
+upgrade_super_tac_ranged.file_write_latex()
 upgrade_electrobinoculars.file_write_latex()
 upgrade_b1_weapons.file_write_latex()
 upgrade_b1_weap_add.file_write_latex()
@@ -563,7 +667,10 @@ upgrade_wheel_bike_weap.file_write_latex()
 
 model_list.file_write_tsv(tsv_file)
 upgrade_grievous.file_write_tsv(tsv_file)
-upgrade_super_tac.file_write_tsv(tsv_file)
+upgrade_grievous_melee.file_write_tsv(tsv_file)
+upgrade_super_tac_variants.file_write_tsv(tsv_file)
+upgrade_super_tac_melee.file_write_tsv(tsv_file)
+upgrade_super_tac_ranged.file_write_tsv(tsv_file)
 upgrade_electrobinoculars.file_write_tsv(tsv_file)
 upgrade_b1_weapons.file_write_tsv(tsv_file)
 upgrade_b1_weap_add.file_write_tsv(tsv_file)
